@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark light">
+<title>Tas sus</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23ff4d9d'/%3E%3Cpath d='M9 16h14M17 10l6 6-6 6' stroke='white' stroke-width='3' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<!--
+  Tas sus launcher: open this file in a browser (double-click it) and the
+  sus appears full-screen. Needs ALLOW_EMBED=true in the server's .env.
+
+  >>> If your tunnel address changes, edit sus_URL in the script below. <<<
+-->
+<style>
+  :root { --bg: #0f1115; --panel: #171a21; --line: #2a2f3a; --text: #e7e9ee; --muted: #9097a6; --accent: #ff4d9d; --accent-strong: #e0337f; }
+  @media (prefers-color-scheme: light) {
+    :root { --bg: #f5f6f8; --panel: #ffffff; --line: #dde1e8; --text: #1b1e25; --muted: #626a7a; --accent: #e0337f; --accent-strong: #d42d76; }
+  }
+  html, body { height: 100%; margin: 0; background: var(--bg); color: var(--text); font: 15px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  #app { position: fixed; inset: 0; width: 100%; height: 100%; border: 0; display: block; background: var(--bg); }
+  [hidden] { display: none !important; }
+
+  #help { position: fixed; inset: 0; display: grid; place-items: center; padding: 16px; background: var(--bg); }
+  .card { width: 100%; max-width: 440px; box-sizing: border-box; padding: 26px; display: grid; gap: 14px;
+          background: var(--panel); border: 1px solid var(--line); border-radius: 14px; }
+  .card h1 { margin: 0; font-size: 19px; }
+  .card p { margin: 0; color: var(--muted); }
+  .btn { justify-self: start; display: inline-block; padding: 10px 16px; border-radius: 9px; font-weight: 600;
+         background: var(--accent-strong); color: #fff; text-decoration: none; }
+  .btn:hover { filter: brightness(1.08); }
+
+  #slow { position: fixed; left: 50%; bottom: 18px; transform: translateX(-50%); max-width: calc(100vw - 32px); box-sizing: border-box;
+          display: flex; align-items: center; gap: 12px; padding: 10px 12px 10px 16px; border-radius: 12px;
+          background: var(--panel); border: 1px solid var(--line); box-shadow: 0 8px 28px rgba(0,0,0,.35); font-size: 14px; }
+  #slow a { color: var(--accent); font-weight: 600; white-space: nowrap; }
+  #slow button { border: 0; background: none; color: var(--muted); font-size: 18px; line-height: 1; cursor: pointer; padding: 2px 4px; }
+</style>
+</head>
+<body>
+<iframe id="app" title="Tas sus"
+        allow="fullscreen; autoplay; encrypted-media; picture-in-picture; clipboard-read; clipboard-write"
+        allowfullscreen></iframe>
+
+<div id="slow" role="status" hidden>
+  <span>Not loading? Tas may be offline, or this browser blocks it here.</span>
+  <a id="slow-link" target="_blank" rel="noopener">Open directly</a>
+  <button type="button" id="slow-close" aria-label="Dismiss">×</button>
+</div>
+
+<div id="help" hidden>
+  <div class="card" role="alert">
+    <h1 id="help-title">Tas can't run inside this file</h1>
+    <p id="help-text"></p>
+    <a class="btn" id="help-link" target="_blank" rel="noopener">Open Tas in a new tab</a>
+  </div>
+</div>
+
+<script>
+  // ---- the only line you may need to edit ----------------------------------
+  const sus_URL = "https://arabia-usually-effective-clay.trycloudflare.com/";
+  // ---------------------------------------------------------------------------
+
+  const susOrigin = new URL(sus_URL).origin;
+  const frame = document.getElementById("app");
+  const slow = document.getElementById("slow");
+  const help = document.getElementById("help");
+
+  // Pass ?go=<url> through, so links like tas-sus.html?go=https://example.com work.
+  const target = new URL(sus_URL);
+  const go = new URLSearchParams(location.search).get("go");
+  if (go) target.searchParams.set("go", go);
+  frame.src = target.href;
+  for (const id of ["slow-link", "help-link"]) document.getElementById(id).href = target.href;
+
+  let ready = false;
+  window.addEventListener("message", (e) => {
+    if (e.source !== frame.contentWindow || e.origin !== susOrigin || !e.data || !e.data.tassus) return;
+    if (e.data.tassus === "ready") {
+      ready = true;
+      slow.hidden = true;
+    } else if (e.data.tassus === "error") {
+      // The sus shows its own error screen (with a new-tab button); just stop the timer.
+      ready = true;
+      slow.hidden = true;
+    }
+  });
+
+  // No word from the sus after 15 s: it's offline, the address is out of
+  // date, or the browser refused to show it here. Offer the direct link.
+  setTimeout(() => { if (!ready) slow.hidden = false; }, 15000);
+  document.getElementById("slow-close").addEventListener("click", () => (slow.hidden = true));
+
+  if (location.protocol === "file:" && !("serviceWorker" in navigator)) {
+    document.getElementById("help-text").textContent =
+      "This browser doesn't support what tas needs when it's opened from a file. Open it in a new tab instead.";
+    help.hidden = false;
+  }
+</script>
+</body>
+</html>
