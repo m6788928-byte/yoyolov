@@ -176,6 +176,11 @@
   .hero .art.editable { cursor: pointer; }
   .hero .art.editable:hover { outline: 2px solid var(--accent); outline-offset: 3px; }
 
+  /* Spotify playlist embed */
+  .spotify-embed { display:block; width:100%; height:352px; border:0; border-radius:12px; background:var(--surface); }
+  .spotify-link { display:inline-block; margin-top:10px; color:var(--muted); font-size:13px; text-decoration:none; }
+  .spotify-link:hover { color:var(--text); text-decoration:underline; }
+
   /* Dialog */
   dialog {
     padding: 0; border: 1px solid var(--line); border-radius: 14px;
@@ -276,7 +281,7 @@
 /* ============================================================
    SETTINGS — change this to where your .json file lives
    ============================================================ */
-const JSON_URL   = "https://cdn.jsdelivr.net/gh/susybakaboiii/TheUniverses@main/tabs/music/music2.json";
+const JSON_URL   = "./music.json";
 const RECENT_MAX = 10;
 const RECENT_KEY = "music.recent";
 const VOLUME_KEY = "music.volume";
@@ -744,7 +749,28 @@ function renderHome() {
     el("div", { class: "title" }, "New playlist")));
   playlistSection.append(playlistGrid);
 
-  view.replaceChildren(recentSection, playlistSection, artistSection);
+  const spotifySection = el("section", null, el("h2", null, "Your Spotify playlist"));
+  spotifySection.append(
+    el("iframe", {
+      class: "spotify-embed",
+      title: "Spotify playlist",
+      src: "https://open.spotify.com/embed/playlist/5F6ZxYof2hpAPH5m8qjkuA?utm_source=generator",
+      width: "100%",
+      height: "352",
+      frameborder: "0",
+      allowfullscreen: "",
+      allow: "autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture",
+      loading: "lazy"
+    }),
+    el("a", {
+      class: "spotify-link",
+      href: "https://open.spotify.com/playlist/5F6ZxYof2hpAPH5m8qjkuA",
+      target: "_blank",
+      rel: "noopener noreferrer"
+    }, "Open playlist in Spotify")
+  );
+
+  view.replaceChildren(spotifySection, recentSection, playlistSection, artistSection);
 }
 
 function renderArtist(ai) {
