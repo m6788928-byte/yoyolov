@@ -2,11 +2,11 @@
   "music": [
     {
       "artist": "Kanye West",
-      "poster": "https://cdn.jsdelivr.net/gh/susybakaboiii/TheUniverses@main/tabs/music/artist/kanye/kanye.png",
+      "poster": "https://m6788928-byte.github.io/yoyolov/tabs/music/artist/kanye/kanye.png",
       "albums": [
         {
           "name": "Graduation",
-          "cover": "https://cdn.jsdelivr.net/gh/susybakaboiii/TheUniverses@main/tabs/music/artist/kanye/Graduation/graduation.png",
+          "cover": "https://m6788928-byte.github.io/yoyolov/tabs/music/artist/kanye/Graduation/graduation.png",
           "songs": [
             { "name": "Good Morning", "url": "https://res.cloudinary.com/r8rf9fhv/video/upload/v1791511773/Good_Morning_spotdown.org_bfut3w.mp3" },
             { "name": "Champion", "url": "https://res.cloudinary.com/r8rf9fhv/video/upload/v1791511773/Champion_spotdown.org_gc6g56.mp3" },
@@ -26,7 +26,7 @@
         },
         {
           "name": "My Beautiful Dark Twisted Fantasy",
-          "cover": "https://cdn.jsdelivr.net/gh/susybakaboiii/TheUniverses@main/tabs/music/artist/kanye/MBDTF/mbdtf.png",
+          "cover": "https://m6788928-byte.github.io/yoyolov/tabs/music/artist/kanye/MBDTF/mbdtf.png",
           "songs": [
             { "name": "Dark Fantasy", "url": "https://res.cloudinary.com/r8rf9fhv/video/upload/v1791513412/Dark_Fantasy_spotdown.org_mjbdyn.mp3" },
             { "name": "Gorgeous", "url": "https://res.cloudinary.com/r8rf9fhv/video/upload/v1791513414/Gorgeous_spotdown.org_eq55je.mp3" },
