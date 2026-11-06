@@ -57,45 +57,13 @@
 </div>
 
 <script>
-  // ---- the only line you may need to edit ----------------------------------
-  const PROXY_URL = "https://arabia-usually-effective-clay.trycloudflare.com/";
-  // ---------------------------------------------------------------------------
-
-  const proxyOrigin = new URL(PROXY_URL).origin;
-  const frame = document.getElementById("app");
-  const slow = document.getElementById("slow");
-  const help = document.getElementById("help");
-
-  // Pass ?go=<url> through, so links like tas-proxy.html?go=https://example.com work.
-  const target = new URL(PROXY_URL);
-  const go = new URLSearchParams(location.search).get("go");
-  if (go) target.searchParams.set("go", go);
-  frame.src = target.href;
-  for (const id of ["slow-link", "help-link"]) document.getElementById(id).href = target.href;
-
-  let ready = false;
-  window.addEventListener("message", (e) => {
-    if (e.source !== frame.contentWindow || e.origin !== proxyOrigin || !e.data || !e.data.tasProxy) return;
-    if (e.data.tasProxy === "ready") {
-      ready = true;
-      slow.hidden = true;
-    } else if (e.data.tasProxy === "error") {
-      // The proxy shows its own error screen (with a new-tab button); just stop the timer.
-      ready = true;
-      slow.hidden = true;
-    }
-  });
-
-  // No word from the proxy after 15 s: it's offline, the address is out of
-  // date, or the browser refused to show it here. Offer the direct link.
-  setTimeout(() => { if (!ready) slow.hidden = false; }, 15000);
-  document.getElementById("slow-close").addEventListener("click", () => (slow.hidden = true));
-
-  if (location.protocol === "file:" && !("serviceWorker" in navigator)) {
-    document.getElementById("help-text").textContent =
-      "This browser doesn't support what the proxy needs when it's opened from a file. Open it in a new tab instead.";
-    help.hidden = false;
-  }
+const app = document.getElementById("app");
+app.hidden = true;
+document.getElementById("help").hidden = false;
+document.getElementById("help-title").textContent = "Your personal Tas Proxy isn't connected";
+document.getElementById("help-text").textContent = "This copy has been disconnected from the original proxy server. Its backend source was not included in the repository, so a separate proxy server must be deployed before this tab can work.";
+document.getElementById("help-link").hidden = true;
+document.getElementById("slow").hidden = true;
 </script>
 </body>
 </html>
