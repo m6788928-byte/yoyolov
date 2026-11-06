@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Hard lock: this page may only make network requests to your own server (via the tunnel or localhost). If the tunnel address changes, update it here and in TUNNEL below. -->
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; connect-src 'self' https://sagem-intl-clusters-emails.trycloudflare.com http://localhost:8787 http://127.0.0.1:8787; img-src 'self' data:; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; connect-src 'self' http://localhost:8787 http://127.0.0.1:8787; img-src 'self' data:; base-uri 'none'; form-action 'none'">
 <title>Claude Chat</title>
 <style>
 :root{--bg:#111214;--side:#0c0d0e;--panel:#1a1b1e;--hover:#202226;--text:#e8e8ea;--muted:#8d8f96;--border:#26282c;--accent:#d97757;--user:#1f2125;--code:#0a0b0c;--err:#f97066}
@@ -184,10 +184,8 @@ body.has-pw #logout{display:inline-block}
   <p id="loginErr"></p>
 </form></div>
 <script>
-// Your Cloudflare tunnel. If the address changes, update it here AND in the Content-Security-Policy at the top.
-const TUNNEL = "https://sagem-intl-clusters-emails.trycloudflare.com";
-// Opened through the server or the tunnel → talk to that same address. Opened as a file → the tunnel.
-const API = location.protocol.startsWith("http") ? location.origin : TUNNEL;
+// Configure only your own backend here. The original server is intentionally disconnected.
+const API = "";
 let token = ""; try { token = localStorage.getItem("token") || ""; } catch {}
 const authHeaders = () => token ? { Authorization: "Bearer " + token } : {};
 const STORE = "haiku-chats";
@@ -285,10 +283,21 @@ async function loadConfig() {
   document.body.classList.toggle("has-pw", !!token);
   return "ok";
 }
-loadConfig().then(s => {
-  if (s === "need") showLogin();
-  else if (s !== "ok" && s !== "offline") { token = ""; showLogin(s); }
-});
+if (!API) {
+  $("login").classList.add("show");
+  $("loginForm").querySelector("p").textContent = "Your personal Claude server is not configured yet.";
+  $("pw").disabled = true;
+  $("loginForm").querySelector('button[type="submit"]').disabled = true;
+  $("loginErr").textContent = "This copy is disconnected from the original server. A new backend must be deployed before login.";
+  input.disabled = true;
+  sendBtn.disabled = true;
+  input.placeholder = "Your personal Claude server isn't configured yet";
+} else {
+  loadConfig().then(s => {
+    if (s === "need") showLogin();
+    else if (s !== "ok" && s !== "offline") { token = ""; showLogin(s); }
+  });
+}
 $("loginForm").addEventListener("submit", async e => {
   e.preventDefault();
   token = $("pw").value;
