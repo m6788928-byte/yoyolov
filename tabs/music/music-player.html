@@ -744,33 +744,16 @@ function renderHome() {
       el("div", { class: "title" }, p.name),
       el("div", { class: "sub" }, songCount(p.songs.length))));
   });
+  playlistGrid.append(el("button", { class: "card", onclick: () => { location.hash = "#/spotify"; } },
+    art("./artist/spotify.svg", "Spotify"),
+    el("div", { class: "title" }, "My Spotify Playlist"),
+    el("div", { class: "sub" }, "Spotify")));
   playlistGrid.append(el("button", { class: "card", onclick: newPlaylistDialog },
     el("div", { class: "art new" }, "+"),
     el("div", { class: "title" }, "New playlist")));
   playlistSection.append(playlistGrid);
 
-  const spotifySection = el("section", null, el("h2", null, "Your Spotify playlist"));
-  spotifySection.append(
-    el("iframe", {
-      class: "spotify-embed",
-      title: "Spotify playlist",
-      src: "https://open.spotify.com/embed/playlist/5F6ZxYof2hpAPH5m8qjkuA?utm_source=generator",
-      width: "100%",
-      height: "352",
-      frameborder: "0",
-      allowfullscreen: "",
-      allow: "autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture",
-      loading: "lazy"
-    }),
-    el("a", {
-      class: "spotify-link",
-      href: "https://open.spotify.com/playlist/5F6ZxYof2hpAPH5m8qjkuA",
-      target: "_blank",
-      rel: "noopener noreferrer"
-    }, "Open playlist in Spotify")
-  );
-
-  view.replaceChildren(spotifySection, recentSection, playlistSection, artistSection);
+  view.replaceChildren(recentSection, playlistSection, artistSection);
 }
 
 function renderArtist(ai) {
@@ -825,6 +808,34 @@ function renderAlbum(ai, bi) {
   markPlaying();
 }
 
+function renderSpotify() {
+  setHeader("My Spotify Playlist", true);
+  const hero = el("div", { class: "hero" },
+    art("./artist/spotify.svg", "Spotify"),
+    el("div", null,
+      el("div", { class: "kind" }, "Spotify playlist"),
+      el("h1", null, "My Spotify Playlist"),
+      el("div", { class: "muted" }, "Listen on Spotify")));
+  const embed = el("iframe", {
+    class: "spotify-embed",
+    title: "My Spotify Playlist",
+    src: "https://open.spotify.com/embed/playlist/5F6ZxYof2hpAPH5m8qjkuA?utm_source=generator",
+    width: "100%",
+    height: "352",
+    frameborder: "0",
+    allowfullscreen: "",
+    allow: "autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture",
+    loading: "lazy"
+  });
+  const link = el("a", {
+    class: "spotify-link",
+    href: "https://open.spotify.com/playlist/5F6ZxYof2hpAPH5m8qjkuA",
+    target: "_blank",
+    rel: "noopener noreferrer"
+  }, "Open playlist in Spotify");
+  view.replaceChildren(hero, el("section", null, embed, link));
+}
+
 function renderPlaylist(id) {
   const p = findPlaylist(id);
   if (!p) return renderHome();
@@ -869,7 +880,8 @@ function renderPlaylist(id) {
 function render(keepScroll) {
   const parts = location.hash.replace(/^#\/?/, "").split("/");
   if (keepScroll !== true) window.scrollTo(0, 0);
-  if (parts[0] === "playlist") renderPlaylist(parts[1]);
+  if (parts[0] === "spotify") renderSpotify();
+  else if (parts[0] === "playlist") renderPlaylist(parts[1]);
   else if (parts[0] === "artist") renderArtist(Number(parts[1]));
   else if (parts[0] === "album") renderAlbum(Number(parts[1]), Number(parts[2]));
   else renderHome();
