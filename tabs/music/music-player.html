@@ -108,7 +108,7 @@
     width: 100%; text-align: left; padding: 12px 14px; border-radius: 8px;
   }
   .song:hover { background: var(--surface); }
-  .song .num { color: var(--muted); font-variant-numeric: tabular-nums; text-align: right; }
+  .song-art { width: 40px; height: 40px; flex: 0 0 40px; border-radius: 6px; font-size: 15px; }\n  .song .num { color: var(--muted); font-variant-numeric: tabular-nums; text-align: right; }
   .song .name { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .song.playing .name, .song.playing .num { color: var(--accent); }
   .song:disabled { opacity: .62; cursor: not-allowed; }
@@ -307,6 +307,79 @@ function art(src, label, round) {
     box.append(img);
   }
   return box;
+}
+
+// Resolve missing playlist artwork from Apple's public music catalog.
+const ART_KEY = "music.artwork.cache";
+const artworkCache = load(ART_KEY, {});
+const artworkQueue = [];
+let artworkBusy = false;
+const artworkPending = new Set();
+
+function artworkBox(track) {
+  const box = art(track.cover || "", track.name);
+  box.classList.add("song-art");
+  if (!track.cover) resolveArtwork(track, box);
+  return box;
+}
+function resolveArtwork(track, box) {
+  const key = [track.name, track.artist || ""].join("|").toLowerCase();
+  if (track.cover) return;
+  if (artworkCache[key]) { setArtwork(box, artworkCache[key]); track.cover = artworkCache[key]; return; }
+  if (!artworkPending.has(key)) {
+    artworkPending.add(key);
+    artworkQueue.push({ key, track, boxes: [box] });
+  } else {
+    const job = artworkQueue.find(x => x.key === key);
+    if (job) job.boxes.push(box);
+  }
+  runArtworkQueue();
+}
+function setArtwork(box, url) {
+  if (!box || !box.isConnected) return;
+  let img = box.querySelector("img");
+  if (!img) { img = el("img", { alt: "", loading: "lazy" }); box.append(img); }
+  img.src = url;
+}
+async function runArtworkQueue() {
+  if (artworkBusy || !artworkQueue.length) return;
+  artworkBusy = true;
+  const job = artworkQueue.shift();
+  try {
+    const term = [job.track.name, job.track.artist].filter(Boolean).join(" ");
+    const endpoint = "https://itunes.apple.com/search?" + new URLSearchParams({
+      term, entity: "song", media: "music", country: "US", limit: "8"
+    });
+    const response = await fetch(endpoint);
+    if (!response.ok) throw new Error("Artwork lookup failed");
+    const results = (await response.json()).results || [];
+    const clean = value => String(value || "").toLowerCase().replace(/[^a-z0-9]+/g, "");
+    const wanted = clean(job.track.name);
+    const artist = clean(job.track.artist);
+    const best = results.map(item => {
+      const title = clean(item.trackName);
+      const by = clean(item.artistName);
+      const titleScore = title === wanted ? 4 : title.includes(wanted) || wanted.includes(title) ? 2 : 0;
+      const artistScore = !artist || by === artist ? 2 : by.includes(artist) || artist.includes(by) ? 1 : 0;
+      return { item, score: titleScore + artistScore };
+    }).sort((a,b) => b.score - a.score)[0];
+    const url = best && best.score >= 3 && best.item.artworkUrl100;
+    if (url) {
+      artworkCache[job.key] = url;
+      try { localStorage.setItem(ART_KEY, JSON.stringify(artworkCache)); } catch (_) {}
+      job.track.cover = url;
+      job.boxes.forEach(box => setArtwork(box, url));
+      if (current() && current().url === job.track.url) {
+        $("now-art").replaceChildren(artworkBox({ ...job.track, cover: url }));
+      }
+    }
+  } catch (_) {
+    // Keep the letter fallback if the catalog has no matching artwork.
+  } finally {
+    artworkPending.delete(job.key);
+    artworkBusy = false;
+    if (artworkQueue.length) setTimeout(runArtworkQueue, 3200);
+  }
 }
 
 function fmt(sec) {
@@ -631,7 +704,7 @@ function renderPlayer() {
   const t = current();
   if (!t) return;
   $("player").hidden = false;
-  $("now-art").replaceChildren(art(t.cover, t.name));
+  $("now-art").replaceChildren(artworkBox(t));
   $("now-title").textContent = t.name;
   $("now-artist").textContent = t.artist + (t.album ? " · " + t.album : "");
   $("prev").disabled = false;
