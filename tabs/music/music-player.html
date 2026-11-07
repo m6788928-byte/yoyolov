@@ -311,36 +311,36 @@ function art(src, label, round) {
   return box;
 }
 
-// Resolve missing playlist artwork from Apple's public music catalog.
+// Resolve and cache official single artwork for each track.
 const ART_KEY = "music.artwork.cache";
+const PLAYLIST_ART_KEY = "music.playlist.artwork.cache";
 const artworkCache = load(ART_KEY, {});
+const playlistArtworkCache = load(PLAYLIST_ART_KEY, {});
 const artworkQueue = [];
 const artworkJobs = new Map();
 let artworkWorkers = 0;
-const ARTWORK_CONCURRENCY = 5;
+const ARTWORK_CONCURRENCY = 6;
 const artworkKey = track => [track.name, track.artist || ""].join("|").toLowerCase();
+const artworkClean = value => String(value || "").normalize("NFKD")
+  .replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/[^a-z0-9]+/g, "");
 
-function rememberPlaylistCover(track, url) {
-  const key = artworkKey(track);
-  for (const p of catalogPlaylists) {
-    if (!p.cover && p.songs[0] && artworkKey(p.songs[0]) === key) p.cover = url;
-  }
-}
 function artworkBox(track) {
   const box = art(track.cover || "", track.name);
   box.classList.add("song-art");
   if (!track.cover) resolveArtwork(track, box);
   return box;
 }
+function setArtwork(box, url) {
+  // Rows are built detached before they are inserted into #view; update them either way.
+  if (!box) return;
+  let img = box.querySelector("img");
+  if (!img) { img = el("img", { alt: "", loading: "lazy" }); box.append(img); }
+  img.src = url;
+}
 function resolveArtwork(track, box) {
   const key = artworkKey(track);
   if (track.cover) return;
-  if (artworkCache[key]) {
-    track.cover = artworkCache[key];
-    rememberPlaylistCover(track, track.cover);
-    setArtwork(box, track.cover);
-    return;
-  }
+  if (artworkCache[key]) { track.cover = artworkCache[key]; setArtwork(box, track.cover); return; }
   let job = artworkJobs.get(key);
   if (!job) {
     job = { key, track, boxes: [] };
@@ -350,11 +350,26 @@ function resolveArtwork(track, box) {
   job.boxes.push(box);
   runArtworkQueue();
 }
-function setArtwork(box, url) {
-  if (!box || !box.isConnected) return;
-  let img = box.querySelector("img");
-  if (!img) { img = el("img", { alt: "", loading: "lazy" }); box.append(img); }
-  img.src = url;
+async function searchArtwork(track, includeArtist) {
+  const title = track.name.replace(/\s*[([](?:original|extended|radio|club|vocal|remix|mix|edit|remaster)[^\])]*[)\]]/ig, "").trim();
+  const term = [title || track.name, includeArtist ? track.artist : ""].filter(Boolean).join(" ");
+  const endpoint = "https://itunes.apple.com/search?" + new URLSearchParams({
+    term, entity: "song", media: "music", country: "US", limit: "20"
+  });
+  const response = await fetch(endpoint, { mode: "cors" });
+  if (!response.ok) throw new Error("Artwork lookup failed: " + response.status);
+  return (await response.json()).results || [];
+}
+function chooseArtwork(results, track) {
+  const wanted = artworkClean(track.name), artist = artworkClean(track.artist);
+  return results.map(item => {
+    const title = artworkClean(item.trackName), by = artworkClean(item.artistName);
+    const titleScore = title === wanted ? 8 : title && (title.includes(wanted) || wanted.includes(title)) ? 5 : 0;
+    const artistBits = artist.split(" ").filter(x => x.length > 2);
+    const overlap = artistBits.filter(x => by.includes(x)).length;
+    const artistScore = !artistBits.length ? 0 : by === artist ? 4 : overlap >= 2 ? 3 : overlap === 1 ? 1 : 0;
+    return { item, score: titleScore + artistScore };
+  }).sort((a,b) => b.score - a.score)[0];
 }
 function runArtworkQueue() {
   while (artworkWorkers < ARTWORK_CONCURRENCY && artworkQueue.length) {
@@ -362,34 +377,25 @@ function runArtworkQueue() {
     artworkWorkers++;
     (async () => {
       try {
-        const term = [job.track.name, job.track.artist].filter(Boolean).join(" ");
-        const endpoint = "https://itunes.apple.com/search?" + new URLSearchParams({
-          term, entity: "song", media: "music", country: "US", limit: "8"
-        });
-        const response = await fetch(endpoint);
-        if (!response.ok) throw new Error("Artwork lookup failed");
-        const results = (await response.json()).results || [];
-        const clean = value => String(value || "").toLowerCase().replace(/[^a-z0-9]+/g, "");
-        const wanted = clean(job.track.name), artist = clean(job.track.artist);
-        const best = results.map(item => {
-          const title = clean(item.trackName), by = clean(item.artistName);
-          const titleScore = title === wanted ? 4 : title.includes(wanted) || wanted.includes(title) ? 2 : 0;
-          const artistScore = !artist || by === artist ? 2 : by.includes(artist) || artist.includes(by) ? 1 : 0;
-          return { item, score: titleScore + artistScore };
-        }).sort((a,b) => b.score - a.score)[0];
-        const url = best && best.score >= 3 && best.item.artworkUrl100;
+        let results = await searchArtwork(job.track, true);
+        let best = chooseArtwork(results, job.track);
+        if (!best || best.score < 5) {
+          results = await searchArtwork(job.track, false);
+          best = chooseArtwork(results, job.track);
+        }
+        const url = best && best.score >= 5 && best.item.artworkUrl100;
         if (url) {
-          artworkCache[job.key] = url;
+          const cover = url.replace(/\d+x\d+bb\.jpg.*$/i, "1200x1200bb.jpg");
+          artworkCache[job.key] = cover;
           try { localStorage.setItem(ART_KEY, JSON.stringify(artworkCache)); } catch (_) {}
-          job.track.cover = url;
-          rememberPlaylistCover(job.track, url);
-          job.boxes.forEach(box => setArtwork(box, url));
+          job.track.cover = cover;
+          job.boxes.forEach(box => setArtwork(box, cover));
           if (current() && current().url === job.track.url) {
-            $("now-art").replaceChildren(artworkBox({ ...job.track, cover: url }));
+            $("now-art").replaceChildren(artworkBox({ ...job.track, cover }));
           }
         }
       } catch (_) {
-        // Keep the letter fallback if the catalog has no matching artwork.
+        // Keep the initial fallback; no fabricated artwork.
       } finally {
         artworkJobs.delete(job.key);
         artworkWorkers--;
@@ -397,6 +403,49 @@ function runArtworkQueue() {
       }
     })();
   }
+}
+
+// Spotify's oEmbed does not expose CORS headers. AllOrigins provides a raw
+// metadata pass-through; playlist artwork is never inferred from track one.
+const playlistArtworkJobs = new Map();
+function playlistArtBox(p) {
+  const box = art(p.cover || "", p.name);
+  if (!p.cover) resolvePlaylistArtwork(p, box);
+  return box;
+}
+function resolvePlaylistArtwork(p, box) {
+  const key = p.sourceUrl || p.name;
+  if (!key) return;
+  const cached = playlistArtworkCache[key];
+  if (cached) { p.cover = cached; setArtwork(box, cached); return; }
+  let job = playlistArtworkJobs.get(key);
+  if (!job) {
+    job = { boxes: [] };
+    playlistArtworkJobs.set(key, job);
+    (async () => {
+      try {
+        let endpoint;
+        if (/open\.spotify\.com/i.test(p.sourceUrl)) {
+          endpoint = "https://open.spotify.com/oembed?url=" + encodeURIComponent(p.sourceUrl);
+        } else if (/soundcloud\.com/i.test(p.sourceUrl)) {
+          endpoint = "https://soundcloud.com/oembed?format=json&url=" + encodeURIComponent(p.sourceUrl);
+        } else return;
+        const proxy = "https://api.allorigins.win/raw?url=" + encodeURIComponent(endpoint);
+        const response = await fetch(proxy, { cache: "no-store" });
+        if (!response.ok) throw new Error("Playlist artwork lookup failed");
+        const data = await response.json();
+        const cover = data.thumbnail_url || data.thumbnailUrl || "";
+        if (!cover) return;
+        playlistArtworkCache[key] = cover;
+        try { localStorage.setItem(PLAYLIST_ART_KEY, JSON.stringify(playlistArtworkCache)); } catch (_) {}
+        p.cover = cover;
+        job.boxes.forEach(target => setArtwork(target, cover));
+      } catch (_) {
+        // No track-one fallback: keep the neutral placeholder.
+      } finally { playlistArtworkJobs.delete(key); }
+    })();
+  }
+  job.boxes.push(box);
 }
 function fmt(sec) {
   if (!isFinite(sec) || sec < 0) return "0:00";
@@ -846,8 +895,7 @@ function renderHome() {
   const playlistSection = el("section", null, el("h2", null, "Playlists"));
   const playlistGrid = el("div", { class: "grid" });
   catalogPlaylists.forEach((p, pi) => {
-    const cover = art(p.cover, p.name);
-    if (!p.cover && p.songs[0]) resolveArtwork(p.songs[0], cover);
+    const cover = playlistArtBox(p);
     playlistGrid.append(el("button", { class: "card", onclick: () => { location.hash = "#/catalog-playlist/" + pi; } },
       cover,
       el("div", { class: "title" }, p.name),
@@ -934,7 +982,7 @@ function renderCatalogPlaylist(pi) {
         el("a", { class: "btn", href: p.sourceUrl, target: "_blank", rel: "noopener noreferrer" }, sourceLabel))
     : null;
   const hero = el("div", { class: "hero" },
-    art(p.cover, p.name),
+    playlistArtBox(p),
     el("div", null,
       el("div", { class: "kind" }, "Imported playlist"),
       el("h1", null, p.name),
