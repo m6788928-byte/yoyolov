@@ -1023,7 +1023,7 @@ function renderCatalogPlaylist(pi) {
   const hero = el("div", { class: "hero" },
     playlistArtBox(p),
     el("div", null,
-      el("div", { class: "kind" }, "Imported playlist"),
+      el("div", { class: "kind" }, "Original playlist · read-only"),
       el("h1", null, p.name),
       el("div", { class: "muted" }, tracks.length
         ? songCount(tracks.length) + " · " + connected + " playable · " + pending + " awaiting audio"
