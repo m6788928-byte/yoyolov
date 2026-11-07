@@ -315,9 +315,17 @@ function art(src, label, round) {
 const ART_KEY = "music.artwork.cache";
 const artworkCache = load(ART_KEY, {});
 const artworkQueue = [];
-let artworkBusy = false;
-const artworkPending = new Set();
+const artworkJobs = new Map();
+let artworkWorkers = 0;
+const ARTWORK_CONCURRENCY = 5;
+const artworkKey = track => [track.name, track.artist || ""].join("|").toLowerCase();
 
+function rememberPlaylistCover(track, url) {
+  const key = artworkKey(track);
+  for (const p of catalogPlaylists) {
+    if (!p.cover && p.songs[0] && artworkKey(p.songs[0]) === key) p.cover = url;
+  }
+}
 function artworkBox(track) {
   const box = art(track.cover || "", track.name);
   box.classList.add("song-art");
@@ -325,16 +333,21 @@ function artworkBox(track) {
   return box;
 }
 function resolveArtwork(track, box) {
-  const key = [track.name, track.artist || ""].join("|").toLowerCase();
+  const key = artworkKey(track);
   if (track.cover) return;
-  if (artworkCache[key]) { setArtwork(box, artworkCache[key]); track.cover = artworkCache[key]; return; }
-  if (!artworkPending.has(key)) {
-    artworkPending.add(key);
-    artworkQueue.push({ key, track, boxes: [box] });
-  } else {
-    const job = artworkQueue.find(x => x.key === key);
-    if (job) job.boxes.push(box);
+  if (artworkCache[key]) {
+    track.cover = artworkCache[key];
+    rememberPlaylistCover(track, track.cover);
+    setArtwork(box, track.cover);
+    return;
   }
+  let job = artworkJobs.get(key);
+  if (!job) {
+    job = { key, track, boxes: [] };
+    artworkJobs.set(key, job);
+    artworkQueue.push(job);
+  }
+  job.boxes.push(box);
   runArtworkQueue();
 }
 function setArtwork(box, url) {
@@ -343,47 +356,48 @@ function setArtwork(box, url) {
   if (!img) { img = el("img", { alt: "", loading: "lazy" }); box.append(img); }
   img.src = url;
 }
-async function runArtworkQueue() {
-  if (artworkBusy || !artworkQueue.length) return;
-  artworkBusy = true;
-  const job = artworkQueue.shift();
-  try {
-    const term = [job.track.name, job.track.artist].filter(Boolean).join(" ");
-    const endpoint = "https://itunes.apple.com/search?" + new URLSearchParams({
-      term, entity: "song", media: "music", country: "US", limit: "8"
-    });
-    const response = await fetch(endpoint);
-    if (!response.ok) throw new Error("Artwork lookup failed");
-    const results = (await response.json()).results || [];
-    const clean = value => String(value || "").toLowerCase().replace(/[^a-z0-9]+/g, "");
-    const wanted = clean(job.track.name);
-    const artist = clean(job.track.artist);
-    const best = results.map(item => {
-      const title = clean(item.trackName);
-      const by = clean(item.artistName);
-      const titleScore = title === wanted ? 4 : title.includes(wanted) || wanted.includes(title) ? 2 : 0;
-      const artistScore = !artist || by === artist ? 2 : by.includes(artist) || artist.includes(by) ? 1 : 0;
-      return { item, score: titleScore + artistScore };
-    }).sort((a,b) => b.score - a.score)[0];
-    const url = best && best.score >= 3 && best.item.artworkUrl100;
-    if (url) {
-      artworkCache[job.key] = url;
-      try { localStorage.setItem(ART_KEY, JSON.stringify(artworkCache)); } catch (_) {}
-      job.track.cover = url;
-      job.boxes.forEach(box => setArtwork(box, url));
-      if (current() && current().url === job.track.url) {
-        $("now-art").replaceChildren(artworkBox({ ...job.track, cover: url }));
+function runArtworkQueue() {
+  while (artworkWorkers < ARTWORK_CONCURRENCY && artworkQueue.length) {
+    const job = artworkQueue.shift();
+    artworkWorkers++;
+    (async () => {
+      try {
+        const term = [job.track.name, job.track.artist].filter(Boolean).join(" ");
+        const endpoint = "https://itunes.apple.com/search?" + new URLSearchParams({
+          term, entity: "song", media: "music", country: "US", limit: "8"
+        });
+        const response = await fetch(endpoint);
+        if (!response.ok) throw new Error("Artwork lookup failed");
+        const results = (await response.json()).results || [];
+        const clean = value => String(value || "").toLowerCase().replace(/[^a-z0-9]+/g, "");
+        const wanted = clean(job.track.name), artist = clean(job.track.artist);
+        const best = results.map(item => {
+          const title = clean(item.trackName), by = clean(item.artistName);
+          const titleScore = title === wanted ? 4 : title.includes(wanted) || wanted.includes(title) ? 2 : 0;
+          const artistScore = !artist || by === artist ? 2 : by.includes(artist) || artist.includes(by) ? 1 : 0;
+          return { item, score: titleScore + artistScore };
+        }).sort((a,b) => b.score - a.score)[0];
+        const url = best && best.score >= 3 && best.item.artworkUrl100;
+        if (url) {
+          artworkCache[job.key] = url;
+          try { localStorage.setItem(ART_KEY, JSON.stringify(artworkCache)); } catch (_) {}
+          job.track.cover = url;
+          rememberPlaylistCover(job.track, url);
+          job.boxes.forEach(box => setArtwork(box, url));
+          if (current() && current().url === job.track.url) {
+            $("now-art").replaceChildren(artworkBox({ ...job.track, cover: url }));
+          }
+        }
+      } catch (_) {
+        // Keep the letter fallback if the catalog has no matching artwork.
+      } finally {
+        artworkJobs.delete(job.key);
+        artworkWorkers--;
+        runArtworkQueue();
       }
-    }
-  } catch (_) {
-    // Keep the letter fallback if the catalog has no matching artwork.
-  } finally {
-    artworkPending.delete(job.key);
-    artworkBusy = false;
-    if (artworkQueue.length) setTimeout(runArtworkQueue, 3200);
+    })();
   }
 }
-
 function fmt(sec) {
   if (!isFinite(sec) || sec < 0) return "0:00";
   const m = Math.floor(sec / 60), s = Math.floor(sec % 60);
@@ -435,6 +449,7 @@ function normalisePlaylists(items) {
       artist: String(s.artist || ""),
       url: s.url ? String(s.url) : "",
       unavailable: !!s.unavailable,
+      cover: s.cover ? String(s.cover) : "",
     })),
   }));
 }
@@ -831,14 +846,18 @@ function renderHome() {
   const playlistSection = el("section", null, el("h2", null, "Playlists"));
   const playlistGrid = el("div", { class: "grid" });
   catalogPlaylists.forEach((p, pi) => {
+    const cover = art(p.cover, p.name);
+    if (!p.cover && p.songs[0]) resolveArtwork(p.songs[0], cover);
     playlistGrid.append(el("button", { class: "card", onclick: () => { location.hash = "#/catalog-playlist/" + pi; } },
-      art(p.cover, p.name),
+      cover,
       el("div", { class: "title" }, p.name),
       el("div", { class: "sub" }, songCount(p.songs.length))));
   });
   getPlaylists().forEach((p) => {
+    const src = playlistIcon(p), cover = art(src, p.name);
+    if (!src && p.songs[0]) resolveArtwork(p.songs[0], cover);
     playlistGrid.append(el("button", { class: "card", onclick: () => { location.hash = "#/playlist/" + p.id; } },
-      art(playlistIcon(p), p.name),
+      cover,
       el("div", { class: "title" }, p.name),
       el("div", { class: "sub" }, songCount(p.songs.length))));
   });
@@ -906,7 +925,7 @@ function renderCatalogPlaylist(pi) {
   const p = catalogPlaylists[pi];
   if (!p) return renderHome();
   setHeader(p.name, true);
-  const tracks = p.songs.map((s) => ({ ...s, album: p.name, cover: p.cover }));
+  const tracks = p.songs.map((s) => ({ ...s, album: p.name, cover: s.cover || "" }));
   const connected = tracks.filter((t) => !!t.url).length;
   const pending = tracks.length - connected;
   const sourceLabel = p.sourceUrl.includes("spotify.com") ? "Open on Spotify" : "Open on SoundCloud";
