@@ -868,11 +868,12 @@ function makeCard(name, e){
   const go = () => {
     let target;
     try { target = new URL(e.url, location.href); } catch { return; }
-    if (e.external || target.origin !== location.origin) {
-      const link = document.createElement('a');
-      link.href = target.href; link.target = '_blank'; link.rel = 'noopener noreferrer';
-      document.body.append(link); link.click(); link.remove();
-    } else openUrl(target.href, name);
+    if (e.unavailable) {
+      alert(e.unavailableMessage || name + ' is not currently available inside The Universe.');
+      return;
+    }
+    if (e.embed) openEmbedded(target.href, name);
+    else openUrl(target.href, name);
   };
   c.onclick = go;
   c.onkeydown = ev => { if(ev.key === 'Enter' || ev.key === ' '){ ev.preventDefault(); go(); } };
@@ -912,7 +913,6 @@ function withBase(text, url){
 /* ---------- opening ---------- */
 async function openUrl(url, name){
   show(); busy.classList.add('on'); busy.textContent = 'Loading ' + name + '…';
-  // must be asked for right away, while the click still counts as a user action
   if(settings.autoFullscreen && !document.fullscreenElement && viewer.requestFullscreen)
     viewer.requestFullscreen().catch(() => {});
   try{
@@ -926,16 +926,32 @@ async function openUrl(url, name){
   }
 }
 
+// Navigate external, iframe-compatible games in the existing game viewer.
+// This avoids fetch/CORS failures and keeps the user in The Universe.
+function openEmbedded(url, name){
+  show(); busy.classList.add('on'); busy.textContent = 'Loading ' + name + '…';
+  if(settings.autoFullscreen && !document.fullscreenElement && viewer.requestFullscreen)
+    viewer.requestFullscreen().catch(() => {});
+  current = {name, url, embedded:true};
+  frame.removeAttribute('srcdoc');
+  frame.src = url;
+}
+
 function render(html, name){
   current = {name, html};
+  frame.removeAttribute('src');
   frame.srcdoc = html;
   busy.classList.remove('on');
 }
+frame.addEventListener('load', () => {
+  if(current && current.embedded) busy.classList.remove('on');
+});
 
 function show(){ viewer.classList.add('on'); home.style.display = 'none'; }
 
 function closeViewer(){
   if(document.fullscreenElement) document.exitFullscreen();
+  frame.removeAttribute('src');
   frame.srcdoc = '';
   current = null;
   viewer.classList.remove('on');
@@ -998,7 +1014,7 @@ function openAboutBlank(quiet){
   const root = document.documentElement.cloneNode(true);
   root.setAttribute('data-blank', '1');   // marks the copy so it never re-opens itself
   const f = root.querySelector('#frame');
-  if(f) f.removeAttribute('srcdoc');
+  if(f){ f.removeAttribute('srcdoc'); f.removeAttribute('src'); }
   const v = root.querySelector('#viewer');
   if(v) v.classList.remove('on');
   const h = root.querySelector('#home');
