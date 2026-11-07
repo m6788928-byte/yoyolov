@@ -868,12 +868,7 @@ function makeCard(name, e){
   const go = () => {
     let target;
     try { target = new URL(e.url, location.href); } catch { return; }
-    if (e.unavailable) {
-      alert(e.unavailableMessage || name + ' is not currently available inside The Universe.');
-      return;
-    }
-    if (e.embed) openEmbedded(target.href, name);
-    else openUrl(target.href, name);
+    openUrl(target.href, name);
   };
   c.onclick = go;
   c.onkeydown = ev => { if(ev.key === 'Enter' || ev.key === ' '){ ev.preventDefault(); go(); } };
@@ -926,26 +921,12 @@ async function openUrl(url, name){
   }
 }
 
-// Navigate external, iframe-compatible games in the existing game viewer.
-// This avoids fetch/CORS failures and keeps the user in The Universe.
-function openEmbedded(url, name){
-  show(); busy.classList.add('on'); busy.textContent = 'Loading ' + name + '…';
-  if(settings.autoFullscreen && !document.fullscreenElement && viewer.requestFullscreen)
-    viewer.requestFullscreen().catch(() => {});
-  current = {name, url, embedded:true};
-  frame.removeAttribute('srcdoc');
-  frame.src = url;
-}
-
 function render(html, name){
   current = {name, html};
   frame.removeAttribute('src');
   frame.srcdoc = html;
   busy.classList.remove('on');
 }
-frame.addEventListener('load', () => {
-  if(current && current.embedded) busy.classList.remove('on');
-});
 
 function show(){ viewer.classList.add('on'); home.style.display = 'none'; }
 
