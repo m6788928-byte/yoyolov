@@ -152,17 +152,18 @@
   },
   "OpenFront.io": {
     "url": "https://openfront.io/",
-    "desc": "Online real-time strategy game; opens in a new tab.",
-    "external": true
+    "desc": "Unavailable in embedded mode: OpenFront's current security policy blocks external iframes.",
+    "unavailable": true,
+    "unavailableMessage": "OpenFront.io currently blocks being embedded in other websites. The official site changed its frame security policy in January 2026. A self-hosted OpenFront client/server build is needed to run it inside The Universe; opening another tab is the only official-site workaround."
   },
   "SnowRider3D": {
     "url": "https://snow-rider.net/",
-    "desc": "Snow Rider 3D browser game; opens in a new tab.",
-    "external": true
+    "desc": "Official Snow Rider 3D game, embedded in the game viewer.",
+    "embed": true
   },
   "Retro Bowl": {
     "url": "https://poki.com/en/g/retro-bowl",
-    "desc": "Official licensed Retro Bowl web version on Poki; opens in a new tab.",
-    "external": true
+    "desc": "Licensed Retro Bowl browser game, embedded in the game viewer.",
+    "embed": true
   }
 }
