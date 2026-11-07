@@ -151,15 +151,18 @@
     "image": "https://m6788928-byte.github.io/yoyolov/thumbs/mario.png"
   },
   "OpenFront.io": {
-    "url": "https://m6788928-byte.github.io/yoyolov/openfront.html",
-    "desc": "Online real-time strategy game; internet required."
+    "url": "https://openfront.io/",
+    "desc": "Online real-time strategy game; opens in a new tab.",
+    "external": true
   },
   "SnowRider3D": {
-    "url": "https://m6788928-byte.github.io/yoyolov/snowrider3d.html",
-    "desc": "Browser-based 3D sledding game."
+    "url": "https://snow-rider.net/",
+    "desc": "Snow Rider 3D browser game; opens in a new tab.",
+    "external": true
   },
   "Retro Bowl": {
-    "url": "https://m6788928-byte.github.io/yoyolov/retrobowl.html",
-    "desc": "Licensed browser version via Poki."
+    "url": "https://poki.com/en/g/retro-bowl",
+    "desc": "Official licensed Retro Bowl web version on Poki; opens in a new tab.",
+    "external": true
   }
 }
