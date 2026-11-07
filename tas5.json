@@ -151,19 +151,15 @@
     "image": "https://m6788928-byte.github.io/yoyolov/thumbs/mario.png"
   },
   "OpenFront.io": {
-    "url": "https://openfront.io/",
-    "desc": "Unavailable in embedded mode: OpenFront's current security policy blocks external iframes.",
-    "unavailable": true,
-    "unavailableMessage": "OpenFront.io blocks its official game page from being embedded on other websites. It cannot run in this viewer from the public host. A self-hosted OpenFront client plus a compatible game server is required."
+    "url": "https://m6788928-byte.github.io/yoyolov/openfront.html",
+    "desc": "Requires a self-hosted OpenFront client build and compatible server."
   },
   "SnowRider3D": {
-    "url": "https://snow-rider.net/",
-    "desc": "Official Snow Rider 3D game, embedded in the game viewer.",
-    "embed": true
+    "url": "https://m6788928-byte.github.io/yoyolov/snowrider3d.html",
+    "desc": "Snow Rider 3D — embedded in the game viewer."
   },
   "Retro Bowl": {
-    "url": "https://poki.com/en/g/retro-bowl",
-    "desc": "Licensed Retro Bowl browser game, embedded in the game viewer.",
-    "embed": true
+    "url": "https://m6788928-byte.github.io/yoyolov/retrobowl.html",
+    "desc": "Official licensed Retro Bowl web version — embedded in the game viewer."
   }
 }
