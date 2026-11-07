@@ -535,8 +535,36 @@ function getPlaylists() {
     id: String(x.id),
     name: String(x.name || "Untitled playlist"),
     icon: typeof x.icon === "string" ? x.icon : "",
-    songs: Array.isArray(x.songs) ? x.songs.filter((t) => t && t.url) : [],
+    songs: Array.isArray(x.songs) ? x.songs.filter((t) => t && (t.name || t.url)).map(t => ({ ...t })) : [],
   }));
+}
+const cleanTrackPart = value => String(value || "").normalize("NFKD")
+  .replace(/[\\u0300-\\u036f]/g, "").toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
+function catalogTrackKey(track) {
+  return cleanTrackPart(track.name) + "|" + cleanTrackPart(track.artist);
+}
+function sameTrack(a, b) {
+  if (a.catalogKey && b.catalogKey && a.catalogKey === b.catalogKey) return true;
+  if (a.url && b.url) return a.url === b.url;
+  return catalogTrackKey(a) === catalogTrackKey(b);
+}
+function syncSavedCatalogTracks() {
+  const saved = load(PLAYLIST_KEY, []);
+  if (!Array.isArray(saved) || !saved.length) return;
+  let changed = false;
+  for (const list of saved) {
+    for (const song of list.songs || []) {
+      if (!song.catalogKey) continue;
+      const source = catalogPlaylists.find(p => p.name === song.catalogPlaylist);
+      const current = source && source.songs.find(s => catalogTrackKey(s) === song.catalogKey);
+      if (!current) continue;
+      for (const field of ["url", "cover", "artist", "album"]) {
+        const value = field === "album" ? source.name : current[field];
+        if (value && song[field] !== value) { song[field] = value; changed = true; }
+      }
+    }
+  }
+  if (changed) savePlaylists(saved);
 }
 function savePlaylists(list) {
   if (store(PLAYLIST_KEY, list)) return true;
@@ -564,9 +592,14 @@ function songCount(n) { return n + (n === 1 ? " song" : " songs"); }
 function addToPlaylist(id, track) {
   const p = findPlaylist(id);
   if (!p) return;
-  if (p.songs.some((s) => s.url === track.url)) { toast("Already in “" + p.name + "”."); return; }
-  const song = { name: track.name, url: track.url, artist: track.artist || "", album: track.album || "", cover: track.cover || "" };
-  if (updatePlaylist(id, (x) => x.songs.push(song))) toast("Added to “" + p.name + "”.");
+  if (p.songs.some(s => sameTrack(s, track))) { toast("Already in “" + p.name + "”."); return; }
+  const song = {
+    name: track.name, url: track.url || "", artist: track.artist || "",
+    album: track.album || "", cover: track.cover || "",
+    catalogKey: track.catalogKey || (track.catalogPlaylist ? catalogTrackKey(track) : ""),
+    catalogPlaylist: track.catalogPlaylist || "",
+  };
+  if (updatePlaylist(id, x => x.songs.push(song))) toast("Added to “" + p.name + "”.");
 }
 
 /* ---------- dialogs ---------- */
@@ -668,7 +701,7 @@ function addDialog(track) {
   const pick = el("div", { class: "picklist" });
   const lists = getPlaylists();
   lists.forEach((p) => {
-    const has = p.songs.some((s) => s.url === track.url);
+    const has = p.songs.some(s => sameTrack(s, track));
     pick.append(el("button", { class: "pick", onclick: () => { closeDialog(); addToPlaylist(p.id, track); render(true); } },
       art(playlistIcon(p), p.name),
       el("div", null,
@@ -976,7 +1009,10 @@ function renderCatalogPlaylist(pi) {
   const p = catalogPlaylists[pi];
   if (!p) return renderHome();
   setHeader(p.name, true);
-  const tracks = p.songs.map((s) => ({ ...s, album: p.name, cover: s.cover || "" }));
+  const tracks = p.songs.map((s) => ({
+    ...s, album: p.name, cover: s.cover || "",
+    catalogKey: catalogTrackKey(s), catalogPlaylist: p.name,
+  }));
   const connected = tracks.filter((t) => !!t.url).length;
   const pending = tracks.length - connected;
   const sourceLabel = p.sourceUrl.includes("spotify.com") ? "Open on Spotify" : "Open on SoundCloud";
@@ -994,7 +1030,10 @@ function renderCatalogPlaylist(pi) {
         : "Ready for audio files"),
       ...(actions ? [actions] : [])));
   const list = el("ol", { class: "songs" });
-  tracks.forEach((t, i) => list.append(songRow(tracks, i, true, null)));
+  tracks.forEach((t, i) => {
+    list.append(songRow(tracks, i, true,
+      iconButton(ICON_PLUS, "Add to your playlist", () => addDialog(t))));
+  });
   if (!tracks.length) list.append(el("li", { class: "empty" }, "No tracks added yet. Send the audio files when they're ready."));
   view.replaceChildren(hero, list);
 }
@@ -1011,8 +1050,9 @@ function renderPlaylist(id) {
   icon.title = "Change icon";
   icon.addEventListener("click", () => iconDialog(id));
 
-  const playAll = el("button", { class: "btn primary", onclick: () => playQueue(tracks, 0) }, "Play");
-  playAll.disabled = !tracks.length;
+  const playableTracks = tracks.filter(t => !!t.url);
+  const playAll = el("button", { class: "btn primary", onclick: () => playQueue(playableTracks, 0) }, "Play");
+  playAll.disabled = !playableTracks.length;
 
   const hero = el("div", { class: "hero" },
     icon,
@@ -1031,7 +1071,7 @@ function renderPlaylist(id) {
   const list = el("ol", { class: "songs" });
   tracks.forEach((t, i) => {
     list.append(songRow(tracks, i, true, iconButton(ICON_X, "Remove from playlist", () => {
-      if (updatePlaylist(id, (x) => { x.songs = x.songs.filter((s) => s.url !== t.url); })) render(true);
+      if (updatePlaylist(id, x => { x.songs = x.songs.filter(s => !sameTrack(s, t)); })) render(true);
     })));
   });
   if (!tracks.length) list.append(el("li", { class: "empty" }, "No songs yet. Open an album and press + next to a song to add it here."));
@@ -1059,7 +1099,12 @@ window.addEventListener("hashchange", render);
 /* ---------- start ---------- */
 fetch(JSON_URL, { cache: "no-store" })
   .then((res) => { if (!res.ok) throw new Error("The server answered " + res.status + "."); return res.json(); })
-  .then((data) => { library = normalise(data); catalogPlaylists = normalisePlaylists(data.playlists); render(); })
+  .then((data) => {
+    library = normalise(data);
+    catalogPlaylists = normalisePlaylists(data.playlists);
+    syncSavedCatalogTracks();
+    render();
+  })
   .catch((err) => {
     setHeader("Music", false);
     view.replaceChildren(
