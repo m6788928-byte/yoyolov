@@ -154,7 +154,7 @@
     "url": "https://openfront.io/",
     "desc": "Unavailable in embedded mode: OpenFront's current security policy blocks external iframes.",
     "unavailable": true,
-    "unavailableMessage": "OpenFront.io currently blocks being embedded in other websites. The official site changed its frame security policy in January 2026. A self-hosted OpenFront client/server build is needed to run it inside The Universe; opening another tab is the only official-site workaround."
+    "unavailableMessage": "OpenFront.io blocks its official game page from being embedded on other websites. It cannot run in this viewer from the public host. A self-hosted OpenFront client plus a compatible game server is required."
   },
   "SnowRider3D": {
     "url": "https://snow-rider.net/",
