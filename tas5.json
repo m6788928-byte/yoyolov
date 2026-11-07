@@ -149,17 +149,5 @@
   "Super Mario Bros": {
     "url": "https://m6788928-byte.github.io/yoyolov/mario.html",
     "image": "https://m6788928-byte.github.io/yoyolov/thumbs/mario.png"
-  },
-  "OpenFront.io": {
-    "url": "https://m6788928-byte.github.io/yoyolov/openfront.html",
-    "desc": "Requires a self-hosted OpenFront client build and compatible server."
-  },
-  "SnowRider3D": {
-    "url": "https://m6788928-byte.github.io/yoyolov/snowrider3d.html",
-    "desc": "Snow Rider 3D — embedded in the game viewer."
-  },
-  "Retro Bowl": {
-    "url": "https://m6788928-byte.github.io/yoyolov/retrobowl.html",
-    "desc": "Official licensed Retro Bowl web version — embedded in the game viewer."
   }
 }
