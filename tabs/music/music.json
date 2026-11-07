@@ -8,39 +8,120 @@
           "name": "Graduation",
           "cover": "https://m6788928-byte.github.io/yoyolov/tabs/music/artist/kanye/Graduation/graduation.png",
           "songs": [
-            { "name": "Good Morning", "url": "https://res.cloudinary.com/r8rf9fhv/video/upload/v1791511773/Good_Morning_spotdown.org_bfut3w.mp3" },
-            { "name": "Champion", "url": "https://res.cloudinary.com/r8rf9fhv/video/upload/v1791511773/Champion_spotdown.org_gc6g56.mp3" },
-            { "name": "Stronger", "url": "https://res.cloudinary.com/r8rf9fhv/video/upload/v1791511770/Stronger_spotdown.org_duwm7c.mp3" },
-            { "name": "I Wonder", "url": "https://res.cloudinary.com/r8rf9fhv/video/upload/v1791511772/I_Wonder_spotdown.org_uz2fgp.mp3" },
-            { "name": "Good Life", "url": "https://res.cloudinary.com/r8rf9fhv/video/upload/v1791511773/Good_Life_spotdown.org_sjaqor.mp3" },
-            { "name": "Can't Tell Me Nothing", "url": "https://res.cloudinary.com/r8rf9fhv/video/upload/v1791511770/Can_t_Tell_Me_Nothing_spotdown.org_ucyjru.mp3" },
-            { "name": "Barry Bonds", "url": "https://res.cloudinary.com/r8rf9fhv/video/upload/v1791511773/Barry_Bonds_spotdown.org_w3ap3x.mp3" },
-            { "name": "Drunk and Hot Girls", "url": "https://res.cloudinary.com/r8rf9fhv/video/upload/v1791511771/Drunk_and_Hot_Girls_spotdown.org_wkkdpr.mp3" },
-            { "name": "Flashing Lights", "url": "https://res.cloudinary.com/r8rf9fhv/video/upload/v1791511770/Flashing_Lights_spotdown.org_qsrsvh.mp3" },
-            { "name": "Everything I Am", "url": "https://res.cloudinary.com/r8rf9fhv/video/upload/v1791511767/Everything_I_Am_spotdown.org_aviyau.mp3" },
-            { "name": "The Glory", "url": "https://res.cloudinary.com/r8rf9fhv/video/upload/v1791511766/The_Glory_spotdown.org_wswt2z.mp3" },
-            { "name": "Homecoming", "url": "https://res.cloudinary.com/r8rf9fhv/video/upload/v1791511770/Homecoming_spotdown.org_nqri1h.mp3" },
-            { "name": "Big Brother", "url": "https://res.cloudinary.com/r8rf9fhv/video/upload/v1791511770/Big_Brother_spotdown.org_y4nvhl.mp3" },
-            { "name": "Good Night", "url": "https://res.cloudinary.com/r8rf9fhv/video/upload/v1791511767/Good_Night_spotdown.org_spimwd.mp3" }
+            {
+              "name": "Good Morning",
+              "url": "https://res.cloudinary.com/r8rf9fhv/video/upload/v1791511773/Good_Morning_spotdown.org_bfut3w.mp3"
+            },
+            {
+              "name": "Champion",
+              "url": "https://res.cloudinary.com/r8rf9fhv/video/upload/v1791511773/Champion_spotdown.org_gc6g56.mp3"
+            },
+            {
+              "name": "Stronger",
+              "url": "https://res.cloudinary.com/r8rf9fhv/video/upload/v1791511770/Stronger_spotdown.org_duwm7c.mp3"
+            },
+            {
+              "name": "I Wonder",
+              "url": "https://res.cloudinary.com/r8rf9fhv/video/upload/v1791511772/I_Wonder_spotdown.org_uz2fgp.mp3"
+            },
+            {
+              "name": "Good Life",
+              "url": "https://res.cloudinary.com/r8rf9fhv/video/upload/v1791511773/Good_Life_spotdown.org_sjaqor.mp3"
+            },
+            {
+              "name": "Can't Tell Me Nothing",
+              "url": "https://res.cloudinary.com/r8rf9fhv/video/upload/v1791511770/Can_t_Tell_Me_Nothing_spotdown.org_ucyjru.mp3"
+            },
+            {
+              "name": "Barry Bonds",
+              "url": "https://res.cloudinary.com/r8rf9fhv/video/upload/v1791511773/Barry_Bonds_spotdown.org_w3ap3x.mp3"
+            },
+            {
+              "name": "Drunk and Hot Girls",
+              "url": "https://res.cloudinary.com/r8rf9fhv/video/upload/v1791511771/Drunk_and_Hot_Girls_spotdown.org_wkkdpr.mp3"
+            },
+            {
+              "name": "Flashing Lights",
+              "url": "https://res.cloudinary.com/r8rf9fhv/video/upload/v1791511770/Flashing_Lights_spotdown.org_qsrsvh.mp3"
+            },
+            {
+              "name": "Everything I Am",
+              "url": "https://res.cloudinary.com/r8rf9fhv/video/upload/v1791511767/Everything_I_Am_spotdown.org_aviyau.mp3"
+            },
+            {
+              "name": "The Glory",
+              "url": "https://res.cloudinary.com/r8rf9fhv/video/upload/v1791511766/The_Glory_spotdown.org_wswt2z.mp3"
+            },
+            {
+              "name": "Homecoming",
+              "url": "https://res.cloudinary.com/r8rf9fhv/video/upload/v1791511770/Homecoming_spotdown.org_nqri1h.mp3"
+            },
+            {
+              "name": "Big Brother",
+              "url": "https://res.cloudinary.com/r8rf9fhv/video/upload/v1791511770/Big_Brother_spotdown.org_y4nvhl.mp3"
+            },
+            {
+              "name": "Good Night",
+              "url": "https://res.cloudinary.com/r8rf9fhv/video/upload/v1791511767/Good_Night_spotdown.org_spimwd.mp3"
+            }
           ]
         },
         {
           "name": "My Beautiful Dark Twisted Fantasy",
           "cover": "https://m6788928-byte.github.io/yoyolov/tabs/music/artist/kanye/MBDTF/mbdtf.png",
           "songs": [
-            { "name": "Dark Fantasy", "url": "https://res.cloudinary.com/r8rf9fhv/video/upload/v1791513412/Dark_Fantasy_spotdown.org_mjbdyn.mp3" },
-            { "name": "Gorgeous", "url": "https://res.cloudinary.com/r8rf9fhv/video/upload/v1791513414/Gorgeous_spotdown.org_eq55je.mp3" },
-            { "name": "POWER", "url": "https://res.cloudinary.com/r8rf9fhv/video/upload/v1791513489/POWER_spotdown.org_ejxcdr.mp3" },
-            { "name": "All Of The Lights (interclude)", "url": "https://res.cloudinary.com/r8rf9fhv/video/upload/v1791513414/All_Of_The_Lights_Interlude__spotdown.org_wdxtla.mp3" },
-            { "name": "All Of The Lights", "url": "https://res.cloudinary.com/r8rf9fhv/video/upload/v1791513412/All_Of_The_Lights_spotdown.org_zaum1p.mp3" },
-            { "name": "Monster", "url": "https://example.com/music/fold.mp3" },
-            { "name": "So Appalled", "url": "https://res.cloudinary.com/r8rf9fhv/video/upload/v1791513411/So_Appalled_spotdown.org_mlgjuq.mp3" },
-            { "name": "Devil In A New Dress", "url": "https://res.cloudinary.com/r8rf9fhv/video/upload/v1791513414/Devil_In_A_New_Dress_spotdown.org_du7uz2.mp3" },
-            { "name": "Runaway", "url": "https://res.cloudinary.com/r8rf9fhv/video/upload/v1791513414/Runaway_spotdown.org_dbdrvl.mp3" },
-            { "name": "Hell Of A Life", "url": "https://res.cloudinary.com/r8rf9fhv/video/upload/v1791513409/Hell_Of_A_Life_spotdown.org_ahsk2e.mp3" },
-            { "name": "Blame Game", "url": "https://res.cloudinary.com/r8rf9fhv/video/upload/v1791513407/Blame_Game_spotdown.org_fg88fe.mp3" },
-            { "name": "Lost In The World", "url": "https://res.cloudinary.com/r8rf9fhv/video/upload/v1791513408/Lost_In_The_World_spotdown.org_m3wyxb.mp3" },
-            { "name": "Who Will Survive In America", "url": "https://res.cloudinary.com/r8rf9fhv/video/upload/v1791513408/Who_Will_Survive_In_America_spotdown.org_tt9puo.mp3" }
+            {
+              "name": "Dark Fantasy",
+              "url": "https://res.cloudinary.com/r8rf9fhv/video/upload/v1791513412/Dark_Fantasy_spotdown.org_mjbdyn.mp3"
+            },
+            {
+              "name": "Gorgeous",
+              "url": "https://res.cloudinary.com/r8rf9fhv/video/upload/v1791513414/Gorgeous_spotdown.org_eq55je.mp3"
+            },
+            {
+              "name": "POWER",
+              "url": "https://res.cloudinary.com/r8rf9fhv/video/upload/v1791513489/POWER_spotdown.org_ejxcdr.mp3"
+            },
+            {
+              "name": "All Of The Lights (interclude)",
+              "url": "https://res.cloudinary.com/r8rf9fhv/video/upload/v1791513414/All_Of_The_Lights_Interlude__spotdown.org_wdxtla.mp3"
+            },
+            {
+              "name": "All Of The Lights",
+              "url": "https://res.cloudinary.com/r8rf9fhv/video/upload/v1791513412/All_Of_The_Lights_spotdown.org_zaum1p.mp3"
+            },
+            {
+              "name": "Monster",
+              "url": "https://example.com/music/fold.mp3"
+            },
+            {
+              "name": "So Appalled",
+              "url": "https://res.cloudinary.com/r8rf9fhv/video/upload/v1791513411/So_Appalled_spotdown.org_mlgjuq.mp3"
+            },
+            {
+              "name": "Devil In A New Dress",
+              "url": "https://res.cloudinary.com/r8rf9fhv/video/upload/v1791513414/Devil_In_A_New_Dress_spotdown.org_du7uz2.mp3"
+            },
+            {
+              "name": "Runaway",
+              "url": "https://res.cloudinary.com/r8rf9fhv/video/upload/v1791513414/Runaway_spotdown.org_dbdrvl.mp3"
+            },
+            {
+              "name": "Hell Of A Life",
+              "url": "https://res.cloudinary.com/r8rf9fhv/video/upload/v1791513409/Hell_Of_A_Life_spotdown.org_ahsk2e.mp3"
+            },
+            {
+              "name": "Blame Game",
+              "url": "https://res.cloudinary.com/r8rf9fhv/video/upload/v1791513407/Blame_Game_spotdown.org_fg88fe.mp3"
+            },
+            {
+              "name": "Lost In The World",
+              "url": "https://res.cloudinary.com/r8rf9fhv/video/upload/v1791513408/Lost_In_The_World_spotdown.org_m3wyxb.mp3"
+            },
+            {
+              "name": "Who Will Survive In America",
+              "url": "https://res.cloudinary.com/r8rf9fhv/video/upload/v1791513408/Who_Will_Survive_In_America_spotdown.org_tt9puo.mp3"
+            }
           ]
         }
       ]
@@ -53,9 +134,938 @@
           "name": "test album",
           "cover": "https://example.com/images/rust-and-feathers.png",
           "songs": [
-            { "name": "test", "url": "https://example.com/music/night-shift.mp3" },
-            { "name": "test", "url": "https://example.com/music/barn-light.mp3" }
+            {
+              "name": "test",
+              "url": "https://example.com/music/night-shift.mp3"
+            },
+            {
+              "name": "test",
+              "url": "https://example.com/music/barn-light.mp3"
+            }
           ]
+        }
+      ]
+    }
+  ],
+  "playlists": [
+    {
+      "name": "Piano House Bangers",
+      "cover": "",
+      "sourceUrl": "https://soundcloud.com/michael-953824303/sets/piano-house-bangers",
+      "songs": [
+        {
+          "name": "I Need You",
+          "artist": "TWOFACED, Nikita W.",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "Say My Name (Remix)",
+          "artist": "Morgan Seatree, Florence + The Machine",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "sunglasses",
+          "artist": "Can U",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "like i'll do",
+          "artist": "Sigurd K",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "Stay With Me",
+          "artist": "X CLUB.",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "Face 2 Face",
+          "artist": "TWOFACED",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "Hold Me",
+          "artist": "Morgan Seatree, Abi Flynn",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "Pulse",
+          "artist": "49th & Main, howtin",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "narciss - so far so good [original mix]",
+          "artist": "bawes",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "Craash - be my baby",
+          "artist": "Craash",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "Divine",
+          "artist": "Blair Muir",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "Looking For Love",
+          "artist": "Morgan Seatree, Laura Davie",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "SUNKISSED",
+          "artist": "K-WEST",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "With You",
+          "artist": "Rob Bazowski",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "Mona",
+          "artist": "Entasia",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "Part of Me",
+          "artist": "Can U",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "Stallonee - Lost In Love",
+          "artist": "STALLONEE",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "Keep on Dancing",
+          "artist": "ABSOLUTE., Bimini",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "KETTAMA & Prospa - I Believe",
+          "artist": "KETTAMA / G-TOWN RECS",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "Can't Wait Tonight",
+          "artist": "BLOCKER",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "My Loving (Morgan Seatree Remix)",
+          "artist": "Sonny Fodera, Chrystal",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "Baller (nowifi Remix)",
+          "artist": "Abor & Tynna, nowifi",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "I Want Your Love",
+          "artist": "JKRS, K.JAY",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "Morgan Seatree & Jem Cooke - La Di Da",
+          "artist": "Morgan Seatree x Jem Cooke",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "Etretat",
+          "artist": "Can U",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "Get Up Get Down",
+          "artist": "Richie Hova",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "Still Sleepless (feat. Carla Monroe)",
+          "artist": "D.O.D",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "A Fire Inside Of Me",
+          "artist": "Lucas Dekker",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "Delilah (pull me out of this)",
+          "artist": "Fred again.., Delilah Montagu",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "we can do it",
+          "artist": "Sigurd K",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "Tell Me (Morgan Seatree Remix)",
+          "artist": "Sonny Fodera, Clementine Douglas",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "Another Day",
+          "artist": "Justin Tyrrell",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "Kolter - Trapped",
+          "artist": "Kolter",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "I Luv It",
+          "artist": "FinnatiK",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "feelings",
+          "artist": "Sigurd K",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "Blessings (KETTAMA Remix)",
+          "artist": "Calvin Harris, Clementine Douglas, KETTAMA",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "Believe (Jackyboom Piano Edit) (Cover)",
+          "artist": "Jackyboom, nowifi",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "Closer",
+          "artist": "Shishka",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "This Some C.E.O Type Shit",
+          "artist": "Guccimarx",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "James Pepper - Passion (Feat. KLP)",
+          "artist": "James Pepper",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "Love Somebody",
+          "artist": "cutback!",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "Fever",
+          "artist": "Can U, Yere, NoDJ",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "Always Love",
+          "artist": "Bellerose",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "loving",
+          "artist": "dunne",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "Think I'm Gonna Love U",
+          "artist": "Longo",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "Needed You",
+          "artist": "Can't U",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "What You See",
+          "artist": "Ordley",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "Never Gonna Stop",
+          "artist": "Morgan Seatree",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "tell me",
+          "artist": "Sigurd K",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "Milky x Mall Grab - Just The Way You Are",
+          "artist": "Mall Grab",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "Get Out My Head",
+          "artist": "Robbie Doherty, Redlight",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "Move Your Feet - Yere X NoDJ",
+          "artist": "Yere",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "Keep It Tight (feat. Mizbee)",
+          "artist": "Ellie Scougall",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "How To Move",
+          "artist": "Can U",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "Take Me Away",
+          "artist": "Sunny one",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "Slow Burner",
+          "artist": "Interplanetary Criminal",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "No Relaxin",
+          "artist": "TWOFACED",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "Lost in `Tokyo",
+          "artist": "Jeremy Ansbro",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "Your Love Keeps Me Hangin' On",
+          "artist": "Tête de la Course",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "Finally (Morgan Seatree Remix)",
+          "artist": "Swedish House Mafia, Alicia Keys, Morgan Seatree",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "Sean Drinan – Never Gonna Give U Up [TNTX017]",
+          "artist": "TNT",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "You've Got Me",
+          "artist": "Clarcq",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "turn around",
+          "artist": "Sigurd K",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "I Need Your Love",
+          "artist": "Ocean, BEADS",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "Feel The Friction",
+          "artist": "Sam Alfred",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "Let Me Be",
+          "artist": "Reisss, PENTHUS",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "6 am in Sydney",
+          "artist": "Startup Bro",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "I Specialize In Love (Original Demo)",
+          "artist": "Sailing For Oranges",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "Still Sleepless D.O.D - Frosty Remix (Free Download)",
+          "artist": "frosty",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "Myles x Cintia Sofia - Ich kenn das auch",
+          "artist": "DocNYX",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "NOTION & X CLUB. - U KNOW",
+          "artist": "NOTION, XCLUB.",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "Centre Court - Can't Wait On You [TNT037]",
+          "artist": "Centre Court",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "KEEP ME BELIEVING",
+          "artist": "Angrybaby, Abi Flynn",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "Lied To Me",
+          "artist": "Elliot Kings",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "NEXT 2 U",
+          "artist": "Shishka",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "Stronger - AstroHertz (Free download)",
+          "artist": "AstroHertz",
+          "url": "",
+          "unavailable": false
+        }
+      ]
+    },
+    {
+      "name": "Relax But Upbeat",
+      "cover": "",
+      "sourceUrl": "https://soundcloud.com/michael-953824303/sets/relax-but-upbeat/s-h0pEuTKfn3X",
+      "songs": [
+        {
+          "name": "NOBLE",
+          "artist": "F3mii",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "Some of Your Love",
+          "artist": "PARTYNEXTDOOR",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "01 East Liberty",
+          "artist": "PARTYNEXTDOOR",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "Stay Down",
+          "artist": "Brent Faiyaz",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "butterflies.",
+          "artist": "Brent Faiyaz",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "TBH",
+          "artist": "PARTYNEXTDOOR",
+          "url": "",
+          "unavailable": true
+        },
+        {
+          "name": "Cinderella (feat. Ty Dolla $ign)",
+          "artist": "Mac Miller",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "Right Now",
+          "artist": "PARTYNEXTDOOR",
+          "url": "",
+          "unavailable": true
+        },
+        {
+          "name": "brent faiyaz - no one knows",
+          "artist": "︻┳デ═— ☆",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "Les",
+          "artist": "Childish Gambino",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "stranger",
+          "artist": "Jhené Aiko",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "OH YEAH",
+          "artist": "cikho",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "I Want Her Too (Prod. Ianobeatz)",
+          "artist": "ARTIE J",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "None Of Ur Friends Business (Radio Edit)",
+          "artist": "Ginuwine",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "DEEPER",
+          "artist": "PARTYNEXTDOOR",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "U Are My High",
+          "artist": "DJ Snake",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "Generous",
+          "artist": "maxonXO",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "So Far Gone / Fast Life Bluez",
+          "artist": "Brent Faiyaz",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "L.A.",
+          "artist": "Brent Faiyaz",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "Flashing Lights (feat. Dwele)",
+          "artist": "Kanye West",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "Marvins Room",
+          "artist": "Drake",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "Passionfruit",
+          "artist": "Drake",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "Shut It Down (feat. The-Dream)",
+          "artist": "Drake",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "Sunday Morning",
+          "artist": "Maroon 5",
+          "url": "",
+          "unavailable": false
+        }
+      ]
+    },
+    {
+      "name": "My Playlist #20",
+      "cover": "",
+      "sourceUrl": "https://soundcloud.com/michael-953824303/sets/my-playlist-20",
+      "songs": [
+        {
+          "name": "Aurora (Main Mix)",
+          "artist": "Eric Kupper Presents Organika",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "A Fresh Energy",
+          "artist": "Gaskin",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "Do You Mind (Remix)",
+          "artist": "Kyla, DJ Paleface",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "Don't Go (Original Mix)",
+          "artist": "Awesome 3",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "Feel My Needs (Original Mix)",
+          "artist": "Weiss (UK)",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "Prospa, Cloonee & Sybil - Free Your Mind",
+          "artist": "CircoLoco Records",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "Move Your Feet - Yere X NoDJ",
+          "artist": "Yere",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "17",
+          "artist": "MK",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "Love Somebody",
+          "artist": "cutback!",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "Back on the Pain...",
+          "artist": "cutback!",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "Summer 16 (That Thing)",
+          "artist": "Miró Evander",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "Waiting for Tonight",
+          "artist": "Jennifer Lopez",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "Show Me Love",
+          "artist": "Robin S",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "Too Much For Me",
+          "artist": "SELKER",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "Rhythm Is a Mystery",
+          "artist": "K-Klass",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "How Deep Is Your Love",
+          "artist": "Calvin Harris, Disciples",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "Make You Whole (2021 Remaster)",
+          "artist": "Andronicus",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "Heroes (we could be) [feat. Tove Lo]",
+          "artist": "Alesso",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "Dazegxd - Love Roulette",
+          "artist": "Dazegxd",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "My Love",
+          "artist": "Route 94, Jess Glynne",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "I Got U (feat. Jax Jones)",
+          "artist": "Duke Dumont",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "Everybody's Free (Radio Edit) [feat. David Anthony]",
+          "artist": "Rozalla",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "You Know You Like It",
+          "artist": "DJ Snake, AlunaGeorge",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "Sunday Morning",
+          "artist": "Maroon 5",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "Shut It Down (feat. The-Dream)",
+          "artist": "Drake",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "Aston Martin Music (feat. Drake & Chrisette Michele)",
+          "artist": "Rick Ross",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "Some of Your Love",
+          "artist": "PARTYNEXTDOOR",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "Fade (Grant Nelson Big Room Remix) [feat. KimBlee]",
+          "artist": "Solu Music",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "SIDEPIECE & 95 South - Can I Ride",
+          "artist": "SIDEPIECE, 95 South",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "KETTAMA - Pretty Green Eyes (Sunset Ibiza Mix)",
+          "artist": "KETTAMA",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "7. ANOTR ft. 54 Ultra - Talk To You [No Art]",
+          "artist": "ANOTR",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "This Is Your Night",
+          "artist": "Amber",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "CORAÇAO (20th Anniversary Mix) [feat. Jesus Fernandez]",
+          "artist": "Jerry Ropero, HUGEL, Mijangos",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "Summer 91 (Looking Back)",
+          "artist": "Noizu",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "Friendly Pressure (Into The Sunshine Mix)",
+          "artist": "Jhelisa & Sunship",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "You Are In My System (Club Mix)",
+          "artist": "Kerri Chandler, Dennis Quin, Troy Denari",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "I Need You",
+          "artist": "TWOFACED, Nikita W.",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "COEO - I Can Never Be Yours",
+          "artist": "COEO",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "Take U",
+          "artist": "Jengi",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "Still Sleepless (feat. Carla Monroe)",
+          "artist": "D.O.D",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "Afraid To Feel",
+          "artist": "LF SYSTEM",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "Good Life (Remastered)",
+          "artist": "Inner City",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "THE ONE",
+          "artist": "SAM WAITIN",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "Promise",
+          "artist": "Dualshock",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "Pyramid",
+          "artist": "ALYSS",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "Blessings (KETTAMA Remix)",
+          "artist": "Calvin Harris, Clementine Douglas, KETTAMA",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "Who do u?",
+          "artist": "JACK MARLOW",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "Only Love Can Break Your Heart (Masters at Work Mix)",
+          "artist": "Saint Etienne",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "I'm Not Alone (2019 Edit)",
+          "artist": "Calvin Harris",
+          "url": "",
+          "unavailable": false
+        },
+        {
+          "name": "House Every Weekend (Radio Edit)",
+          "artist": "David Zowie",
+          "url": "",
+          "unavailable": false
         }
       ]
     }
