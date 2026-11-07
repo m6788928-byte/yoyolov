@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>The Universe - Public</title>
+<title>yoyolov - Public</title>
 <style>
   *{box-sizing:border-box}
   html,body{height:100%}
@@ -174,7 +174,7 @@
 
 <div id="home">
   <div id="bar">
-    <div class="logo">The&nbsp;<b>Universe - Public</b></div>
+    <div class="logo">The&nbsp;<b>yoyolov - Public</b></div>
     <div id="tabs">
       <button class="tab active" data-tab="htmls" type="button">Games</button>
       <button class="tab" data-tab="settings" type="button">Settings</button>
@@ -184,7 +184,7 @@
 
   <div id="tab-htmls" class="tabpanel active">
     <div id="grid"></div>
-   <h4>this is a very stripped down version of the universe - tasdiam</h4>
+   <h4>this is a very stripped down version of the yoyolov - tasdiam</h4>
   </div>
 
   <div id="tab-settings" class="tabpanel">
@@ -265,7 +265,7 @@
    An entry can also be an object for a custom tile:
      "Name": { "url": "...", "image": "...", "desc": "subtitle text" }
    ====================================================================== */
-const LIST_URL = "https://cdn.jsdelivr.net/gh/susybakaboiii/TheUniverses@main/public.json";
+const LIST_URL = "https://cdn.jsdelivr.net/gh/susybakaboiii/Theyoyolovs@main/public.json";
 /* ===================================================================== */
 
 /* ======================================================================
@@ -276,7 +276,7 @@ const LIST_URL = "https://cdn.jsdelivr.net/gh/susybakaboiii/TheUniverses@main/pu
    malformed JSON all fail OPEN so a GitHub outage doesn't brick this for
    everyone.
    ====================================================================== */
-const STATUS_URL = "https://cdn.jsdelivr.net/gh/susybakaboiii/TheUniverses@main/public_status.json";
+const STATUS_URL = "https://cdn.jsdelivr.net/gh/susybakaboiii/Theyoyolovs@main/public_status.json";
 /* ===================================================================== */
 
 const $ = id => document.getElementById(id);
@@ -294,20 +294,20 @@ const PRESET_THEMES = [
 const VARS = ['bg','bg2','bg3','border','text','muted','accent'];
 
 function loadCustomThemes(){
-  try { return JSON.parse(localStorage.getItem('universe-custom-themes') || '[]'); }
+  try { return JSON.parse(localStorage.getItem('yoyolov-custom-themes') || '[]'); }
   catch { return []; }
 }
 function saveCustomThemes(list){
-  localStorage.setItem('universe-custom-themes', JSON.stringify(list));
+  localStorage.setItem('yoyolov-custom-themes', JSON.stringify(list));
 }
 function loadActiveTheme(){
-  try { return JSON.parse(localStorage.getItem('universe-active-theme') || 'null'); }
+  try { return JSON.parse(localStorage.getItem('yoyolov-active-theme') || 'null'); }
   catch { return null; }
 }
 
 function applyTheme(t){
   VARS.forEach(k => document.documentElement.style.setProperty('--' + k, t[k]));
-  localStorage.setItem('universe-active-theme', JSON.stringify(t));
+  localStorage.setItem('yoyolov-active-theme', JSON.stringify(t));
   renderThemeGrid();
 }
 
@@ -612,7 +612,7 @@ function lockout(){
     'align-items:center;justify-content:center;gap:8px;' +
     'background:var(--bg,#111214);color:var(--text,#eee);' +
     'font:14px system-ui,-apple-system,sans-serif;text-align:center;padding:20px">' +
-      '<div style="font-size:42px;font-weight:800">frick you guys i shut the universe down AGAIN so frick you dont expect me to give you guys the updated / new version. - tasdiam</div>' +
+      '<div style="font-size:42px;font-weight:800">frick you guys i shut the yoyolov down AGAIN so frick you dont expect me to give you guys the updated / new version. - tasdiam</div>' +
       '<div style="color:var(--muted,#7d838c);font-size:13px">the list is currently unavailable</div>' +
     '</div>';
 }
