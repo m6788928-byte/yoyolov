@@ -354,7 +354,8 @@
           "name": "17",
           "artist": "MK",
           "url": "https://res.cloudinary.com/ak3j5wsb/video/upload/v1794029412/playlist-audio/vr6gpxtj1dmqnrwwjwq2.mp3",
-          "unavailable": false
+          "unavailable": false,
+          "cover": "https://i1.sndcdn.com/artworks-000236371831-431el3-t1080x1080.jpg"
         },
         {
           "name": "Love Somebody",
@@ -391,7 +392,8 @@
           "name": "Too Much For Me",
           "artist": "SELKER",
           "url": "https://res.cloudinary.com/ak3j5wsb/video/upload/v1794029425/playlist-audio/mpnzgqqjbjpecpivglsx.mp3",
-          "unavailable": false
+          "unavailable": false,
+          "cover": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/c9/a9/b4/c9a9b41c-3c14-c78c-560f-20fcb222a792/198588854006.jpg/3000x3000bb.jpg"
         },
         {
           "name": "Rhythm Is a Mystery",
