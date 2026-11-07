@@ -907,16 +907,25 @@ function renderCatalogPlaylist(pi) {
   if (!p) return renderHome();
   setHeader(p.name, true);
   const tracks = p.songs.map((s) => ({ ...s, album: p.name, cover: p.cover }));
+  const connected = tracks.filter((t) => !!t.url).length;
+  const pending = tracks.length - connected;
+  const sourceLabel = p.sourceUrl.includes("spotify.com") ? "Open on Spotify" : "Open on SoundCloud";
+  const actions = p.sourceUrl
+    ? el("div", { class: "actions" },
+        el("a", { class: "btn", href: p.sourceUrl, target: "_blank", rel: "noopener noreferrer" }, sourceLabel))
+    : null;
   const hero = el("div", { class: "hero" },
     art(p.cover, p.name),
     el("div", null,
       el("div", { class: "kind" }, "Imported playlist"),
       el("h1", null, p.name),
-      el("div", { class: "muted" }, songCount(tracks.length) + " · Audio files not connected"),
-      el("div", { class: "actions" },
-        el("a", { class: "btn", href: p.sourceUrl, target: "_blank", rel: "noopener noreferrer" }, "Open on SoundCloud"))));
+      el("div", { class: "muted" }, tracks.length
+        ? songCount(tracks.length) + " · " + connected + " playable · " + pending + " awaiting audio"
+        : "Ready for audio files"),
+      ...(actions ? [actions] : [])));
   const list = el("ol", { class: "songs" });
   tracks.forEach((t, i) => list.append(songRow(tracks, i, true, null)));
+  if (!tracks.length) list.append(el("li", { class: "empty" }, "No tracks added yet. Send the audio files when they're ready."));
   view.replaceChildren(hero, list);
 }
 
