@@ -865,7 +865,15 @@ function makeCard(name, e){
   }
 
   c.append(th, m);
-  const go = () => e.external ? window.open(e.url, '_blank', 'noopener,noreferrer') : openUrl(e.url, name);
+  const go = () => {
+    let target;
+    try { target = new URL(e.url, location.href); } catch { return; }
+    if (e.external || target.origin !== location.origin) {
+      const link = document.createElement('a');
+      link.href = target.href; link.target = '_blank'; link.rel = 'noopener noreferrer';
+      document.body.append(link); link.click(); link.remove();
+    } else openUrl(target.href, name);
+  };
   c.onclick = go;
   c.onkeydown = ev => { if(ev.key === 'Enter' || ev.key === ' '){ ev.preventDefault(); go(); } };
   return c;
