@@ -111,6 +111,8 @@
   .song .num { color: var(--muted); font-variant-numeric: tabular-nums; text-align: right; }
   .song .name { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .song.playing .name, .song.playing .num { color: var(--accent); }
+  .song:disabled { opacity: .62; cursor: not-allowed; }
+  .song:disabled:hover { background: none; }
 
   /* Player bar */
   #player {
@@ -330,7 +332,8 @@ function toast(msg) {
 }
 
 /* ---------- library ---------- */
-let library = [];   // normalised: [{ artist, poster, albums: [{ name, cover, songs: [{name,url}] }] }]
+let library = [];   // normalised artist/album catalog
+let catalogPlaylists = [];
 
 function normalise(data) {
   if (!data || !Array.isArray(data.music)) throw new Error('The JSON needs a top-level "music" array.');
@@ -347,11 +350,25 @@ function normalise(data) {
   }));
 }
 
+function normalisePlaylists(items) {
+  return (Array.isArray(items) ? items : []).map((p) => ({
+    name: String(p.name || "Untitled playlist"),
+    cover: p.cover || "",
+    sourceUrl: p.sourceUrl || "",
+    songs: (Array.isArray(p.songs) ? p.songs : []).map((s) => ({
+      name: String(s.name || "Untitled"),
+      artist: String(s.artist || ""),
+      url: s.url ? String(s.url) : "",
+      unavailable: !!s.unavailable,
+    })),
+  }));
+}
+
 function albumTracks(ai, bi) {
   const artist = library[ai], album = artist.albums[bi];
   return album.songs.map((s) => ({
     name: s.name, url: s.url,
-    artist: artist.artist, album: album.name,
+    artist: s.artist || artist.artist, album: album.name,
     cover: album.cover || artist.poster || "",
   }));
 }
@@ -556,9 +573,12 @@ function songRow(tracks, i, showArtist, action) {
   const t = tracks[i];
   const name = el("span", { class: "name" }, t.name);
   if (showArtist && t.artist) name.append(el("span", { class: "muted" }, " · " + t.artist));
+  if (t.unavailable) name.append(el("span", { class: "muted" }, " · Unavailable in US"));
+  const props = { class: "song", onclick: () => { if (t.url) playQueue(tracks, i); } };
+  if (t.url) props["data-url"] = t.url;
+  else props.disabled = "";
   return el("li", { class: "songrow" },
-    el("button", { class: "song", "data-url": t.url, onclick: () => playQueue(tracks, i) },
-      el("span", { class: "num" }, String(i + 1)), name),
+    el("button", props, el("span", { class: "num" }, String(i + 1)), name),
     action);
 }
 
@@ -733,6 +753,12 @@ function renderHome() {
 
   const playlistSection = el("section", null, el("h2", null, "Playlists"));
   const playlistGrid = el("div", { class: "grid" });
+  catalogPlaylists.forEach((p, pi) => {
+    playlistGrid.append(el("button", { class: "card", onclick: () => { location.hash = "#/catalog-playlist/" + pi; } },
+      art(p.cover, p.name),
+      el("div", { class: "title" }, p.name),
+      el("div", { class: "sub" }, songCount(p.songs.length))));
+  });
   getPlaylists().forEach((p) => {
     playlistGrid.append(el("button", { class: "card", onclick: () => { location.hash = "#/playlist/" + p.id; } },
       art(playlistIcon(p), p.name),
@@ -799,6 +825,24 @@ function renderAlbum(ai, bi) {
   markPlaying();
 }
 
+function renderCatalogPlaylist(pi) {
+  const p = catalogPlaylists[pi];
+  if (!p) return renderHome();
+  setHeader(p.name, true);
+  const tracks = p.songs.map((s) => ({ ...s, album: p.name, cover: p.cover }));
+  const hero = el("div", { class: "hero" },
+    art(p.cover, p.name),
+    el("div", null,
+      el("div", { class: "kind" }, "Imported playlist"),
+      el("h1", null, p.name),
+      el("div", { class: "muted" }, songCount(tracks.length) + " · Audio files not connected"),
+      el("div", { class: "actions" },
+        el("a", { class: "btn", href: p.sourceUrl, target: "_blank", rel: "noopener noreferrer" }, "Open on SoundCloud"))));
+  const list = el("ol", { class: "songs" });
+  tracks.forEach((t, i) => list.append(songRow(tracks, i, true, null)));
+  view.replaceChildren(hero, list);
+}
+
 function renderPlaylist(id) {
   const p = findPlaylist(id);
   if (!p) return renderHome();
@@ -846,6 +890,7 @@ function render(keepScroll) {
   if (parts[0] === "playlist") renderPlaylist(parts[1]);
   else if (parts[0] === "artist") renderArtist(Number(parts[1]));
   else if (parts[0] === "album") renderAlbum(Number(parts[1]), Number(parts[2]));
+  else if (parts[0] === "catalog-playlist") renderCatalogPlaylist(Number(parts[1]));
   else renderHome();
 }
 
@@ -858,7 +903,7 @@ window.addEventListener("hashchange", render);
 /* ---------- start ---------- */
 fetch(JSON_URL, { cache: "no-store" })
   .then((res) => { if (!res.ok) throw new Error("The server answered " + res.status + "."); return res.json(); })
-  .then((data) => { library = normalise(data); render(); })
+  .then((data) => { library = normalise(data); catalogPlaylists = normalisePlaylists(data.playlists); render(); })
   .catch((err) => {
     setHeader("Music", false);
     view.replaceChildren(
