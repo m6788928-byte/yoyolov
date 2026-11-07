@@ -361,8 +361,8 @@ async function searchArtwork(track, includeArtist) {
   return (await response.json()).results || [];
 }
 function chooseArtwork(results, track) {
-  const raw = track.name.replace(/^\\d+[. )-]\\s*/, "").trim();
-  const variants = [raw, raw.split(" - ").at(-1), raw.replace(/\\s*[([](?:original|extended|radio|club|vocal|remix|mix|edit|remaster|feat)[^\\])]*[)\\]]/ig, "")];
+  const raw = track.name.replace(/^\d+[. )-]\s*/, "").trim();
+  const variants = [raw, raw.split(" - ").at(-1), raw.replace(/\s*[([](?:original|extended|radio|club|vocal|remix|mix|edit|remaster|feat)[^\])]*[)\]]/ig, "")];
   const wanted = [...new Set(variants.map(artworkClean).filter(x => x.length > 2))];
   const artist = artworkClean(track.artist);
   return results.map(item => {
