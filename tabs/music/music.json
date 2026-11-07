@@ -150,14 +150,15 @@
   "playlists": [
     {
       "name": "Relax But Upbeat",
-      "cover": "",
+      "cover": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/24/a4/84/24a48418-e757-949a-2593-76851e0f9c05/196874129104.jpg/1200x630wp-60.jpg",
       "sourceUrl": "https://soundcloud.com/michael-953824303/sets/relax-but-upbeat/s-h0pEuTKfn3X",
       "songs": [
         {
           "name": "NOBLE",
           "artist": "F3mii",
           "url": "",
-          "unavailable": false
+          "unavailable": false,
+          "cover": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/24/a4/84/24a48418-e757-949a-2593-76851e0f9c05/196874129104.jpg/1200x630wp-60.jpg"
         },
         {
           "name": "Some of Your Love",
@@ -301,14 +302,15 @@
     },
     {
       "name": "My Playlist #20",
-      "cover": "",
+      "cover": "https://i.scdn.co/image/ab67616d0000b2738b5e7c18fd3b48508332275d",
       "sourceUrl": "https://soundcloud.com/michael-953824303/sets/my-playlist-20",
       "songs": [
         {
           "name": "Aurora (Main Mix)",
           "artist": "Eric Kupper Presents Organika",
           "url": "",
-          "unavailable": false
+          "unavailable": false,
+          "cover": "https://i.scdn.co/image/ab67616d0000b2738b5e7c18fd3b48508332275d"
         },
         {
           "name": "A Fresh Energy",
@@ -487,140 +489,140 @@
         {
           "name": "7. ANOTR ft. 54 Ultra - Talk To You [No Art]",
           "artist": "ANOTR",
-          "url": "",
+          "url": "https://res.cloudinary.com/ak3j5wsb/video/upload/v1794084482/playlist-audio/che3cgfa94e44howsele.mp3",
           "unavailable": false
         },
         {
           "name": "This Is Your Night",
           "artist": "Amber",
-          "url": "",
+          "url": "https://res.cloudinary.com/ak3j5wsb/video/upload/v1794084483/playlist-audio/bymvtwetb5mhk4uyx3jm.mp3",
           "unavailable": false
         },
         {
           "name": "CORAÇAO (20th Anniversary Mix) [feat. Jesus Fernandez]",
           "artist": "Jerry Ropero, HUGEL, Mijangos",
-          "url": "",
+          "url": "https://res.cloudinary.com/ak3j5wsb/video/upload/v1794084485/playlist-audio/ukemkvtdtcbi7ttfkwr6.mp3",
           "unavailable": false
         },
         {
           "name": "Summer 91 (Looking Back)",
           "artist": "Noizu",
-          "url": "",
+          "url": "https://res.cloudinary.com/ak3j5wsb/video/upload/v1794084486/playlist-audio/pj6dnbpqkbgkibcborky.mp3",
           "unavailable": false
         },
         {
           "name": "Friendly Pressure (Into The Sunshine Mix)",
           "artist": "Jhelisa & Sunship",
-          "url": "",
+          "url": "https://res.cloudinary.com/ak3j5wsb/video/upload/v1794084487/playlist-audio/rj7mgjwsnpkgb5b3gf8i.mp3",
           "unavailable": false
         },
         {
           "name": "You Are In My System (Club Mix)",
           "artist": "Kerri Chandler, Dennis Quin, Troy Denari",
-          "url": "",
+          "url": "https://res.cloudinary.com/ak3j5wsb/video/upload/v1794084488/playlist-audio/vpv7ugj9vu82kaq9iifx.mp3",
           "unavailable": false
         },
         {
           "name": "I Need You",
           "artist": "TWOFACED, Nikita W.",
-          "url": "",
+          "url": "https://res.cloudinary.com/ak3j5wsb/video/upload/v1794084489/playlist-audio/arzz2cogsjsptaegyhnu.mp3",
           "unavailable": false
         },
         {
           "name": "COEO - I Can Never Be Yours",
           "artist": "COEO",
-          "url": "",
+          "url": "https://res.cloudinary.com/ak3j5wsb/video/upload/v1794084490/playlist-audio/gsr8sdbo9hurgvok2gob.mp3",
           "unavailable": false
         },
         {
           "name": "Take U",
           "artist": "Jengi",
-          "url": "",
+          "url": "https://res.cloudinary.com/ak3j5wsb/video/upload/v1794084491/playlist-audio/rbihgrizlzsu10mubw5u.mp3",
           "unavailable": false
         },
         {
           "name": "Still Sleepless (feat. Carla Monroe)",
           "artist": "D.O.D",
-          "url": "",
+          "url": "https://res.cloudinary.com/ak3j5wsb/video/upload/v1794084492/playlist-audio/zh7zyal6ptru2bizbbns.mp3",
           "unavailable": false
         },
         {
           "name": "Afraid To Feel",
           "artist": "LF SYSTEM",
-          "url": "",
+          "url": "https://res.cloudinary.com/ak3j5wsb/video/upload/v1794084493/playlist-audio/n00vmxx2ie8yfnc3tnob.mp3",
           "unavailable": false
         },
         {
           "name": "Good Life (Remastered)",
           "artist": "Inner City",
-          "url": "",
+          "url": "https://res.cloudinary.com/ak3j5wsb/video/upload/v1794084493/playlist-audio/auvoxqqczvxdkqlqginm.mp3",
           "unavailable": false
         },
         {
           "name": "THE ONE",
           "artist": "SAM WAITIN",
-          "url": "",
+          "url": "https://res.cloudinary.com/ak3j5wsb/video/upload/v1794084495/playlist-audio/zwozhunlwiezjyo0843w.mp3",
           "unavailable": false
         },
         {
           "name": "Promise",
           "artist": "Dualshock",
-          "url": "",
+          "url": "https://res.cloudinary.com/ak3j5wsb/video/upload/v1794084495/playlist-audio/sew7ntdcrn3foth9rymw.mp3",
           "unavailable": false
         },
         {
           "name": "Pyramid",
           "artist": "ALYSS",
-          "url": "",
+          "url": "https://res.cloudinary.com/ak3j5wsb/video/upload/v1794084496/playlist-audio/wzfxappg72c3ncjzckjv.mp3",
           "unavailable": false
         },
         {
           "name": "Blessings (KETTAMA Remix)",
           "artist": "Calvin Harris, Clementine Douglas, KETTAMA",
-          "url": "",
+          "url": "https://res.cloudinary.com/ak3j5wsb/video/upload/v1794084497/playlist-audio/xyoj2hreie0ktmkaqwzl.mp3",
           "unavailable": false
         },
         {
           "name": "Who do u?",
           "artist": "JACK MARLOW",
-          "url": "",
+          "url": "https://res.cloudinary.com/ak3j5wsb/video/upload/v1794084498/playlist-audio/gxpdh72c68bb2cnbnen1.mp3",
           "unavailable": false
         },
         {
           "name": "Only Love Can Break Your Heart (Masters at Work Mix)",
           "artist": "Saint Etienne",
-          "url": "",
+          "url": "https://res.cloudinary.com/ak3j5wsb/video/upload/v1794084500/playlist-audio/kgdjryie2eekpa0yh5tv.mp3",
           "unavailable": false
         },
         {
           "name": "I'm Not Alone (2019 Edit)",
           "artist": "Calvin Harris",
-          "url": "",
+          "url": "https://res.cloudinary.com/ak3j5wsb/video/upload/v1794084500/playlist-audio/kiigmjosgkdkpcczjsal.mp3",
           "unavailable": false
         },
         {
           "name": "House Every Weekend (Radio Edit)",
           "artist": "David Zowie",
-          "url": "",
+          "url": "https://res.cloudinary.com/ak3j5wsb/video/upload/v1794084501/playlist-audio/miua0ltgztbuo4pwrtyh.mp3",
           "unavailable": false
         },
         {
           "name": "Massive X Touch Me",
           "artist": "NovaX, Sevven",
-          "url": "",
+          "url": "https://res.cloudinary.com/ak3j5wsb/video/upload/v1794084484/playlist-audio/rel1gb5man7apmxbgd1h.mp3",
           "unavailable": false
         },
         {
           "name": "The Moment I Dance",
           "artist": "GEE LEE, Shaolin Cowboy",
-          "url": "",
+          "url": "https://res.cloudinary.com/ak3j5wsb/video/upload/v1794084494/playlist-audio/larb28uuvpxe1yitklqh.mp3",
           "unavailable": false
         }
       ]
     },
     {
       "name": "best rnb playlist",
-      "cover": "",
+      "cover": "https://mosaic.scdn.co/300/ab67616d00001e028fbf8ef444a2b0acc6ee2fafab67616d00001e0293e2baf7cebd1613156afd60ab67616d00001e029c85a830619ff50e94fef6caab67616d00001e02fb023e6073e38a52082cc7b6",
       "sourceUrl": "https://open.spotify.com/playlist/5zCdhPJHI9kgYsgkSBEWT0",
       "songs": []
     }
