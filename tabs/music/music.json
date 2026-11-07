@@ -150,7 +150,7 @@
   "playlists": [
     {
       "name": "Relax But Upbeat",
-      "sourceUrl": "https://soundcloud.com/michael-953824303/sets/relax-but-upbeat/s-h0pEuTKfn3X",
+      "sourceUrl": "https://open.spotify.com/playlist/2FbHy1DYysVInCMLZh6fbv",
       "songs": [
         {
           "name": "NOBLE",
@@ -297,11 +297,12 @@
           "url": "",
           "unavailable": false
         }
-      ]
+      ],
+      "cover": "https://open.voidware.de/playlist/2FbHy1DYysVInCMLZh6fbv"
     },
     {
       "name": "My Playlist #20",
-      "sourceUrl": "https://soundcloud.com/michael-953824303/sets/my-playlist-20",
+      "sourceUrl": "https://open.spotify.com/playlist/0hDOjtiaFSaoncjnN6R1NW",
       "songs": [
         {
           "name": "Aurora (Main Mix)",
@@ -630,12 +631,14 @@
           "url": "https://res.cloudinary.com/ak3j5wsb/video/upload/v1794084494/playlist-audio/larb28uuvpxe1yitklqh.mp3",
           "unavailable": false
         }
-      ]
+      ],
+      "cover": "https://open.voidware.de/playlist/0hDOjtiaFSaoncjnN6R1NW"
     },
     {
       "name": "best rnb playlist",
       "sourceUrl": "https://open.spotify.com/playlist/5zCdhPJHI9kgYsgkSBEWT0",
-      "songs": []
+      "songs": [],
+      "cover": "https://open.voidware.de/playlist/5zCdhPJHI9kgYsgkSBEWT0"
     }
   ]
 }
