@@ -85,7 +85,8 @@
 
   /* Recently played row */
   .row { display: flex; gap: 16px; overflow-x: auto; padding-bottom: 8px; scrollbar-width: thin; scrollbar-color: var(--line) transparent; }
-  .row .card { flex: 0 0 140px; }
+  .row .card { flex: 0 0 140px !important; width: 140px !important; min-width: 140px; max-width: 140px; }
+  .row .card > .art { width: 100%; aspect-ratio: 1 / 1; }
 
   /* Grids */
   .grid { display: grid; gap: 24px 20px; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
@@ -108,7 +109,8 @@
     width: 100%; text-align: left; padding: 12px 14px; border-radius: 8px;
   }
   .song:hover { background: var(--surface); }
-  .song-art { width: 40px; height: 40px; flex: 0 0 40px; border-radius: 6px; font-size: 15px; }\n  .song .num { color: var(--muted); font-variant-numeric: tabular-nums; text-align: right; }
+  .song-art { width: 40px; height: 40px; flex: 0 0 40px; border-radius: 6px; font-size: 15px; }
+  .song .num { color: var(--muted); font-variant-numeric: tabular-nums; text-align: right; }
   .song .name { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .song.playing .name, .song.playing .num { color: var(--accent); }
   .song:disabled { opacity: .62; cursor: not-allowed; }
@@ -801,8 +803,10 @@ function renderHome() {
   if (recent.length) {
     const row = el("div", { class: "row" });
     recent.forEach((t) => {
+      const cover = art(t.cover, t.name);
+      if (!t.cover) resolveArtwork(t, cover);
       row.append(el("button", { class: "card", onclick: () => playRecent(t) },
-        art(t.cover, t.name),
+        cover,
         el("div", { class: "title" }, t.name),
         el("div", { class: "sub" }, t.artist || "")));
     });
