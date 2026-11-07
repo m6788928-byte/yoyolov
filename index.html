@@ -1023,15 +1023,17 @@ function maybeAutoBlank(){
   }, true);
 }
 
-/* ---------- kill switch ---------- */
-async function checkKillSwitch(){
+/* ---------- remote access controls ---------- */
+const ACCESS_PASSWORD = 'samhasgyatt454';
+
+async function getRemoteStatus(){
   try{
     const res = await fetch(STATUS_URL, {cache:'no-store'});
-    if(!res.ok) return true; // unreachable - fail open
+    if(!res.ok) return {isValid:true, requirePassword:false};
     const data = await res.json();
-    return data && data.isValid !== false; // only an explicit false blocks
-  }catch(err){
-    return true; // network error / bad JSON - fail open
+    return data && typeof data === 'object' ? data : {isValid:true};
+  }catch{
+    return {isValid:true, requirePassword:false};
   }
 }
 
@@ -1046,9 +1048,27 @@ function lockout(){
     '</div>';
 }
 
+function passwordGate(){
+  return new Promise(resolve => {
+    const gate = document.createElement('div');
+    gate.style.cssText = 'position:fixed;inset:0;z-index:99999;display:grid;place-items:center;background:#111214;color:#eee;font:14px system-ui,sans-serif;padding:20px';
+    gate.innerHTML = '<form style="width:min(340px,100%);display:grid;gap:12px;text-align:center"><div style="font-size:22px;font-weight:700">Password required</div><input type="password" autocomplete="current-password" placeholder="Enter password" required style="padding:11px;border:1px solid #383c43;border-radius:7px;background:#1b1d21;color:#eee;font:inherit"><button type="submit" style="padding:10px;border:1px solid #383c43;border-radius:7px;background:#292d33;color:#eee;font:inherit;cursor:pointer">Unlock</button><div role="alert" style="color:#ff8585;min-height:18px"></div></form>';
+    document.body.append(gate);
+    const form = gate.querySelector('form'), input = form.querySelector('input');
+    const error = form.querySelector('[role="alert"]');
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+      if(input.value === ACCESS_PASSWORD){ gate.remove(); resolve(true); }
+      else { error.textContent = 'Incorrect password'; input.value = ''; input.focus(); }
+    });
+    input.focus();
+  });
+}
+
 (async function init(){
-  const ok = await checkKillSwitch();
-  if(!ok){ lockout(); return; }
+  const status = await getRemoteStatus();
+  if(status.isValid === false){ lockout(); return; }
+  if(status.requirePassword === true) await passwordGate();
   maybeAutoBlank();
   loadList();
 })();
