@@ -150,7 +150,6 @@
   "playlists": [
     {
       "name": "Relax But Upbeat",
-      "cover": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/24/a4/84/24a48418-e757-949a-2593-76851e0f9c05/196874129104.jpg/1200x630wp-60.jpg",
       "sourceUrl": "https://soundcloud.com/michael-953824303/sets/relax-but-upbeat/s-h0pEuTKfn3X",
       "songs": [
         {
@@ -302,7 +301,6 @@
     },
     {
       "name": "My Playlist #20",
-      "cover": "https://i.scdn.co/image/ab67616d0000b2738b5e7c18fd3b48508332275d",
       "sourceUrl": "https://soundcloud.com/michael-953824303/sets/my-playlist-20",
       "songs": [
         {
@@ -322,25 +320,29 @@
           "name": "Do You Mind (Remix)",
           "artist": "Kyla, DJ Paleface",
           "url": "https://res.cloudinary.com/ak3j5wsb/video/upload/v1794029407/playlist-audio/ohpfgfk4kv2mjgaq687m.mp3",
-          "unavailable": false
+          "unavailable": false,
+          "cover": "https://i.scdn.co/image/ab67616d0000b273d6cdf71aca08556e54f8c069"
         },
         {
           "name": "Don't Go (Original Mix)",
           "artist": "Awesome 3",
           "url": "https://res.cloudinary.com/ak3j5wsb/video/upload/v1794029408/playlist-audio/zsbypkkthyr5hnywwwsk.mp3",
-          "unavailable": false
+          "unavailable": false,
+          "cover": "https://i.scdn.co/image/ab67616d0000b2733d90d85b709fe93e137daac9"
         },
         {
           "name": "Feel My Needs (Original Mix)",
           "artist": "Weiss (UK)",
           "url": "https://res.cloudinary.com/ak3j5wsb/video/upload/v1794029409/playlist-audio/m5tilyrg7bwewmlpisoc.mp3",
-          "unavailable": false
+          "unavailable": false,
+          "cover": "https://f4.bcbits.com/img/a2095676901_10.jpg"
         },
         {
           "name": "Prospa, Cloonee & Sybil - Free Your Mind",
           "artist": "CircoLoco Records",
           "url": "https://res.cloudinary.com/ak3j5wsb/video/upload/v1794029410/playlist-audio/c7besfb5s3tu3rzxt1qh.mp3",
-          "unavailable": false
+          "unavailable": false,
+          "cover": "https://pbs.twimg.com/media/HEGdtp7acAAYG0y.jpg"
         },
         {
           "name": "Move Your Feet - Yere X NoDJ",
@@ -382,7 +384,8 @@
           "name": "Show Me Love",
           "artist": "Robin S",
           "url": "https://res.cloudinary.com/ak3j5wsb/video/upload/v1794029424/playlist-audio/lbwanfjcm7d8phmcoxqc.mp3",
-          "unavailable": false
+          "unavailable": false,
+          "cover": "https://media.hitparade.ch/cover/800/robin_s-show-me_love_s.jpg"
         },
         {
           "name": "Too Much For Me",
@@ -394,19 +397,22 @@
           "name": "Rhythm Is a Mystery",
           "artist": "K-Klass",
           "url": "https://res.cloudinary.com/ak3j5wsb/video/upload/v1794029425/playlist-audio/syzbq7loqaynxhirloj5.mp3",
-          "unavailable": false
+          "unavailable": false,
+          "cover": "https://is1-ssl.mzstatic.com/image/thumb/Music125/v4/d7/d9/3d/d7d93dc9-23e9-dbf6-4e37-a27fee03e335/842474115466.jpg/800x800cc.jpg"
         },
         {
           "name": "How Deep Is Your Love",
           "artist": "Calvin Harris, Disciples",
           "url": "https://res.cloudinary.com/ak3j5wsb/video/upload/v1794029426/playlist-audio/eb6mrnwus7kgy5ijssgk.mp3",
-          "unavailable": false
+          "unavailable": false,
+          "cover": "https://resources.tidal.com/images/f7916bc8/d07f/461c/b3a5/15f355ee1179/1280x1280.jpg"
         },
         {
           "name": "Make You Whole (2021 Remaster)",
           "artist": "Andronicus",
           "url": "https://res.cloudinary.com/ak3j5wsb/video/upload/v1794029427/playlist-audio/xlhavmdsygmrngcnpj6i.mp3",
-          "unavailable": false
+          "unavailable": false,
+          "cover": "https://is1-ssl.mzstatic.com/image/thumb/Music115/v4/b7/5e/a8/b75ea8d3-15b6-873a-f063-59e062e69714/192641822018_Cover.jpg/1400x1400bb.jpg"
         },
         {
           "name": "Heroes (we could be) [feat. Tove Lo]",
@@ -424,13 +430,15 @@
           "name": "My Love",
           "artist": "Route 94, Jess Glynne",
           "url": "https://res.cloudinary.com/ak3j5wsb/video/upload/v1794029430/playlist-audio/ar1auzasqehiqjqpo1wb.mp3",
-          "unavailable": false
+          "unavailable": false,
+          "cover": "https://is1-ssl.mzstatic.com/image/thumb/Music126/v4/93/ad/fc/93adfc90-1a08-fa58-e494-9f9c0ca5d1a6/cover.jpg/3000x3000bb.jpg"
         },
         {
           "name": "I Got U (feat. Jax Jones)",
           "artist": "Duke Dumont",
           "url": "https://res.cloudinary.com/ak3j5wsb/video/upload/v1794029431/playlist-audio/kf0dvn7dquvp3vgndsef.mp3",
-          "unavailable": false
+          "unavailable": false,
+          "cover": "https://www.lahiguera.net/musicalia/artistas/varios/disco/0/tema/7433/duke_dumont_i_got_u-portada.jpg"
         },
         {
           "name": "Everybody's Free (Radio Edit) [feat. David Anthony]",
@@ -466,7 +474,8 @@
           "name": "Some of Your Love",
           "artist": "PARTYNEXTDOOR",
           "url": "https://res.cloudinary.com/ak3j5wsb/video/upload/v1794029436/playlist-audio/kgxq8yuceeeoihgvcm3s.mp3",
-          "unavailable": false
+          "unavailable": false,
+          "cover": "https://assets.audiomack.com/rapfavorites/7ca2db062d6399a5826ee6e792c8463c.png?height=1000&max=true&width=1000"
         },
         {
           "name": "Fade (Grant Nelson Vocal Mix) [feat. KimBlee]",
@@ -526,7 +535,8 @@
           "name": "I Need You",
           "artist": "TWOFACED, Nikita W.",
           "url": "https://res.cloudinary.com/ak3j5wsb/video/upload/v1794084489/playlist-audio/arzz2cogsjsptaegyhnu.mp3",
-          "unavailable": false
+          "unavailable": false,
+          "cover": "https://i1.sndcdn.com/artworks-O6jMechuN1G1-0-t1080x1080.jpg"
         },
         {
           "name": "COEO - I Can Never Be Yours",
@@ -622,7 +632,6 @@
     },
     {
       "name": "best rnb playlist",
-      "cover": "https://mosaic.scdn.co/300/ab67616d00001e028fbf8ef444a2b0acc6ee2fafab67616d00001e0293e2baf7cebd1613156afd60ab67616d00001e029c85a830619ff50e94fef6caab67616d00001e02fb023e6073e38a52082cc7b6",
       "sourceUrl": "https://open.spotify.com/playlist/5zCdhPJHI9kgYsgkSBEWT0",
       "songs": []
     }
