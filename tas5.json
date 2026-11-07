@@ -1,4 +1,8 @@
 {
+  "2048": {
+    "url": "https://m6788928-byte.github.io/yoyolov/2048.html",
+    "image": "https://m6788928-byte.github.io/yoyolov/thumbs/2048.png"
+  },
   "Minecraft 1.8.8": {
     "url": "https://m6788928-byte.github.io/yoyolov/eager.html",
     "image": "https://m6788928-byte.github.io/yoyolov/thumbs/eager.png"
@@ -114,10 +118,6 @@
     "url": "https://m6788928-byte.github.io/yoyolov/avi2.html",
     "image": "https://m6788928-byte.github.io/yoyolov/thumbs/avi.png"
   },
-  "2048": {
-    "url": "https://m6788928-byte.github.io/yoyolov/2048.html",
-    "image": "https://m6788928-byte.github.io/yoyolov/thumbs/2048.png"
-  },
   "Cheese Rolling": {
     "url": "https://m6788928-byte.github.io/yoyolov/Cheese2.html",
     "image": "https://m6788928-byte.github.io/yoyolov/thumbs/cheese.png"
@@ -149,5 +149,17 @@
   "Super Mario Bros": {
     "url": "https://m6788928-byte.github.io/yoyolov/mario.html",
     "image": "https://m6788928-byte.github.io/yoyolov/thumbs/mario.png"
+  },
+  "OpenFront.io": {
+    "url": "https://m6788928-byte.github.io/yoyolov/openfront.html",
+    "desc": "Online real-time strategy game; internet required."
+  },
+  "SnowRider3D": {
+    "url": "https://m6788928-byte.github.io/yoyolov/snowrider3d.html",
+    "desc": "Browser-based 3D sledding game."
+  },
+  "Retro Bowl": {
+    "url": "https://m6788928-byte.github.io/yoyolov/retrobowl.html",
+    "desc": "Licensed browser version via Poki."
   }
 }
