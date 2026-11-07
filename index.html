@@ -865,7 +865,7 @@ function makeCard(name, e){
   }
 
   c.append(th, m);
-  const go = () => openUrl(e.url, name);
+  const go = () => e.external ? window.open(e.url, '_blank', 'noopener,noreferrer') : openUrl(e.url, name);
   c.onclick = go;
   c.onkeydown = ev => { if(ev.key === 'Enter' || ev.key === ' '){ ev.preventDefault(); go(); } };
   return c;
