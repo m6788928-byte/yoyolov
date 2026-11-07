@@ -1028,12 +1028,12 @@ const ACCESS_PASSWORD = 'samhasgyatt454';
 
 async function getRemoteStatus(){
   try{
-    const res = await fetch(STATUS_URL, {cache:'no-store'});
-    if(!res.ok) return {isValid:true, requirePassword:false};
+    const res = await fetch(STATUS_URL + '?v=' + Date.now(), {cache:'no-store'});
+    if(!res.ok) return {isValid:true, requirePassword:true};
     const data = await res.json();
-    return data && typeof data === 'object' ? data : {isValid:true};
+    return data && typeof data === 'object' ? data : {isValid:true, requirePassword:true};
   }catch{
-    return {isValid:true, requirePassword:false};
+    return {isValid:true, requirePassword:true};
   }
 }
 
