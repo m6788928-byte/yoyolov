@@ -3,7 +3,7 @@
   <foreignObject x="0" y="0" width="1000" height="700">
     <xhtml:div xmlns="http://www.w3.org/1999/xhtml" style="width:100vw;height:100vh;margin:0;background:#111214;color:#ddd;font:14px system-ui,sans-serif">
       <xhtml:iframe id="app" style="width:100%;height:100%;border:0" src="about:blank"></xhtml:iframe>
-      <xhtml:script>
+      <xhtml:script><![CDATA[
         (async()=>{
           const frame=document.getElementById('app');
           const source='https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@main/index.html';
@@ -20,6 +20,7 @@
             doc.close();
           }
         })();
+        ]]>
       </xhtml:script>
     </xhtml:div>
   </foreignObject>
