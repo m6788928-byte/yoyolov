@@ -1,4 +1,4 @@
 {
   "isValid": true,
-  "requirePassword": true
+  "requirePassword": false
 }
