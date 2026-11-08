@@ -240,13 +240,15 @@
           "name": "I Want Her Too (Prod. Ianobeatz)",
           "artist": "ARTIE J",
           "url": "https://res.cloudinary.com/ak3j5wsb/video/upload/v1794106899/playlist-audio/vo3drubzbrd14fulhqwn.mp3",
-          "unavailable": false
+          "unavailable": false,
+          "cover": "https://m.media-amazon.com/images/I/31TogjfweML._UXNaN_FMjpg_QL85_.jpg"
         },
         {
           "name": "Feline Colours",
           "artist": "Season 25",
           "url": "https://res.cloudinary.com/ak3j5wsb/video/upload/v1794106966/playlist-audio/wzus7jdes4ypwvtbnfje.mp3",
-          "unavailable": false
+          "unavailable": false,
+          "cover": "https://m.media-amazon.com/images/I/51bNnwEF5sL._SX354_SY354_BL0_QL100_.jpg"
         },
         {
           "name": "None Of Ur Friends Business (Radio Edit)",
