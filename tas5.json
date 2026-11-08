@@ -151,25 +151,25 @@
     "image": "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@main/thumbs/mario.png"
   },
   "Snow Rider 3D": {
-    "url": "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@149a74edba3347b02ff0106ab0032efabe0504cc/snowrider3d.html",
-    "image": "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@149a74edba3347b02ff0106ab0032efabe0504cc/thumbs/snow-rider.svg"
+    "url": "https://snowrider.com/game/",
+    "image": "https://snowrider.com/assets/img/snowrider.png"
   },
   "Retro Bowl": {
-    "url": "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@149a74edba3347b02ff0106ab0032efabe0504cc/retrobowl.html",
-    "image": "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@149a74edba3347b02ff0106ab0032efabe0504cc/thumbs/retro-bowl.svg"
+    "url": "https://poki.com/en/g/retro-bowl",
+    "image": "https://static.wixstatic.com/media/f294a4_c3d1fcfb1de84128824014838044a812~mv2.png/v1/fill/w_964,h_437,al_c,q_90,usm_0.66_1.00_0.01,enc_avif,quality_auto/Retro_Bowl_Header.png"
   },
   "Wordle": {
     "url": "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@5b208da9211f836199373ec9f6b5ad0c27d18379/wordle.html",
-    "image": "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@149a74edba3347b02ff0106ab0032efabe0504cc/thumbs/wordle.svg"
+    "image": "https://cdn.jsdelivr.net/gh/selfhst/icons/webp/nyt-wordle.webp"
   },
   "OpenFront": {
     "url": "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@main/openfront-unavailable.html",
     "desc": "Unavailable — requires a game server",
-    "image": "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@149a74edba3347b02ff0106ab0032efabe0504cc/thumbs/openfront.svg"
+    "image": "https://raw.githubusercontent.com/openfrontio/OpenFrontIO/main/proprietary/images/OpenFrontLogo.png"
   },
   "OpenKrillion": {
     "url": "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@main/krillion-unavailable.html",
     "desc": "Unavailable — requires Cloudflare services",
-    "image": "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@149a74edba3347b02ff0106ab0032efabe0504cc/thumbs/openkrillion.svg"
+    "image": "https://raw.githubusercontent.com/VulcanEon/openkrillion.com-service/main/public/assets/icon.png"
   }
 }
