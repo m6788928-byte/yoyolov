@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Playlist Audio Uploader</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#111214;color:#eee;font:14px system-ui,sans-serif;padding:28px}
+main{max-width:680px;margin:auto}h1{font-size:22px;margin:0 0 8px}p,.muted{color:#999}
+label{display:block;margin:18px 0 6px;color:#bbb}input{width:100%;padding:10px;background:#1b1d21;color:#eee;border:1px solid #383c43;border-radius:6px}
+button{margin-top:18px;padding:10px 16px;background:#eee;color:#111;border:0;border-radius:6px;font-weight:650;cursor:pointer}button:disabled{opacity:.45;cursor:default}
+#status{margin-top:18px;white-space:pre-wrap;color:#bbb;line-height:1.7}progress{width:100%;height:10px;margin-top:12px}
+</style>
+<main>
+<h1>Playlist Audio Uploader</h1>
+<p>Extract the ZIP first, then select all 25 MP3 files. Uploads go to your Cloudinary account under <b>playlist-audio</b>.</p>
+<label>Cloudinary cloud name</label><input id="cloud" autocomplete="off" placeholder="e.g. ak3j5wsb">
+<label>Unsigned upload preset</label><input id="preset" autocomplete="off" placeholder="Your unsigned preset">
+<label>MP3 files</label><input id="files" type="file" accept=".mp3,audio/mpeg" multiple>
+<button id="go">Upload selected files</button>
+<progress id="progress" max="1" value="0"></progress><div id="status" role="status"></div>
+</main>
+<script>
+const $=id=>document.getElementById(id), status=$('status'), button=$('go');
+$('go').onclick=async()=>{
+ const cloud=$('cloud').value.trim(),preset=$('preset').value.trim(),files=[...$('files').files];
+ if(!cloud||!preset||!files.length){status.textContent='Enter the cloud name and unsigned preset, then select MP3 files.';return}
+ button.disabled=true;status.textContent='Starting uploads…';
+ const results=new Array(files.length);let done=0,next=0,failed=0;
+ async function worker(){while(next<files.length){const i=next++,file=files[i];try{
+  const form=new FormData();form.append('file',file);form.append('upload_preset',preset);form.append('folder','playlist-audio');
+  const r=await fetch('https://api.cloudinary.com/v1_1/'+encodeURIComponent(cloud)+'/video/upload',{method:'POST',body:form});
+  const data=await r.json();if(!r.ok)throw Error(data.error?.message||'HTTP '+r.status);
+  results[i]={filename:file.name,secure_url:data.secure_url,public_id:data.public_id,bytes:data.bytes};
+ }catch(e){failed++;results[i]={filename:file.name,error:String(e.message||e)}}
+ done++;$('progress').value=done/files.length;status.textContent='Uploaded '+done+'/'+files.length+' · failed '+failed;
+ }}
+ await Promise.all(Array.from({length:Math.min(3,files.length)},worker));
+ const blob=new Blob([JSON.stringify(results.filter(Boolean),null,2)],{type:'application/json'});
+ const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='playlist-upload-results.json';a.click();URL.revokeObjectURL(a.href);
+ status.textContent+='\nFinished. Results JSON downloaded. Send that JSON back here so the playlist can be linked.';
+ button.disabled=false;
+};
+</script></html>
