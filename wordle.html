@@ -26,7 +26,7 @@ h1{font-size:26px;font-weight:700;letter-spacing:1px;margin:0}
 .key{height:clamp(44px,7vh,58px);min-width:0;flex:1;border:0;border-radius:4px;background:#818384;color:#fff;font-size:clamp(12px,3vw,14px);font-weight:700;padding:0 3px;cursor:pointer;text-transform:uppercase}
 .key.wide{flex:1.5;font-size:11px}
 .key:active{filter:brightness(1.2)}
-footer{margin-top:12px;font-size:11px;color:#777;text-align:center}
+footer{margin-top:12px;font-size:11px;color:#777;text-align:center}.about-link{margin-top:7px;background:none;border:0;color:#9db5ff;text-decoration:underline;cursor:pointer;font:inherit}
 .overlay{position:fixed;inset:0;background:#0009;display:none;align-items:center;justify-content:center;padding:18px;z-index:5}
 .overlay.open{display:flex}
 .dialog{width:min(390px,100%);background:#202022;border:1px solid #555;border-radius:8px;padding:22px;box-shadow:0 12px 40px #0008;position:relative;line-height:1.5}
@@ -45,7 +45,7 @@ footer{margin-top:12px;font-size:11px;color:#777;text-align:center}
 <div id="board" aria-label="Guess grid"></div>
 <div id="toast" role="status"></div>
 <div id="keyboard" aria-label="Keyboard"></div>
-<footer>One word every day · 6 guesses</footer>
+<footer>One word every day · 6 guesses<br><button class="about-link" id="about" type="button">About this game</button></footer>
 </main>
 <div class="overlay" id="infoModal"><section class="dialog">
 <button class="close" data-close aria-label="Close">×</button><h2>How to play</h2>
@@ -281,6 +281,7 @@ document.addEventListener("keydown",e=>{
   else if(/^[a-z]$/i.test(e.key))press(e.key.toUpperCase());
 });
 document.getElementById("info").addEventListener("click",()=>showModal("infoModal"));
+document.getElementById("about").addEventListener("click",()=>showModal("aboutModal"));
 document.querySelectorAll("[data-close]").forEach(b=>b.addEventListener("click",()=>hideModal(b.closest(".overlay"))));
 document.querySelectorAll(".overlay").forEach(o=>o.addEventListener("click",e=>{if(e.target===o)hideModal(o);}));
 render();
