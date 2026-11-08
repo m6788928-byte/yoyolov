@@ -149,5 +149,22 @@
   "Super Mario Bros": {
     "url": "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@main/mario.html",
     "image": "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@main/thumbs/mario.png"
+  },
+  "Snow Rider 3D": {
+    "url": "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@main/snowrider3d.html"
+  },
+  "Retro Bowl": {
+    "url": "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@main/retrobowl.html"
+  },
+  "Wordle": {
+    "url": "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@main/wordle.html"
+  },
+  "OpenFront": {
+    "url": "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@main/openfront-unavailable.html",
+    "desc": "Unavailable — requires a game server"
+  },
+  "OpenKrillion": {
+    "url": "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@main/krillion-unavailable.html",
+    "desc": "Unavailable — requires Cloudflare services"
   }
 }
