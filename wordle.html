@@ -114,11 +114,20 @@ function render(){
     else if(r===guesses.length&&current[c]){cell.textContent=current[c];cell.classList.add("filled");}
     board.appendChild(cell);
   }
+  // Build the on-screen keyboard once; replacing its buttons on every
+  // keystroke drops focus and can make input appear to vanish.
+  if(!keyboard.dataset.built){
+    keyboard.innerHTML=keyRows.map((row,i)=>{
+      const keys=[...row].map(ch=>'<button type="button" class="key" data-key="'+ch+'">'+ch+'</button>').join("");
+      return '<div class="keyrow">'+(i===2?'<button type="button" class="key wide" data-key="ENTER">ENTER</button>':"")+keys+(i===2?'<button type="button" class="key wide" data-key="DELETE">⌫</button>':"")+'</div>';
+    }).join("");
+    keyboard.dataset.built="1";
+  }
   const states=keyStates();
-  keyboard.innerHTML=keyRows.map((row,i)=>{
-    const keys=[...row].map(ch=>'<button class="key '+(states[ch]||"")+'" data-key="'+ch+'">'+ch+'</button>').join("");
-    return '<div class="keyrow">'+(i===2?'<button class="key wide" data-key="ENTER">ENTER</button>':"")+keys+(i===2?'<button class="key wide" data-key="DELETE">⌫</button>':"")+'</div>';
-  }).join("");
+  keyboard.querySelectorAll("button[data-key]").forEach(button=>{
+    const key=button.dataset.key;
+    button.className="key"+(button.classList.contains("wide")?" wide":"")+(states[key]?" "+states[key]:"");
+  });
 }
 function showToast(text){
   toast.textContent=text;toast.classList.add("show");clearTimeout(toastTimer);
