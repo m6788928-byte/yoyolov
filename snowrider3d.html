@@ -2,18 +2,28 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <title>Snow Rider 3D</title>
+<link rel="shortcut icon" href="https://html5.gamedistribution.com/rvvASMiM/3b79a8537ebc414fb4f9672a9b8c68c8/TemplateData/favicon.ico">
+<link rel="stylesheet" href="https://html5.gamedistribution.com/rvvASMiM/3b79a8537ebc414fb4f9672a9b8c68c8/TemplateData/style.css">
 <style>
-*{box-sizing:border-box}html,body{width:100%;height:100%;margin:0;overflow:hidden;background:#000}
-iframe{display:block;width:100%;height:100%;border:0;background:#000}
+html,body{width:100%;height:100%;margin:0;padding:0;overflow:hidden;background:#111}
+.webgl-content{position:absolute!important;inset:0!important;transform:none!important;width:100%!important;height:100%!important}
+#gameContainer{width:100%!important;height:100%!important;margin:0!important}
+#gameContainer canvas{width:100%!important;height:100%!important;object-fit:contain}
 </style>
+<script src="https://html5.gamedistribution.com/rvvASMiM/3b79a8537ebc414fb4f9672a9b8c68c8/TemplateData/UnityProgress.js"></script>
+<script src="https://html5.gamedistribution.com/rvvASMiM/3b79a8537ebc414fb4f9672a9b8c68c8/Build/UnityLoader.js"></script>
 </head>
 <body>
-<iframe
-  title="Snow Rider 3D"
-  src="https://snowrider3d.com/embed/snow-rider-3d?gd_sdk_referrer_url=https%3A%2F%2Fsnowrider3d.com%2Fsnow-rider-3d&amp;preroll=0&amp;pub_id=ca-pub-5636557392151555"
-  allow="autoplay; fullscreen; gamepad; pointer-lock"
-  allowfullscreen></iframe>
+<div class="webgl-content"><div id="gameContainer"></div></div>
+<script>
+/* Original Unity build from the supplied archive; its redirect and analytics are omitted. */
+var gameInstance = UnityLoader.instantiate(
+  "gameContainer",
+  "https://html5.gamedistribution.com/rvvASMiM/3b79a8537ebc414fb4f9672a9b8c68c8/Build/SnowRider3D-gd-1.json",
+  {onProgress:UnityProgress,Module:{onRuntimeInitialized:function(){UnityProgress(gameInstance,"complete")}}}
+);
+</script>
 </body>
 </html>
