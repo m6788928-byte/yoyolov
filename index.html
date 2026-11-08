@@ -394,7 +394,7 @@
 <div id="viewer">
   <iframe id="frame" title="Preview"
     allow="autoplay; fullscreen; gamepad; pointer-lock; clipboard-read; clipboard-write; accelerometer; gyroscope" allowfullscreen
-    sandbox="allow-same-origin allow-scripts allow-forms allow-modals allow-popups allow-pointer-lock"></iframe>
+    sandbox="allow-same-origin allow-scripts allow-forms allow-modals allow-popups allow-popups-to-escape-sandbox allow-pointer-lock"></iframe>
   <div id="ctl">
     <button id="fs">Fullscreen</button>
     <button id="close" class="close">Close</button>
@@ -408,7 +408,7 @@
    An entry can also be an object for a custom tile:
      "Name": { "url": "...", "image": "...", "desc": "subtitle text" }
    ====================================================================== */
-const LIST_URL = "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@89304075704cce1b54136d149664b6272eeb078e/tas5.json";
+const LIST_URL = "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@45bc30f07da9ac048d7e7de86b3db1ab91eca521/tas5.json";;
 /* ===================================================================== */
 
 /* ======================================================================
