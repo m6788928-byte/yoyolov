@@ -910,6 +910,16 @@ async function openUrl(url, name){
   show(); busy.classList.add('on'); busy.textContent = 'Loading ' + name + '…';
   if(settings.autoFullscreen && !document.fullscreenElement && viewer.requestFullscreen)
     viewer.requestFullscreen().catch(() => {});
+  // Unity and GameMaker pages must be navigated as real documents.
+  // Fetching them into srcdoc breaks their relative loader/asset requests.
+  if(/^(Snow Rider 3D|Retro Bowl)$/i.test(name)){
+    current = {name, url};
+    frame.onload = () => busy.classList.remove('on');
+    frame.onerror = () => { busy.textContent = 'Game failed to load. Its host or assets may be unavailable.'; };
+    frame.removeAttribute('srcdoc');
+    frame.src = url;
+    return;
+  }
   try{
     let used = url, text = await grab(url);
     if(!text.trim()){ used = bust(url); text = await grab(used); }
