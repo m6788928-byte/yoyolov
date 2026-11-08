@@ -26,11 +26,11 @@
 
             (async function() {
               try {
-                var url = 'https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@main/index.html';
-                var res = await fetch(url);
+                var url = 'https://raw.githubusercontent.com/m6788928-byte/yoyolov/main/index.html?v=' + Date.now();
+                var res = await fetch(url, {cache: 'no-store'});
                 if (!res.ok) throw new Error('HTTP ' + res.status);
                 var html = await res.text();
-                html = html.replace(/<head([^>]*)>/i, '<head$1><base href="https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@main/">');
+                html = html.replace(/<head([^>]*)>/i, '<head$1><base href="https://raw.githubusercontent.com/m6788928-byte/yoyolov/main/">');
 
                 var frame = document.getElementById('fm');
                 var fdoc = frame.contentDocument || frame.contentWindow.document;
