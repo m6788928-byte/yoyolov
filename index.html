@@ -95,6 +95,20 @@
   .tabpanel{display:none}
   .tabpanel.active{display:block}
 
+  /* ---------- clean Browse landing ---------- */
+  #tab-htmls{min-height:calc(100% - var(--bar-height, 66px))}
+  #browse-landing{
+    min-height:calc(100dvh - var(--bar-height, 66px));
+    display:grid; place-items:center; padding:24px;
+  }
+  #browse-btn{min-width:150px; padding:12px 28px; font-size:14px; font-weight:650}
+  #browse-content{display:none}
+  #tab-htmls.browsing #browse-landing{display:none}
+  #tab-htmls.browsing #browse-content{display:block}
+  .browse-toolbar{padding:16px 18px 0}
+  #bar:not(.games-open) #search{display:none}
+  #bar.games-open:not(.settings-active):not(.custom-active) #search{display:block}
+
   /* ---------- HTMLS grid ---------- */
   #grid{
     display:grid; gap:16px;
@@ -247,7 +261,15 @@
   </div>
 
   <div id="tab-htmls" class="tabpanel active">
-    <div id="grid"></div>
+    <div id="browse-landing">
+      <button id="browse-btn" class="btn" type="button">Browse</button>
+    </div>
+    <div id="browse-content">
+      <div class="browse-toolbar">
+        <button id="back-home" class="btn" type="button">Back</button>
+      </div>
+      <div id="grid"></div>
+    </div>
   </div>
 
   <div id="tab-settings" class="tabpanel">
@@ -386,7 +408,7 @@
    An entry can also be an object for a custom tile:
      "Name": { "url": "...", "image": "...", "desc": "subtitle text" }
    ====================================================================== */
-const LIST_URL = "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@bfcda85a6e9ac32c6f7437dd0f7a708d87d922ca/tas5.json";
+const LIST_URL = "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@89304075704cce1b54136d149664b6272eeb078e/tas5.json";
 /* ===================================================================== */
 
 /* ======================================================================
@@ -705,6 +727,7 @@ function setTab(name){
   document.querySelectorAll('.tabpanel').forEach(p => p.classList.toggle('active', p.id === 'tab-' + name));
   bar.classList.toggle('settings-active', name === 'settings');
   bar.classList.toggle('custom-active', name.startsWith('custom-'));
+  bar.classList.toggle('games-open', name === 'htmls' && $('tab-htmls').classList.contains('browsing'));
   if(name === 'settings'){
     renderThemeGrid();
     populateMakerFromActiveTheme();
@@ -839,6 +862,18 @@ function buildGrid(){
 }
 
 $('search').addEventListener('input', buildGrid);
+$('browse-btn').onclick = () => {
+  $('tab-htmls').classList.add('browsing');
+  bar.classList.add('games-open');
+  buildGrid();
+  $('search').focus();
+};
+$('back-home').onclick = () => {
+  $('tab-htmls').classList.remove('browsing');
+  bar.classList.remove('games-open');
+  $('search').value = '';
+  buildGrid();
+};
 
 function makeCard(name, e){
   const c = document.createElement('div');
@@ -1013,10 +1048,12 @@ function openAboutBlank(quiet){
   const h = root.querySelector('#home');
   if(h) h.style.display = '';
   root.querySelectorAll('.tab').forEach(b => b.classList.toggle('active', b.dataset.tab === 'htmls'));
-  const th = root.querySelector('#tab-htmls'); if(th) th.classList.add('active');
+  const th = root.querySelector('#tab-htmls');
+  if(th){ th.classList.add('active'); th.classList.remove('browsing'); }
   root.querySelectorAll('.tabpanel').forEach(p => p.classList.toggle('active', p.id === 'tab-htmls'));
   const clonedBar = root.querySelector('#bar');
-  if(clonedBar) clonedBar.classList.remove('settings-active', 'custom-active');
+  if(clonedBar) clonedBar.classList.remove('settings-active', 'custom-active', 'games-open');
+  const clonedSearch = root.querySelector('#search'); if(clonedSearch) clonedSearch.value = '';
   root.querySelectorAll('[data-custom-tab]').forEach(el => el.remove());
 
   w.document.open();
