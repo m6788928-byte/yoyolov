@@ -1,6 +1,98 @@
 {
-  "yooo click me": {
-    "url": "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@main/clickmeh.html",
-    "image": "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@main/thumbs/clickme.png"
+  "2048": {
+    "url": "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@main/2048.html"
+  },
+  "Among Us": {
+    "url": "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@main/amongus.html"
+  },
+  "Angry Birds": {
+    "url": "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@main/angrybirds.html"
+  },
+  "Baldi's Birthday Bash": {
+    "url": "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@main/baldibirthdaybash.html"
+  },
+  "Bendy": {
+    "url": "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@main/bendy.html"
+  },
+  "Buckshot Roulette": {
+    "url": "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@main/buckshot.html"
+  },
+  "Cheese": {
+    "url": "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@main/cheese.html"
+  },
+  "Clustertruck": {
+    "url": "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@main/clustertruck.html"
+  },
+  "Conflict": {
+    "url": "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@main/conflict.html"
+  },
+  "Cookie Clicker": {
+    "url": "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@main/cookies.html"
+  },
+  "FNAF": {
+    "url": "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@main/fnaf.html"
+  },
+  "FNAF 2": {
+    "url": "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@main/fnaf2.html"
+  },
+  "FNAF 3": {
+    "url": "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@main/fnaf3.html"
+  },
+  "FNAF 4": {
+    "url": "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@main/fnaf4.html"
+  },
+  "Gang Beasts": {
+    "url": "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@main/gangbeasts.html"
+  },
+  "Geometry Dash": {
+    "url": "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@main/geometrydash.html"
+  },
+  "Godzilla": {
+    "url": "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@main/godzilla.html"
+  },
+  "Granny": {
+    "url": "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@main/granny.html"
+  },
+  "GTA 3": {
+    "url": "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@main/gta3.html"
+  },
+  "Karlson": {
+    "url": "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@main/karlson.html"
+  },
+  "Kerbal Space Program": {
+    "url": "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@main/ksp.html"
+  },
+  "Lethal Company": {
+    "url": "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@main/lethalcompany.html"
+  },
+  "Mario": {
+    "url": "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@main/mario.html"
+  },
+  "Minecraft: Story Mode": {
+    "url": "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@main/mcsm.html"
+  },
+  "OpenFront": {
+    "url": "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@main/openfront.html"
+  },
+  "PEAK": {
+    "url": "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@main/PEAK.html"
+  },
+  "People Playground": {
+    "url": "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@main/ppg.html"
+  },
+  "Retro Bowl": {
+    "url": "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@main/retrobowl.html"
+  },
+  "Super Mario 64": {
+    "url": "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@main/sm64.html"
+  },
+  "Snow Rider 3D": {
+    "url": "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@main/snowrider3d.html"
+  },
+  "Slope": {
+    "url": "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@main/Slope.html"
+  },
+  "Team Fortress 2": {
+    "url": "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@main/tf2.html"
   }
 }
