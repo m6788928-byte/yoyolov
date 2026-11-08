@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xhtml="http://www.w3.org/1999/xhtml" width="100%" height="100%" viewBox="0 0 1000 700">
+  <foreignObject x="0" y="0" width="1000" height="700">
+    <xhtml:div xmlns="http://www.w3.org/1999/xhtml" style="width:100vw;height:100vh;margin:0;background:#111214;color:#ddd;font:14px system-ui,sans-serif">
+      <xhtml:iframe id="app" style="width:100%;height:100%;border:0" src="about:blank"></xhtml:iframe>
+      <xhtml:script>
+        (async()=>{
+          const frame=document.getElementById('app');
+          const source='https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@main/index.html';
+          try{
+            const response=await fetch(source,{cache:'no-store'});
+            if(!response.ok) throw new Error('HTTP '+response.status);
+            let html=await response.text();
+            html=html.replace(/<head([^>]*)>/i,'<head$1><base href="https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@main/">');
+            const doc=frame.contentDocument;
+            doc.open();doc.write(html);doc.close();
+          }catch(error){
+            const doc=frame.contentDocument;
+            doc.open();doc.write('<!doctype html><meta charset="utf-8"><style>body{margin:0;background:#111214;color:#ddd;font:14px system-ui;padding:28px}h2{font-size:18px}p{color:#999}</style><h2>Yoyolov could not load</h2><p>The browser blocked the content source or the request failed.</p><p>'+String(error.message).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))+'</p>');
+            doc.close();
+          }
+        })();
+      </xhtml:script>
+    </xhtml:div>
+  </foreignObject>
+</svg>
