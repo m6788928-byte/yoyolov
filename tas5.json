@@ -151,20 +151,25 @@
     "image": "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@main/thumbs/mario.png"
   },
   "Snow Rider 3D": {
-    "url": "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@cbe6442bb703a6d731f3c01fde674b46342e9709/snowrider3d.html"
+    "url": "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@cbe6442bb703a6d731f3c01fde674b46342e9709/snowrider3d.html",
+    "image": "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@149a74edba3347b02ff0106ab0032efabe0504cc/thumbs/snow-rider.svg"
   },
   "Retro Bowl": {
-    "url": "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@cbe6442bb703a6d731f3c01fde674b46342e9709/retrobowl.html"
+    "url": "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@cbe6442bb703a6d731f3c01fde674b46342e9709/retrobowl.html",
+    "image": "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@149a74edba3347b02ff0106ab0032efabe0504cc/thumbs/retro-bowl.svg"
   },
   "Wordle": {
-    "url": "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@5b208da9211f836199373ec9f6b5ad0c27d18379/wordle.html"
+    "url": "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@5b208da9211f836199373ec9f6b5ad0c27d18379/wordle.html",
+    "image": "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@149a74edba3347b02ff0106ab0032efabe0504cc/thumbs/wordle.svg"
   },
   "OpenFront": {
     "url": "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@main/openfront-unavailable.html",
-    "desc": "Unavailable — requires a game server"
+    "desc": "Unavailable — requires a game server",
+    "image": "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@149a74edba3347b02ff0106ab0032efabe0504cc/thumbs/openfront.svg"
   },
   "OpenKrillion": {
     "url": "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@main/krillion-unavailable.html",
-    "desc": "Unavailable — requires Cloudflare services"
+    "desc": "Unavailable — requires Cloudflare services",
+    "image": "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@149a74edba3347b02ff0106ab0032efabe0504cc/thumbs/openkrillion.svg"
   }
 }
