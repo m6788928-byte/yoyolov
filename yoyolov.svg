@@ -1,36 +1,55 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg"
-     xmlns:xhtml="http://www.w3.org/1999/xhtml"
-     width="100%" height="100%" viewBox="0 0 1920 1080"
-     preserveAspectRatio="none">
-  <title>Yoyolov</title>
-  <foreignObject x="0" y="0" width="1920" height="1080">
-    <xhtml:div xmlns="http://www.w3.org/1999/xhtml"
-      style="width:100%;height:100%;margin:0;padding:0;overflow:hidden;background:#000">
-      <xhtml:iframe id="app" title="Yoyolov"
-        style="display:block;width:100%;height:100%;border:0"
-        src="about:blank" allowfullscreen="true"></xhtml:iframe>
-      <xhtml:script><![CDATA[
-        (async()=>{
-          const frame=document.getElementById('app');
-          const source='https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@main/index.html';
-          const escapeHTML=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-          try{
-            const response=await fetch(source,{cache:'no-store'});
-            if(!response.ok) throw new Error('HTTP '+response.status);
-            let html=await response.text();
-            if(!/<head(?:\\s[^>]*)?>/i.test(html)) throw new Error('The site HTML has no head element');
-            html=html.replace(/<head([^>]*)>/i,'<head$1><base href="https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@main/">');
-            const doc=frame.contentDocument;
-            doc.open();doc.write(html);doc.close();
-          }catch(error){
-            const doc=frame.contentDocument;
-            doc.open();
-            doc.write('<!doctype html><meta charset="utf-8"><style>body{margin:0;padding:28px;background:#111214;color:#ddd;font:14px system-ui,sans-serif}h2{font-size:18px}p{margin-top:10px;color:#aaa}</style><h2>Yoyolov could not load</h2><p>The browser blocked the content source or the request failed.</p><p>'+escapeHTML(error.message)+'</p>');
-            doc.close();
-          }
-        })();
-      ]]></xhtml:script>
-    </xhtml:div>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xhtml="http://www.w3.org/1999/xhtml" width="100%" height="100%" viewBox="0 0 1920 1080">
+  <foreignObject id="fo" width="1920" height="1080" x="0" y="0">
+    <xhtml:html xmlns="http://www.w3.org/1999/xhtml" style="width:100%;height:100%;margin:0;padding:0;">
+      <xhtml:head>
+        <xhtml:style>
+          *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+          html, body { width: 100%; height: 100%; overflow: hidden; background: #000; }
+          iframe { position: fixed; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
+        </xhtml:style>
+      </xhtml:head>
+      <xhtml:body>
+        <xhtml:iframe id="fm" src="about:blank"></xhtml:iframe>
+        <xhtml:script>
+        //<![CDATA[
+          (function() {
+            function size() {
+              var w = window.innerWidth, h = window.innerHeight;
+              var svg = document.querySelector('svg');
+              var fo = document.querySelector('foreignObject');
+              if (svg) { svg.setAttribute('width', w); svg.setAttribute('height', h); svg.setAttribute('viewBox', '0 0 ' + w + ' ' + h); }
+              if (fo) { fo.setAttribute('width', w); fo.setAttribute('height', h); }
+            }
+            size();
+            window.addEventListener('resize', size);
+
+            (async function() {
+              try {
+                var url = 'https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@main/index.html';
+                var res = await fetch(url);
+                if (!res.ok) throw new Error('HTTP ' + res.status);
+                var html = await res.text();
+                html = html.replace(/<head([^>]*)>/i, '<head$1><base href="https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@main/">');
+
+                var frame = document.getElementById('fm');
+                var fdoc = frame.contentDocument || frame.contentWindow.document;
+                fdoc.open();
+                fdoc.write(html);
+                fdoc.close();
+              } catch(e) {
+                console.error('Yoyolov loader error:', e);
+                var frame = document.getElementById('fm');
+                var fdoc = frame.contentDocument || frame.contentWindow.document;
+                fdoc.open();
+                fdoc.write('<!doctype html><meta charset="utf-8"><style>body{margin:0;padding:24px;background:#111214;color:#ddd;font:14px system-ui}</style><h3>Yoyolov could not load</h3><p>' + String(e.message).replace(/[&<>"]/g, function(c) { return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }) + '</p>');
+                fdoc.close();
+              }
+            })();
+          })();
+        //]]>
+        </xhtml:script>
+      </xhtml:body>
+    </xhtml:html>
   </foreignObject>
 </svg>
