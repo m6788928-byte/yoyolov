@@ -408,7 +408,7 @@
    An entry can also be an object for a custom tile:
      "Name": { "url": "...", "image": "...", "desc": "subtitle text" }
    ====================================================================== */
-const LIST_URL = "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@9394f2f58391c9235756ffbf23ee2f2f1d2d4b85/tas5.json";;;
+const LIST_URL = "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@5796a9e7112c8df9d9f99aea2608b81b6394f3dd/tas5.json";
 /* ===================================================================== */
 
 /* ======================================================================
@@ -942,19 +942,17 @@ function withBase(text, url){
 
 /* ---------- opening ---------- */
 async function openUrl(url, name){
+  // These two games must run as top-level pages: their external loaders do
+  // not work from inside this site's sandboxed preview iframe.
+  if(/^(Snow Rider 3D|Retro Bowl)$/i.test(name)){
+    const popup = window.open(url, '_blank');
+    if(popup){ try{ popup.opener = null; }catch{}; }
+    else location.assign(url);
+    return;
+  }
   show(); busy.classList.add('on'); busy.textContent = 'Loading ' + name + '…';
   if(settings.autoFullscreen && !document.fullscreenElement && viewer.requestFullscreen)
     viewer.requestFullscreen().catch(() => {});
-  // Unity and GameMaker pages must be navigated as real documents.
-  // Fetching them into srcdoc breaks their relative loader/asset requests.
-  if(/^(Snow Rider 3D|Retro Bowl)$/i.test(name)){
-    current = {name, url};
-    frame.onload = () => busy.classList.remove('on');
-    frame.onerror = () => { busy.textContent = 'Game failed to load. Its host or assets may be unavailable.'; };
-    frame.removeAttribute('srcdoc');
-    frame.src = url;
-    return;
-  }
   try{
     let used = url, text = await grab(url);
     if(!text.trim()){ used = bust(url); text = await grab(used); }
