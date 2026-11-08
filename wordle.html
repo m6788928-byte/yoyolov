@@ -189,7 +189,7 @@ async function loadWordList(){
       const response=await fetch(url,{cache:"no-store"});
       if(!response.ok)continue;
       const raw=await response.text();
-      const words=[...new Set(raw.toLowerCase().split(/\\s+/).filter(w=>/^[a-z]{5}$/.test(w)))];
+      const words=[...new Set(raw.toLowerCase().split(/\s+/).filter(w=>/^[a-z]{5}$/.test(w)))];
       if(words.length<10000)continue;
       allowedWords=new Set(words);answerWords=shuffledWords(words);wordsReady=true;
       document.getElementById("dictionaryStatus").textContent=words.length.toLocaleString()+" valid five-letter words loaded";
