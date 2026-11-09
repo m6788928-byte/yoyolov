@@ -33,8 +33,8 @@ function renderMessages(){
 async function loadReactions(){if(!rows.length){reactions=[];return;}const {data,error}=await db.from("message_reactions").select("id,message_id,user_id,emoji").in("message_id",rows.map(x=>x.id));if(!error)reactions=data||[];}
 async function loadRoom(){
  if(!db)return;room=ROOMS.includes(room)?room:"general";$("roomTitle").textContent="# "+room;$("messageInput").placeholder="Message #"+room;document.querySelectorAll(".room").forEach(b=>b.classList.toggle("active",b.dataset.room===room));setConnection("Loading…");rows=[];reactions=[];renderMessages();
- const {data,error}=await db.from("messages").select("id,channel,user_id,username,body,reply_to,created_at").eq("channel",room).order("created_at",{ascending:true}).limit(100);
- if(error){setConnection("Load failed");return;}rows=data||[];await loadReactions();renderMessages();setConnection("Live");
+ const {data,error}=await db.from("messages").select("id,channel,user_id,username,body,reply_to,created_at").eq("channel",room).order("created_at",{ascending:false}).limit(100);
+ if(error){setConnection("Load failed");return;}rows=(data||[]).reverse();await loadReactions();renderMessages();setConnection("Live");
 }
 async function sendMessage(){const body=$("messageInput").value.trim();if(!body||!user)return;$("send").disabled=true;const {error}=await db.from("messages").insert({channel:room,user_id:user.id,username,body,reply_to:replyTo});if(error){setConnection("Send failed: "+error.message);$("send").disabled=false;return;}$("messageInput").value="";$("messageInput").style.height="auto";replyTo=null;$("replyBar").style.display="none";$("send").disabled=false;}
 async function deleteMessage(id){if(!confirm("Delete this message?"))return;const {error}=await db.from("messages").delete().eq("id",id).eq("user_id",user.id);if(error)setConnection("Delete failed: "+error.message);}
@@ -46,6 +46,7 @@ async function boot(){
  const saved=localStorage.getItem(NAME_KEY)||"";if(saved)await saveName(saved);else profile();
  live=db.channel("yoyolov-chat-messages").on("postgres_changes",{event:"*",schema:"public",table:"messages"},async payload=>{if(payload.eventType==="INSERT"&&payload.new.channel===room&&!rows.some(x=>x.id===payload.new.id)){rows.push(payload.new);await loadReactions();renderMessages();}if(payload.eventType==="DELETE"){rows=rows.filter(x=>x.id!==payload.old.id);await loadReactions();renderMessages();}}).on("postgres_changes",{event:"*",schema:"public",table:"message_reactions"},async payload=>{if(payload.eventType==="INSERT"&&rows.some(x=>x.id===payload.new.message_id)){reactions.push(payload.new);renderMessages();}else if(payload.eventType==="DELETE"){reactions=reactions.filter(x=>x.id!==payload.old.id);renderMessages();}}).subscribe(status=>{if(status==="SUBSCRIBED")setConnection("Live");else if(status==="CHANNEL_ERROR")setConnection("Realtime unavailable");});
  presence=db.channel("yoyolov-chat-presence",{config:{presence:{key:user.id}}});presence.on("presence",{event:"sync"},()=>{$("online").textContent=Object.keys(presence.presenceState()).length+" online";}).subscribe(status=>{if(status==="SUBSCRIBED")presence.track({username,online_at:new Date().toISOString()});});
+ if(saved)await loadRoom();
  }catch(error){setup(error.message||String(error));}
 }
 document.querySelectorAll(".room").forEach(b=>b.onclick=async()=>{room=b.dataset.room;await loadRoom();});
