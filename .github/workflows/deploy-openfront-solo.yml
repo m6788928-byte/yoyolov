@@ -69,7 +69,7 @@ jobs:
 
           page = source / "index.html"
           html = page.read_text(encoding="utf-8")
-          match = re.search(r"window\\.BOOTSTRAP_CONFIG\\s*=\\s*(\\{.*?\\});", html, re.S)
+          match = re.search(r"window\.BOOTSTRAP_CONFIG\s*=\s*(\{.*?\});", html, re.S)
           if not match:
               raise SystemExit("Could not locate OpenFront BOOTSTRAP_CONFIG")
           config = json.loads(match.group(1))
@@ -101,7 +101,7 @@ jobs:
 
           # Verify every retained map asset in the runtime manifest exists.
           config = json.loads(re.search(
-              r"window\\.BOOTSTRAP_CONFIG\\s*=\\s*(\\{.*?\\});",
+              r"window\.BOOTSTRAP_CONFIG\s*=\s*(\{.*?\});",
               page.read_text(encoding="utf-8"), re.S
           ).group(1))
           missing = []
