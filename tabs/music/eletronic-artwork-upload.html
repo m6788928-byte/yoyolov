@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Eletronic Artwork Uploader</title>
+<style>
+*{box-sizing:border-box}body{margin:0;padding:28px 16px;background:#111214;color:#eee;font:14px system-ui,sans-serif}main{max-width:720px;margin:auto}h1{font-size:23px;margin:0 0 8px}.muted,.note{color:#999}.panel{background:#1a1c20;border:1px solid #30333a;border-radius:12px;padding:18px;margin:16px 0}label{display:block;margin:14px 0 6px;color:#bbb}input{width:100%;padding:10px;border:1px solid #3b3e46;border-radius:7px;background:#121316;color:#eee;font:inherit}button{padding:10px 16px;border:0;border-radius:7px;background:#eee;color:#111;font-weight:650;cursor:pointer}button:disabled{opacity:.4;cursor:not-allowed}.row{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}#status{margin-top:14px;white-space:pre-wrap;line-height:1.55;overflow-wrap:anywhere;color:#ccc}progress{width:100%;height:9px;margin-top:14px;accent-color:#ddd}#details{max-height:220px;overflow:auto;white-space:pre-wrap;color:#999;font-size:12px;line-height:1.5;margin-top:12px}.note{font-size:12px;line-height:1.5}img{width:104px;height:104px;object-fit:cover;border-radius:8px;margin-top:12px}code{background:#111316;padding:2px 5px;border-radius:4px}@media(max-width:520px){.row{display:grid}button{width:100%}}
+</style></head><body><main>
+<h1>Eletronic artwork uploader</h1>
+<p class="muted">Extracts the embedded album covers from your 100 MP3s, uploads them to Cloudinary, and uploads the Spotify playlist cover.</p>
+<section class="panel">
+<strong>Playlist cover preview</strong><br>
+<img alt="Y2K Electronica Bangers playlist cover" src="https://image-cdn-fa.spotifycdn.com/image/ab67706c0000d72ca1b13eff956188fb0f42dae0">
+<label for="archives">Original two SPOTISAVER ZIP files</label><input id="archives" type="file" accept=".zip" multiple>
+<label for="cloud">Cloudinary cloud name</label><input id="cloud" value="ak3j5wsb">
+<label for="preset">Unsigned upload preset</label><input id="preset" placeholder="Same unsigned preset used for your audio uploads">
+<p class="note">Use the same two ZIPs you used for the audio upload. This uploads images only, into <code>playlist-artwork/eletronic</code>; it does not touch your audio files or <code>playlist-audio</code>. Never enter an API secret.</p>
+<div class="row"><button id="scan" disabled>Check ZIP files</button><button id="upload" disabled>Upload playlist + 100 covers</button></div>
+<progress id="progress" max="101" value="0"></progress><div id="status" role="status" aria-live="polite">Select the two ZIP files.</div><div id="details" hidden></div>
+</section>
+<p class="note">When finished, send back <code>eletronic-artwork-results.json</code> so the cover URLs can be added to Music.</p>
+</main>
+<script>
+const $=id=>document.getElementById(id), spotifyCover="https://image-cdn-fa.spotifycdn.com/image/ab67706c0000d72ca1b13eff956188fb0f42dae0", sourceUrl="https://open.spotify.com/playlist/1MgqOZwEoUoWp3DVvffWqu";
+let groups=[],jobs=[],busy=false,checked=false;
+const scanBtn=$("scan"),uploadBtn=$("upload");
+function say(s){$("status").textContent=s}
+function norm(s){return String(s||"").normalize("NFKD").replace(/\p{M}/gu,"").toLowerCase().replace(/[^\p{L}\p{N}]/gu,"")}
+function loadZip(){if(window.JSZip)return Promise.resolve();if(window.jp)return window.jp;window.jp=new Promise((ok,no)=>{const s=document.createElement("script");s.src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js";s.onload=ok;s.onerror=()=>no(Error("Could not load the ZIP reader. Check internet access and reload."));document.head.append(s)});return window.jp}
+function sync(){checked=false;groups=[];jobs=[];uploadBtn.disabled=true;scanBtn.disabled=!$("archives").files.length;$("progress").value=0;$("details").hidden=true;say("ZIP files selected. Click Check ZIP files.")}
+$("archives").addEventListener("change",sync);
+async function scan(){
+ if(busy)return;busy=true;scanBtn.disabled=uploadBtn.disabled=true;
+ try{
+  const files=[...$("archives").files];if(files.length!==2)throw Error("Select exactly the two original SPOTISAVER ZIP files.");
+  await loadZip();const found=new Map(),extra=[];
+  for(const file of files){
+   say("Reading filenames in "+file.name+"…");
+   const zip=await JSZip.loadAsync(file),entries=Object.values(zip.files).filter(x=>!x.dir&&/\.mp3$/i.test(x.name)),group={file,entries};groups.push(group);
+   for(const entry of entries){
+    const filename=entry.name.split("/").pop(),stem=filename.replace(/\.mp3$/i,"").replace(/\s*\(SPOTISAVER\)\s*$/i,""),key=norm(stem);
+    if(found.has(key)){extra.push("Duplicate: "+filename);continue}
+    const job={key,filename,entryName:entry.name,file,stem};found.set(key,job);jobs.push(job);
+   }
+  }
+  if(jobs.length!==100||extra.length)throw Error("Expected 100 unique MP3s; found "+jobs.length+". "+extra.join("; "));
+  checked=true;uploadBtn.disabled=false;
+  $("details").textContent=jobs.map((j,i)=>(i+1)+". "+j.filename).join("\n");$("details").hidden=false;
+  say("Found 100 unique MP3s. The archives' embedded artwork will be extracted during upload. Ready.");
+ }catch(e){say("Check failed: "+(e.message||e));checked=false}
+ finally{busy=false;scanBtn.disabled=!$("archives").files.length}
+}
+scanBtn.onclick=scan;
+function syncsafe(b,p){return ((b[p]&127)<<21)|((b[p+1]&127)<<14)|((b[p+2]&127)<<7)|(b[p+3]&127)}
+function be32(b,p){return (b[p]*0x1000000)+(b[p+1]<<16)+(b[p+2]<<8)+b[p+3]}
+function ascii(b,a,z){let s="";for(let i=a;i<z;i++)s+=String.fromCharCode(b[i]);return s}
+function extractCover(b){
+ if(b.length<10||ascii(b,0,3)!=="ID3")throw Error("MP3 has no ID3 artwork tag.");
+ const ver=b[3];if(ver!==3&&ver!==4)throw Error("Unsupported ID3 version "+ver+".");
+ const tagEnd=Math.min(b.length,10+syncsafe(b,6));let p=10;
+ if(b[5]&0x80)throw Error("ID3 unsynchronization is not supported for this file.");
+ if(b[5]&0x40){const n=ver===4?syncsafe(b,p):be32(b,p);p+=4+n}
+ while(p+10<=tagEnd){
+  const id=ascii(b,p,p+4);if(!/^[A-Z0-9]{4}$/.test(id))break;
+  const size=ver===4?syncsafe(b,p+4):be32(b,p+4);if(!size||p+10+size>tagEnd)break;
+  if(id==="APIC"){
+   const d=b.subarray(p+10,p+10+size),enc=d[0];let m=1;
+   while(m<d.length&&d[m]!==0)m++;const mime=ascii(d,1,m)||"image/jpeg",typeAt=m+1,descAt=typeAt+1;
+   if(typeAt>=d.length)throw Error("Malformed APIC artwork frame.");
+   let end=descAt;
+   if(enc===1||enc===2){for(;end+1<d.length;end+=2)if(d[end]===0&&d[end+1]===0)break;end+=2}
+   else{while(end<d.length&&d[end]!==0)end++;end++}
+   if(end>=d.length)throw Error("Empty embedded cover image.");
+   return new Blob([d.slice(end)],{type:mime});
+  }
+  p+=10+size;
+ }
+ throw Error("No embedded APIC cover image was found.");
+}
+function cloudUpload(file,filename,cloud,preset,folder,publicId){
+ return new Promise((resolve,reject)=>{
+  const x=new XMLHttpRequest(),f=new FormData();f.append("file",file,filename);f.append("upload_preset",preset);f.append("folder",folder);f.append("public_id",publicId);
+  x.open("POST","https://api.cloudinary.com/v1_1/"+encodeURIComponent(cloud)+"/image/upload");x.timeout=180000;
+  x.onload=()=>{let d={};try{d=JSON.parse(x.responseText)}catch(_){}if(x.status>=200&&x.status<300&&d.secure_url)resolve({url:d.secure_url,public_id:d.public_id,bytes:d.bytes});else reject(Error("Cloudinary HTTP "+x.status+": "+(d.error?.message||x.responseText||"Upload failed")))};
+  x.onerror=()=>reject(Error("Network/CORS error: Cloudinary response was blocked. Open this uploader from its GitHub Pages HTTPS URL, not a local file."));
+  x.ontimeout=()=>reject(Error("Cloudinary upload timed out."));
+  x.send(f);
+ });
+}
+function remoteCoverUpload(url,cloud,preset){
+ return new Promise((resolve,reject)=>{
+  const x=new XMLHttpRequest(),f=new FormData();f.append("file",url);f.append("upload_preset",preset);f.append("folder","playlist-artwork/eletronic");f.append("public_id","eletronic-playlist-cover");f.append("overwrite","true");
+  x.open("POST","https://api.cloudinary.com/v1_1/"+encodeURIComponent(cloud)+"/image/upload");x.timeout=180000;
+  x.onload=()=>{let d={};try{d=JSON.parse(x.responseText)}catch(_){}if(x.status>=200&&x.status<300&&d.secure_url)resolve({url:d.secure_url,public_id:d.public_id,bytes:d.bytes});else reject(Error("Playlist cover upload HTTP "+x.status+": "+(d.error?.message||x.responseText||"Upload failed")))};
+  x.onerror=()=>reject(Error("Network/CORS error while uploading playlist cover."));
+  x.ontimeout=()=>reject(Error("Playlist cover upload timed out."));x.send(f);
+ });
+}
+function download(obj){const u=URL.createObjectURL(new Blob([JSON.stringify(obj,null,2)],{type:"application/json"})),a=document.createElement("a");a.href=u;a.download="eletronic-artwork-results.json";a.click();setTimeout(()=>URL.revokeObjectURL(u),30000)}
+uploadBtn.onclick=async()=>{
+ if(!checked||busy)return;
+ const cloud=$("cloud").value.trim(),preset=$("preset").value.trim();
+ if(!cloud||!preset){say("Enter the cloud name and unsigned preset.");return}
+ if(location.protocol!=="https:"){say("Open this tool from its GitHub Pages HTTPS URL, not a downloaded HTML file.");return}
+ busy=true;scanBtn.disabled=uploadBtn.disabled=true;
+ const result={name:"eletronic",sourceUrl,cover:"",tracks:[]};let done=0,idx=0;
+ const tick=()=>{$("progress").value=done;say("Uploaded "+done+"/101 artwork images…")};
+ try{
+  say("Uploading playlist cover…");
+  const pc=await remoteCoverUpload(spotifyCover,cloud,preset);result.cover=pc.url;result.playlistCover={url:pc.url,public_id:pc.public_id};done++;tick();
+  for(const group of groups){
+   const zip=await JSZip.loadAsync(group.file),groupJobs=jobs.filter(j=>j.file===group.file);idx=0;
+   async function worker(){
+    while(idx<groupJobs.length){
+     const j=groupJobs[idx++],entry=zip.file(j.entryName);if(!entry)throw Error("ZIP entry missing: "+j.filename);
+     const bytes=await entry.async("uint8array"),blob=extractCover(bytes),id="eletronic-track-"+String(jobs.indexOf(j)+1).padStart(3,"0");
+     const uploaded=await cloudUpload(blob,id+".jpg",cloud,preset,"playlist-artwork/eletronic",id);
+     result.tracks.push({filename:j.filename,key:j.key,cover:uploaded.url,public_id:uploaded.public_id,bytes:uploaded.bytes});
+     done++;tick();
+    }
+   }
+   await Promise.all([worker(),worker()]);
+  }
+  result.tracks.sort((a,b)=>a.key.localeCompare(b.key));
+  download(result);$("details").textContent="Playlist cover + "+result.tracks.length+" song covers uploaded successfully.";$("details").hidden=false;say("Complete: 101/101 artwork images uploaded. Send eletronic-artwork-results.json back here.");
+ }catch(e){
+  result.tracks.sort((a,b)=>a.key.localeCompare(b.key));download(result);
+  $("details").textContent="Confirmed song covers: "+result.tracks.length+". A partial JSON was downloaded.";$("details").hidden=false;
+  say("Stopped after "+done+" successful uploads:\n"+(e.message||e)+"\nA partial JSON was downloaded. Do not rerun until checking playlist-artwork/eletronic in Cloudinary.");
+ }finally{busy=false;scanBtn.disabled=!$("archives").files.length;uploadBtn.disabled=!checked}
+};
+</script></body></html>
