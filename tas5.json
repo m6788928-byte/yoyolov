@@ -172,10 +172,6 @@
     "desc": "Unavailable — requires Cloudflare services",
     "image": "https://raw.githubusercontent.com/VulcanEon/openkrillion.com-service/main/public/assets/icon.png"
   },
-  "Rocket Goal": {
-    "url": "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@main/games/rocket-goal/index.html",
-    "image": "https://rocketgoal.io/og-image.png"
-  },
   "Get Yoked": {
     "url": "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@main/games/get-yoked/index.html",
     "image": "https://ohgames.io/data/image/game/get-yoked/get-yoked.png"
