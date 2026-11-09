@@ -1,0 +1,127 @@
+name: Vendor browser games into Yoyolov
+
+on:
+  push:
+    paths:
+      - ".github/workflows/vendor-games.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  vendor-games:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Fetch game bundles
+        run: |
+          set -euo pipefail
+          git clone --depth 1 --filter=blob:none --sparse https://github.com/bubbls/UGS-Assets.git /tmp/ugs-assets
+          git -C /tmp/ugs-assets sparse-checkout set "snow-rider" "retro bowl" "rocket-goal" "get yoked" "golf-battle"
+
+          mkdir -p games/snow-rider games/retro-bowl games/rocket-goal games/get-yoked games/golf-battle
+          cp -a /tmp/ugs-assets/snow-rider/. games/snow-rider/
+          cp -a "/tmp/ugs-assets/retro bowl/." games/retro-bowl/
+          cp -a /tmp/ugs-assets/rocket-goal/. games/rocket-goal/
+          cp -a "/tmp/ugs-assets/get yoked/." games/get-yoked/
+          cp -a /tmp/ugs-assets/golf-battle/. games/golf-battle/
+          cp /tmp/ugs-assets/merge.js games/rocket-goal/merge.js
+          mv games/retro-bowl/new.html games/retro-bowl/index.html
+
+      - name: Make game pages work from the repository
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import re, json
+
+          root = Path("games")
+          pages = [
+              root / "snow-rider/index.html",
+              root / "retro-bowl/index.html",
+              root / "rocket-goal/index.html",
+              root / "get-yoked/index.html",
+              root / "golf-battle/index.html",
+          ]
+
+          for page in pages:
+              html = page.read_text(encoding="utf-8", errors="replace")
+
+              # Strip third-party ad / analytics scripts, not game runtime files.
+              for pattern in (
+                  r'<script\\b(?=[^>]*pagead\\.googlesyndication)[^>]*>.*?</script\\s*>',
+                  r'<script\\b(?=[^>]*static\\.cloudflareinsights)[^>]*>.*?</script\\s*>',
+                  r'<script\\b(?=[^>]*googletagmanager\\.com/gtag)[^>]*>.*?</script\\s*>',
+                  r'<script\\b(?=[^>]*web-sdk\\.smartlook)[^>]*>.*?</script\\s*>',
+                  r'<script\\b(?=[^>]*js/recorder\\.js)[^>]*>.*?</script\\s*>',
+                  r'<script\\b(?=[^>]*adinLoader\\.js)[^>]*>.*?</script\\s*>',
+              ):
+                  html = re.sub(pattern, "", html, flags=re.I | re.S)
+
+              # Snow Rider's wrapper patch only blocks popups and injects analytics.
+              if page.parts[1] == "snow-rider":
+                  html = re.sub(r'<script\\b[^>]*patch/cloner-v2\\.js[^>]*>.*?</script\\s*>', "", html, flags=re.I | re.S)
+
+              # Remove Get Yoked's ad SDK block; the Unity game itself is local.
+              if page.parts[1] == "get-yoked":
+                  html = re.sub(r'<script>\\s*window\\.SDK_OPTIONS\\s*=.*?gamemonetize-sdk.*?</script>', "", html, flags=re.I | re.S)
+
+              # The Rocket Goal source already loads its Unity loader dynamically.
+              # Use the copy inside this game's own folder for the data-part merger.
+              if page.parts[1] == "rocket-goal":
+                  html = html.replace(
+                      "https://cdn.jsdelivr.net/gh/bubbls/UGS-Assets@main/merge.js",
+                      "merge.js"
+                  )
+                  html = re.sub(
+                      r'<script\\b[^>]*js/b23dd96997961653e2825455633aac82\\.loader\\.js[^>]*>.*?</script\\s*>',
+                      "",
+                      html,
+                      flags=re.I | re.S
+                  )
+
+              # The Golf Battle bundle has the .max.js filename.
+              if page.parts[1] == "golf-battle":
+                  html = html.replace("playcanvas-stable.min.js", "playcanvas-stable.max.js")
+                  html = re.sub(r'<link\\b[^>]*manifest\\.json[^>]*>', "", html, flags=re.I)
+
+              # This source build identifies itself as the College edition.
+              if page.parts[1] == "retro-bowl":
+                  html = html.replace("<title>Retro Bowl College</title>", "<title>Retro Bowl</title>")
+
+              page.write_text(html, encoding="utf-8")
+
+          # Point all six catalog entries to files in this repo, served through jsDelivr.
+          catalog_path = Path("tas5.json")
+          catalog = json.loads(catalog_path.read_text(encoding="utf-8"))
+          cdn = "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@main/"
+          targets = {
+              "Rocket Goal": "games/rocket-goal/index.html",
+              "Get Yoked": "games/get-yoked/index.html",
+              "Golf Battle": "games/golf-battle/index.html",
+              "Wordle": "wordle.html",
+              "Retro Bowl": "games/retro-bowl/index.html",
+              "Snow Rider 3D": "games/snow-rider/index.html",
+          }
+          for name, path in targets.items():
+              if name not in catalog:
+                  raise SystemExit(f"Missing catalog entry: {name}")
+              catalog[name]["url"] = cdn + path
+          catalog_path.write_text(json.dumps(catalog, indent=2) + "\\n", encoding="utf-8")
+          PY
+
+      - name: Commit vendored games
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add games/ tas5.json
+          if git diff --cached --quiet; then
+            echo "Game bundles are already up to date."
+            exit 0
+          fi
+          git commit -m "Host six browser games in Yoyolov"
+          git push
