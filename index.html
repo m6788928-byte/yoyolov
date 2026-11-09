@@ -394,7 +394,7 @@
 <div id="viewer">
   <iframe id="frame" title="Preview"
     allow="autoplay; fullscreen; gamepad *; pointer-lock; clipboard-read; clipboard-write; accelerometer; gyroscope" allowfullscreen
-    sandbox="allow-same-origin allow-scripts allow-forms allow-modals allow-popups allow-popups-to-escape-sandbox allow-pointer-lock"></iframe>
+    sandbox="allow-same-origin allow-scripts allow-forms allow-modals allow-pointer-lock"></iframe>
   <div id="ctl">
     <button id="fs">Fullscreen</button>
     <button id="close" class="close">Close</button>
@@ -796,7 +796,7 @@ function createCustomTabs(){
     status.className = 'custom-status'; status.setAttribute('role', 'status');
     const iframe = document.createElement('iframe');
     iframe.className = 'custom-frame'; iframe.title = name;
-    iframe.setAttribute('sandbox', 'allow-same-origin allow-scripts allow-forms allow-modals allow-popups allow-popups-to-escape-sandbox allow-pointer-lock');
+    iframe.setAttribute('sandbox', 'allow-same-origin allow-scripts allow-forms allow-modals allow-pointer-lock');
     const state = {name, url, frame:iframe, status, reload, loaded:false, loading:false, html:''};
     customTabStates.set(id, state);
     watchFrame(iframe);
