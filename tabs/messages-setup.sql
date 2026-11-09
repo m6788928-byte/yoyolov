@@ -3,15 +3,15 @@
 -- This migrates the previous anonymous-chat schema without deleting old messages.
 -- Old anonymous profiles are removed so their guest names can be claimed by real accounts.
 
-delete from public.profiles p
-using auth.users u
-where p.id=u.id and coalesce(u.is_anonymous,false)=true;
-
 create table if not exists public.profiles (
   id uuid primary key references auth.users(id) on delete cascade,
   username text not null check (char_length(trim(username)) between 3 and 20),
   created_at timestamptz not null default now()
 );
+-- Remove guest profiles from the previous anonymous-login version; old messages remain.
+delete from public.profiles p
+using auth.users u
+where p.id=u.id and coalesce(u.is_anonymous,false)=true;
 alter table public.profiles
   add column if not exists created_at timestamptz not null default now();
 create unique index if not exists profiles_username_ci_unique
