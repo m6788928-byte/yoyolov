@@ -52,22 +52,22 @@ jobs:
 
               # Strip third-party ad / analytics scripts, not game runtime files.
               for pattern in (
-                  r'<script\\b(?=[^>]*pagead\\.googlesyndication)[^>]*>.*?</script\\s*>',
-                  r'<script\\b(?=[^>]*static\\.cloudflareinsights)[^>]*>.*?</script\\s*>',
-                  r'<script\\b(?=[^>]*googletagmanager\\.com/gtag)[^>]*>.*?</script\\s*>',
-                  r'<script\\b(?=[^>]*web-sdk\\.smartlook)[^>]*>.*?</script\\s*>',
-                  r'<script\\b(?=[^>]*js/recorder\\.js)[^>]*>.*?</script\\s*>',
-                  r'<script\\b(?=[^>]*adinLoader\\.js)[^>]*>.*?</script\\s*>',
+                  r'<script\b(?=[^>]*pagead\.googlesyndication)[^>]*>.*?</script\s*>',
+                  r'<script\b(?=[^>]*static\.cloudflareinsights)[^>]*>.*?</script\s*>',
+                  r'<script\b(?=[^>]*googletagmanager\.com/gtag)[^>]*>.*?</script\s*>',
+                  r'<script\b(?=[^>]*web-sdk\.smartlook)[^>]*>.*?</script\s*>',
+                  r'<script\b(?=[^>]*js/recorder\.js)[^>]*>.*?</script\s*>',
+                  r'<script\b(?=[^>]*adinLoader\.js)[^>]*>.*?</script\s*>',
               ):
                   html = re.sub(pattern, "", html, flags=re.I | re.S)
 
               # Snow Rider's wrapper patch only blocks popups and injects analytics.
               if page.parts[1] == "snow-rider":
-                  html = re.sub(r'<script\\b[^>]*patch/cloner-v2\\.js[^>]*>.*?</script\\s*>', "", html, flags=re.I | re.S)
+                  html = re.sub(r'<script\b[^>]*patch/cloner-v2\.js[^>]*>.*?</script\s*>', "", html, flags=re.I | re.S)
 
               # Remove Get Yoked's ad SDK block; the Unity game itself is local.
               if page.parts[1] == "get-yoked":
-                  html = re.sub(r'<script>\\s*window\\.SDK_OPTIONS\\s*=.*?gamemonetize-sdk.*?</script>', "", html, flags=re.I | re.S)
+                  html = re.sub(r'<script>\s*window\.SDK_OPTIONS\s*=.*?gamemonetize-sdk.*?</script>', "", html, flags=re.I | re.S)
 
               # The Rocket Goal source already loads its Unity loader dynamically.
               # Use the copy inside this game's own folder for the data-part merger.
@@ -77,7 +77,7 @@ jobs:
                       "merge.js"
                   )
                   html = re.sub(
-                      r'<script\\b[^>]*js/b23dd96997961653e2825455633aac82\\.loader\\.js[^>]*>.*?</script\\s*>',
+                      r'<script\b[^>]*js/b23dd96997961653e2825455633aac82\.loader\.js[^>]*>.*?</script\s*>',
                       "",
                       html,
                       flags=re.I | re.S
@@ -86,7 +86,7 @@ jobs:
               # The Golf Battle bundle has the .max.js filename.
               if page.parts[1] == "golf-battle":
                   html = html.replace("playcanvas-stable.min.js", "playcanvas-stable.max.js")
-                  html = re.sub(r'<link\\b[^>]*manifest\\.json[^>]*>', "", html, flags=re.I)
+                  html = re.sub(r'<link\b[^>]*manifest\.json[^>]*>', "", html, flags=re.I)
 
               # This source build identifies itself as the College edition.
               if page.parts[1] == "retro-bowl":
@@ -110,7 +110,7 @@ jobs:
               if name not in catalog:
                   raise SystemExit(f"Missing catalog entry: {name}")
               catalog[name]["url"] = cdn + path
-          catalog_path.write_text(json.dumps(catalog, indent=2) + "\\n", encoding="utf-8")
+          catalog_path.write_text(json.dumps(catalog, indent=2) + "\n", encoding="utf-8")
           PY
 
       - name: Commit vendored games
