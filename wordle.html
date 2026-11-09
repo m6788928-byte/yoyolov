@@ -133,7 +133,7 @@ function startRound(next){
 function enter(){
  if(finished)return;
  if(current.length!==5)return showToast("Not enough letters");
- if(!allowedWords.has(current))return showToast("Word not found");
+ if(!/^[A-Z]{5}$/.test(current))return showToast("Enter five letters");
  const submitted=current;guesses.push(submitted);current="";
  const won=submitted===solution;
  render();
@@ -154,8 +154,8 @@ keyboard.addEventListener("click",event=>{const button=event.target.closest("but
 document.addEventListener("keydown",event=>{
  if(document.querySelector(".overlay.open")){if(event.key==="Escape")document.querySelector(".overlay.open").classList.remove("open");return;}
  if(event.key==="Enter"){event.preventDefault();press("ENTER");}
- else if(event.key==="Backspace"){event.preventDefault();press("DELETE");}
- else if(/^[a-z]$/i.test(event.key))press(event.key.toUpperCase());
+ else if(event.key==="Backspace"||event.key==="Delete"){event.preventDefault();press("DELETE");}
+ else if(/^[a-z]$/i.test(event.key)){event.preventDefault();press(event.key.toUpperCase());}
 });
 function setMode(next){
  mode=next;
@@ -171,7 +171,7 @@ document.getElementById("about").addEventListener("click",()=>showModal("aboutMo
 document.querySelectorAll("[data-close]").forEach(button=>button.addEventListener("click",()=>hideModal(button.closest(".overlay"))));
 document.getElementById("nextWord").addEventListener("click",()=>startRound(mode==="daily"?dailyAnswer():randomAnswer()));
 document.querySelectorAll(".overlay").forEach(overlay=>overlay.addEventListener("click",event=>{if(event.target===overlay)hideModal(overlay);}));
-document.getElementById("dictionaryStatus").textContent=answerWords.length.toLocaleString()+" valid five-letter words loaded";
+document.getElementById("dictionaryStatus").textContent="Five-letter guesses accepted · "+answerWords.length.toLocaleString()+" possible answers";
 buildKeyboard();
 startRound(dailyAnswer());
 </script>
