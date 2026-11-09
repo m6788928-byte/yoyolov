@@ -77,7 +77,7 @@ function extractCover(b){
 }
 function cloudUpload(file,filename,cloud,preset,folder,publicId){
  return new Promise((resolve,reject)=>{
-  const x=new XMLHttpRequest(),f=new FormData();f.append("file",file,filename);f.append("upload_preset",preset);f.append("folder",folder);f.append("public_id",publicId);
+  const x=new XMLHttpRequest(),f=new FormData();f.append("file",file,filename);f.append("upload_preset",preset);f.append("folder",folder);
   x.open("POST","https://api.cloudinary.com/v1_1/"+encodeURIComponent(cloud)+"/image/upload");x.timeout=180000;
   x.onload=()=>{let d={};try{d=JSON.parse(x.responseText)}catch(_){}if(x.status>=200&&x.status<300&&d.secure_url)resolve({url:d.secure_url,public_id:d.public_id,bytes:d.bytes});else reject(Error("Cloudinary HTTP "+x.status+": "+(d.error?.message||x.responseText||"Upload failed")))};
   x.onerror=()=>reject(Error("Network/CORS error: Cloudinary response was blocked. Open this uploader from its GitHub Pages HTTPS URL, not a local file."));
@@ -87,7 +87,7 @@ function cloudUpload(file,filename,cloud,preset,folder,publicId){
 }
 function remoteCoverUpload(url,cloud,preset){
  return new Promise((resolve,reject)=>{
-  const x=new XMLHttpRequest(),f=new FormData();f.append("file",url);f.append("upload_preset",preset);f.append("folder","playlist-artwork/eletronic");f.append("public_id","eletronic-playlist-cover");f.append("overwrite","true");
+  const x=new XMLHttpRequest(),f=new FormData();f.append("file",url);f.append("upload_preset",preset);f.append("folder","playlist-artwork/eletronic");
   x.open("POST","https://api.cloudinary.com/v1_1/"+encodeURIComponent(cloud)+"/image/upload");x.timeout=180000;
   x.onload=()=>{let d={};try{d=JSON.parse(x.responseText)}catch(_){}if(x.status>=200&&x.status<300&&d.secure_url)resolve({url:d.secure_url,public_id:d.public_id,bytes:d.bytes});else reject(Error("Playlist cover upload HTTP "+x.status+": "+(d.error?.message||x.responseText||"Upload failed")))};
   x.onerror=()=>reject(Error("Network/CORS error while uploading playlist cover."));
