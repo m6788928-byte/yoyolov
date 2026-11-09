@@ -1,4 +1,5 @@
 name: Deploy Yoyolov Pages
+# Redeploy the current main branch so newly generated game files are published.
 
 on:
   push:
