@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Eletronic · Bulk Audio Uploader</title>
+<style>
+:root{color-scheme:dark;--bg:#111214;--panel:#1a1c20;--line:#30333a;--text:#eee;--muted:#969ba5;--ok:#82c99a;--bad:#ef9292}
+*{box-sizing:border-box}body{margin:0;padding:28px 16px;background:var(--bg);color:var(--text);font:14px system-ui,sans-serif}
+main{max-width:720px;margin:auto}h1{font-size:23px;margin:0 0 6px}.muted,.note{color:var(--muted)}.panel{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px;margin:14px 0}
+label{display:block;margin:14px 0 6px;color:#c9cbd0}input{width:100%;padding:10px;border:1px solid #3b3e46;border-radius:7px;background:#121316;color:var(--text);font:inherit}
+button{padding:10px 15px;border:0;border-radius:7px;background:#eee;color:#111;font-weight:650;cursor:pointer}button:disabled{opacity:.4;cursor:not-allowed}.secondary{background:#292c32;color:#eee;border:1px solid #3a3d44}
+.row{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}#status{margin-top:14px;white-space:pre-wrap;line-height:1.55;overflow-wrap:anywhere;color:#c9cbd0}progress{width:100%;height:9px;margin-top:14px;accent-color:#ddd}
+#details{max-height:260px;overflow:auto;white-space:pre-wrap;color:var(--muted);font-size:12px;line-height:1.5;margin-top:12px}
+code{background:#111316;padding:2px 5px;border-radius:4px}.note{font-size:12px;line-height:1.55}
+@media(max-width:520px){.row{display:grid}button{width:100%}}
+</style></head>
+<body><main>
+<h1>Eletronic playlist uploader</h1>
+<p class="muted">Upload the 100 tracks in playlist order to your Cloudinary <code>playlist-audio</code> folder.</p>
+<section class="panel">
+<strong>1. Select the playlist and audio archives</strong>
+<label for="list">100-track TXT file</label><input id="list" type="file" accept=".txt,text/plain">
+<label for="archives">Both SPOTISAVER ZIP files</label><input id="archives" type="file" accept=".zip,.mp3,audio/mpeg" multiple>
+<label for="cloud">Cloudinary cloud name</label><input id="cloud" value="ak3j5wsb" autocomplete="off">
+<label for="preset">Unsigned upload preset</label><input id="preset" placeholder="Same unsigned preset used for your previous playlist" autocomplete="off">
+<p class="note">This page is hosted on GitHub Pages (HTTPS). Keep this tab open. The first track uploads as a connection test; the other 99 start only if that succeeds. Never enter a Cloudinary API secret.</p>
+<div class="row"><button id="scan" class="secondary" disabled>Check files</button><button id="upload" disabled>Upload 100 tracks</button></div>
+<progress id="progress" max="100" value="0"></progress>
+<div id="status" role="status" aria-live="polite">Select your TXT file and both ZIPs.</div>
+<div id="details" hidden></div>
+</section>
+<p class="note">At the end, <code>eletronic-upload-results.json</code> downloads. Send that JSON file back here.</p>
+</main>
+<script>
+const $=id=>document.getElementById(id);
+let tracks=[],scan=null,busy=false;
+const listInput=$('list'),archiveInput=$('archives'),scanBtn=$('scan'),uploadBtn=$('upload');
+function norm(s){return String(s||'').normalize('NFKD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/&/g,'and').replace(/[^a-z0-9\u0400-\u04ff]+/g,'')}
+function status(s){$('status').textContent=s}
+function parseTracks(text){
+ const out=[];
+ for(const line of text.split(/\r?\n/)){
+  const m=line.trim().match(/^\d+\.\s*(.*?)\s+-\s+(.*?)\s*$/);
+  if(m)out.push({artist:m[1].trim(),name:m[2].trim()});
+ }
+ if(out.length!==100)throw new Error('Expected 100 numbered tracks in the TXT file; found '+out.length+'.');
+ return out;
+}
+function identify(path){
+ const name=path.split(/[\\/]/).pop().replace(/\.mp3$/i,'').replace(/\s*\(SPOTISAVER\)\s*$/i,'').trim();
+ const key=norm(name);
+ return tracks.findIndex(t=>norm(t.artist+' '+t.name)===key);
+}
+function loadZipLib(){
+ if(window.JSZip)return Promise.resolve();
+ if(window.zipPromise)return window.zipPromise;
+ window.zipPromise=new Promise((resolve,reject)=>{
+  const s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js';
+  s.onload=resolve;s.onerror=()=>reject(new Error('Could not load ZIP reader from jsDelivr. Check internet access and reload.'));document.head.append(s);
+ });
+ return window.zipPromise;
+}
+function selectedChanged(){scan=null;scanBtn.disabled=!(listInput.files.length&&archiveInput.files.length);uploadBtn.disabled=true;$('progress').value=0;$('details').hidden=true;status('Files selected. Click Check files.')}
+listInput.addEventListener('change',selectedChanged);archiveInput.addEventListener('change',selectedChanged);
+scanBtn.onclick=async()=>{
+ if(busy)return;busy=true;scanBtn.disabled=uploadBtn.disabled=true;
+ try{
+  if(!listInput.files[0]||!archiveInput.files.length)throw new Error('Select the TXT playlist and both ZIP files.');
+  tracks=parseTracks(await listInput.files[0].text());
+  const files=[...archiveInput.files],zips=files.filter(f=>/\.zip$/i.test(f.name)),mp3s=files.filter(f=>/\.mp3$/i.test(f.name));
+  if(zips.length+mp3s.length!==files.length)throw new Error('Select ZIP archives or MP3 files only.');
+  if(!zips.length&&!mp3s.length)throw new Error('No audio files selected.');
+  if(zips.length)await loadZipLib();
+  const matches=new Array(tracks.length).fill(null),groups=[],extras=[],dupes=[];
+  for(const file of zips){
+   status('Scanning '+file.name+'…');
+   const zip=await JSZip.loadAsync(file),entries=Object.values(zip.files).filter(x=>!x.dir&&/\.mp3$/i.test(x.name)),jobs=[];
+   for(const entry of entries){
+    const i=identify(entry.name);
+    if(i<0){extras.push(entry.name);continue}
+    if(matches[i]){dupes.push((i+1)+'. '+tracks[i].artist+' - '+tracks[i].name);continue}
+    const job={kind:'zip',file,path:entry.name,filename:entry.name.split('/').pop(),index:i};
+    matches[i]=job;jobs.push(job);
+   }
+   groups.push({kind:'zip',file,jobs});
+  }
+  for(const file of mp3s){
+   const i=identify(file.name);
+   if(i<0){extras.push(file.name);continue}
+   if(matches[i]){dupes.push((i+1)+'. '+tracks[i].artist+' - '+tracks[i].name);continue}
+   const job={kind:'file',file,filename:file.name,index:i};matches[i]=job;
+  }
+  const missing=tracks.map((t,i)=>matches[i]?null:(i+1)+'. '+t.artist+' - '+t.name).filter(Boolean);
+  scan={matches,groups,missing,extras,dupes};
+  const found=tracks.length-missing.length;
+  const lines=[];
+  if(missing.length)lines.push('MISSING\n'+missing.join('\n'));
+  if(dupes.length)lines.push('DUPLICATES\n'+dupes.join('\n'));
+  if(extras.length)lines.push('UNRECOGNIZED\n'+extras.join('\n'));
+  $('details').textContent=lines.join('\n\n')||'All 100 songs matched and sorted by the TXT playlist.';
+  $('details').hidden=false;
+  status('Matched '+found+'/100 tracks. '+(missing.length||dupes.length?'Fix the selection before uploading.':'Ready.'));
+  uploadBtn.disabled=found!==100||dupes.length>0;
+ }catch(e){scan=null;status('Scan failed: '+(e.message||e))}
+ finally{busy=false;scanBtn.disabled=!(listInput.files.length&&archiveInput.files.length)}
+};
+function xhrUpload(blob,filename,cloud,preset){
+ return new Promise((resolve,reject)=>{
+  const xhr=new XMLHttpRequest(),form=new FormData();
+  form.append('file',blob,filename);form.append('upload_preset',preset);form.append('folder','playlist-audio');
+  xhr.open('POST','https://api.cloudinary.com/v1_1/'+encodeURIComponent(cloud)+'/video/upload');
+  xhr.timeout=180000;
+  xhr.onload=()=>{
+   let data={};try{data=JSON.parse(xhr.responseText)}catch(_){}
+   if(xhr.status>=200&&xhr.status<300&&data.secure_url)resolve(data.secure_url);
+   else reject(new Error('Cloudinary HTTP '+xhr.status+': '+(data.error&&data.error.message||xhr.responseText||'Unknown upload error')));
+  };
+  xhr.onerror=()=>reject(new Error('NETWORK/CORS BLOCK: The browser could not read Cloudinary’s response. This page must be opened from its GitHub Pages HTTPS address, not a downloaded file:// copy. If this already is the HTTPS page, check browser/network blocking.'));
+  xhr.ontimeout=()=>reject(new Error('Upload timed out after 3 minutes. Check your connection and retry.'));
+  xhr.send(form);
+ });
+}
+function download(songs){
+ const blob=new Blob([JSON.stringify({name:'eletronic',songs},null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');
+ a.href=url;a.download='eletronic-upload-results.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),30000);
+}
+uploadBtn.onclick=async()=>{
+ if(!scan||busy)return;
+ const cloud=$('cloud').value.trim(),preset=$('preset').value.trim();
+ if(!cloud||!preset){status('Enter the Cloudinary cloud name and unsigned preset.');return}
+ if(location.protocol!=='https:'){status('Wrong page origin. Open this uploader from its GitHub Pages HTTPS link, not a downloaded HTML file.');return}
+ busy=true;scanBtn.disabled=uploadBtn.disabled=true;
+ const songs=tracks.map(t=>({name:t.name,artist:t.artist,url:'',unavailable:true}));
+ const jobs=scan.matches.map((m,i)=>({m,index:i}));
+ const first=jobs.shift();let done=0;
+ $('progress').value=0;
+ const report=()=>{ $('progress').value=done/100*100;status('Uploaded '+done+'/100. Keep this tab open.'); };
+ try{
+  async function getBlob(m,zip){
+   if(m.kind==='file')return m.file;
+   const entry=zip.file(m.path);if(!entry)throw new Error('Missing ZIP entry: '+m.path);
+   return entry.async('blob');
+  }
+  async function getZipFor(m){return JSZip.loadAsync(m.file)}
+  // One successful upload verifies the preset, cloud name, endpoint, and browser CORS before bulk work.
+  let firstZip=first.m.kind==='zip'?await getZipFor(first.m):null;
+  const firstBlob=await getBlob(first.m,firstZip);
+  const firstUrl=await xhrUpload(firstBlob,first.m.filename,cloud,preset);
+  songs[first.index].url=firstUrl;songs[first.index].unavailable=false;done++;report();
+  firstZip=null;
+  // Process remaining ZIPs one at a time, with two uploads in parallel.
+  for(const group of scan.groups){
+   const groupJobs=jobs.filter(j=>j.m.kind==='zip'&&j.m.file===group.file);
+   if(!groupJobs.length)continue;
+   const zip=await JSZip.loadAsync(group.file);let cursor=0;
+   async function worker(){
+    while(cursor<groupJobs.length){
+     const job=groupJobs[cursor++],blob=await getBlob(job.m,zip),url=await xhrUpload(blob,job.m.filename,cloud,preset);
+     songs[job.index].url=url;songs[job.index].unavailable=false;done++;report();
+    }
+   }
+   await Promise.all([worker(),worker()]);
+  }
+  const direct=jobs.filter(j=>j.m.kind==='file');let cursor=0;
+  async function directWorker(){
+   while(cursor<direct.length){
+    const job=direct[cursor++],url=await xhrUpload(job.m.file,job.m.filename,cloud,preset);
+    songs[job.index].url=url;songs[job.index].unavailable=false;done++;report();
+   }
+  }
+  await Promise.all([directWorker(),directWorker()]);
+  download(songs);status('Complete: 100/100 uploaded. eletron ic-upload-results.json has downloaded; send it back here.');
+  $('details').textContent='All 100 uploads returned valid Cloudinary URLs.';$('details').hidden=false;
+ }catch(e){
+  download(songs);
+  status('Stopped after '+done+' successful upload(s):\n'+(e.message||e)+'\nA partial JSON was downloaded. Do not run the uploader again until checking the Cloudinary playlist-audio folder for any completed uploads.');
+  $('details').textContent='Completed uploads: '+done+'/100. The partial JSON contains URLs for confirmed successful uploads.';$('details').hidden=false;
+ }finally{busy=false;scanBtn.disabled=!(listInput.files.length&&archiveInput.files.length);uploadBtn.disabled=!scan||scan.missing.length>0||scan.dupes.length>0}
+};
+</script></body></html>
