@@ -152,11 +152,11 @@
   },
   "Snow Rider 3D": {
     "url": "https://snowrider.com/game/",
-    "image": "https://snowrider.com/assets/img/snowrider.png"
+    "image": "https://snowrider.com/assets/img/logo.png"
   },
   "Retro Bowl": {
     "url": "https://poki.com/en/g/retro-bowl",
-    "image": "https://static.wixstatic.com/media/f294a4_c3d1fcfb1de84128824014838044a812~mv2.png/v1/fill/w_964,h_437,al_c,q_90,usm_0.66_1.00_0.01,enc_avif,quality_auto/Retro_Bowl_Header.png"
+    "image": "https://cdn-1.webcatalog.io/catalog/retro-bowl/retro-bowl-icon.png?v=1769388148598"
   },
   "Wordle": {
     "url": "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@5b208da9211f836199373ec9f6b5ad0c27d18379/wordle.html",
@@ -171,5 +171,18 @@
     "url": "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@main/krillion-unavailable.html",
     "desc": "Unavailable — requires Cloudflare services",
     "image": "https://raw.githubusercontent.com/VulcanEon/openkrillion.com-service/main/public/assets/icon.png"
+  },
+  "Rocket Goal": {
+    "url": "https://rocketgoal.io/",
+    "image": "https://rocketgoal.io/og-image.png"
+  },
+  "Get Yoked": {
+    "url": "https://getyoked.net/",
+    "image": "https://ohgames.io/data/image/game/get-yoked/get-yoked.png"
+  },
+  "Golf Battle": {
+    "url": "https://www.miniclip.com/games/golf-battle",
+    "image": "https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/38/aa/02/38aa0258-df9b-7214-e589-4e8d90f6602c/AppIcon-0-0-1x_U007emarketing-0-7-0-0-85-220.png/512x512bb.jpg",
+    "desc": "Official Miniclip listing"
   }
 }
