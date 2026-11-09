@@ -408,6 +408,7 @@
    An entry can also be an object for a custom tile:
      "Name": { "url": "...", "image": "...", "desc": "subtitle text" }
    ====================================================================== */
+const WORDLE_URL = "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@bae016782d2223dec6fb0b253d305ed7bcb47810/wordle.html";
 const LIST_URLS = [
   "https://m6788928-byte.github.io/yoyolov/tas5.json",
   "https://raw.githubusercontent.com/m6788928-byte/yoyolov/main/tas5.json"
@@ -826,6 +827,7 @@ async function loadList(){
       for(const [name, v] of Object.entries(data)){
         if(typeof v === 'string' && v.trim()) next[name] = {url:v};
         else if(v && typeof v === 'object' && typeof v.url === 'string' && v.url.trim()) next[name] = v;
+        if(name.toLowerCase() === 'wordle' && next[name]) next[name].url = WORDLE_URL;
       }
       if(!Object.keys(next).length) throw new Error('catalog contains zero valid games');
       entries = next;
