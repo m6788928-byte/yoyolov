@@ -136,8 +136,14 @@ async function boot(){
   db=window.supabase.createClient(cfg.url,cfg.key,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:false}});
   const {data,error}=await db.auth.getSession();if(error)throw error;
   const session=data.session;
-  if(session&&!session.user.is_anonymous){user=session.user;await enterChat();}
-  else{if(session)await db.auth.signOut();authPrompt("login");}
+  if(session&&!session.user.is_anonymous){
+   user=session.user;
+   try{await enterChat();}
+   catch(error){
+    await db.auth.signOut();user=null;
+    authPrompt("signup","A saved login had no chat profile, so it was signed out. Create your chat account below. If you already registered this username, switch to Sign in.");
+   }
+  }else{if(session)await db.auth.signOut();authPrompt("signup");}
  }catch(error){setup(error.message||String(error));}
 }
 document.querySelectorAll(".room").forEach(b=>b.onclick=async()=>{room=b.dataset.room;await loadRoom();});
