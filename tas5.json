@@ -159,7 +159,7 @@
     "image": "https://cdn-1.webcatalog.io/catalog/retro-bowl/retro-bowl-icon.png?v=1769388148598"
   },
   "Wordle": {
-    "url": "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@bae016782d2223dec6fb0b253d305ed7bcb47810/wordle.html",
+    "url": "https://raw.githubusercontent.com/m6788928-byte/yoyolov/334d43d2d9dd6216cedea29a43c2ded323ba4ab8/wordle-endless-v2.html",
     "image": "https://cdn.jsdelivr.net/gh/selfhst/icons/webp/nyt-wordle.webp"
   },
   "OpenFront": {
