@@ -1,0 +1,141 @@
+name: Host OpenFront Solo in Yoyolov
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: write
+
+jobs:
+  host-openfront:
+    if: startsWith(github.event.release.tag_name, 'openfront-solo-')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 1
+
+      - name: Download the uploaded Solo package
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ github.event.release.tag_name }}
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/of-release
+          gh release download "$TAG" --repo "$GITHUB_REPOSITORY" \
+            --pattern "OpenFront_Solo_Offline_Chromebook.zip" \
+            --dir /tmp/of-release
+          test -s /tmp/of-release/OpenFront_Solo_Offline_Chromebook.zip
+          mkdir -p /tmp/of-extract
+          unzip -q /tmp/of-release/OpenFront_Solo_Offline_Chromebook.zip -d /tmp/of-extract
+          test -f /tmp/of-extract/OpenFrontOffline/index.html
+
+      - name: Prepare static browser build
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          import json, re, shutil
+
+          source = Path("/tmp/of-extract/OpenFrontOffline")
+          target = Path("openfront")
+          keep_maps = {
+              "giantworldmap", "world", "northamerica", "unitedstates",
+              "europe", "asia", "tutorial", "pangaea"
+          }
+
+          # Keep the game engine and its core assets, but limit the map library
+          # so the deployed site stays comfortably below GitHub Pages' 1 GB cap.
+          maps_dir = source / "_assets/maps"
+          for folder in maps_dir.iterdir():
+              if folder.is_dir() and folder.name not in keep_maps:
+                  shutil.rmtree(folder)
+
+          def filter_manifest(path, key_prefix):
+              data = json.loads(path.read_text(encoding="utf-8"))
+              filtered = {}
+              for key, value in data.items():
+                  if key.startswith(key_prefix):
+                      map_name = key[len(key_prefix):].split("/", 1)[0]
+                      if map_name not in keep_maps:
+                          continue
+                  filtered[key] = value
+              path.write_text(json.dumps(filtered, separators=(",", ":")) + "\n", encoding="utf-8")
+
+          filter_manifest(source / "asset-manifest.json", "maps/")
+          filter_manifest(source / "asset-hashes.json", "_assets/maps/")
+
+          page = source / "index.html"
+          html = page.read_text(encoding="utf-8")
+          match = re.search(r"window\\.BOOTSTRAP_CONFIG\\s*=\\s*(\\{.*?\\});", html, re.S)
+          if not match:
+              raise SystemExit("Could not locate OpenFront BOOTSTRAP_CONFIG")
+          config = json.loads(match.group(1))
+          assets = config.get("assetManifest", {})
+          config["assetManifest"] = {
+              key: value for key, value in assets.items()
+              if not key.startswith("maps/") or key.split("/", 2)[1] in keep_maps
+          }
+          for key, value in list(config["assetManifest"].items()):
+              if value.startswith("/assets/") or value.startswith("/_assets/"):
+                  config["assetManifest"][key] = "/yoyolov/openfront" + value
+          html = html[:match.start(1)] + json.dumps(config, separators=(",", ":")) + html[match.end(1):]
+          html = html.replace('="/assets/', '="/yoyolov/openfront/assets/')
+          html = html.replace('="/_assets/', '="/yoyolov/openfront/_assets/')
+          page.write_text(html, encoding="utf-8")
+
+          # Keep the PWA metadata scoped to this subdirectory.
+          pwa = source / "_assets/manifest.19168ed1bee0.json"
+          if pwa.exists():
+              data = json.loads(pwa.read_text(encoding="utf-8"))
+              data["start_url"] = "/yoyolov/openfront/"
+              if "scope" in data:
+                  data["scope"] = "/yoyolov/openfront/"
+              pwa.write_text(json.dumps(data, separators=(",", ":")) + "\n", encoding="utf-8")
+
+          if target.exists():
+              shutil.rmtree(target)
+          shutil.copytree(source, target)
+
+          # Verify every retained map asset in the runtime manifest exists.
+          config = json.loads(re.search(
+              r"window\\.BOOTSTRAP_CONFIG\\s*=\\s*(\\{.*?\\});",
+              page.read_text(encoding="utf-8"), re.S
+          ).group(1))
+          missing = []
+          for logical, url in config["assetManifest"].items():
+              if url.startswith("/yoyolov/openfront/_assets/"):
+                  rel = url.split("/yoyolov/openfront/", 1)[1]
+                  if not (target / rel).is_file():
+                      missing.append((logical, rel))
+          if missing:
+              raise SystemExit(f"Missing asset files: {missing[:10]}")
+          print(f"Prepared {sum(1 for p in target.rglob('*') if p.is_file())} files")
+          PY
+
+      - name: Check JavaScript syntax
+        run: |
+          set -euo pipefail
+          find openfront/assets -name '*.js' -print0 | xargs -0 -n1 node --check
+
+      - name: Update catalog and publish files
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          path = Path("tas5.json")
+          catalog = json.loads(path.read_text(encoding="utf-8"))
+          if "OpenFront" not in catalog:
+              raise SystemExit("OpenFront catalog entry is missing")
+          catalog["OpenFront"]["url"] = "https://m6788928-byte.github.io/yoyolov/openfront/index.html"
+          catalog["OpenFront"]["desc"] = "Offline Solo — runs in your browser"
+          path.write_text(json.dumps(catalog, indent=2) + "\n", encoding="utf-8")
+          PY
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A openfront tas5.json
+          git commit -m "Host OpenFront Solo as a browser game"
+          git push origin main
