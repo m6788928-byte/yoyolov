@@ -45,14 +45,19 @@ set search_path=public
 as $$
 declare requested_name text;
 begin
-  -- Serialize signups so two simultaneous registrations cannot exceed the cap.
   perform pg_advisory_xact_lock(507202611);
   if (select count(*) from public.profiles) >= 50 then
     raise exception 'Yoyolov Chat is full (50 accounts maximum)';
   end if;
 
   requested_name := trim(new.raw_user_meta_data->>'username');
-  if requested_name is null or requested_name !~ '^[A-Za-z0-9_]{3,20}
+  if requested_name is null or requested_name !~ '^[A-Za-z0-9_]{3,20}$' then
+    raise exception 'Username must be 3-20 letters, numbers, or underscores';
+  end if;
+  insert into public.profiles(id,username) values (new.id,requested_name);
+  return new;
+end;
+$$;
 
 drop trigger if exists on_auth_user_created_chat_profile on auth.users;
 create trigger on_auth_user_created_chat_profile
