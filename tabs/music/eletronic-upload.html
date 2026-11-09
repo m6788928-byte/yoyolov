@@ -169,7 +169,7 @@ uploadBtn.onclick=async()=>{
    }
   }
   await Promise.all([directWorker(),directWorker()]);
-  download(songs);status('Complete: 100/100 uploaded. eletron ic-upload-results.json has downloaded; send it back here.');
+  download(songs);status('Complete: 100/100 uploaded. eletronic-upload-results.json has downloaded; send it back here.');
   $('details').textContent='All 100 uploads returned valid Cloudinary URLs.';$('details').hidden=false;
  }catch(e){
   download(songs);
