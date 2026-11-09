@@ -942,14 +942,6 @@ function withBase(text, url){
 
 /* ---------- opening ---------- */
 async function openUrl(url, name){
-  // These two games must run as top-level pages: their external loaders do
-  // not work from inside this site's sandboxed preview iframe.
-  if(/^(Snow Rider 3D|Retro Bowl|Rocket Goal|Get Yoked|Golf Battle)$/i.test(name)){
-    const popup = window.open(url, '_blank');
-    if(popup){ try{ popup.opener = null; }catch{}; }
-    else location.assign(url);
-    return;
-  }
   show(); busy.classList.add('on'); busy.textContent = 'Loading ' + name + '…';
   if(settings.autoFullscreen && !document.fullscreenElement && viewer.requestFullscreen)
     viewer.requestFullscreen().catch(() => {});
