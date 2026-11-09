@@ -9,10 +9,10 @@
 <script>
 const $=id=>document.getElementById(id),ROOMS=["general","games","help"];
 let db=null,user=null,username="",room="general",live=null,presence=null,replyTo=null,rows=[],reactions=[],authMode="login";
-const CONFIG_KEY="yoyolov-chat-config-v1";
+let overrideConfig=null;
 const SUPABASE_URL="https://ybtpzchvczgoyozxterw.supabase.co";
 const SUPABASE_KEY="sb_publishable_k_NWMde9ZreUm6DypDfgzw_zsuRMKr9";
-function config(){return {url:SUPABASE_URL,key:SUPABASE_KEY};}
+function config(){return overrideConfig||{url:SUPABASE_URL,key:SUPABASE_KEY};}
 function setConnection(s){$("connection").textContent=s;}
 function setup(error=""){$("projectUrl").value=SUPABASE_URL;$("publishableKey").value=SUPABASE_KEY;$("setup").classList.add("open");$("setupError").textContent=error;}
 function authPrompt(mode="login",error=""){
@@ -147,7 +147,7 @@ $("messageInput").addEventListener("keydown",e=>{if(e.key==="Enter"&&!e.shiftKey
 $("connectButton").onclick=()=>{
  const url=$("projectUrl").value.trim(),key=$("publishableKey").value.trim();
  if(!/^https:\/\/[\w.-]+$/.test(url)||!key){$("setupError").textContent="Enter a valid project URL and publishable key.";return;}
- localStorage.setItem(CONFIG_KEY,JSON.stringify({url,key}));$("setup").classList.remove("open");boot();
+ overrideConfig={url,key};$("setup").classList.remove("open");boot();
 };
 $("authSubmit").onclick=submitAuth;
 $("authSwitch").onclick=()=>authPrompt(authMode==="login"?"signup":"login");
