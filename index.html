@@ -408,7 +408,10 @@
    An entry can also be an object for a custom tile:
      "Name": { "url": "...", "image": "...", "desc": "subtitle text" }
    ====================================================================== */
-const LIST_URL = new URL("tas5.json", document.baseURI).href;
+const LIST_URLS = [
+  "https://m6788928-byte.github.io/yoyolov/tas5.json",
+  "https://raw.githubusercontent.com/m6788928-byte/yoyolov/main/tas5.json"
+];
 /* ===================================================================== */
 
 /* ======================================================================
@@ -811,32 +814,37 @@ async function loadList(){
   const msg = document.createElement('div');
   msg.className = 'note'; msg.textContent = 'Loading list…';
   grid.append(msg);
-  try{
-    let text = await grab(LIST_URL);
-    if(!text.trim()) text = await grab(bust(LIST_URL));
-    if(!text.trim() && toRaw(LIST_URL)) text = await grab(toRaw(LIST_URL));
-    if(!text.trim()) throw new Error('empty response');
-
-    const data = JSON.parse(text);
-    entries = {};
-    for(const [name, v] of Object.entries(data)){
-      if(typeof v === 'string' && v.trim()) entries[name] = {url:v};
-      else if(v && typeof v === 'object' && v.url) entries[name] = v;
+  const errors = [];
+  for(const source of LIST_URLS){
+    try{
+      const text = await grab(bust(source));
+      const data = JSON.parse(text);
+      if(!data || typeof data !== 'object' || Array.isArray(data))
+        throw new Error('catalog is not a JSON object');
+      const next = {};
+      for(const [name, v] of Object.entries(data)){
+        if(typeof v === 'string' && v.trim()) next[name] = {url:v};
+        else if(v && typeof v === 'object' && typeof v.url === 'string' && v.url.trim()) next[name] = v;
+      }
+      if(!Object.keys(next).length) throw new Error('catalog contains zero valid games');
+      entries = next;
+      buildGrid();
+      return;
+    }catch(err){
+      errors.push(new URL(source).hostname + ': ' + err.message);
     }
-    buildGrid();
-  }catch(err){
-    grid.innerHTML = '';
-    const box = document.createElement('div');
-    box.className = 'note';
-    box.textContent = 'Could not load list: ' + err.message;
-    const retry = document.createElement('button');
-    retry.className = 'btn';
-    retry.style.marginLeft = '8px';
-    retry.textContent = 'Retry';
-    retry.onclick = loadList;
-    box.append(retry);
-    grid.append(box);
   }
+  grid.innerHTML = '';
+  const box = document.createElement('div');
+  box.className = 'note';
+  box.textContent = 'Could not load game catalog: ' + errors.join(' · ');
+  const retry = document.createElement('button');
+  retry.className = 'btn';
+  retry.style.marginLeft = '8px';
+  retry.textContent = 'Retry';
+  retry.onclick = loadList;
+  box.append(retry);
+  grid.append(box);
 }
 
 function buildGrid(){
