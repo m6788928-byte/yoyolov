@@ -180,12 +180,14 @@ document.addEventListener("keydown",event=>{
 });
 function setMode(next){
  mode=next;
- document.getElementById("dailyMode").classList.toggle("selected",mode==="daily");
- document.getElementById("endlessMode").classList.toggle("selected",mode==="endless");
- document.getElementById("resetGame").hidden=mode!=="endless";
- document.getElementById("nextWord").hidden=mode!=="endless";
- document.getElementById("modeHint").textContent=mode==="daily"?"One word every day · 6 guesses":"Endless words · 6 guesses each";
- if(mode==="daily"){if(!restoreDaily())startRound(dailyAnswer());}else startRound(randomAnswer());
+ const endless=mode==="endless";
+ document.getElementById("dailyMode").classList.toggle("selected",!endless);
+ document.getElementById("endlessMode").classList.toggle("selected",endless);
+ document.getElementById("resetGame").hidden=!endless;
+ document.getElementById("nextWord").hidden=!endless;
+ document.getElementById("difficultyBar").style.display=endless?"flex":"none";
+ document.getElementById("modeHint").textContent=endless?"Endless · "+difficulty[0].toUpperCase()+difficulty.slice(1)+" · 6 guesses":"One word every day · 6 guesses";
+ if(!endless){if(!restoreDaily())startRound(dailyAnswer());}else startRound(randomAnswer());
 }
 document.querySelectorAll("[data-difficulty]").forEach(button=>button.addEventListener("click",()=>{difficulty=button.dataset.difficulty;document.querySelectorAll("[data-difficulty]").forEach(b=>b.classList.toggle("selected",b===button));if(mode==="endless"){document.getElementById("modeHint").textContent="Endless · "+difficulty[0].toUpperCase()+difficulty.slice(1)+" · 6 guesses";startRound(randomAnswer());}}));
 document.getElementById("dailyMode").addEventListener("click",()=>setMode("daily"));
