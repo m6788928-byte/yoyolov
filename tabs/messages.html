@@ -105,7 +105,7 @@ async function submitAuth(){
 }
 async function enterChat(){
  const {data:profile,error}=await db.from("profiles").select("username").eq("id",user.id).single();
- if(error||!profile)throw new Error("Your chat profile was not found. Ask the chat owner to check the database setup.");
+ if(error||!profile)throw new Error("Your account exists, but its chat profile is missing. The chat owner must run the latest tabs/messages-setup.sql in Supabase SQL Editor, then sign out and sign in again. If it still fails, the username may already be taken.");
  username=profile.username;$("profileSetup").classList.remove("open");updateProfileUI();
  if(live)await db.removeChannel(live);
  live=db.channel("yoyolov-chat-messages")
