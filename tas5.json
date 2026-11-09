@@ -163,13 +163,13 @@
     "image": "https://cdn.jsdelivr.net/gh/selfhst/icons/webp/nyt-wordle.webp"
   },
   "OpenFront": {
-    "url": "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@main/openfront-unavailable.html",
-    "desc": "Unavailable — requires a game server",
+    "url": "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@6a5daed4721ddb5a400faf3885f87445e4e4abaa/openfront-offline-launch.html",
+    "desc": "Offline Solo — requires Chromebook Linux setup",
     "image": "https://raw.githubusercontent.com/openfrontio/OpenFrontIO/main/proprietary/images/OpenFrontLogo.png"
   },
   "OpenKrillion": {
-    "url": "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@main/krillion-unavailable.html",
-    "desc": "Unavailable — requires Cloudflare services",
+    "url": "https://openkrillion.com/",
+    "desc": "Independent daily trivia — opens separately",
     "image": "https://raw.githubusercontent.com/VulcanEon/openkrillion.com-service/main/public/assets/icon.png"
   },
   "Get Yoked": {
