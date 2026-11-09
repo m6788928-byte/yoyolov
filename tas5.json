@@ -151,37 +151,37 @@
     "image": "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@main/thumbs/mario.png"
   },
   "Snow Rider 3D": {
-    "url": "https://snowrider.com/game/",
+    "url": "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@main/games/snow-rider/index.html",
     "image": "https://snowrider.com/assets/img/logo.png"
   },
   "Retro Bowl": {
-    "url": "https://poki.com/en/g/retro-bowl",
+    "url": "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@main/games/retro-bowl/index.html",
     "image": "https://cdn-1.webcatalog.io/catalog/retro-bowl/retro-bowl-icon.png?v=1769388148598"
   },
   "Wordle": {
-    "url": "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@5b208da9211f836199373ec9f6b5ad0c27d18379/wordle.html",
+    "url": "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@main/wordle.html",
     "image": "https://cdn.jsdelivr.net/gh/selfhst/icons/webp/nyt-wordle.webp"
   },
   "OpenFront": {
     "url": "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@main/openfront-unavailable.html",
-    "desc": "Unavailable — requires a game server",
+    "desc": "Unavailable \u2014 requires a game server",
     "image": "https://raw.githubusercontent.com/openfrontio/OpenFrontIO/main/proprietary/images/OpenFrontLogo.png"
   },
   "OpenKrillion": {
     "url": "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@main/krillion-unavailable.html",
-    "desc": "Unavailable — requires Cloudflare services",
+    "desc": "Unavailable \u2014 requires Cloudflare services",
     "image": "https://raw.githubusercontent.com/VulcanEon/openkrillion.com-service/main/public/assets/icon.png"
   },
   "Rocket Goal": {
-    "url": "https://rocketgoal.io/",
+    "url": "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@main/games/rocket-goal/index.html",
     "image": "https://rocketgoal.io/og-image.png"
   },
   "Get Yoked": {
-    "url": "https://getyoked.net/",
+    "url": "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@main/games/get-yoked/index.html",
     "image": "https://ohgames.io/data/image/game/get-yoked/get-yoked.png"
   },
   "Golf Battle": {
-    "url": "https://www.miniclip.com/games/golf-battle",
+    "url": "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@main/games/golf-battle/index.html",
     "image": "https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/38/aa/02/38aa0258-df9b-7214-e589-4e8d90f6602c/AppIcon-0-0-1x_U007emarketing-0-7-0-0-85-220.png/512x512bb.jpg",
     "desc": "Official Miniclip listing"
   }
