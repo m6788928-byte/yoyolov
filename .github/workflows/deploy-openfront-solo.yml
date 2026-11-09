@@ -1,6 +1,8 @@
 name: Host OpenFront Solo in Yoyolov
 
 on:
+  push:
+    branches: [main]
   release:
     types: [published]
 
@@ -9,7 +11,7 @@ permissions:
 
 jobs:
   host-openfront:
-    if: startsWith(github.event.release.tag_name, 'openfront-solo-')
+    if: github.event_name == 'push' || startsWith(github.event.release.tag_name, 'openfront-solo-')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -20,7 +22,7 @@ jobs:
       - name: Download the uploaded Solo package
         env:
           GH_TOKEN: ${{ github.token }}
-          TAG: ${{ github.event.release.tag_name }}
+          TAG: ${{ github.event.release.tag_name || 'openfront-solo-v1' }}
         run: |
           set -euo pipefail
           mkdir -p /tmp/of-release
