@@ -137,6 +137,8 @@
   .buttons { display: flex; align-items: center; gap: 18px; }
   .buttons button { width: 32px; height: 32px; display: grid; place-items: center; color: var(--muted); border-radius: 50%; }
   .buttons button:hover { color: var(--text); }
+  .buttons button#shuffle.active { color: var(--accent); background: var(--surface-2); }
+  .buttons button#shuffle { width: 32px; height: 32px; }
   .buttons button:disabled { opacity: .35; cursor: default; }
   .buttons #toggle { width: 38px; height: 38px; background: var(--text); color: var(--bg); }
   .buttons #toggle:hover { color: var(--bg); transform: scale(1.05); }
@@ -248,6 +250,9 @@
 
   <div class="center">
     <div class="buttons">
+      <button id="shuffle" aria-label="Shuffle off" aria-pressed="false" title="Shuffle off">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 14 4 4-4 4M18 2l4 4-4 4M2 18h2.5a5 5 0 0 0 4-2l7-8a5 5 0 0 1 4-2H22M2 6h2.5a5 5 0 0 1 4 2l1.2 1.4M14.5 14.5l1 1.5a5 5 0 0 0 4 2H22"/></svg>
+      </button>
       <button id="prev" aria-label="Previous">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M6 5h2v14H6zM20 5v14L9 12z"/></svg>
       </button>
@@ -761,24 +766,68 @@ $("add-current").addEventListener("click", () => { if (current()) addDialog(curr
 
 /* ---------- player ---------- */
 const audio = $("audio");
-let queue = [], index = -1, seeking = false;
+let queue = [], baseQueue = [], index = -1, seeking = false, shuffleOn = false;
 
 const ICON_PLAY  = '<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>';
 const ICON_PAUSE = '<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>';
 
 function current() { return queue[index] || null; }
 
-function playQueue(tracks, i) {
-  if (!tracks.length) return;
-  queue = tracks; index = i;
+function shuffled(items) {
+  const out = items.slice();
+  for (let i = out.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [out[i], out[j]] = [out[j], out[i]];
+  }
+  return out;
+}
+
+function loadQueueIndex(i) {
+  if (i < 0 || i >= queue.length || !queue[i]?.url) return;
+  index = i;
   const t = current();
   audio.src = t.url;
   audio.play().catch(() => {});
   addRecent(t);
   renderPlayer();
   markPlaying();
-  if (location.hash === "" || location.hash === "#/") render(); // refresh the recents row
+  if (location.hash === "" || location.hash === "#/") render();
 }
+
+function playQueue(tracks, i) {
+  if (!tracks.length || !tracks[i]?.url) return;
+  baseQueue = tracks.slice();
+  if (shuffleOn) {
+    queue = [baseQueue[i], ...shuffled(baseQueue.filter((_, n) => n !== i))];
+    loadQueueIndex(0);
+  } else {
+    queue = baseQueue.slice();
+    loadQueueIndex(i);
+  }
+}
+
+function toggleShuffle() {
+  const playing = current();
+  shuffleOn = !shuffleOn;
+  if (shuffleOn) {
+    const before = queue.slice(0, index);
+    const upcoming = shuffled(queue.slice(index + 1));
+    queue = [...before, playing, ...upcoming];
+    index = before.length;
+  } else {
+    queue = baseQueue.slice();
+    index = queue.indexOf(playing);
+    if (index < 0) index = 0;
+  }
+  const button = $("shuffle");
+  button.classList.toggle("active", shuffleOn);
+  button.setAttribute("aria-pressed", String(shuffleOn));
+  button.setAttribute("aria-label", shuffleOn ? "Shuffle on" : "Shuffle off");
+  button.title = shuffleOn ? "Shuffle on" : "Shuffle off";
+  renderPlayer();
+}
+
+
 
 function playRecent(track) {
   // If the song still exists in the library, queue its whole album so next/previous work.
@@ -792,10 +841,10 @@ function playRecent(track) {
   playQueue([track], 0);
 }
 
-function next() { if (index < queue.length - 1) playQueue(queue, index + 1); }
+function next() { if (index < queue.length - 1) loadQueueIndex(index + 1); }
 function prev() {
   if (audio.currentTime > 3 || index === 0) { audio.currentTime = 0; return; }
-  playQueue(queue, index - 1);
+  loadQueueIndex(index - 1);
 }
 function toggle() {
   if (!current()) return;
@@ -847,6 +896,7 @@ audio.addEventListener("ended", next);
 audio.addEventListener("error", () => { if (current()) toast("Couldn't play “" + current().name + "”."); });
 
 $("toggle").innerHTML = ICON_PLAY;
+$("shuffle").addEventListener("click", toggleShuffle);
 $("toggle").addEventListener("click", toggle);
 $("prev").addEventListener("click", prev);
 $("next").addEventListener("click", next);
