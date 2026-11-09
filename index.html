@@ -408,7 +408,7 @@
    An entry can also be an object for a custom tile:
      "Name": { "url": "...", "image": "...", "desc": "subtitle text" }
    ====================================================================== */
-const LIST_URL = "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@14078193b82ce7bda3c09316e57c768c60f8a4eb/tas5.json";
+const LIST_URL = new URL("tas5.json", document.baseURI).href;
 /* ===================================================================== */
 
 /* ======================================================================
