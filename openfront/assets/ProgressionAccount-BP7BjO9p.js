@@ -1,0 +1,1 @@
+import{Bi as e,Ga as t,Kr as n,gi as r}from"./index-xDRx6PtE.js";async function i(){if(!await r())return{kind:`signed_out`};let i=await n();return i===!1?{kind:`unknown`}:t(i.user)||e.isOnGamePortal()&&await e.getUserProfile()!==null?{kind:`signed_in`,me:i}:{kind:`signed_out`}}export{i as t};

@@ -1,0 +1,1 @@
+import{Kr as e}from"./index-xDRx6PtE.js";function t(e){if(e===!1||e.player.levelHidden!==!0)return;let t=e.player.progress;if(t!==void 0)return{level:t.level,prestige:t.prestige,legend:t.legend}}var n,r=0;function i(){return n}async function a(){let i=++r,a=t(await e());return i===r&&(n=a),n}document.addEventListener(`session-cleared`,()=>{r++,n=void 0});export{a as n,i as t};
