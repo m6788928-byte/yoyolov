@@ -10,6 +10,14 @@
   <title>Snow Rider 3D Unblocked</title>
   <link rel="shortcut icon" href="TemplateData/favicon.ico">
   <link rel="stylesheet" href="TemplateData/style.css">
+  <script>
+    // Some managed Chromebooks block the Gamepad API through Permissions Policy.
+    // Unity only needs an empty list when no controller is connected.
+    try { Object.defineProperty(Navigator.prototype, "getGamepads", { configurable:true, value:() => [] }); }
+    catch (_) { try { Object.defineProperty(navigator, "getGamepads", { configurable:true, value:() => [] }); } catch (_) {} }
+    try { Object.defineProperty(Navigator.prototype, "webkitGetGamepads", { configurable:true, value:() => [] }); }
+    catch (_) { try { Object.defineProperty(navigator, "webkitGetGamepads", { configurable:true, value:() => [] }); } catch (_) {} }
+  </script>
   <script src="TemplateData/UnityProgress.js"></script>
   <script src="Build/UnityLoader.js"></script>
   <script>
