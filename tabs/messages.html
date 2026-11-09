@@ -12,7 +12,7 @@ let db=null,user=null,username="",room="general",live=null,presence=null,replyTo
 const CONFIG_KEY="yoyolov-chat-config-v1";
 const SUPABASE_URL="https://ybtpzchvczgoyozxterw.supabase.co";
 const SUPABASE_KEY="sb_publishable_k_NWMde9ZreUm6DypDfgzw_zsuRMKr9";
-function config(){try{return JSON.parse(localStorage.getItem(CONFIG_KEY)||"null")||{url:SUPABASE_URL,key:SUPABASE_KEY};}catch{return {url:SUPABASE_URL,key:SUPABASE_KEY};}}
+function config(){return {url:SUPABASE_URL,key:SUPABASE_KEY};}
 function setConnection(s){$("connection").textContent=s;}
 function setup(error=""){$("projectUrl").value=SUPABASE_URL;$("publishableKey").value=SUPABASE_KEY;$("setup").classList.add("open");$("setupError").textContent=error;}
 function authPrompt(mode="login",error=""){
