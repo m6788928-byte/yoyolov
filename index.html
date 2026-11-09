@@ -953,6 +953,12 @@ function withBase(text, url){
 
 /* ---------- opening ---------- */
 async function openUrl(url, name){
+  if(name.toLowerCase() === 'openkrillion'){
+    const tab = window.open(url, '_blank');
+    if(tab) tab.opener = null;
+    else { show(); busy.classList.add('on'); busy.textContent = 'Pop-up blocked. Allow pop-ups for Yoyolov to open OpenKrillion.'; }
+    return;
+  }
   show(); busy.classList.add('on'); busy.textContent = 'Loading ' + name + '…';
   if(settings.autoFullscreen && !document.fullscreenElement && viewer.requestFullscreen)
     viewer.requestFullscreen().catch(() => {});
