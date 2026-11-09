@@ -408,7 +408,7 @@
    An entry can also be an object for a custom tile:
      "Name": { "url": "...", "image": "...", "desc": "subtitle text" }
    ====================================================================== */
-const LIST_URL = "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@5796a9e7112c8df9d9f99aea2608b81b6394f3dd/tas5.json";
+const LIST_URL = "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@14078193b82ce7bda3c09316e57c768c60f8a4eb/tas5.json";
 /* ===================================================================== */
 
 /* ======================================================================
@@ -944,7 +944,7 @@ function withBase(text, url){
 async function openUrl(url, name){
   // These two games must run as top-level pages: their external loaders do
   // not work from inside this site's sandboxed preview iframe.
-  if(/^(Snow Rider 3D|Retro Bowl)$/i.test(name)){
+  if(/^(Snow Rider 3D|Retro Bowl|Rocket Goal|Get Yoked|Golf Battle)$/i.test(name)){
     const popup = window.open(url, '_blank');
     if(popup){ try{ popup.opener = null; }catch{}; }
     else location.assign(url);
