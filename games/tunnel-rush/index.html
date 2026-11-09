@@ -35,11 +35,21 @@ html,body,#gameContainer{width:100%;height:100%;margin:0;padding:0;overflow:hidd
     }
     if(progress==="complete"||instance?.Module?.calledRun)loading.hidden=true;
   };
-  window.addEventListener("error",event=>{
-    const message=event.message||"Unknown runtime error";
+  let started=false;
+  const showError=message=>{
     error.textContent="Tunnel Rush failed to start: "+message;
     error.hidden=false;
+    loading.hidden=true;
+  };
+  window.addEventListener("error",event=>{
+    showError(event.message||"A script or game asset failed to load.");
   });
+  window.addEventListener("unhandledrejection",event=>{
+    showError(event.reason?.message||String(event.reason||"A loading request failed."));
+  });
+  const startupTimeout=setTimeout(()=>{
+    if(!started)showError("The game did not finish loading. Check that the game assets are reachable, then reload.");
+  },90000);
   document.getElementById("fullscreen").addEventListener("click",()=>{
     const target=container;
     if(document.fullscreenElement)document.exitFullscreen?.();
@@ -49,7 +59,21 @@ html,body,#gameContainer{width:100%;height:100%;margin:0;padding:0;overflow:hidd
     if(!window.UnityLoader?.instantiate)throw new Error("Unity loader failed to load.");
     window.gameInstance=UnityLoader.instantiate("gameContainer","build.json",{
       onProgress:window.UnityProgress,
-      Module:{onRuntimeInitialized:()=>{loading.hidden=true;}}
+      Module:{
+        onRuntimeInitialized:()=>{
+          started=true;
+          clearTimeout(startupTimeout);
+          loading.hidden=true;
+        },
+        print:message=>{
+          if(/Could not download|failed|error/i.test(String(message)))showError(String(message));
+          console.log(message);
+        },
+        printErr:message=>{
+          showError(String(message));
+          console.error(message);
+        }
+      }
     });
   } catch(e) {
     loading.hidden=true;
