@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="robots" content="noindex,nofollow">
+<title>Tunnel Rush</title>
+<style>
+*{box-sizing:border-box}
+html,body,#gameContainer{width:100%;height:100%;margin:0;padding:0;overflow:hidden;background:#000}
+#gameContainer{position:fixed;inset:0}
+#gameContainer canvas{width:100%!important;height:100%!important;display:block;outline:none}
+#loading{position:fixed;inset:0;display:grid;place-items:center;color:#fff;background:#000;font:14px system-ui,sans-serif;z-index:2;pointer-events:none}
+#loading[hidden]{display:none}
+#error{position:fixed;left:16px;right:16px;bottom:16px;padding:12px;background:#261818;color:#ffdada;border:1px solid #773b3b;border-radius:8px;font:13px system-ui,sans-serif;z-index:4;white-space:pre-wrap}
+#fullscreen{position:fixed;right:12px;top:12px;z-index:3;padding:8px 11px;border:1px solid #ffffff35;border-radius:7px;background:#1119;color:#fff;font:12px system-ui,sans-serif;cursor:pointer;opacity:.35;transition:opacity .15s}
+#fullscreen:hover{opacity:1}
+</style>
+<script src="https://cdn.jsdelivr.net/gh/tunnelrushonline2/tunnelrushonline2.github.io@0ed34b12c690c79c5c801e5d188033c50b272a09/file/UnityLoader2019.js"></script>
+</head>
+<body>
+<div id="gameContainer"></div>
+<div id="loading">Loading Tunnel Rush…</div>
+<div id="error" hidden></div>
+<button id="fullscreen" type="button">Fullscreen</button>
+<script>
+(() => {
+  const loading=document.getElementById("loading");
+  const error=document.getElementById("error");
+  const container=document.getElementById("gameContainer");
+  window.UnityProgress=(_instance,progress)=>{
+    if(progress===1||progress==="complete")loading.hidden=true;
+  };
+  window.addEventListener("error",event=>{
+    const message=event.message||"Unknown runtime error";
+    error.textContent="Tunnel Rush failed to start: "+message;
+    error.hidden=false;
+  });
+  document.getElementById("fullscreen").addEventListener("click",()=>{
+    const target=container;
+    if(document.fullscreenElement)document.exitFullscreen?.();
+    else target.requestFullscreen?.();
+  });
+  try {
+    if(!window.UnityLoader?.instantiate)throw new Error("Unity loader failed to load.");
+    window.gameInstance=UnityLoader.instantiate("gameContainer","build.json");
+  } catch(e) {
+    loading.hidden=true;
+    error.textContent="Tunnel Rush failed to start: "+(e.message||e);
+    error.hidden=false;
+  }
+})();
+</script>
+</body>
+</html>
