@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>OpenFront Offline Solo</title>
+<style>
+:root{color-scheme:dark}*{box-sizing:border-box}body{margin:0;min-height:100vh;background:#111827;color:#eef2f7;font:14px Arial,Helvetica,sans-serif;display:grid;place-items:center;padding:22px}main{width:min(560px,100%);background:#182234;border:1px solid #344155;border-radius:12px;padding:24px}h1{font-size:24px;margin:0 0 8px}p,li{color:#c3ccda;line-height:1.55}h2{font-size:16px;margin:22px 0 8px}.steps{padding-left:22px}pre{white-space:pre-wrap;overflow-wrap:anywhere;background:#0b1220;color:#e5edf8;padding:13px;border-radius:7px;line-height:1.6}.launch{display:block;text-align:center;margin-top:20px;background:#d9e6f7;color:#111827;text-decoration:none;font-weight:700;padding:13px 18px;border-radius:7px}.small{font-size:12px;color:#8f9bad}
+</style>
+</head>
+<body>
+<main>
+<h1>OpenFront — Offline Solo</h1>
+<p>This is the Chromebook-only Solo package you supplied. The Solo simulation runs in the browser; it does not need a public multiplayer server or your PC.</p>
+<h2>First-time setup on your Chromebook</h2>
+<ol class="steps">
+<li>Enable the Chromebook <b>Linux development environment</b>.</li>
+<li>Move <code>OpenFront_Solo_Offline_Chromebook.zip</code> into <b>Linux files</b>.</li>
+<li>Open the Linux Terminal and run:</li>
+</ol>
+<pre>cd ~
+unzip -q OpenFront_Solo_Offline_Chromebook.zip
+cd ~/OpenFrontOffline
+bash start-openfront.sh</pre>
+<p>Keep the Terminal window open while playing. The local server only serves the bundled files to this Chromebook. Press <b>Ctrl+C</b> in Terminal when finished.</p>
+<a class="launch" href="http://127.0.0.1:8000/" target="_self" rel="noreferrer">Launch OpenFront Offline</a>
+<p class="small">The ZIP expands to roughly 722 MB. Sign-in, cosmetics, cloud saves, public lobbies, and archived-game uploads are not part of this offline package. OpenFront code is AGPL-3.0 and included assets are CC BY-SA 4.0; keep the supplied license and attribution files with the package.</p>
+</main>
+</body>
+</html>
