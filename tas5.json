@@ -155,11 +155,11 @@
     "image": "https://snowrider.com/assets/img/logo.png"
   },
   "Retro Bowl": {
-    "url": "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@main/games/retro-bowl/index.html",
+    "url": "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@9f8fd9e030af2dffbe881cebd6b58d3d53250585/games/retro-bowl/index.html",
     "image": "https://cdn-1.webcatalog.io/catalog/retro-bowl/retro-bowl-icon.png?v=1769388148598"
   },
   "Wordle": {
-    "url": "https://raw.githubusercontent.com/m6788928-byte/yoyolov/81254a9381933031f1e0d3f5964d57eda44f5782/wordle-daily-save-v3.html",
+    "url": "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@cc01515527f144e0020405398306e40df7a1bc95/wordle-daily-save-v3.html",
     "image": "https://cdn.jsdelivr.net/gh/selfhst/icons/webp/nyt-wordle.webp"
   },
   "OpenFront": {
