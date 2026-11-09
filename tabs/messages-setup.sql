@@ -153,14 +153,9 @@ grant usage,select on all sequences in schema public to authenticated;
 
 do $$
 begin
-  if exists (select 1 from pg_publication where pubname='supabase_realtime') then
-    if not exists (select 1 from pg_publication_tables where pubname='supabase_realtime' and schemaname='public' and tablename='messages') then
-      execute 'alter publication supabase_realtime add table public.messages';
-    end if;
-    if not exists (select 1 from pg_publication_tables where pubname='supabase_realtime' and schemaname='public' and tablename='message_reactions') then
-      execute 'alter publication supabase_realtime add table public.message_reactions';
-    end if;
-  end if;
+  execute 'alter publication supabase_realtime add table public.messages';
+exception when duplicate_object then
+  null;
 end $$;
 
 -- Private one-to-one direct messages.
@@ -226,8 +221,7 @@ grant usage,select on sequence public.dm_messages_id_seq to authenticated;
 
 do $$
 begin
-  if exists (select 1 from pg_publication where pubname='supabase_realtime')
-     and not exists (select 1 from pg_publication_tables where pubname='supabase_realtime' and schemaname='public' and tablename='dm_messages') then
-    execute 'alter publication supabase_realtime add table public.dm_messages';
-  end if;
+  execute 'alter publication supabase_realtime add table public.dm_messages';
+exception when duplicate_object then
+  null;
 end $$;
