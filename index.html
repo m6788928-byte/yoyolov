@@ -796,7 +796,7 @@ function createCustomTabs(){
     status.className = 'custom-status'; status.setAttribute('role', 'status');
     const iframe = document.createElement('iframe');
     iframe.className = 'custom-frame'; iframe.title = name;
-    iframe.setAttribute('sandbox', 'allow-same-origin allow-scripts allow-forms allow-modals allow-popups allow-pointer-lock');
+    iframe.setAttribute('sandbox', 'allow-same-origin allow-scripts allow-forms allow-modals allow-popups allow-popups-to-escape-sandbox allow-pointer-lock');
     const state = {name, url, frame:iframe, status, reload, loaded:false, loading:false, html:''};
     customTabStates.set(id, state);
     watchFrame(iframe);
