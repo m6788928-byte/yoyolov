@@ -159,17 +159,17 @@
     "image": "https://cdn-1.webcatalog.io/catalog/retro-bowl/retro-bowl-icon.png?v=1769388148598"
   },
   "Wordle": {
-    "url": "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@main/wordle.html",
+    "url": "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@bae016782d2223dec6fb0b253d305ed7bcb47810/wordle.html",
     "image": "https://cdn.jsdelivr.net/gh/selfhst/icons/webp/nyt-wordle.webp"
   },
   "OpenFront": {
     "url": "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@main/openfront-unavailable.html",
-    "desc": "Unavailable \u2014 requires a game server",
+    "desc": "Unavailable — requires a game server",
     "image": "https://raw.githubusercontent.com/openfrontio/OpenFrontIO/main/proprietary/images/OpenFrontLogo.png"
   },
   "OpenKrillion": {
     "url": "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@main/krillion-unavailable.html",
-    "desc": "Unavailable \u2014 requires Cloudflare services",
+    "desc": "Unavailable — requires Cloudflare services",
     "image": "https://raw.githubusercontent.com/VulcanEon/openkrillion.com-service/main/public/assets/icon.png"
   },
   "Rocket Goal": {
