@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#121213">
+<title>Wordle · Difficulty Build 4</title>
+<style>
+:root{color-scheme:dark;--bg:#121213;--tile:#3a3a3c;--green:#538d4e;--yellow:#b59f3b;--gray:#3a3a3c}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:var(--bg);color:#fff;font-family:Arial,Helvetica,sans-serif}
+body{min-height:100dvh;display:flex;justify-content:center}
+main{width:min(500px,100%);padding:10px 12px 18px;display:flex;flex-direction:column;align-items:center}
+header{height:48px;width:100%;border-bottom:1px solid #3a3a3c;display:flex;align-items:center;justify-content:center;position:relative;margin-bottom:12px}
+h1{font-size:26px;font-weight:700;letter-spacing:1px;margin:0}
+.info{position:absolute;right:2px;top:6px;border:0;background:transparent;color:#ddd;font-size:23px;cursor:pointer;padding:4px}
+#board{width:min(310px,82vw);display:grid;grid-template-columns:repeat(5,1fr);gap:5px;margin:12px auto 22px}
+.cell{aspect-ratio:1;border:2px solid #3a3a3c;display:flex;align-items:center;justify-content:center;font-size:clamp(22px,6vw,30px);font-weight:700;text-transform:uppercase;user-select:none}
+.cell.filled{border-color:#777}
+.cell.correct,.key.correct{background:var(--green);border-color:var(--green)}
+.cell.present,.key.present{background:var(--yellow);border-color:var(--yellow)}
+.cell.absent,.key.absent{background:var(--gray);border-color:var(--gray)}
+#toast{height:24px;font-size:14px;font-weight:700;text-align:center;opacity:0;transition:opacity .12s;margin-top:-12px}
+#toast.show{opacity:1}
+#keyboard{width:min(500px,100%);display:grid;gap:7px;margin-top:auto}
+.keyrow{display:flex;justify-content:center;gap:5px}
+.key{height:clamp(44px,7vh,58px);min-width:0;flex:1;border:0;border-radius:4px;background:#818384;color:#fff;font-size:clamp(12px,3vw,14px);font-weight:700;padding:0 3px;cursor:pointer;text-transform:uppercase}
+.key.wide{flex:1.5;font-size:11px}
+.key:active{filter:brightness(1.2)}
+footer{margin-top:12px;font-size:11px;color:#777;text-align:center}.about-link{margin-top:7px;background:none;border:0;color:#9db5ff;text-decoration:underline;cursor:pointer;font:inherit}
+.modebar{display:flex;gap:7px;justify-content:center;align-items:center;margin:0 auto 6px}
+.modebar button{background:#28282b;color:#eee;border:1px solid #555;border-radius:5px;padding:7px 12px;font-size:12px;cursor:pointer}
+.modebar button.selected{background:#538d4e;border-color:#538d4e}
+.modebar #resetGame{background:#333;border-color:#666}
+#dictionaryStatus{min-height:18px;text-align:center;color:#888;font-size:11px;margin:-2px 0 3px}
+#dictionaryStatus.error{color:#ff9b9b}
+.overlay{position:fixed;inset:0;background:#0009;display:none;align-items:center;justify-content:center;padding:18px;z-index:5}
+.overlay.open{display:flex}
+.dialog{width:min(390px,100%);background:#202022;border:1px solid #555;border-radius:8px;padding:22px;box-shadow:0 12px 40px #0008;position:relative;line-height:1.5}
+.dialog h2{font-size:21px;text-align:center;margin:0 0 12px}
+.dialog p{font-size:14px;color:#ddd;margin:10px 0}
+.close{position:absolute;right:12px;top:8px;background:none;border:0;color:#ddd;font-size:22px;cursor:pointer}
+.example{display:flex;justify-content:center;gap:4px;margin:8px 0}
+.example .cell{width:42px;height:42px;aspect-ratio:auto;font-size:22px}
+.action{display:block;margin:18px auto 0;border:0;border-radius:5px;padding:10px 18px;background:var(--green);color:#fff;font-weight:700;cursor:pointer}
+@media(max-height:620px){main{padding-top:4px}header{height:40px;margin-bottom:4px}#board{width:min(270px,70vw);gap:4px;margin:6px auto 10px}.key{height:42px}#keyboard{gap:5px}}
+</style>
+</head>
+<body>
+<main>
+<header><h1>WORDLE</h1><span style="position:absolute;left:8px;top:17px;font-size:9px;color:#777;letter-spacing:.5px">BUILD 4</span><button class="info" id="info" aria-label="How to play">ⓘ</button></header>
+<div class="modebar" aria-label="Game mode">
+<button id="dailyMode" class="selected" type="button">Daily</button>
+<button id="endlessMode" type="button">Endless</button>
+<button id="resetGame" type="button" hidden>Reset</button>
+</div>
+<div class="modebar" id="difficultyBar" aria-label="Endless difficulty" style="display:none"><button type="button" data-difficulty="easy" class="selected">Easy</button><button type="button" data-difficulty="medium">Medium</button><button type="button" data-difficulty="hard">Hard</button></div>
+<div id="dictionaryStatus" role="status">Loading five-letter word list…</div>
+<div id="board" aria-label="Guess grid"></div>
+<div id="toast" role="status"></div>
+<div id="keyboard" aria-label="Keyboard"></div>
+<footer><span id="modeHint">One word every day · 6 guesses</span><br><button class="about-link" id="about" type="button">About this game</button></footer>
+</main>
+<div class="overlay" id="infoModal"><section class="dialog">
+<button class="close" data-close aria-label="Close">×</button><h2>How to play</h2>
+<p>Guess the five-letter word in 6 tries. Every guess must be a real five-letter word in the word list.</p>
+<div class="example"><div class="cell correct">W</div><div class="cell">E</div><div class="cell">A</div><div class="cell">R</div><div class="cell">Y</div></div><p>Green means the letter is in the word and in the correct spot.</p>
+<div class="example"><div class="cell">P</div><div class="cell present">I</div><div class="cell">L</div><div class="cell">O</div><div class="cell">T</div></div><p>Yellow means the letter is in the word but in the wrong spot.</p>
+<div class="example"><div class="cell">V</div><div class="cell">A</div><div class="cell">G</div><div class="cell absent">U</div><div class="cell">E</div></div><p>Gray means the letter is not in the word.</p>
+</section></div>
+<div class="overlay" id="resultModal"><section class="dialog">
+<button class="close" data-close aria-label="Close">×</button><h2 id="resultTitle">Nice!</h2><p id="resultText" style="text-align:center"></p><button class="action" id="nextWord">Next word</button>
+</section></div>
+<div class="overlay" id="aboutModal"><section class="dialog">
+<button class="close" data-close aria-label="Close">×</button><h2>About this game</h2><p>This is a single-file version of the Wordle clone supplied with Yoyolov. The original React project and word list were created by Hannah Park.</p><p>Source: <a href="https://github.com/thesam73/wordle" target="_blank" rel="noopener" style="color:#9db5ff">thesam73/wordle</a> · MIT License.</p>
+</section></div>
+<script>
+const EASY_WORDS=["about","above","actor","after","again","agent","agree","ahead","alarm","album","alert","alien","alive","allow","alone","along","alter","among","angel","anger","angle","angry","ankle","apple","apply","argue","arise","aside","audio","avoid","award","aware","baker","basic","beach","began","begin","being","below","bench","birth","black","blame","blank","blind","block","blood","board","brain","brand","bread","break","brick","bride","brief","bring","broad","broke","brown","build","buyer","cable","carry","catch","cause","chain","chair","charm","chart","chase","cheap","check","chest","chief","child","china","choir","chose","civil","claim","class","clean","clear","climb","clock","close","cloud","coach","coast","could","count","court","cover","craft","crash","cream","crime","crisp","cross","crowd","crown","curve","cycle","daily","dance","death","delay","depth","devil","diary","dirty","doubt","dozen","draft","drama","dream","dress","drink","drive","earth","eight","elite","empty","enemy","enjoy","enter","equal","error","event","every","exact","exist","extra","faith","false","fancy","fault","feast","fence","fever","field","fifth","fifty","fight","final","first","flame","flash","fleet","floor","flour","focus","force","forty","found","frame","frank","fresh","front","fruit","funny","giant","given","glass","globe","glory","going","grace","grade","grand","grant","grass","great","green","greet","group","grown","guard","guess","guest","guide","habit","happy","heart","heavy","hello","hence","horse","hotel","house","human","humor","ideal","image","index","inner","input","issue","joint","judge","juice","knock","known","label","labor","large","later","laugh","layer","learn","least","leave","legal","lemon","level","light","limit","local","logic","loose","lower","lucky","lunch","magic","major","maker","march","match","maybe","mayor","media","metal","might","minor","model","money","month","moral","motor","mount","mouse","mouth","movie","music","nerve","never","night","noise","north","novel","nurse","occur","ocean","offer","often","order","other","owner","paint","panel","paper","party","peace","phase","phone","photo","piano","piece","pilot","pitch","place","plain","plane","plant","plate","point","power","press","price","pride","prime","print","prize","proof","proud","queen","quick","quiet","radio","raise","range","reach","react","ready","reply","right","river","roast","rough","round","route","royal","rural","scale","scene","score","sense","serve","seven","shape","share","sharp","sheet","shelf","shell","shift","shirt","shock","shoot","short","shown","sight","since","skill","sleep","slice","small","smart","smile","smoke","solid","solve","sorry","sound","south","space","speak","speed","spend","sport","staff","stage","stand","start","state","steam","steel","stick","still","stock","stone","store","storm","story","strip","stuck","study","style","sugar","suite","super","sweet","table","taken","taste","teach","team","thank","their","theme","there","thick","thing","think","third","those","three","throw","tight","tired","title","today","topic","total","touch","tough","tower","track","trade","train","treat","trend","trial","tried","truck","truly","trust","truth","twice","under","union","unity","until","upper","upset","urban","usage","usual","value","video","visit","vital","voice","waste","watch","water","wheel","where","which","while","white","whole","woman","women","world","worry","worse","worst","worth","would","write","wrong","young","youth"];
+const MEDIUM_WORDS=["abbey","adopt","adult","aisle","alike","allot","amaze","amend","apart","asset","audit","awake","bacon","badge","bagel","banjo","batch","beard","beast","belly","berry","blade","blast","blaze","blend","bless","blink","bliss","bloom","blunt","boast","bonus","booth","bound","brace","brass","brave","breed","brisk","brush","buddy","burst","cabin","camel","cargo","carve","cedar","chalk","chaos","cheek","chess","chill","clamp","clash","cloth","clump","coral","couch","crack","crane","crawl","crazy","creek","creep","crude","crush","cubic","curry","daisy","decor","defer","dense","depot","digit","diner","disco","ditch","donor","dowel","dread","dwell","eager","eagle","early","elbow","elder","elect","enact","entry","equip","essay","ethic","fetch","fiber","fixed","flesh","float","flood","fluid","forge","forum","freak","fried","frost","ghost","gleam","gloom","glove","grain","grape","graph","grave","greed","grief","grind","gross","guard","guilt","hardy","haste","haunt","hobby","honey","honor","ivory","jewel","knife","laser","linen","liver","lunar","mango","manor","maple","medal","mercy","meter","naive","noble","olive","onset","opera","orbit","organ","outer","oxide","pecan","peril","pivot","plaid","plead","plume","poise","pound","pulse","rapid","ratio","realm","rival","robot","rocky","rogue","roomy","rotor","rowdy","ruddy","salsa","salty","savor","scald","scalp","scant","scorn","scour","scowl","serum","sever","shale","shard","sheer","sieve","silky","siren","skimp","slate","sleet","slick","slosh","sloth","snare","snoop","snout","solar","sonar","speck","spire","spool","spore","sprig","stack","stark","stave","steep","stern","stint","stoic","stoke","stout","strut","suede","sulky","talon","taper","tawny","tepid","terse","tiara","timid","tinge","tonal","tonic","torso","unfit","unlit","untie","valet","valor","vapor","vegan","venom","verge","vicar","vigor","villa","viper","visor","vivid","vogue","wield","wince","witty","yearn","yeast","yodel","zesty"];
+const HARD_WORDS=["abyss","adept","adorn","algae","alias","amass","angst","anvil","aroma","arson","atlas","attic","avert","azure","banal","berth","bevel","bicep","binge","biome","bleak","bluff","blurt","brawl","brine","broil","cameo","canny","caper","carat","caste","cater","chafe","chasm","chide","chirp","chord","cigar","circa","clout","clove","cobra","comet","covet","coyly","credo","crepe","crypt","cumin","curio","cynic","delve","denim","detox","ditto","dogma","eerie","elude","envoy","epoch","evoke","expel","facet","fauna","feign","felon","femur","fetid","fiend","flair","flank","flare","flora","fluke","foyer","gamut","gaudy","gaunt","genre","glean","glint","gloat","gnash","gnome","gorge","gouge","grail","grift","grime","gruel","guise","gulch","heist","heron","hoard","hoist","horde","humid","impel","inept","infer","inlet","irony","jaunt","jazzy","joust","kayak","knoll","ladle","lapel","latch","lathe","leach","leery","lilac","lucid","lurid","macaw","manic","manta","matte","melee","mimic","mince","mirth","miser","mocha","moxie","mural","murky","nasal","natal","nifty","ninja","nomad","nylon","opine","optic","ovary","overt","ozone","pagan","parka","pause","pearl","pithy","plait","posse","puffy","puree","quail","quake","quell","quirk","rabid","radar","ranch","ravel","raven","rebel","relic","remit","repel","resin","rhyme","rigid","rigor","rinse","rivet","roach","scamp","shrew","sigma","slung","spasm","spunk","taboo","thorn","twang","usurp","verso","woozy"];
+const easySet=new Set(EASY_WORDS);
+const mediumSet=new Set(MEDIUM_WORDS.filter(w=>!easySet.has(w)));
+const hardSet=new Set(HARD_WORDS.filter(w=>!easySet.has(w)&&!mediumSet.has(w)));
+const difficultyPools={easy:[...easySet],medium:[...mediumSet],hard:[...hardSet]};
+let difficulty='easy';
+const epoch=Date.UTC(2021,11,31);
+function localDateKey(){const d=new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");}
+function dayIndexNow(){const d=new Date();return Math.floor(Date.UTC(d.getFullYear(),d.getMonth(),d.getDate())/86400000)-Math.floor(epoch/86400000);}
+let activeDay=localDateKey();
+const answerWords=[...new Set(EASY_WORDS.map(w=>w.toUpperCase()))];
+const COMMON_GUESSES=["abide","abort","about","above","abuse","actor","acute","adapt","admit","adobe","adopt","adore","adult","after","again","agent","agile","aging","agree","ahead","alarm","album","alert","alike","alive","allow","alter","amend","among","angel","anger","angle","angry","apart","apple","apply","arena","argue","arise","armed","armor","aroma","arose","array","aside","asset","audio","avoid","awake","award","aware","awful","bacon","badge","badly","baker","basic","basin","basis","beach","began","begin","being","below","bench","berry","birth","black","blade","blame","blank","blast","blaze","bleak","blend","bless","blind","block","blood","bloom","board","boast","bonus","brain","brand","brave","bread","break","brick","bride","brief","bring","broad","broke","brown","brush","build","bunch","burst","buyer","cable","camel","candy","cargo","carry","catch","cause","chain","chair","charm","chart","chase","cheap","check","cheer","chess","chest","chief","child","chill","china","choir","chose","claim","class","clean","clear","clerk","click","climb","clock","close","cloud","coach","coast","color","comet","comic","coral","couch","could","count","court","cover","crack","craft","crash","crazy","cream","crime","crisp","cross","crowd","crown","crude","crush","curve","daily","dance","dealt","death","debut","delay","depth","devil","diary","dirty","disco","doubt","dozen","draft","drama","dream","dress","drink","drive","eager","early","earth","eight","elect","elite","email","empty","enemy","enjoy","enter","entry","equal","error","essay","event","every","exact","exist","extra","faith","false","fancy","fault","feast","fiber","field","fifth","fifty","fight","final","first","flame","flash","fleet","floor","flour","focus","force","forge","forty","found","frame","frank","fraud","fresh","front","fruit","fully","funny","giant","given","glass","globe","glory","going","grace","grade","grain","grand","grant","grape","graph","grass","grave","great","greed","green","greet","grief","grind","group","grown","guard","guess","guest","guide","habit","happy","harden","hardy","haste","haunt","heart","heavy","hello","hence","hobby","honey","honor","horse","hotel","house","human","humor","ideal","image","index","inner","input","issue","ivory","jewel","joint","judge","juice","knife","knock","known","label","labor","large","later","laugh","layer","learn","lease","least","leave","legal","lemon","level","light","limit","linen","listen","liter","local","logic","loose","lower","lucky","lunch","magic","major","maker","mango","manor","march","marry","match","maybe","mayor","medal","media","mercy","metal","meter","might","minor","model","money","month","moral","motor","mount","mouse","mouth","movie","music","naive","naked","nerve","never","night","noise","north","novel","nurse","occur","ocean","offer","often","order","organ","other","ought","owner","paint","panel","paper","party","peace","phase","phone","photo","piano","piece","pilot","pitch","place","plain","plane","plant","plate","point","pound","power","press","price","pride","prime","print","prize","proof","proud","queen","quick","quiet","radio","raise","range","rapid","ratio","reach","react","ready","realm","rebel","refer","relax","reply","reset","right","rigid","rival","river","roast","robot","rocky","rogue","roman","rough","round","route","royal","rural","sadly","salad","salsa","salty","sauce","scale","scare","scene","scope","score","scout","scrap","screw","script","search","season","second","secret","serve","seven","shade","shadow","shake","shall","shame","shape","share","shark","sharp","sheet","shelf","shell","shift","shine","shirt","shock","shoot","shore","short","shout","shown","sight","since","skill","skirt","sleep","slice","slide","slight","slope","small","smart","smell","smile","smoke","solid","solve","sorry","sound","south","space","spare","speak","speed","spend","spent","spice","spicy","spill","spine","spite","split","spoil","spoke","sport","spray","squad","staff","stage","stair","stake","stand","stare","start","state","steam","steel","steep","stick","still","stock","stone","stood","store","storm","story","strip","stuck","study","stuff","style","sugar","suite","super","swear","sweet","swift","swing","sword","table","taken","taste","teach","teeth","tempo","tender","thank","their","theme","there","these","thick","thief","thing","think","third","those","three","throw","thumb","tiger","tight","tired","title","today","topic","total","touch","tough","tower","toxic","track","trade","trail","train","treat","trend","trial","tried","truck","truly","trust","truth","twice","uncle","under","union","unity","until","upper","upset","urban","usage","usual","valid","value","video","visit","vital","voice","waste","watch","water","wheel","where","which","while","white","whole","woman","women","world","worry","worse","worst","worth","would","wound","write","wrong","wrote","yeast","young","youth","zebra"];
+const allowedWords=new Set([...EASY_WORDS,...MEDIUM_WORDS,...HARD_WORDS,...COMMON_GUESSES].map(w=>w.toLowerCase()));
+let mode="daily",solution="",current="",finished=false,guesses=[],toastTimer,endlessDeck=[];
+const board=document.getElementById("board"),keyboard=document.getElementById("keyboard"),toast=document.getElementById("toast");
+const keyRows=["QWERTYUIOP","ASDFGHJKL","ZXCVBNM"];
+const keyButtons=new Map();
+function evaluate(word){
+ const target=solution.split(""),result=Array(5).fill("absent"),used=Array(5).fill(false);
+ for(let i=0;i<5;i++)if(word[i]===target[i]){result[i]="correct";used[i]=true;}
+ for(let i=0;i<5;i++)if(result[i]!=="correct"){const j=target.findIndex((ch,k)=>ch===word[i]&&!used[k]);if(j>=0){result[i]="present";used[j]=true;}}
+ return result;
+}
+function keyStates(){
+ const rank={absent:1,present:2,correct:3},out={};
+ for(const guess of guesses)evaluate(guess).forEach((status,i)=>{const ch=guess[i];if(!out[ch]||rank[status]>rank[out[ch]])out[ch]=status;});
+ return out;
+}
+function buildKeyboard(){
+ keyboard.replaceChildren();
+ keyRows.forEach((row,index)=>{
+  const line=document.createElement("div");line.className="keyrow";
+  if(index===2){const enter=document.createElement("button");enter.type="button";enter.className="key wide";enter.textContent="ENTER";enter.dataset.key="ENTER";line.append(enter);keyButtons.set("ENTER",enter);}
+  for(const ch of row){const button=document.createElement("button");button.type="button";button.className="key";button.textContent=ch.toUpperCase();button.dataset.key=ch.toUpperCase();line.append(button);keyButtons.set(ch,button);}
+  if(index===2){const del=document.createElement("button");del.type="button";del.className="key wide";del.textContent="⌫";del.dataset.key="DELETE";line.append(del);keyButtons.set("DELETE",del);}
+  keyboard.append(line);
+ });
+}
+function render(){
+ const fragment=document.createDocumentFragment();
+ for(let r=0;r<6;r++)for(let c=0;c<5;c++){
+  const cell=document.createElement("div");cell.className="cell";
+  if(guesses[r]){cell.textContent=guesses[r][c];cell.classList.add(evaluate(guesses[r])[c]);}
+  else if(r===guesses.length&&current[c]){cell.textContent=current[c];cell.classList.add("filled");}
+  fragment.append(cell);
+ }
+ board.replaceChildren(fragment);
+ const states=keyStates();
+ for(const [key,button] of keyButtons){button.className="key"+(key==="ENTER"||key==="DELETE"?" wide":"")+(states[key]?" "+states[key]:"");}
+}
+function showToast(message){toast.textContent=message;toast.classList.add("show");clearTimeout(toastTimer);toastTimer=setTimeout(()=>toast.classList.remove("show"),1800);}
+function showModal(id){document.getElementById(id).classList.add("open");}
+function hideModal(el){el.classList.remove("open");}
+function refillEndlessDeck(){
+ endlessDeck=[...difficultyPools[difficulty].map(w=>w.toUpperCase())];
+ for(let i=endlessDeck.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[endlessDeck[i],endlessDeck[j]]=[endlessDeck[j],endlessDeck[i]];}
+ if(endlessDeck.length>1&&endlessDeck[endlessDeck.length-1]===solution)
+  [endlessDeck[0],endlessDeck[endlessDeck.length-1]]=[endlessDeck[endlessDeck.length-1],endlessDeck[0]];
+}
+function randomAnswer(){
+ if(!endlessDeck.length)refillEndlessDeck();
+ return endlessDeck.pop();
+}
+function dailyAnswer(){const n=dayIndexNow();return answerWords[((n%answerWords.length)+answerWords.length)%answerWords.length];}
+const DAILY_SAVE_PREFIX="wordle-daily-v3:";
+function saveDaily(){if(mode!=="daily")return;try{localStorage.setItem(DAILY_SAVE_PREFIX+activeDay,JSON.stringify({guesses,current,finished}));}catch{showToast("Could not save today's progress");}}
+function restoreDaily(){try{const saved=JSON.parse(localStorage.getItem(DAILY_SAVE_PREFIX+activeDay)||"null");if(!saved||!Array.isArray(saved.guesses)||saved.guesses.length>6||!saved.guesses.every(w=>/^[A-Z]{5}$/.test(w)&&allowedWords.has(w.toLowerCase()))||typeof saved.current!=="string"||!/^[A-Z]{0,5}$/.test(saved.current)||typeof saved.finished!=="boolean")return false;solution=dailyAnswer();guesses=saved.guesses;current=saved.current;finished=saved.finished;render();hideModal(document.getElementById("resultModal"));if(finished){const won=guesses.at(-1)===solution;document.getElementById("resultTitle").textContent=won?"You got it!":"Game over";document.getElementById("resultText").textContent=won?"Solved in "+guesses.length+" of 6 guesses.":"The word was "+solution+".";document.getElementById("nextWord").hidden=true;setTimeout(()=>showModal("resultModal"),150);}return true;}catch{return false;}}
+function checkNewDay(){const today=localDateKey();if(today===activeDay)return;activeDay=today;if(mode==="daily"&&!restoreDaily())startRound(dailyAnswer());}
+function startRound(next){
+ solution=next;guesses=[];current="";finished=false;
+ hideModal(document.getElementById("resultModal"));render();saveDaily();
+}
+function enter(){
+ if(finished)return;
+ if(current.length!==5)return showToast("Not enough letters");
+ if(!/^[A-Z]{5}$/.test(current))return showToast("Enter five letters");
+ const submitted=current;
+ if(!allowedWords.has(submitted.toLowerCase()))return showToast("That word is not in the word list");
+ guesses.push(submitted);current="";
+ const won=submitted===solution;
+ render();
+ if(won||guesses.length===6){
+  finished=true;saveDaily();
+  document.getElementById("resultTitle").textContent=won?"You got it!":"Game over";
+  document.getElementById("resultText").textContent=won?"Solved in "+guesses.length+" of 6 guesses.":"The word was "+solution+".";
+  document.getElementById("nextWord").hidden=mode!=="endless";
+  setTimeout(()=>showModal("resultModal"),200);
+ }else saveDaily();
+}
+function press(key){
+ if(finished)return;
+ if(key==="ENTER"){enter();return;}
+ if(key==="DELETE"){current=current.slice(0,-1);render();saveDaily();return;}
+ if(/^[A-Z]$/.test(key)&&current.length<5){current+=key.toUpperCase();render();saveDaily();}
+}
+keyboard.addEventListener("click",event=>{const button=event.target.closest("button[data-key]");if(button)press(button.dataset.key);});
+document.addEventListener("keydown",event=>{
+ if(document.querySelector(".overlay.open")){if(event.key==="Escape")document.querySelector(".overlay.open").classList.remove("open");return;}
+ if(event.key==="Enter"){event.preventDefault();press("ENTER");}
+ else if(event.key==="Backspace"||event.key==="Delete"){event.preventDefault();press("DELETE");}
+ else if(/^[a-z]$/i.test(event.key)){event.preventDefault();press(event.key.toUpperCase());}
+});
+function setMode(next){
+ mode=next;
+ const endless=mode==="endless";
+ document.getElementById("dailyMode").classList.toggle("selected",!endless);
+ document.getElementById("endlessMode").classList.toggle("selected",endless);
+ document.getElementById("resetGame").hidden=!endless;
+ document.getElementById("nextWord").hidden=!endless;
+ document.getElementById("difficultyBar").style.display=endless?"flex":"none";
+ document.getElementById("modeHint").textContent=endless?"Endless · "+difficulty[0].toUpperCase()+difficulty.slice(1)+" · 6 guesses":"One word every day · 6 guesses";
+ if(!endless){if(!restoreDaily())startRound(dailyAnswer());}else startRound(randomAnswer());
+}
+document.querySelectorAll("[data-difficulty]").forEach(button=>button.addEventListener("click",()=>{difficulty=button.dataset.difficulty;document.querySelectorAll("[data-difficulty]").forEach(b=>b.classList.toggle("selected",b===button));if(mode==="endless"){document.getElementById("modeHint").textContent="Endless · "+difficulty[0].toUpperCase()+difficulty.slice(1)+" · 6 guesses";startRound(randomAnswer());}}));
+document.getElementById("dailyMode").addEventListener("click",()=>setMode("daily"));
+document.getElementById("endlessMode").addEventListener("click",()=>setMode("endless"));
+document.getElementById("resetGame").addEventListener("click",()=>{if(mode==="endless")startRound(randomAnswer());});
+document.getElementById("info").addEventListener("click",()=>showModal("infoModal"));
+document.getElementById("about").addEventListener("click",()=>showModal("aboutModal"));
+document.querySelectorAll("[data-close]").forEach(button=>button.addEventListener("click",()=>hideModal(button.closest(".overlay"))));
+document.getElementById("nextWord").addEventListener("click",()=>{if(mode==="endless")startRound(randomAnswer());});
+document.querySelectorAll(".overlay").forEach(overlay=>overlay.addEventListener("click",event=>{if(event.target===overlay)hideModal(overlay);}));
+document.getElementById("dictionaryStatus").textContent="Real-word guesses · "+allowedWords.size.toLocaleString()+" accepted words";
+document.getElementById("resetGame").hidden=true;
+document.getElementById("nextWord").hidden=true;
+buildKeyboard();
+if(!restoreDaily())startRound(dailyAnswer());
+document.addEventListener("visibilitychange",()=>{if(!document.hidden)checkNewDay();});
+setInterval(checkNewDay,30000);
+</script>
+<!-- MIT License
+Copyright (c) 2022 Hannah Park
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+-->
+</body>
+</html>
