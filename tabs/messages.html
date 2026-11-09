@@ -160,7 +160,7 @@ async function submitAuth(){
   if(result.error)throw result.error;
   user=result.data.user;
   await enterChat();
- }catch(error){$("profileError").textContent=error.message||"Could not authenticate.";}
+ }catch(error){const message=error.message||"Could not authenticate."; $("profileError").textContent=authMode==="signup"&&/database error saving new user/i.test(message)?"Could not create account. Chat may be full (50 accounts maximum); otherwise the owner should run the latest setup SQL.":message;}
  finally{$("authSubmit").disabled=false;}
 }
 async function enterChat(){
