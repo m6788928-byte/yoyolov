@@ -38,6 +38,7 @@ jobs:
           python3 - <<'PY'
           from pathlib import Path
           import json, re, shutil
+          from urllib.parse import unquote
 
           source = Path("/tmp/of-extract/OpenFrontOffline")
           target = Path("openfront")
@@ -107,7 +108,7 @@ jobs:
           missing = []
           for logical, url in config["assetManifest"].items():
               if url.startswith("/yoyolov/openfront/_assets/"):
-                  rel = url.split("/yoyolov/openfront/", 1)[1]
+                  rel = unquote(url.split("/yoyolov/openfront/", 1)[1])
                   if not (target / rel).is_file():
                       missing.append((logical, rel))
           if missing:
