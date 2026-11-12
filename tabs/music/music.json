@@ -704,7 +704,590 @@
     {
       "name": "best rnb playlist",
       "sourceUrl": "https://open.spotify.com/playlist/5zCdhPJHI9kgYsgkSBEWT0",
-      "songs": [],
+      "songs": [
+        {
+          "name": "WY@",
+          "artist": "Brent Faiyaz",
+          "url": "https://res.cloudinary.com/ak3j5wsb/video/upload/v1794445622/playlist-audio/brorxg1ykgrekizc0rjl.mp3",
+          "unavailable": false
+        },
+        {
+          "name": "From Time",
+          "artist": "Drake, Jhené Aiko",
+          "url": "https://res.cloudinary.com/ak3j5wsb/video/upload/v1794445622/playlist-audio/txbzfq4chyrlgsimtlzs.mp3",
+          "unavailable": false
+        },
+        {
+          "name": "stranger",
+          "artist": "Jhené Aiko",
+          "url": "https://res.cloudinary.com/ak3j5wsb/video/upload/v1794445622/playlist-audio/shpbjcw6achvzqmp1t4f.mp3",
+          "unavailable": false
+        },
+        {
+          "name": "quiero sentirme bien",
+          "artist": "Kali Uchis",
+          "url": "https://res.cloudinary.com/ak3j5wsb/video/upload/v1794445623/playlist-audio/sup8sjheukvohy5zarkw.mp3",
+          "unavailable": false
+        },
+        {
+          "name": "When He's Not There (feat. Lucky Daye)",
+          "artist": "Kehlani, Lucky Daye",
+          "url": "https://res.cloudinary.com/ak3j5wsb/video/upload/v1794445623/playlist-audio/cky0gnjxfccaaqmsx1sp.mp3",
+          "unavailable": false
+        },
+        {
+          "name": "You're Stuck (No Drums) (feat. Summer Walker)",
+          "artist": "Odeal, Summer Walker",
+          "url": "https://res.cloudinary.com/ak3j5wsb/video/upload/v1794445623/playlist-audio/evomjhz33ehxqnesdpeg.mp3",
+          "unavailable": false
+        },
+        {
+          "name": "DEEPER",
+          "artist": "PARTYNEXTDOOR",
+          "url": "https://res.cloudinary.com/ak3j5wsb/video/upload/v1794445624/playlist-audio/hqw1wzkyc9r08xi3gxk9.mp3",
+          "unavailable": false
+        },
+        {
+          "name": "Welcome to the Party",
+          "artist": "PARTYNEXTDOOR",
+          "url": "https://res.cloudinary.com/ak3j5wsb/video/upload/v1794445624/playlist-audio/brnztyqzajdndticcek1.mp3",
+          "unavailable": false
+        },
+        {
+          "name": "SOMEBODY LOVES ME",
+          "artist": "PARTYNEXTDOOR, Drake",
+          "url": "https://res.cloudinary.com/ak3j5wsb/video/upload/v1794445624/playlist-audio/spoe7sqbswv1yghgigid.mp3",
+          "unavailable": false
+        },
+        {
+          "name": "Nobody But You",
+          "artist": "Sonder, Jorja Smith",
+          "url": "https://res.cloudinary.com/ak3j5wsb/video/upload/v1794445624/playlist-audio/yglfhtnekrdxxyjzodmh.mp3",
+          "unavailable": false
+        },
+        {
+          "name": "Heart Of A Woman",
+          "artist": "Summer Walker",
+          "url": "https://res.cloudinary.com/ak3j5wsb/video/upload/v1794445624/playlist-audio/bw5wmkvsoq09ymc9euyp.mp3",
+          "unavailable": false
+        },
+        {
+          "name": "Drive",
+          "artist": "SZA",
+          "url": "https://res.cloudinary.com/ak3j5wsb/video/upload/v1794445625/playlist-audio/vfiwkkkr6wjxlcgmfmfr.mp3",
+          "unavailable": false
+        },
+        {
+          "name": "Take You Down",
+          "artist": "SZA",
+          "url": "https://res.cloudinary.com/ak3j5wsb/video/upload/v1794445626/playlist-audio/yuvqin2o086criedcgj9.mp3",
+          "unavailable": false
+        },
+        {
+          "name": "Shea Butter Baby (with J. Cole)",
+          "artist": "Ari Lennox, J. Cole",
+          "url": "https://res.cloudinary.com/ak3j5wsb/video/upload/v1794445626/playlist-audio/xk763qnpavnyouc7si5g.mp3",
+          "unavailable": false
+        },
+        {
+          "name": "Clouded",
+          "artist": "Brent Faiyaz",
+          "url": "https://res.cloudinary.com/ak3j5wsb/video/upload/v1794445626/playlist-audio/cni51oartmnnknakp2cj.mp3",
+          "unavailable": false
+        },
+        {
+          "name": "Poison",
+          "artist": "Brent Faiyaz",
+          "url": "https://res.cloudinary.com/ak3j5wsb/video/upload/v1794445626/playlist-audio/bbroljmxdmydsu9ujksq.mp3",
+          "unavailable": false
+        },
+        {
+          "name": "Stay Down",
+          "artist": "Brent Faiyaz",
+          "url": "https://res.cloudinary.com/ak3j5wsb/video/upload/v1794445626/playlist-audio/w3dpnge7qvifyxbyh19i.mp3",
+          "unavailable": false
+        },
+        {
+          "name": "Fire & Desire",
+          "artist": "Drake",
+          "url": "https://res.cloudinary.com/ak3j5wsb/video/upload/v1794445627/playlist-audio/aczzwbcvqdauyv5fvtgb.mp3",
+          "unavailable": false
+        },
+        {
+          "name": "The Worst",
+          "artist": "Jhené Aiko",
+          "url": "https://res.cloudinary.com/ak3j5wsb/video/upload/v1794445627/playlist-audio/stat7spqtcziosq16pmp.mp3",
+          "unavailable": false
+        },
+        {
+          "name": "Nights Like This (feat. Ty Dolla $ign)",
+          "artist": "Kehlani, Ty Dolla $ign",
+          "url": "https://res.cloudinary.com/ak3j5wsb/video/upload/v1794445627/playlist-audio/apggsjmqlouf1fxh4cm5.mp3",
+          "unavailable": false
+        },
+        {
+          "name": "Her Way",
+          "artist": "PARTYNEXTDOOR",
+          "url": "https://res.cloudinary.com/ak3j5wsb/video/upload/v1794445628/playlist-audio/rvunu4nf6pmiaeav2k7s.mp3",
+          "unavailable": false
+        },
+        {
+          "name": "Needed Me",
+          "artist": "Rihanna",
+          "url": "https://res.cloudinary.com/ak3j5wsb/video/upload/v1794445628/playlist-audio/uk2ph2aamepr6bdwtx4c.mp3",
+          "unavailable": false
+        },
+        {
+          "name": "I Want You Around",
+          "artist": "Snoh Aalegra",
+          "url": "https://res.cloudinary.com/ak3j5wsb/video/upload/v1794445628/playlist-audio/bs7t9m2xzyfeymas2drg.mp3",
+          "unavailable": false
+        },
+        {
+          "name": "2AM",
+          "artist": "SZA",
+          "url": "https://res.cloudinary.com/ak3j5wsb/video/upload/v1794445628/playlist-audio/ymo0mxdajjwet3swi4lz.mp3",
+          "unavailable": false
+        },
+        {
+          "name": "Saturn",
+          "artist": "SZA",
+          "url": "https://res.cloudinary.com/ak3j5wsb/video/upload/v1794445629/playlist-audio/zz2i7cns9zjq7i3tkfxl.mp3",
+          "unavailable": false
+        },
+        {
+          "name": "Higher",
+          "artist": "Tems",
+          "url": "https://res.cloudinary.com/ak3j5wsb/video/upload/v1794445629/playlist-audio/jznf2ktvze3hnfgxdsmu.mp3",
+          "unavailable": false
+        },
+        {
+          "name": "Girl (feat. KAYTRANADA)",
+          "artist": "The Internet, KAYTRANADA",
+          "url": "https://res.cloudinary.com/ak3j5wsb/video/upload/v1794445630/playlist-audio/ut9bblgfi5g1eqiamlwl.mp3",
+          "unavailable": false
+        },
+        {
+          "name": "prove it",
+          "artist": "21 Savage, Summer Walker",
+          "url": "https://res.cloudinary.com/ak3j5wsb/video/upload/v1794445631/playlist-audio/hp5ajpjljuxbbpywdtbe.mp3",
+          "unavailable": false
+        },
+        {
+          "name": "One on One",
+          "artist": "Adanna Duru, Bas",
+          "url": "https://res.cloudinary.com/ak3j5wsb/video/upload/v1794445631/playlist-audio/z1uqobvgunnmppcy6n6n.mp3",
+          "unavailable": false
+        },
+        {
+          "name": "JACKIE BROWN",
+          "artist": "Brent Faiyaz",
+          "url": "https://res.cloudinary.com/ak3j5wsb/video/upload/v1794445631/playlist-audio/i4e1hfphivsrtoa5drlp.mp3",
+          "unavailable": false
+        },
+        {
+          "name": "ROLE MODEL",
+          "artist": "Brent Faiyaz",
+          "url": "https://res.cloudinary.com/ak3j5wsb/video/upload/v1794445631/playlist-audio/sfmxf1l68pmmyyh7mz1v.mp3",
+          "unavailable": false
+        },
+        {
+          "name": "Talk 2 U",
+          "artist": "Brent Faiyaz",
+          "url": "https://res.cloudinary.com/ak3j5wsb/video/upload/v1794445632/playlist-audio/mw9qsmjfttnzcjs32gez.mp3",
+          "unavailable": false
+        },
+        {
+          "name": "Things Will Get Better",
+          "artist": "Cleo Sol",
+          "url": "https://res.cloudinary.com/ak3j5wsb/video/upload/v1794445633/playlist-audio/yuyzouaxkulcgq3opgtd.mp3",
+          "unavailable": false
+        },
+        {
+          "name": "Drugs N Hella Melodies (feat. Kali Uchis)",
+          "artist": "Don Toliver, Kali Uchis",
+          "url": "https://res.cloudinary.com/ak3j5wsb/video/upload/v1794445634/playlist-audio/efjubvitr5eyzjwq6jyt.mp3",
+          "unavailable": false
+        },
+        {
+          "name": "Like I Want You",
+          "artist": "GIVĒON",
+          "url": "https://res.cloudinary.com/ak3j5wsb/video/upload/v1794445634/playlist-audio/xktbx7pcasx09wdk0ffg.mp3",
+          "unavailable": false
+        },
+        {
+          "name": "Stay Ready (What A Life)",
+          "artist": "Jhené Aiko, Kendrick Lamar",
+          "url": "https://res.cloudinary.com/ak3j5wsb/video/upload/v1794445635/playlist-audio/gss4ppfwi1rjra8qyyia.mp3",
+          "unavailable": false
+        },
+        {
+          "name": "Mi Amor",
+          "artist": "Lazā",
+          "url": "https://res.cloudinary.com/ak3j5wsb/video/upload/v1794445635/playlist-audio/lx64xnveusjb7xnhzkzn.mp3",
+          "unavailable": false
+        },
+        {
+          "name": "sex money feelings die - slowed version",
+          "artist": "Lykke Li",
+          "url": "https://res.cloudinary.com/ak3j5wsb/video/upload/v1794445635/playlist-audio/dn3foycnmm7tm0bcpk3l.mp3",
+          "unavailable": false
+        },
+        {
+          "name": "Spread Thin",
+          "artist": "Mariah the Scientist",
+          "url": "https://res.cloudinary.com/ak3j5wsb/video/upload/v1794445636/playlist-audio/u17trh0hclhi6b7p1xta.mp3",
+          "unavailable": false
+        },
+        {
+          "name": "worst",
+          "artist": "SAHXL",
+          "url": "https://res.cloudinary.com/ak3j5wsb/video/upload/v1794445636/playlist-audio/dobyteg3jni8hzk0ydna.mp3",
+          "unavailable": false
+        },
+        {
+          "name": "Deep",
+          "artist": "Summer Walker",
+          "url": "https://res.cloudinary.com/ak3j5wsb/video/upload/v1794445636/playlist-audio/r30rdu6ajyjldlkfkkxy.mp3",
+          "unavailable": false
+        },
+        {
+          "name": "On My Mama",
+          "artist": "Victoria Monét",
+          "url": "https://res.cloudinary.com/ak3j5wsb/video/upload/v1794445636/playlist-audio/clth2csxj7wncszeouep.mp3",
+          "unavailable": false
+        },
+        {
+          "name": "One on One (feat. Bas)",
+          "artist": "Adanna Duru, Bas",
+          "url": "https://res.cloudinary.com/ak3j5wsb/video/upload/v1794445637/playlist-audio/vnxqz8ruwo2sllwm7ll8.mp3",
+          "unavailable": false
+        },
+        {
+          "name": "Retail Therapy",
+          "artist": "ARDN, Férina",
+          "url": "https://res.cloudinary.com/ak3j5wsb/video/upload/v1794445637/playlist-audio/ylipt8ap2d9yrankz41q.mp3",
+          "unavailable": false
+        },
+        {
+          "name": "Been Away",
+          "artist": "Brent Faiyaz",
+          "url": "https://res.cloudinary.com/ak3j5wsb/video/upload/v1794445638/playlist-audio/pv6bvsszzni4hzqi3yyf.mp3",
+          "unavailable": false
+        },
+        {
+          "name": "Rehab (Winter In Paris)",
+          "artist": "Brent Faiyaz",
+          "url": "https://res.cloudinary.com/ak3j5wsb/video/upload/v1794445638/playlist-audio/jablmawdudfz77pdzm3k.mp3",
+          "unavailable": false
+        },
+        {
+          "name": "Right My Wrongs",
+          "artist": "Bryson Tiller",
+          "url": "https://res.cloudinary.com/ak3j5wsb/video/upload/v1794445639/playlist-audio/ndbxhle3x2tbvwcxmxta.mp3",
+          "unavailable": false
+        },
+        {
+          "name": "Under The Influence",
+          "artist": "Chris Brown",
+          "url": "https://res.cloudinary.com/ak3j5wsb/video/upload/v1794445639/playlist-audio/vezbcb6cur7pwkgequv1.mp3",
+          "unavailable": false
+        },
+        {
+          "name": "Could've Been (feat. Bryson Tiller)",
+          "artist": "H.E.R., Bryson Tiller",
+          "url": "https://res.cloudinary.com/ak3j5wsb/video/upload/v1794445639/playlist-audio/jhuocopaigkb3vhnggiq.mp3",
+          "unavailable": false
+        },
+        {
+          "name": "Sativa",
+          "artist": "Jhené Aiko, Swae Lee",
+          "url": "https://res.cloudinary.com/ak3j5wsb/video/upload/v1794445640/playlist-audio/cpsojlnxzdy7u5cawyit.mp3",
+          "unavailable": false
+        },
+        {
+          "name": "Moonlight",
+          "artist": "Kali Uchis",
+          "url": "https://res.cloudinary.com/ak3j5wsb/video/upload/v1794445640/playlist-audio/vmwjggr61acorckroauq.mp3",
+          "unavailable": false
+        },
+        {
+          "name": "Vixen",
+          "artist": "Miguel",
+          "url": "https://res.cloudinary.com/ak3j5wsb/video/upload/v1794445640/playlist-audio/ihcpccehoncigm1kw2eu.mp3",
+          "unavailable": false
+        },
+        {
+          "name": "PERSIAN RUGS",
+          "artist": "PARTYNEXTDOOR",
+          "url": "https://res.cloudinary.com/ak3j5wsb/video/upload/v1794445641/playlist-audio/uavewc2xyp749iwvency.mp3",
+          "unavailable": false
+        },
+        {
+          "name": "Too Fast",
+          "artist": "Sonder",
+          "url": "https://res.cloudinary.com/ak3j5wsb/video/upload/v1794445641/playlist-audio/hiyiwomdtbcf9gogychl.mp3",
+          "unavailable": false
+        },
+        {
+          "name": "Playing Games (with Bryson Tiller) - Extended Version",
+          "artist": "Summer Walker, Bryson Tiller",
+          "url": "https://res.cloudinary.com/ak3j5wsb/video/upload/v1794445641/playlist-audio/nqm09nvewytafzx6kk16.mp3",
+          "unavailable": false
+        },
+        {
+          "name": "Broken Clocks",
+          "artist": "SZA",
+          "url": "https://res.cloudinary.com/ak3j5wsb/video/upload/v1794445641/playlist-audio/klocmcwsuqbeqwrfkme8.mp3",
+          "unavailable": false
+        },
+        {
+          "name": "Let Em' Know",
+          "artist": "Bryson Tiller",
+          "url": "https://res.cloudinary.com/ak3j5wsb/video/upload/v1794445642/playlist-audio/ocil9x4esnpzcnt0mlqt.mp3",
+          "unavailable": false
+        },
+        {
+          "name": "Heat (feat. Gunna)",
+          "artist": "Chris Brown, Gunna",
+          "url": "https://res.cloudinary.com/ak3j5wsb/video/upload/v1794445642/playlist-audio/gczase4vl57cz1vxe5u5.mp3",
+          "unavailable": false
+        },
+        {
+          "name": "Running Through My Mind",
+          "artist": "DeJ Loaf",
+          "url": "https://res.cloudinary.com/ak3j5wsb/video/upload/v1794445642/playlist-audio/kt8ubcdb2lsntmpka9qx.mp3",
+          "unavailable": false
+        },
+        {
+          "name": "You Belong To Somebody Else",
+          "artist": "DeJ Loaf, Jacquees",
+          "url": "https://res.cloudinary.com/ak3j5wsb/video/upload/v1794445643/playlist-audio/mgisqi26nwq5pbkjdmek.mp3",
+          "unavailable": false
+        },
+        {
+          "name": "Slow Drinking",
+          "artist": "Devkota",
+          "url": "https://res.cloudinary.com/ak3j5wsb/video/upload/v1794445643/playlist-audio/oxlpibgwelyhu0y0gsbu.mp3",
+          "unavailable": false
+        },
+        {
+          "name": "Every Kind Of Way",
+          "artist": "H.E.R.",
+          "url": "https://res.cloudinary.com/ak3j5wsb/video/upload/v1794445643/playlist-audio/nc8fvmfunhkzmq1zq8kp.mp3",
+          "unavailable": false
+        },
+        {
+          "name": "Tell Me It's Over (feat. Summer Walker & 6LACK)",
+          "artist": "Jacquees, Summer Walker, 6LACK",
+          "url": "https://res.cloudinary.com/ak3j5wsb/video/upload/v1794445644/playlist-audio/cdu0lreaqzmi5ipns9l8.mp3",
+          "unavailable": false
+        },
+        {
+          "name": "oui",
+          "artist": "Jeremih",
+          "url": "https://res.cloudinary.com/ak3j5wsb/video/upload/v1794445644/playlist-audio/ebb69rlykrzvuw76xkk0.mp3",
+          "unavailable": false
+        },
+        {
+          "name": "Fell In Love",
+          "artist": "Marshmello, Brent Faiyaz",
+          "url": "https://res.cloudinary.com/ak3j5wsb/video/upload/v1794445644/playlist-audio/dettg7g4avdmfxnwbp3f.mp3",
+          "unavailable": false
+        },
+        {
+          "name": "R e s e n t m e n t",
+          "artist": "PARTYNEXTDOOR",
+          "url": "https://res.cloudinary.com/ak3j5wsb/video/upload/v1794445645/playlist-audio/b6y825k4v3bhgkgxylzk.mp3",
+          "unavailable": false
+        },
+        {
+          "name": "TBH",
+          "artist": "PARTYNEXTDOOR",
+          "url": "https://res.cloudinary.com/ak3j5wsb/video/upload/v1794445645/playlist-audio/vm0ks5wvdwjwzun50esx.mp3",
+          "unavailable": false
+        },
+        {
+          "name": "Wus Good Curious",
+          "artist": "PARTYNEXTDOOR",
+          "url": "https://res.cloudinary.com/ak3j5wsb/video/upload/v1794445645/playlist-audio/a8dde3mqspajshiwobwr.mp3",
+          "unavailable": false
+        },
+        {
+          "name": "RAIN",
+          "artist": "SAHXL",
+          "url": "https://res.cloudinary.com/ak3j5wsb/video/upload/v1794445645/playlist-audio/s1v6zo7d4mygg8bcfkyz.mp3",
+          "unavailable": false
+        },
+        {
+          "name": "What You Heard",
+          "artist": "Sonder",
+          "url": "https://res.cloudinary.com/ak3j5wsb/video/upload/v1794445646/playlist-audio/qcha3myrnyun8dfumgcd.mp3",
+          "unavailable": false
+        },
+        {
+          "name": "LOVE & TEQUILA",
+          "artist": "YUME, Cash Cobain",
+          "url": "https://res.cloudinary.com/ak3j5wsb/video/upload/v1794445645/playlist-audio/r8on4tbndkuwkgf6wv0t.mp3",
+          "unavailable": false
+        },
+        {
+          "name": "ROLLING STONE",
+          "artist": "Brent Faiyaz",
+          "url": "https://res.cloudinary.com/ak3j5wsb/video/upload/v1794445646/playlist-audio/fn3nkn1qzv6b5bcslif4.mp3",
+          "unavailable": false
+        },
+        {
+          "name": "Back To Sleep",
+          "artist": "Chris Brown",
+          "url": "https://res.cloudinary.com/ak3j5wsb/video/upload/v1794445646/playlist-audio/djolcbzij8dgz18lkv3p.mp3",
+          "unavailable": false
+        },
+        {
+          "name": "Body Party",
+          "artist": "Ciara",
+          "url": "https://res.cloudinary.com/ak3j5wsb/video/upload/v1794445646/playlist-audio/jrmtfygjjmd7doqupglc.mp3",
+          "unavailable": false
+        },
+        {
+          "name": "Easy - Remix",
+          "artist": "DaniLeigh, Chris Brown",
+          "url": "https://res.cloudinary.com/ak3j5wsb/video/upload/v1794445647/playlist-audio/hoa54d9dmsjgrsb1tmsi.mp3",
+          "unavailable": false
+        },
+        {
+          "name": "Finesse",
+          "artist": "Drake",
+          "url": "https://res.cloudinary.com/ak3j5wsb/video/upload/v1794445647/playlist-audio/zu1uhelinq7lgyelydwm.mp3",
+          "unavailable": false
+        },
+        {
+          "name": "Shot Clock",
+          "artist": "Ella Mai",
+          "url": "https://res.cloudinary.com/ak3j5wsb/video/upload/v1794445647/playlist-audio/ikhowhvtwqfwpfvztlee.mp3",
+          "unavailable": false
+        },
+        {
+          "name": "Trip",
+          "artist": "Ella Mai",
+          "url": "https://res.cloudinary.com/ak3j5wsb/video/upload/v1794445648/playlist-audio/m8w2jslwa6dpsgxt1awg.mp3",
+          "unavailable": false
+        },
+        {
+          "name": "You",
+          "artist": "Jacquees",
+          "url": "https://res.cloudinary.com/ak3j5wsb/video/upload/v1794445648/playlist-audio/gm02dojisak3wajonvus.mp3",
+          "unavailable": false
+        },
+        {
+          "name": "B.E.D. - Remix",
+          "artist": "Jacquees, Ty Dolla $ign, Quavo",
+          "url": "https://res.cloudinary.com/ak3j5wsb/video/upload/v1794445648/playlist-audio/j8n9rirh7d11gh2wwamw.mp3",
+          "unavailable": false
+        },
+        {
+          "name": "Ready (feat. Gunna)",
+          "artist": "Lil Baby, Gunna",
+          "url": "https://res.cloudinary.com/ak3j5wsb/video/upload/v1794445648/playlist-audio/seffdebn5mc4rickxbqw.mp3",
+          "unavailable": false
+        },
+        {
+          "name": "THE NEWS",
+          "artist": "PARTYNEXTDOOR",
+          "url": "https://res.cloudinary.com/ak3j5wsb/video/upload/v1794445649/playlist-audio/xekhnmiksxojrpgttc8c.mp3",
+          "unavailable": false
+        },
+        {
+          "name": "To the Moon",
+          "artist": "Phora",
+          "url": "https://res.cloudinary.com/ak3j5wsb/video/upload/v1794445649/playlist-audio/yt8bkpbhegvpgpymnasp.mp3",
+          "unavailable": false
+        },
+        {
+          "name": "Shotta's.",
+          "artist": "Season 25",
+          "url": "https://res.cloudinary.com/ak3j5wsb/video/upload/v1794445649/playlist-audio/syb2qlkkaf5lvdwooyvm.mp3",
+          "unavailable": false
+        },
+        {
+          "name": "Essence (feat. Tems)",
+          "artist": "Wizkid, Tems",
+          "url": "https://res.cloudinary.com/ak3j5wsb/video/upload/v1794445650/playlist-audio/sisyjgrxwcp9fihxwsn6.mp3",
+          "unavailable": false
+        },
+        {
+          "name": "Moment Of Your Life (feat. Coco Jones)",
+          "artist": "Brent Faiyaz, Coco Jones",
+          "url": "https://res.cloudinary.com/ak3j5wsb/video/upload/v1794445650/playlist-audio/im4alje6mndbzvfzumif.mp3",
+          "unavailable": false
+        },
+        {
+          "name": "Don't",
+          "artist": "Bryson Tiller",
+          "url": "https://res.cloudinary.com/ak3j5wsb/video/upload/v1794445650/playlist-audio/nk3eubizo7f8misotxyf.mp3",
+          "unavailable": false
+        },
+        {
+          "name": "Exchange",
+          "artist": "Bryson Tiller",
+          "url": "https://res.cloudinary.com/ak3j5wsb/video/upload/v1794445650/playlist-audio/juimxjwwmegkcvu0mi7d.mp3",
+          "unavailable": false
+        },
+        {
+          "name": "Inhale",
+          "artist": "Bryson Tiller",
+          "url": "https://res.cloudinary.com/ak3j5wsb/video/upload/v1794445651/playlist-audio/wmlwvtyxdqsyjhw13v70.mp3",
+          "unavailable": false
+        },
+        {
+          "name": "Break from Toronto",
+          "artist": "PARTYNEXTDOOR",
+          "url": "https://res.cloudinary.com/ak3j5wsb/video/upload/v1794445652/playlist-audio/wdwy9eiwl3j8heldjxcv.mp3",
+          "unavailable": false
+        },
+        {
+          "name": "Girls Need Love",
+          "artist": "Summer Walker",
+          "url": "https://res.cloudinary.com/ak3j5wsb/video/upload/v1794445651/playlist-audio/pys0qsnfths8tmdqpmn3.mp3",
+          "unavailable": false
+        },
+        {
+          "name": "Karma",
+          "artist": "Summer Walker",
+          "url": "https://res.cloudinary.com/ak3j5wsb/video/upload/v1794445652/playlist-audio/jcxro2ldbgatemsfirn3.mp3",
+          "unavailable": false
+        },
+        {
+          "name": "Switch A Nigga Out",
+          "artist": "Summer Walker",
+          "url": "https://res.cloudinary.com/ak3j5wsb/video/upload/v1794445652/playlist-audio/r3sc1neys0ykuhhbt0fb.mp3",
+          "unavailable": false
+        },
+        {
+          "name": "Tonight",
+          "artist": "Summer Walker",
+          "url": "https://res.cloudinary.com/ak3j5wsb/video/upload/v1794445653/playlist-audio/toqoitvfwohqdl0k5lxd.mp3",
+          "unavailable": false
+        },
+        {
+          "name": "Just Might (with PARTYNEXTDOOR)",
+          "artist": "Summer Walker, PARTYNEXTDOOR",
+          "url": "https://res.cloudinary.com/ak3j5wsb/video/upload/v1794445653/playlist-audio/fyhhcxavfscyht2c3x0g.mp3",
+          "unavailable": false
+        },
+        {
+          "name": "No Love (with SZA)",
+          "artist": "Summer Walker, SZA",
+          "url": "https://res.cloudinary.com/ak3j5wsb/video/upload/v1794445654/playlist-audio/qp8bejxy5qe0lpmntnbs.mp3",
+          "unavailable": false
+        },
+        {
+          "name": "The Weekend",
+          "artist": "SZA",
+          "url": "https://res.cloudinary.com/ak3j5wsb/video/upload/v1794445654/playlist-audio/adcgnmzcabqossdukwdp.mp3",
+          "unavailable": false
+        }
+      ],
       "cover": "https://open.voidware.de/playlist/5zCdhPJHI9kgYsgkSBEWT0"
     },
     {
