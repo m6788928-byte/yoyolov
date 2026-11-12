@@ -1898,7 +1898,7 @@
       "cover": "https://image-cdn-fa.spotifycdn.com/image/ab67706c0000d72ca1b13eff956188fb0f42dae0"
     },
     {
-      "name": "playlist request",
+      "name": "request",
       "sourceUrl": "https://open.spotify.com/playlist/3unyxA04L8YVn7tchFtNg8",
       "cover": "",
       "spotifyImport": false,
@@ -2600,7 +2600,7 @@
       ]
     },
     {
-      "name": "Spotify Playlist 2",
+      "name": "request 2",
       "sourceUrl": "https://open.spotify.com/playlist/2sIcBIcliVAWf2iACqVbAY",
       "cover": "",
       "spotifyImport": true,
