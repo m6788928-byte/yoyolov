@@ -10,7 +10,7 @@
 <div id="profileSetup"><section class="setupCard"><h1 id="authTitle">Sign in to Yoyolov Chat</h1><p id="authDescription">Use your unique username and password. Your login is saved on this device.</p><label for="usernameInput">Username (3–20 letters, numbers or _)</label><input id="usernameInput" maxlength="20" placeholder="Your username" autocomplete="username" spellcheck="false"><label for="passwordInput">Password (at least 8 characters)</label><input id="passwordInput" type="password" minlength="8" placeholder="Your password" autocomplete="current-password"><button id="authSubmit" class="primary">Sign in</button><button id="authSwitch" class="smallBtn" style="width:100%;margin-top:10px">Create a new account</button><div id="profileError"></div><p style="font-size:11px">Use a password you do not use elsewhere. There is no password reset because accounts do not collect email addresses.</p></section></div>
 <script>
 const $=id=>document.getElementById(id),ROOMS=["general","games","help"];
-let db=null,user=null,username="",room="general",live=null,presence=null,replyTo=null,rows=[],reactions=[],authMode="login",activeDM=null,dmRows=[],dmThreads=[];
+let db=null,user=null,username="",isAdmin=false,room="general",live=null,presence=null,replyTo=null,rows=[],reactions=[],authMode="login",activeDM=null,dmRows=[],dmThreads=[];
 let overrideConfig=null;
 const SUPABASE_URL="https://ybtpzchvczgoyozxterw.supabase.co";
 const SUPABASE_KEY="sb_publishable_k_NWMde9ZreUm6DypDfgzw_zsuRMKr9";
@@ -30,7 +30,7 @@ function authPrompt(mode="login",error=""){
 function updateProfileUI(){
  $("myName").textContent=username;
  $("myAvatar").textContent=(username[0]||"?").toUpperCase();
- $("myStatus").textContent="online";
+ $("myStatus").textContent=isAdmin?"ADMIN · online":username.toLowerCase()==="michaelmoose"?"Admin setup required":"online";
  if(presence&&user)presence.track({username,online_at:new Date().toISOString()});
 }
 function renderMessages(){
@@ -47,8 +47,8 @@ function renderMessages(){
   const main=document.createElement("div");main.className="msgMain";
   if(m.reply_to){const rp=document.createElement("div");rp.className="replyPreview";rp.textContent="↳ Reply to message #"+m.reply_to;main.append(rp);}
   const head=document.createElement("div");head.className="msgHead";
-  const name=document.createElement("span");name.className="msgName";name.textContent=m.username;
-  const time=document.createElement("time");time.className="msgTime";time.textContent=new Date(m.created_at).toLocaleString();head.append(name,time);
+  const name=document.createElement("span");name.className="msgName";name.textContent=m.username+(m.username.toLowerCase()==="michaelmoose"?" · ADMIN":"");
+  const time=document.createElement("time");time.className="msgTime";time.textContent=new Date(m.created_at).toLocaleString()+(isAdmin?" · #"+m.id:"");head.append(name,time);
   const body=document.createElement("div");body.className="msgBody";body.textContent=m.body;
   const actions=document.createElement("div");actions.className="msgActions";
   for(const [emoji,label] of [["👍","Like"],["❤️","Heart"],["😂","Laugh"]]){
@@ -56,7 +56,7 @@ function renderMessages(){
    const b=document.createElement("button");b.textContent=emoji+" "+list.length;b.title=label+(mine?" (you reacted)":"");b.onclick=()=>react(m.id,emoji);actions.append(b);
   }
   const reply=document.createElement("button");reply.textContent="Reply";reply.onclick=()=>{replyTo=m.id;$("replyText").textContent="Replying to "+m.username;$("replyBar").style.display="block";$("messageInput").focus();};actions.append(reply);
-  if(m.user_id===user.id){const del=document.createElement("button");del.textContent="Delete";del.onclick=()=>deleteMessage(m.id);actions.append(del);}
+  if(m.user_id===user.id||isAdmin){const del=document.createElement("button");del.textContent="Delete";del.onclick=()=>deleteMessage(m.id);actions.append(del);}
   main.append(head,body,actions);el.append(av,main);root.append(el);
  }
  root.scrollTop=root.scrollHeight;
@@ -96,10 +96,10 @@ function renderDMMessages(){
   const av=document.createElement("div");av.className="msgAvatar";av.textContent=(m.sender_username||"?")[0].toUpperCase();
   const main=document.createElement("div");main.className="msgMain";
   const head=document.createElement("div");head.className="msgHead";
-  const name=document.createElement("span");name.className="msgName";name.textContent=m.sender_id===user.id?"You":m.sender_username;
-  const time=document.createElement("time");time.className="msgTime";time.textContent=new Date(m.created_at).toLocaleString();head.append(name,time);
+  const name=document.createElement("span");name.className="msgName";name.textContent=(m.sender_id===user.id?"You":m.sender_username)+(m.sender_username.toLowerCase()==="michaelmoose"?" · ADMIN":"");
+  const time=document.createElement("time");time.className="msgTime";time.textContent=new Date(m.created_at).toLocaleString()+(isAdmin?" · #"+m.id:"");head.append(name,time);
   const body=document.createElement("div");body.className="msgBody";body.textContent=m.body;main.append(head,body);
-  if(m.sender_id===user.id){const actions=document.createElement("div");actions.className="msgActions";const del=document.createElement("button");del.textContent="Delete";del.onclick=async()=>{if(confirm("Delete this DM?")){const r=await db.from("dm_messages").delete().eq("id",m.id);if(r.error)setConnection("Delete failed: "+r.error.message);}};actions.append(del);main.append(actions);}
+  if(m.sender_id===user.id||isAdmin){const actions=document.createElement("div");actions.className="msgActions";const del=document.createElement("button");del.textContent="Delete";del.onclick=async()=>{if(confirm("Delete this DM?")){const r=await db.from("dm_messages").delete().eq("id",m.id);if(r.error)setConnection("Delete failed: "+r.error.message);}};actions.append(del);main.append(actions);}
   el.append(av,main);root.append(el);
  }
  root.scrollTop=root.scrollHeight;
@@ -124,23 +124,54 @@ async function loadRoom(){
  if(!db||!user)return;
  activeDM=null;
  document.querySelectorAll(".dmItem").forEach(b=>b.classList.remove("active"));
- room=ROOMS.includes(room)?room:"general";$("roomTitle").textContent="# "+room;$("messageInput").placeholder="Message #"+room;
+ room=ROOMS.includes(room)?room:"general";$("roomTitle").textContent="# "+room;$("messageInput").placeholder="Message #"+room+(isAdmin?" · /help for admin commands":"");
  document.querySelectorAll(".room").forEach(b=>b.classList.toggle("active",b.dataset.room===room));
  setConnection("Loading…");rows=[];reactions=[];renderMessages();
  const {data,error}=await db.from("messages").select("id,channel,user_id,username,body,reply_to,created_at").eq("channel",room).order("created_at",{ascending:false}).limit(100);
  if(error){setConnection("Load failed");return;}
- rows=(data||[]).reverse();await loadReactions();renderMessages();setConnection("Live");
+ rows=(data||[]).reverse();await loadReactions();renderMessages();setConnection(isAdmin?"Admin ready · type /help":username.toLowerCase()==="michaelmoose"?"Run updated chat SQL to enable admin":"Live");
+}
+function clearComposer(){ $("messageInput").value="";$("messageInput").style.height="auto";replyTo=null;$("replyBar").style.display="none"; }
+async function runAdminCommand(raw){
+ const [command,...args]=raw.trim().split(/\s+/),arg=args.join(" ").trim();
+ if(activeDM){setConnection("Admin commands only work in public channels.");return;}
+ if(command==="/help"||command==="/admin"){setConnection("Admin commands: /delete <message ID> · /clear · /announce <text>");clearComposer();return;}
+ if(command==="/delete"){
+  const id=Number(args[0]);if(!Number.isSafeInteger(id)||id<1){setConnection("Usage: /delete <message ID>");return;}
+  if(!confirm("Permanently delete message #"+id+" from #"+room+"?"))return;
+  const {data,error}=await db.from("messages").delete().eq("channel",room).eq("id",id).select("id");
+  if(error){setConnection("Admin delete failed: "+error.message);return;}
+  if(!data?.length){setConnection("Message #"+id+" was not found in this channel.");return;}
+  clearComposer();await loadRoom();setConnection("Deleted message #"+id);return;
+ }
+ if(command==="/clear"){
+  if(!confirm("Permanently delete every message in #"+room+"? This cannot be undone."))return;
+  const {error}=await db.from("messages").delete().eq("channel",room);
+  if(error){setConnection("Admin clear failed: "+error.message);return;}
+  clearComposer();await loadRoom();setConnection("Cleared #"+room);return;
+ }
+ if(command==="/announce"){
+  if(!arg){setConnection("Usage: /announce <text>");return;}
+  const {error}=await db.from("messages").insert({channel:room,user_id:user.id,body:"📢 ANNOUNCEMENT: "+arg.slice(0,975)});
+  if(error){setConnection("Announcement failed: "+error.message);return;}
+  clearComposer();setConnection("Announcement posted in #"+room);return;
+ }
+ setConnection("Unknown admin command. Type /help.");
 }
 async function sendMessage(){
  const body=$("messageInput").value.trim();if(!body||!user)return;$("send").disabled=true;
+ if(body.startsWith("/")){
+  if(!isAdmin){setConnection("Admin commands are only available to michaelmoose.");$("send").disabled=false;return;}
+  await runAdminCommand(body);$("send").disabled=false;return;
+ }
  const result=activeDM
   ?await db.from("dm_messages").insert({sender_id:user.id,recipient_id:activeDM.id,body})
   :await db.from("messages").insert({channel:room,user_id:user.id,body,reply_to:replyTo});
  const {error}=result;
  if(error){setConnection("Send failed: "+error.message);$("send").disabled=false;return;}
- $("messageInput").value="";$("messageInput").style.height="auto";replyTo=null;$("replyBar").style.display="none";$("send").disabled=false;
+ clearComposer();$("send").disabled=false;
 }
-async function deleteMessage(id){if(!confirm("Delete this message?"))return;const {error}=await db.from("messages").delete().eq("id",id).eq("user_id",user.id);if(error)setConnection("Delete failed: "+error.message);}
+async function deleteMessage(id){if(!confirm("Delete this message?"))return;let query=db.from("messages").delete().eq("id",id);if(!isAdmin)query=query.eq("user_id",user.id);const {error}=await query;if(error)setConnection("Delete failed: "+error.message);}
 async function react(id,emoji){
  const existing=reactions.find(x=>x.message_id===id&&x.user_id===user.id&&x.emoji===emoji);
  const result=existing?await db.from("message_reactions").delete().eq("id",existing.id).eq("user_id",user.id):await db.from("message_reactions").insert({message_id:id,user_id:user.id,emoji});
@@ -168,7 +199,7 @@ async function submitAuth(){
 async function enterChat(){
  const {data:profile,error}=await db.from("profiles").select("username").eq("id",user.id).single();
  if(error||!profile)throw new Error("Your account exists, but its chat profile is missing. The chat owner must run the latest tabs/messages-setup.sql in Supabase SQL Editor, then sign out and sign in again. If it still fails, the username may already be taken.");
- username=profile.username;$("profileSetup").classList.remove("open");updateProfileUI();
+ username=profile.username;const adminCheck=await db.rpc("is_chat_admin");isAdmin=!adminCheck.error&&adminCheck.data===true;$("profileSetup").classList.remove("open");updateProfileUI();
  if(live)await db.removeChannel(live);
  live=db.channel("yoyolov-chat-messages")
   .on("postgres_changes",{event:"*",schema:"public",table:"messages"},async payload=>{
@@ -194,7 +225,7 @@ async function enterChat(){
 }
 async function signOut(){
  if(presence)await db.removeChannel(presence);if(live)await db.removeChannel(live);
- presence=live=null;await db.auth.signOut();user=null;username="";
+ presence=live=null;await db.auth.signOut();user=null;username="";isAdmin=false;
  $("myName").textContent="Signed out";$("myAvatar").textContent="?";$("myStatus").textContent="offline";
  $("messageInput").disabled=true;$("send").disabled=true;authPrompt("login");
 }
