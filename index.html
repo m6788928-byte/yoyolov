@@ -272,7 +272,7 @@
 <div id="home">
   <div id="bar">
     <div class="logo">Eco<b>LINKS</b></div>
-    <span class="build-label" id="build-label">BUILD 2026.11.12.3</span>
+    <span class="build-label" id="build-label">BUILD 2026.11.12.4</span>
     <div id="tabs">
       <button class="tab active" data-tab="htmls" type="button">Games</button>
     </div>
@@ -430,6 +430,16 @@
         </div>
       </section>
 
+      <section>
+        <h2>Additional tabs</h2>
+        <p class="sub">Enter the authorized username to show the Claude and Proxy tabs.</p>
+        <div class="row">
+          <input id="admin-tab-username" class="field" type="text" placeholder="Username" autocomplete="off" spellcheck="false">
+          <button id="admin-tab-unlock" class="btn" type="button">Show tabs</button>
+        </div>
+        <p id="admin-tab-status" class="sub after" role="status" aria-live="polite"></p>
+      </section>
+
     </div>
   </div>
 
@@ -472,10 +482,16 @@ const CUSTOM_TABS = [
      { name: "Movies", url: "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@main/tabs/moves/move.html" },
      { name: "Music", url: "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@838694a48662cfd1e7d20ab8fd3b858c4e5850ee/tabs/music/music-player.html" },
      { name: "Messages", url: "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@31ac35aa0edbdc56f053e7adc4518c1f5a28f2ca/tabs/messages.html" },
-     { name: "Claude", url: "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@5e8adf4d39d020c9bd3c5625d10ee09e60ba63d7/tabs/claude.html" },
   // { name: "Tools", url: "https://example.com/tools.html" },
   // { name: "More Games", url: "https://example.com/games.html" },
 ];
+const ADMIN_TABS = [
+  { name: "Claude", url: "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@5e8adf4d39d020c9bd3c5625d10ee09e60ba63d7/tabs/claude.html" },
+  { name: "Proxy", url: "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@main/tabs/proxy.html" },
+];
+const ADMIN_TABS_KEY = "yoyolov-admin-tabs";
+const adminTabsUnlocked = () => localStorage.getItem(ADMIN_TABS_KEY) === "1";
+
 /* ===================================================================== */
 
 /* ======================================================================
@@ -825,7 +841,7 @@ async function loadCustomTab(state){
 function createCustomTabs(){
   // Remove cloned runtime panels before rebuilding (also used by about:blank).
   document.querySelectorAll('[data-custom-tab]').forEach(el => el.remove());
-  CUSTOM_TABS.forEach((config, index) => {
+  [...CUSTOM_TABS, ...(adminTabsUnlocked() ? ADMIN_TABS : [])].forEach((config, index) => {
     if(!config || typeof config.name !== 'string' || typeof config.url !== 'string') return;
     const name = config.name.trim(), url = config.url.trim();
     if(!name || !url) return;
@@ -1081,7 +1097,10 @@ $('reset-all').onclick = () => {
   }
   clearTimeout(resetArmed); resetArmed = null;
   b.textContent = 'Reset everything';
-  try { ['universe-settings', 'universe-custom-themes', 'universe-active-theme'].forEach(k => localStorage.removeItem(k)); } catch {}
+  try { ['universe-settings', 'universe-custom-themes', 'universe-active-theme', ADMIN_TABS_KEY].forEach(k => localStorage.removeItem(k)); } catch {}
+  document.querySelectorAll('[data-custom-tab]').forEach(el => el.remove());
+  customTabStates.clear();
+  createCustomTabs();
   settings = Object.assign({}, DEFAULT_SETTINGS);
   recordingPanic = false;
   applyTheme(PRESET_THEMES[0]);
@@ -1137,6 +1156,18 @@ function maybeAutoBlank(){
     if(go()) removeEventListener('click', retry, true);
   }, true);
 }
+
+/* ---------- admin-only tab visibility ---------- */
+$('admin-tab-unlock').onclick = () => {
+  if($('admin-tab-username').value.trim() !== 'admin1'){
+    $('admin-tab-status').textContent = 'Username not recognized.';
+    return;
+  }
+  localStorage.setItem(ADMIN_TABS_KEY, '1');
+  $('admin-tab-status').textContent = 'Claude and Proxy tabs are now visible in this browser.';
+  createCustomTabs();
+  $('admin-tab-username').value = '';
+};
 
 /* ---------- remote access controls ---------- */
 const ACCESS_PASSWORD = 'yyy';
