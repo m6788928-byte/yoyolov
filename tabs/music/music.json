@@ -1901,7 +1901,7 @@
       "name": "chill",
       "sourceUrl": "https://open.spotify.com/playlist/3unyxA04L8YVn7tchFtNg8",
       "cover": "",
-      "spotifyImport": true,
+      "spotifyImport": false,
       "maxSongs": 100,
       "songs": [
         {
