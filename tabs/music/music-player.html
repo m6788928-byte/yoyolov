@@ -368,7 +368,7 @@ async function spotifyEmbedEntity(url) {
 function spotifyPlaylistTracks(sourceUrl) {
   let job = spotifyPlaylistTrackJobs.get(sourceUrl);
   if (!job) {
-    const id = sourceUrl.match(/playlist\\/([A-Za-z0-9]+)/)?.[1];
+    const id = sourceUrl.match(/playlist\/([A-Za-z0-9]+)/)?.[1];
     if (!id) return Promise.reject(new Error("Invalid Spotify playlist link"));
     job = spotifyEmbedEntity("https://open.spotify.com/embed/playlist/" + id)
       .then(entity => Array.isArray(entity.trackList) ? entity.trackList : []);
@@ -395,7 +395,7 @@ function runSpotifyTrackArtworkQueue() {
       try {
         const entity = await spotifyEmbedEntity("https://open.spotify.com/embed/track/" + task.trackId);
         const images = entity.visualIdentity?.image || entity.coverArt?.sources || entity.images || [];
-        const image = images.find(item => item && /^https:\\/\\//.test(item.url || ""));
+        const image = images.find(item => item && /^https:\/\//.test(item.url || ""));
         cover = image?.url || "";
         if (cover) {
           spotifyTrackArtworkCache[task.trackId] = cover;
