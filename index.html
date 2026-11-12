@@ -65,6 +65,7 @@
     white-space:nowrap;
   }
   .logo b{font-weight:800; color:var(--accent, #8b909a)}
+  .build-label{font-size:10px;line-height:1;color:var(--muted,#7d838c);border:1px solid var(--border,#2c3036);border-radius:5px;padding:5px 7px;white-space:nowrap;letter-spacing:.04em}
 
   #tabs{display:flex; gap:4px; overflow-x:auto; min-width:0}
   .tab{white-space:nowrap}
@@ -271,6 +272,7 @@
 <div id="home">
   <div id="bar">
     <div class="logo">Eco<b>LINKS</b></div>
+    <span class="build-label" id="build-label">BUILD 2026.11.11.1</span>
     <div id="tabs">
       <button class="tab active" data-tab="htmls" type="button">Games</button>
     </div>
@@ -468,8 +470,8 @@ const LIST_URLS = [
    ====================================================================== */
 const CUSTOM_TABS = [
      { name: "Movies", url: "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@main/tabs/moves/move.html" },
-     { name: "Music", url: "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@f60816b1367a3befa10d6b58b2ece20f05cbeca8/tabs/music/music-player.html" },
-     { name: "Messages", url: "https://raw.githubusercontent.com/m6788928-byte/yoyolov/de4ba4ded552c740b1dab2762fdb88ef7971b565/tabs/messages.html" },
+     { name: "Music", url: "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@c704669c495edc09de4feea900bc24f74e170464/tabs/music/music-player.html" },
+     { name: "Messages", url: "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@c060bf88ad45b9a71ce7d3251456596507b131de/tabs/messages.html" },
   // { name: "Tools", url: "https://example.com/tools.html" },
   // { name: "More Games", url: "https://example.com/games.html" },
 ];
