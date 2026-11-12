@@ -10,32 +10,54 @@ button{margin-top:18px;padding:10px 16px;background:#eee;color:#111;border:0;bor
 </style>
 <main>
 <h1>Playlist Audio Uploader</h1>
-<p>Extract the ZIP first, then select all 25 MP3 files. Uploads go to your Cloudinary account under <b>playlist-audio</b>.</p>
-<label>Cloudinary cloud name</label><input id="cloud" autocomplete="off" placeholder="e.g. ak3j5wsb">
+<p>Select the ZIP archives directly or select extracted MP3 files. ZIPs are extracted in your browser; audio uploads to your Cloudinary account under <b>playlist-audio</b>.</p>
+<label>Cloudinary cloud name</label><input id="cloud" autocomplete="off" value="ak3j5wsb">
 <label>Unsigned upload preset</label><input id="preset" autocomplete="off" placeholder="Your unsigned preset">
-<label>MP3 files</label><input id="files" type="file" accept=".mp3,audio/mpeg" multiple>
-<button id="go">Upload selected files</button>
+<label>ZIP archives or MP3 files</label><input id="files" type="file" accept=".zip,.mp3,audio/mpeg" multiple>
+<button id="go">Extract and upload audio</button>
 <progress id="progress" max="1" value="0"></progress><div id="status" role="status"></div>
 </main>
+<script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
 <script>
 const $=id=>document.getElementById(id), status=$('status'), button=$('go');
 $('go').onclick=async()=>{
- const cloud=$('cloud').value.trim(),preset=$('preset').value.trim(),files=[...$('files').files];
- if(!cloud||!preset||!files.length){status.textContent='Enter the cloud name and unsigned preset, then select MP3 files.';return}
- button.disabled=true;status.textContent='Starting uploads…';
- const results=new Array(files.length);let done=0,next=0,failed=0;
- async function worker(){while(next<files.length){const i=next++,file=files[i];try{
-  const form=new FormData();form.append('file',file);form.append('upload_preset',preset);form.append('folder','playlist-audio');
-  const r=await fetch('https://api.cloudinary.com/v1_1/'+encodeURIComponent(cloud)+'/video/upload',{method:'POST',body:form});
-  const data=await r.json();if(!r.ok)throw Error(data.error?.message||'HTTP '+r.status);
-  results[i]={filename:file.name,secure_url:data.secure_url,public_id:data.public_id,bytes:data.bytes};
- }catch(e){failed++;results[i]={filename:file.name,error:String(e.message||e)}}
- done++;$('progress').value=done/files.length;status.textContent='Uploaded '+done+'/'+files.length+' · failed '+failed;
- }}
- await Promise.all(Array.from({length:Math.min(3,files.length)},worker));
- const blob=new Blob([JSON.stringify(results.filter(Boolean),null,2)],{type:'application/json'});
- const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='playlist-upload-results.json';a.click();URL.revokeObjectURL(a.href);
- status.textContent+='\nFinished. Results JSON downloaded. Send that JSON back here so the playlist can be linked.';
- button.disabled=false;
+ const cloud=$('cloud').value.trim(),preset=$('preset').value.trim(),selected=[...$('files').files];
+ if(!cloud||!preset||!selected.length){status.textContent='Enter your Cloudinary unsigned preset and select the ZIPs or MP3s.';return}
+ button.disabled=true;
+ try{
+  if(typeof JSZip==='undefined')throw Error('Could not load ZIP support. Refresh the page and try again.');
+  status.textContent='Reading selected files…';
+  const files=[];
+  for(const file of selected){
+   if(file.name.toLowerCase().endsWith('.zip')){
+    const zip=await JSZip.loadAsync(file);
+    for(const entry of Object.values(zip.files)){
+     if(!entry.dir&&entry.name.toLowerCase().endsWith('.mp3')){
+      const blob=await entry.async('blob');
+      files.push(new File([blob],entry.name.split('/').pop(),{type:'audio/mpeg'}));
+     }
+    }
+   }else if(file.name.toLowerCase().endsWith('.mp3'))files.push(file);
+  }
+  const unique=new Map(files.map(file=>[file.name.toLowerCase(),file]));
+  const audio=[...unique.values()];
+  if(!audio.length)throw Error('No MP3 files found in the selected ZIPs.');
+  status.textContent='Found '+audio.length+' unique MP3 files. Uploading…';
+  const results=new Array(audio.length);let done=0,next=0;
+  async function worker(){while(next<audio.length){const i=next++,file=audio[i];try{
+   const form=new FormData();form.append('file',file);form.append('upload_preset',preset);form.append('folder','playlist-audio');
+   const r=await fetch('https://api.cloudinary.com/v1_1/'+encodeURIComponent(cloud)+'/video/upload',{method:'POST',body:form});
+   const data=await r.json();if(!r.ok)throw Error(data.error?.message||'HTTP '+r.status);
+   results[i]={filename:file.name,secure_url:data.secure_url,public_id:data.public_id,bytes:data.bytes};
+  }catch(e){results[i]={filename:file.name,error:String(e.message||e)}}
+   done++;$('progress').value=done/audio.length;
+   status.textContent='Uploaded '+done+'/'+audio.length+' · failed '+results.filter(x=>x?.error).length;
+  }}
+  await Promise.all(Array.from({length:Math.min(3,audio.length)},worker));
+  const blob=new Blob([JSON.stringify(results.filter(Boolean),null,2)],{type:'application/json'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='playlist-upload-results.json';a.click();
+  status.textContent+='\\nFinished. Send playlist-upload-results.json back here.';
+ }catch(e){status.textContent='Error: '+(e.message||e)}
+ finally{button.disabled=false}
 };
 </script></html>
