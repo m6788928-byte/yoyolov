@@ -161,7 +161,7 @@ async function runAdminCommand(raw){
 async function sendMessage(){
  const body=$("messageInput").value.trim();if(!body||!user)return;$("send").disabled=true;
  if(body.startsWith("/")){
-  if(!isAdmin){setConnection("Admin commands are only available to michaelmoose.");$("send").disabled=false;return;}
+  if(!isAdmin){setConnection(adminError?"Admin check failed: "+adminError:"Admin check returned false for "+username+". Verify the account profile and is_chat_admin() SQL.");$("send").disabled=false;return;}
   await runAdminCommand(body);$("send").disabled=false;return;
  }
  const result=activeDM
