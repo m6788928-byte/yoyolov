@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Interstellar Proxy</title>
+<style>
+*{box-sizing:border-box}html,body{height:100%;margin:0;background:#111214;color:#e8e8ea;font:14px system-ui,-apple-system,sans-serif}
+#setup{max-width:620px;margin:10vh auto;padding:24px}h1{font-size:21px;margin:0 0 8px}p{color:#969ba5;line-height:1.55}
+.row{display:flex;gap:8px;margin-top:18px}input{flex:1;min-width:0;background:#1b1d21;border:1px solid #343840;border-radius:8px;padding:11px;color:#eee;font:inherit}
+button,a{border:1px solid #3a3e46;background:#202329;color:#eee;border-radius:8px;padding:10px 14px;font:inherit;text-decoration:none;cursor:pointer}
+button:hover,a:hover{border-color:#8b909a}#status{font-size:12px;min-height:18px}
+#app{display:none;position:fixed;inset:0;width:100%;height:100%;border:0;background:#fff}
+#toolbar{display:none;position:fixed;z-index:2;top:8px;right:8px;gap:6px}
+@media(max-width:600px){.row{flex-direction:column}#setup{margin:5vh auto}}
+</style>
+</head>
+<body>
+<section id="setup">
+<h1>Interstellar Proxy</h1>
+<p>Connect this tab to your deployed Interstellar server. The GitHub repository contains the proxy software, but it needs a live Node.js host; GitHub Pages cannot run its Bare proxy server.</p>
+<p>Deploy <a href="https://github.com/susybakaboiii/Interstellar" target="_blank" rel="noopener">Interstellar</a> on a Node.js host, then paste its HTTPS address below.</p>
+<div class="row"><input id="server" type="url" placeholder="https://your-interstellar-server.example" autocomplete="url"><button id="connect">Connect</button></div>
+<p id="status" role="status"></p>
+</section>
+<iframe id="app" title="Interstellar Proxy" allow="fullscreen; autoplay; clipboard-read; clipboard-write" allowfullscreen></iframe>
+<div id="toolbar"><button id="change">Change server</button><a id="open" target="_blank" rel="noopener">Open separately</a></div>
+<script>
+const $=id=>document.getElementById(id), key='yoyolov-interstellar-server';
+function connect(){
+ let value=$('server').value.trim();
+ if(!value){$('status').textContent='Enter your deployed server address.';return}
+ if(!/^https?:\/\//i.test(value)) value='https://'+value;
+ try{const u=new URL(value);if(!['https:','http:'].includes(u.protocol))throw 0;value=u.href.replace(/\/$/,'')}
+ catch{$('status').textContent='Enter a valid HTTP or HTTPS address.';return}
+ localStorage.setItem(key,value);$('app').src=value;$('app').style.display='block';$('toolbar').style.display='flex';$('setup').style.display='none';$('open').href=value;
+}
+$('connect').onclick=connect;
+$('server').addEventListener('keydown',e=>{if(e.key==='Enter')connect()});
+$('change').onclick=()=>{$('app').src='about:blank';$('app').style.display='none';$('toolbar').style.display='none';$('setup').style.display='block';$('server').focus()};
+const saved=localStorage.getItem(key);if(saved){$('server').value=saved;connect()}
+</script>
+</body>
+</html>
