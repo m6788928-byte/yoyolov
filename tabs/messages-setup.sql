@@ -116,12 +116,10 @@ language sql
 stable
 security definer
 set search_path = public
-as $
-  select exists (
-    select 1 from public.profiles
-    where id = auth.uid() and lower(username) = 'michaelmoose'
-  );
-$;
+as 'select exists (
+  select 1 from public.profiles
+  where id = auth.uid() and lower(username) = ''michaelmoose''
+)';
 
 revoke all on function public.is_chat_admin() from public, anon;
 grant execute on function public.is_chat_admin() to authenticated;
