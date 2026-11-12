@@ -272,7 +272,7 @@
 <div id="home">
   <div id="bar">
     <div class="logo">Eco<b>LINKS</b></div>
-    <span class="build-label" id="build-label">BUILD 2026.11.12.6</span>
+    <span class="build-label" id="build-label">BUILD 2026.11.12.7</span>
     <div id="tabs">
       <button class="tab active" data-tab="htmls" type="button">Games</button>
     </div>
@@ -432,7 +432,7 @@
 
       <section>
         <h2>Additional tabs</h2>
-        <p class="sub">Enter the authorized username to show the Claude and Proxy tabs.</p>
+        <p class="sub">Enter the authorized username to show the AI Chat tab.</p>
         <div class="row">
           <input id="admin-tab-username" class="field" type="text" placeholder="Username" autocomplete="off" spellcheck="false">
           <button id="admin-tab-unlock" class="btn" type="button">Show tabs</button>
@@ -487,7 +487,6 @@ const CUSTOM_TABS = [
 ];
 const ADMIN_TABS = [
   { name: "AI Chat", url: "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@7915ed78f599f95a2d215a93941ab4243d0df373/tabs/claude.html" },
-  { name: "Proxy", url: "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@10e1565064ff36cd075b14bdcde63d9eac5644d6/tabs/proxy.html" },
 ];
 const ADMIN_TABS_KEY = "yoyolov-admin-tabs";
 const adminTabsUnlocked = () => localStorage.getItem(ADMIN_TABS_KEY) === "1";
@@ -1164,7 +1163,7 @@ $('admin-tab-unlock').onclick = () => {
     return;
   }
   localStorage.setItem(ADMIN_TABS_KEY, '1');
-  $('admin-tab-status').textContent = 'Claude and Proxy tabs are now visible in this browser.';
+  $('admin-tab-status').textContent = 'AI Chat tab is now visible in this browser.';
   createCustomTabs();
   $('admin-tab-username').value = '';
 };
