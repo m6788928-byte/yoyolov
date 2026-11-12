@@ -108,6 +108,24 @@ create index if not exists messages_channel_created_idx
 create index if not exists reactions_message_idx
   on public.message_reactions(message_id);
 
+-- Resolve admin from the protected profile row, never from browser-supplied data.
+-- Usernames are case-insensitively unique and profiles cannot be edited by members.
+create or replace function public.is_chat_admin()
+returns boolean
+language sql
+stable
+security definer
+set search_path = public
+as $
+  select exists (
+    select 1 from public.profiles
+    where id = auth.uid() and lower(username) = 'michaelmoose'
+  );
+$;
+
+revoke all on function public.is_chat_admin() from public, anon;
+grant execute on function public.is_chat_admin() to authenticated;
+
 alter table public.profiles enable row level security;
 alter table public.messages enable row level security;
 alter table public.message_reactions enable row level security;
@@ -126,8 +144,8 @@ create policy "members send own messages" on public.messages
 for insert to authenticated with check (user_id=auth.uid());
 drop policy if exists "authors edit own messages" on public.messages;
 drop policy if exists "authors delete own messages" on public.messages;
-create policy "authors delete own messages" on public.messages
-for delete to authenticated using (user_id=auth.uid());
+create policy "authors and admins delete messages" on public.messages
+for delete to authenticated using (user_id=auth.uid() or public.is_chat_admin());
 
 drop policy if exists "members read reactions" on public.message_reactions;
 create policy "members read reactions" on public.message_reactions
@@ -218,8 +236,8 @@ create policy "users send DMs as self" on public.dm_messages
 for insert to authenticated
 with check (sender_id=auth.uid() and recipient_id<>auth.uid());
 drop policy if exists "senders delete own DMs" on public.dm_messages;
-create policy "senders delete own DMs" on public.dm_messages
-for delete to authenticated using (sender_id=auth.uid());
+create policy "senders and admins delete DMs" on public.dm_messages
+for delete to authenticated using (sender_id=auth.uid() or public.is_chat_admin());
 
 revoke all on public.dm_messages from anon;
 revoke all on public.dm_messages from authenticated;
