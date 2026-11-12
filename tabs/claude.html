@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Hard lock: this page may only make network requests to your own server (via the tunnel or localhost). If the tunnel address changes, update it here and in TUNNEL below. -->
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; connect-src 'self' https://sagem-intl-clusters-emails.trycloudflare.com http://localhost:8787 http://127.0.0.1:8787; img-src 'self' data:; base-uri 'none'; form-action 'none'">
-<title>Claude Chat</title>
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; connect-src 'self' https://api.groq.com; img-src 'self' data:; base-uri 'none'; form-action 'none'">
+<title>Yoyolov AI</title>
 <style>
 :root{--bg:#111214;--side:#0c0d0e;--panel:#1a1b1e;--hover:#202226;--text:#e8e8ea;--muted:#8d8f96;--border:#26282c;--accent:#d97757;--user:#1f2125;--code:#0a0b0c;--err:#f97066}
 *{box-sizing:border-box}
@@ -145,8 +145,8 @@ body.has-pw #logout{display:inline-block}
 <div class="col">
   <header>
     <button id="menu" type="button" aria-label="Chats">☰</button>
-    <h1>Claude Chat</h1>
-    <button id="logout" type="button">Log out</button>
+    <h1>Yoyolov AI</h1>
+    <button id="logout" type="button">API key</button>
   </header>
   <main id="scroller"><div id="log"></div></main>
   <footer>
@@ -167,8 +167,9 @@ body.has-pw #logout{display:inline-block}
         </button>
         <span class="sp"></span>
         <label class="pick" title="Model"><select id="modelSel" aria-label="Model">
-          <option value="claude-haiku-5-5">Haiku 5.5</option>
-          <option value="claude-sonnet-5-5">Sonnet 5.5</option>
+          <option value="openai/gpt-oss-120b">GPT-OSS 120B</option>
+          <option value="openai/gpt-oss-20b">GPT-OSS 20B</option>
+          <option value="qwen/qwen3.8-27b">Qwen 3.8 27B</option>
         </select></label>
         <button id="send" type="button">Send</button>
       </div>
@@ -177,19 +178,21 @@ body.has-pw #logout{display:inline-block}
   </footer>
 </div>
 <div id="login"><form id="loginForm">
-  <h2>Claude Chat</h2>
-  <p>Enter your password to continue.</p>
-  <input id="pw" type="password" autocomplete="current-password" placeholder="Password" required>
-  <button type="submit">Unlock</button>
+  <h2>Connect free AI</h2>
+  <p>Paste a Groq API key. It is saved in this browser only and is never committed to GitHub.</p>
+  <input id="pw" type="password" autocomplete="off" placeholder="Groq API key" spellcheck="false" required>
+  <a href="https://console.groq.com/keys" target="_blank" rel="noopener" style="color:var(--accent);font-size:13px">Create a free API key ↗</a>
+  <button type="submit">Save and connect</button>
+  <button id="closeKey" type="button" hidden>Cancel</button>
+  <button id="removeKey" type="button" hidden>Remove saved key</button>
   <p id="loginErr"></p>
 </form></div>
 <script>
-// Your Cloudflare tunnel. If the address changes, update it here AND in the Content-Security-Policy at the top.
-const TUNNEL = "https://sagem-intl-clusters-emails.trycloudflare.com";
-// Opened through the server or the tunnel → talk to that same address. Opened as a file → the tunnel.
-const API = location.protocol.startsWith("http") ? location.origin : TUNNEL;
-let token = ""; try { token = localStorage.getItem("token") || ""; } catch {}
-const authHeaders = () => token ? { Authorization: "Bearer " + token } : {};
+// Direct browser connection: no Yoyolov backend or local server is required.
+const API = "https://api.groq.com/openai/v1";
+const KEY_STORE = "yoyolov-groq-api-key";
+let apiKey = ""; try { apiKey = localStorage.getItem(KEY_STORE) || ""; } catch {}
+const authHeaders = () => apiKey ? { Authorization: "Bearer " + apiKey } : {};
 const STORE = "haiku-chats";
 const CONTINUE_TEXT = "Continue exactly where you left off. If you stopped inside a code block, continue the code without repeating anything.";
 const MAX_EDGE = 2000, MAX_IMAGES = 10;
@@ -245,66 +248,67 @@ function note(msg) {
 
 /* ---------- web toggle ---------- */
 const webBtn = $("web");
-try { if (localStorage.getItem("web") === "off") webBtn.setAttribute("aria-pressed", "false"); } catch {}
+try { webBtn.setAttribute("aria-pressed", localStorage.getItem("web") === "on" ? "true" : "false"); } catch { webBtn.setAttribute("aria-pressed", "false"); }
 const webOn = () => webBtn.getAttribute("aria-pressed") === "true";
 webBtn.addEventListener("click", () => {
   webBtn.setAttribute("aria-pressed", String(!webOn()));
   try { localStorage.setItem("web", webOn() ? "on" : "off"); } catch {}
 });
 
-/* ---------- model picker: Haiku by default, remembers your last choice ---------- */
+/* ---------- model picker ---------- */
 const modelSel = $("modelSel");
 let savedModel = null; try { savedModel = localStorage.getItem("model"); } catch {}
 function applyModel(id) {
   if (![...modelSel.options].some(o => o.value === id)) id = modelSel.options[0].value;
   modelSel.value = id;
-  input.placeholder = `Message ${modelSel.selectedOptions[0].textContent.replace(/\s[\d.]+$/, "")}…`;
+  input.placeholder = "Message " + modelSel.selectedOptions[0].textContent + "…";
 }
-applyModel(savedModel || "claude-haiku-5-5");
+applyModel(savedModel || "openai/gpt-oss-120b");
 modelSel.addEventListener("change", () => { applyModel(modelSel.value); try { localStorage.setItem("model", modelSel.value); } catch {} input.focus(); });
 
-/* ---------- login: only shown when the server has a password set ---------- */
+/* ---------- API key setup ---------- */
 function showLogin(msg = "") {
   $("loginErr").textContent = msg;
-  $("login").classList.add("show"); $("pw").focus();
+  $("pw").value = "";
+  $("closeKey").hidden = !apiKey;
+  $("removeKey").hidden = !apiKey;
+  $("login").classList.add("show");
+  $("pw").focus();
 }
-async function loadConfig() {
-  let r;
-  try { r = await fetch(API + "/api/config", { headers: authHeaders() }); }
-  catch { return "offline"; }
-  if (r.status === 401 || r.status === 429) {
-    const err = (await r.json().catch(() => ({}))).error || "";
-    return r.status === 429 ? err : (token ? "Wrong password" : "need");
-  }
-  const c = await r.json().catch(() => ({}));
-  if (Array.isArray(c.models)) {
-    modelSel.innerHTML = "";
-    c.models.forEach(m => modelSel.add(new Option(m.name, m.id)));
-    applyModel(savedModel || c.default);
-  }
-  document.body.classList.toggle("has-pw", !!token);
-  return "ok";
-}
-loadConfig().then(s => {
-  if (s === "need") showLogin();
-  else if (s !== "ok" && s !== "offline") { token = ""; showLogin(s); }
-});
 $("loginForm").addEventListener("submit", async e => {
   e.preventDefault();
-  token = $("pw").value;
-  const s = await loadConfig();
-  if (s === "ok") {
-    try { localStorage.setItem("token", token); } catch {}
-    $("pw").value = ""; $("login").classList.remove("show"); input.focus();
-  } else {
-    token = "";
-    showLogin(s === "offline" ? "Can't reach the server." : s === "need" ? "Wrong password" : s);
+  const candidate = $("pw").value.trim();
+  if (!candidate) return;
+  const submit = $("loginForm").querySelector('button[type="submit"]');
+  submit.disabled = true; submit.textContent = "Checking key…";
+  try {
+    const r = await fetch(API + "/models", { headers: { Authorization: "Bearer " + candidate } });
+    const data = await r.json().catch(() => ({}));
+    if (!r.ok) throw new Error(data.error?.message || data.error || "Groq rejected the key (" + r.status + ").");
+    apiKey = candidate;
+    localStorage.setItem(KEY_STORE, apiKey);
+    document.body.classList.add("has-pw");
+    $("login").classList.remove("show");
+    note("Free AI connected.");
+    input.focus();
+  } catch (err) {
+    $("loginErr").textContent = err.message || "Could not verify the API key.";
+  } finally {
+    submit.disabled = false; submit.textContent = "Save and connect";
   }
 });
-$("logout").addEventListener("click", () => {
-  token = ""; try { localStorage.removeItem("token"); } catch {}
-  document.body.classList.remove("has-pw"); showLogin();
+$("logout").addEventListener("click", () => showLogin());
+$("closeKey").addEventListener("click", () => $("login").classList.remove("show"));
+$("removeKey").addEventListener("click", () => {
+  apiKey = "";
+  try { localStorage.removeItem(KEY_STORE); } catch {}
+  document.body.classList.remove("has-pw");
+  $("pw").value = "";
+  $("loginErr").textContent = "Saved key removed.";
+  $("closeKey").hidden = true; $("removeKey").hidden = true;
 });
+if (apiKey) document.body.classList.add("has-pw");
+else showLogin();
 
 /* ---------- attaching images ---------- */
 const readAsDataURL = f => new Promise((res, rej) => { const r = new FileReader(); r.onload = () => res(r.result); r.onerror = () => rej(r.error); r.readAsDataURL(f); });
@@ -514,13 +518,13 @@ function deleteChat(id) {
 // Turn a saved message into what the API expects (images go first, then the text).
 function toApi(m) {
   if (m.role !== "user" || !m.images?.length) return { role: m.role, content: m.content };
-  const blocks = m.images.map(im => {
-    const d = imgCache[im.id];
-    return d ? { type: "image", source: { type: "base64", media_type: im.type, data: d.slice(d.indexOf(",") + 1) } }
-             : { type: "text", text: "[An image was attached here but is no longer available.]" };
+  const content = m.images.map(im => {
+    const data = imgCache[im.id];
+    return data ? { type: "image_url", image_url: { url: data } }
+                : { type: "text", text: "[An attached image is no longer available.]" };
   });
-  if (m.content) blocks.push({ type: "text", text: m.content });
-  return { role: "user", content: blocks };
+  if (m.content) content.push({ type: "text", text: m.content });
+  return { role: "user", content };
 }
 
 /* ---------- sending ---------- */
@@ -561,36 +565,44 @@ async function send() {
   const schedule = () => { if (!raf) raf = requestAnimationFrame(paint); };
 
   try {
-    const res = await fetch(API + "/api/chat", {
+    const hasImages = imgs.length > 0;
+    const useWeb = webOn() && !hasImages;
+    const requestModel = hasImages ? "qwen/qwen3.8-27b"
+      : useWeb && !modelSel.value.startsWith("openai/") ? "openai/gpt-oss-120b"
+      : modelSel.value;
+    const messages = [];
+    if (sys.value.trim()) messages.push({ role: "system", content: sys.value.trim() });
+    messages.push(...chat.messages.map(toApi));
+    const payload = {
+      model: requestModel,
+      messages,
+      stream: true,
+      max_completion_tokens: 4096,
+      reasoning_effort: "low"
+    };
+    if (useWeb) payload.tools = [{ type: "browser_search" }];
+    if (hasImages && webOn()) live.steps.push("Image questions use Qwen 3.8; web search is off for this turn.");
+    if (useWeb) live.steps.push("Web search enabled.");
+    const res = await fetch(API + "/chat/completions", {
       method: "POST",
       headers: { "Content-Type": "application/json", ...authHeaders() },
-      body: JSON.stringify({
-        messages: chat.messages.map(toApi),
-        system: sys.value.trim() || undefined,
-        web: webOn(),
-        model: modelSel.value,
-      }),
+      body: JSON.stringify(payload),
       signal: ctrl.signal,
     });
-    if (res.status === 401) showLogin("Please enter your password.");
     if (!res.ok) {
-      let msg = res.statusText;
-      try { msg = (await res.json()).error || msg; } catch {}
-      throw new Error(msg);
+      const data = await res.json().catch(() => ({}));
+      throw new Error(data.error?.message || data.error || "Groq request failed (" + res.status + ").");
     }
     const reader = res.body.getReader(), dec = new TextDecoder();
     let buf = "";
     const handle = line => {
-      if (!line.trim()) return;
-      let ev; try { ev = JSON.parse(line); } catch { return; }
-      if (ev.t === "text") { reply += ev.v; live.thinking = false; }
-      else if (ev.t === "thinking") live.thinking = true;
-      else if (ev.t === "search") { live.steps.push(`🔍 Searched “${ev.v}”`); live.thinking = false; }
-      else if (ev.t === "fetch") { live.steps.push(`📄 Read ${ev.v}`); live.thinking = false; }
-      else if (ev.t === "note") live.steps.push(`⚠ ${ev.v}`);
-      else if (ev.t === "source") live.sources.push({ url: ev.url, title: ev.title });
-      else if (ev.t === "stop") live.cutoff = ev.v === "max_tokens";
-      else if (ev.t === "error") reply += `\n\n[error: ${ev.v}]`;
+      const trimmed = line.trim();
+      if (!trimmed.startsWith("data:")) return;
+      const raw = trimmed.slice(5).trim();
+      if (!raw || raw === "[DONE]") return;
+      let ev; try { ev = JSON.parse(raw); } catch { return; }
+      const delta = ev.choices?.[0]?.delta;
+      if (typeof delta?.content === "string") { reply += delta.content; live.thinking = false; }
     };
     for (;;) {
       const { done, value } = await reader.read();
@@ -603,7 +615,7 @@ async function send() {
     handle(buf);
   } catch (e) {
     if (e.name === "AbortError") {}
-    else if (e instanceof TypeError) failed = `Can't reach the server at ${API}. Is server.py running?`;
+    else if (e instanceof TypeError) failed = "Cannot reach Groq. Check your connection and API key.";
     else failed = e.message || "Request failed";
   } finally {
     if (raf) cancelAnimationFrame(raf);
