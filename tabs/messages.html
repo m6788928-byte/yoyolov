@@ -10,7 +10,7 @@
 <div id="profileSetup"><section class="setupCard"><h1 id="authTitle">Sign in to Yoyolov Chat</h1><p id="authDescription">Use your unique username and password. Your login is saved on this device.</p><label for="usernameInput">Username (3–20 letters, numbers or _)</label><input id="usernameInput" maxlength="20" placeholder="Your username" autocomplete="username" spellcheck="false"><label for="passwordInput">Password (at least 8 characters)</label><input id="passwordInput" type="password" minlength="8" placeholder="Your password" autocomplete="current-password"><button id="authSubmit" class="primary">Sign in</button><button id="authSwitch" class="smallBtn" style="width:100%;margin-top:10px">Create a new account</button><div id="profileError"></div><p style="font-size:11px">Use a password you do not use elsewhere. There is no password reset because accounts do not collect email addresses.</p></section></div>
 <script>
 const $=id=>document.getElementById(id),ROOMS=["general","games","help"];
-let db=null,user=null,username="",isAdmin=false,room="general",live=null,presence=null,replyTo=null,rows=[],reactions=[],authMode="login",activeDM=null,dmRows=[],dmThreads=[];
+let db=null,user=null,username="",isAdmin=false,adminError="",room="general",live=null,presence=null,replyTo=null,rows=[],reactions=[],authMode="login",activeDM=null,dmRows=[],dmThreads=[];
 let overrideConfig=null;
 const SUPABASE_URL="https://ybtpzchvczgoyozxterw.supabase.co";
 const SUPABASE_KEY="sb_publishable_k_NWMde9ZreUm6DypDfgzw_zsuRMKr9";
@@ -30,7 +30,7 @@ function authPrompt(mode="login",error=""){
 function updateProfileUI(){
  $("myName").textContent=username;
  $("myAvatar").textContent=(username[0]||"?").toUpperCase();
- $("myStatus").textContent=isAdmin?"ADMIN · online":username.toLowerCase()==="michaelmoose"?"Admin setup required":"online";
+ $("myStatus").textContent=isAdmin?"ADMIN · online":username.toLowerCase()==="michaelmoose"?(adminError?"ADMIN SETUP ERROR":"Admin setup required"):"online";
  if(presence&&user)presence.track({username,online_at:new Date().toISOString()});
 }
 function renderMessages(){
@@ -129,7 +129,7 @@ async function loadRoom(){
  setConnection("Loading…");rows=[];reactions=[];renderMessages();
  const {data,error}=await db.from("messages").select("id,channel,user_id,username,body,reply_to,created_at").eq("channel",room).order("created_at",{ascending:false}).limit(100);
  if(error){setConnection("Load failed");return;}
- rows=(data||[]).reverse();await loadReactions();renderMessages();setConnection(isAdmin?"Admin ready · type /help":username.toLowerCase()==="michaelmoose"?"Run updated chat SQL to enable admin":"Live");
+ rows=(data||[]).reverse();await loadReactions();renderMessages();setConnection(isAdmin?"ADMIN READY · type /help":username.toLowerCase()==="michaelmoose"?"ADMIN NOT ACTIVE · "+(adminError||"Database role check returned false. Run updated chat SQL, then sign out and back in."):"Live");
 }
 function clearComposer(){ $("messageInput").value="";$("messageInput").style.height="auto";replyTo=null;$("replyBar").style.display="none"; }
 async function runAdminCommand(raw){
@@ -199,7 +199,7 @@ async function submitAuth(){
 async function enterChat(){
  const {data:profile,error}=await db.from("profiles").select("username").eq("id",user.id).single();
  if(error||!profile)throw new Error("Your account exists, but its chat profile is missing. The chat owner must run the latest tabs/messages-setup.sql in Supabase SQL Editor, then sign out and sign in again. If it still fails, the username may already be taken.");
- username=profile.username;const adminCheck=await db.rpc("is_chat_admin");isAdmin=!adminCheck.error&&adminCheck.data===true;$("profileSetup").classList.remove("open");updateProfileUI();
+ username=profile.username;try{const adminCheck=await db.rpc("is_chat_admin");isAdmin=!adminCheck.error&&adminCheck.data===true;adminError=adminCheck.error?.message||(!isAdmin&&username.toLowerCase()==="michaelmoose"?"The database says this account is not an admin. Run the updated SQL migration.":"");}catch(error){isAdmin=false;adminError=error.message||String(error);} $("profileSetup").classList.remove("open");updateProfileUI();
  if(live)await db.removeChannel(live);
  live=db.channel("yoyolov-chat-messages")
   .on("postgres_changes",{event:"*",schema:"public",table:"messages"},async payload=>{
@@ -225,7 +225,7 @@ async function enterChat(){
 }
 async function signOut(){
  if(presence)await db.removeChannel(presence);if(live)await db.removeChannel(live);
- presence=live=null;await db.auth.signOut();user=null;username="";isAdmin=false;
+ presence=live=null;await db.auth.signOut();user=null;username="";isAdmin=false;adminError="";
  $("myName").textContent="Signed out";$("myAvatar").textContent="?";$("myStatus").textContent="offline";
  $("messageInput").disabled=true;$("send").disabled=true;authPrompt("login");
 }
