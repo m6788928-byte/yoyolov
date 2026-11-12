@@ -144,6 +144,7 @@ create policy "members send own messages" on public.messages
 for insert to authenticated with check (user_id=auth.uid());
 drop policy if exists "authors edit own messages" on public.messages;
 drop policy if exists "authors delete own messages" on public.messages;
+drop policy if exists "authors and admins delete messages" on public.messages;
 create policy "authors and admins delete messages" on public.messages
 for delete to authenticated using (user_id=auth.uid() or public.is_chat_admin());
 
@@ -236,6 +237,7 @@ create policy "users send DMs as self" on public.dm_messages
 for insert to authenticated
 with check (sender_id=auth.uid() and recipient_id<>auth.uid());
 drop policy if exists "senders delete own DMs" on public.dm_messages;
+drop policy if exists "senders and admins delete DMs" on public.dm_messages;
 create policy "senders and admins delete DMs" on public.dm_messages
 for delete to authenticated using (sender_id=auth.uid() or public.is_chat_admin());
 
