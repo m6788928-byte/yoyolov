@@ -326,6 +326,7 @@ const artworkCache = load(ART_KEY, {});
 const playlistArtworkCache = load(PLAYLIST_ART_KEY, {});
 const spotifyTrackArtworkCache = load(SPOTIFY_TRACK_ART_KEY, {});
 const spotifyPlaylistTrackJobs = new Map();
+const spotifyPlaylistEntityJobs = new Map();
 const spotifyTrackArtworkJobs = new Map();
 const spotifyTrackArtworkQueue = [];
 let spotifyTrackArtworkWorkers = 0;
@@ -365,14 +366,24 @@ async function spotifyEmbedEntity(url) {
   if (!entity) throw new Error("Spotify playlist metadata is unavailable");
   return entity;
 }
-function spotifyPlaylistTracks(sourceUrl) {
-  let job = spotifyPlaylistTrackJobs.get(sourceUrl);
+function spotifyPlaylistEntity(sourceUrl) {
+  let job = spotifyPlaylistEntityJobs.get(sourceUrl);
   if (!job) {
     const id = sourceUrl.match(/playlist\/([A-Za-z0-9]+)/)?.[1];
     if (!id) return Promise.reject(new Error("Invalid Spotify playlist link"));
-    job = spotifyEmbedEntity("https://open.spotify.com/embed/playlist/" + id)
+    job = spotifyEmbedEntity("https://open.spotify.com/embed/playlist/" + id);
+    spotifyPlaylistEntityJobs.set(sourceUrl, job);
+    job.catch(() => spotifyPlaylistEntityJobs.delete(sourceUrl));
+  }
+  return job;
+}
+function spotifyPlaylistTracks(sourceUrl) {
+  let job = spotifyPlaylistTrackJobs.get(sourceUrl);
+  if (!job) {
+    job = spotifyPlaylistEntity(sourceUrl)
       .then(entity => Array.isArray(entity.trackList) ? entity.trackList : []);
     spotifyPlaylistTrackJobs.set(sourceUrl, job);
+    job.catch(() => spotifyPlaylistTrackJobs.delete(sourceUrl));
   }
   return job;
 }
@@ -608,6 +619,9 @@ function normalisePlaylists(items) {
     name: String(p.name || "Untitled playlist"),
     cover: p.cover || "",
     sourceUrl: p.sourceUrl || "",
+    spotifyImport: !!p.spotifyImport,
+    useSpotifyName: !!p.useSpotifyName,
+    maxSongs: Math.min(100, Math.max(1, Number(p.maxSongs) || 100)),
     songs: (Array.isArray(p.songs) ? p.songs : []).map((s) => ({
       name: String(s.name || "Untitled"),
       artist: String(s.artist || ""),
@@ -617,7 +631,35 @@ function normalisePlaylists(items) {
     })),
   }));
 }
-
+async function hydrateSpotifyCatalogPlaylists() {
+  await Promise.all(catalogPlaylists.map(async (p, index) => {
+    if (!p.spotifyImport || p._loaded || p._loading) return;
+    p._loading = true; p._loadError = "";
+    try {
+      const entity = await spotifyPlaylistEntity(p.sourceUrl);
+      const list = Array.isArray(entity.trackList) ? entity.trackList.slice(0, p.maxSongs) : [];
+      p.songs = list.filter(t => t && t.title).map(t => ({
+        name: String(t.title), artist: String(t.subtitle || ""),
+        url: "", unavailable: false, cover: "", spotifyUri: String(t.uri || ""),
+      }));
+      if (p.useSpotifyName && entity.name) p.name = String(entity.name);
+      const images = [
+        ...(Array.isArray(entity.visualIdentity?.image) ? entity.visualIdentity.image : []),
+        ...(Array.isArray(entity.coverArt?.sources) ? entity.coverArt.sources : []),
+        ...(Array.isArray(entity.images) ? entity.images : []),
+      ];
+      const image = images.map(x => typeof x === "string" ? x : x?.url).find(x => /^https:\/\//.test(x || ""));
+      if (image) p.cover = image;
+      if (!p.songs.length) p._loadError = "Spotify returned no tracks for this playlist.";
+      p._loaded = true;
+    } catch (error) {
+      p._loadError = error.message || "Spotify playlist import failed.";
+    } finally {
+      p._loading = false;
+      if (location.hash === "#/catalog-playlist/" + index || !location.hash || location.hash === "#/") render(true);
+    }
+  }));
+}
 function albumTracks(ai, bi) {
   const artist = library[ai], album = artist.albums[bi];
   return album.songs.map((s) => ({
@@ -1182,16 +1224,16 @@ function renderCatalogPlaylist(pi) {
     el("div", null,
       el("div", { class: "kind" }, "Original playlist · read-only"),
       el("h1", null, p.name),
-      el("div", { class: "muted" }, tracks.length
+      el("div", { class: "muted" }, p._loading ? "Loading up to " + p.maxSongs + " tracks from Spotify…" : p._loadError || (tracks.length
         ? songCount(tracks.length) + " · " + connected + " playable · " + pending + " awaiting audio"
-        : "Ready for audio files"),
+        : "Ready for audio files")),
       ...(actions ? [actions] : [])));
   const list = el("ol", { class: "songs" });
   tracks.forEach((t, i) => {
     list.append(songRow(tracks, i, true,
       iconButton(ICON_PLUS, "Add to your playlist", () => addDialog(t))));
   });
-  if (!tracks.length) list.append(el("li", { class: "empty" }, "No tracks added yet. Send the audio files when they're ready."));
+  if (!tracks.length) list.append(el("li", { class: "empty" }, p._loading ? "Importing Spotify track list…" : p._loadError || "No tracks added yet. Send the audio files when they're ready."));
   view.replaceChildren(hero, list);
 }
 
@@ -1261,6 +1303,7 @@ fetch(JSON_URL, { cache: "no-store" })
     catalogPlaylists = normalisePlaylists(data.playlists);
     syncSavedCatalogTracks();
     render();
+    hydrateSpotifyCatalogPlaylists();
   })
   .catch((err) => {
     setHeader("Music", false);
