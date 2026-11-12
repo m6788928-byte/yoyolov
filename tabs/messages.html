@@ -175,6 +175,7 @@ async function runUserCommand(raw){
   reply("🎲 "+(1+Math.floor(Math.random()*sides))+" (1–"+sides+")");return true;
  }
  if(command==="/me"||command==="/shrug"){
+  if(activeDM){reply("This command only works in public channels.");return true;}
   const text=command==="/me"?arg:("¯\\_(ツ)_/¯"+(arg?" "+arg:""));
   if(!text){reply("Usage: /me <action>");return true;}
   const {error}=await db.from("messages").insert({channel:room,user_id:user.id,body:"* "+username+" "+text.slice(0,980),reply_to:replyTo});
