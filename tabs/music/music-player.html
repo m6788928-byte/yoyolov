@@ -348,7 +348,7 @@ function artworkBox(track) {
   return box;
 }
 function spotifyClean(value) {
-  return String(value || "").normalize("NFKD").replace(/[\\u0300-\\u036f]/g, "")
+  return String(value || "").normalize("NFKD").replace(/[\u0300-\u036f]/g, "")
     .toLowerCase().replace(/[^a-z0-9]+/g, "");
 }
 async function spotifyEmbedEntity(url) {
@@ -641,7 +641,7 @@ async function hydrateSpotifyCatalogPlaylists() {
       const list = Array.isArray(entity.trackList) ? entity.trackList.slice(0, p.maxSongs) : [];
       const uploads = Array.isArray(p.songs) ? p.songs : [];
       const clean = value => String(value || "").normalize("NFKD")
-        .replace(/[\\u0300-\\u036f]/g, "").toLowerCase()
+        .replace(/[\u0300-\u036f]/g, "").toLowerCase()
         .replace(/[^a-z0-9]+/g, " ").trim();
       const byPosition = new Map(uploads.filter(s => Number.isInteger(s.sourceIndex) && s.url)
         .map(s => [s.sourceIndex, s]));
@@ -708,7 +708,7 @@ function getPlaylists() {
   }));
 }
 const cleanTrackPart = value => String(value || "").normalize("NFKD")
-  .replace(/[\\u0300-\\u036f]/g, "").toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
+  .replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
 function catalogTrackKey(track) {
   return cleanTrackPart(track.name) + "|" + cleanTrackPart(track.artist);
 }
