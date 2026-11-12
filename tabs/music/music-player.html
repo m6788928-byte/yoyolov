@@ -628,6 +628,7 @@ function normalisePlaylists(items) {
       url: s.url ? String(s.url) : "",
       unavailable: !!s.unavailable,
       cover: s.cover ? String(s.cover) : "",
+      ...(Number.isInteger(s.sourceIndex) ? { sourceIndex: s.sourceIndex } : {}),
     })),
   }));
 }
@@ -638,10 +639,24 @@ async function hydrateSpotifyCatalogPlaylists() {
     try {
       const entity = await spotifyPlaylistEntity(p.sourceUrl);
       const list = Array.isArray(entity.trackList) ? entity.trackList.slice(0, p.maxSongs) : [];
-      p.songs = list.filter(t => t && t.title).map(t => ({
-        name: String(t.title), artist: String(t.subtitle || ""),
-        url: "", unavailable: false, cover: "", spotifyUri: String(t.uri || ""),
-      }));
+      const uploads = Array.isArray(p.songs) ? p.songs : [];
+      const clean = value => String(value || "").normalize("NFKD")
+        .replace(/[\\u0300-\\u036f]/g, "").toLowerCase()
+        .replace(/[^a-z0-9]+/g, " ").trim();
+      const byPosition = new Map(uploads.filter(s => Number.isInteger(s.sourceIndex) && s.url)
+        .map(s => [s.sourceIndex, s]));
+      const byPair = new Map(uploads.filter(s => !Number.isInteger(s.sourceIndex) && s.url)
+        .map(s => [clean(s.name) + "|" + clean(s.artist), s]));
+      const byTitle = new Map(uploads.filter(s => !Number.isInteger(s.sourceIndex) && s.url)
+        .map(s => [clean(s.name), s]));
+      p.songs = list.map((t, index) => ({ t, index })).filter(x => x.t && x.t.title).map(({ t, index }) => {
+        const name = String(t.title), artist = String(t.subtitle || "");
+        const uploaded = byPosition.get(index) || byPair.get(clean(name) + "|" + clean(artist)) || byTitle.get(clean(name));
+        return {
+          name, artist, url: uploaded?.url || "", unavailable: false,
+          cover: uploaded?.cover || "", spotifyUri: String(t.uri || ""),
+        };
+      });
       if (p.useSpotifyName && entity.name) p.name = String(entity.name);
       const images = [
         ...(Array.isArray(entity.visualIdentity?.image) ? entity.visualIdentity.image : []),
