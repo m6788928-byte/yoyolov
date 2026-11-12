@@ -135,7 +135,7 @@ function clearComposer(){ $("messageInput").value="";$("messageInput").style.hei
 async function runAdminCommand(raw){
  const [command,...args]=raw.trim().split(/\s+/),arg=args.join(" ").trim();
  if(activeDM){setConnection("Admin commands only work in public channels.");return;}
- if(command==="/help"||command==="/admin"){setConnection("Admin commands: /delete <message ID> · /clear · /announce <text>");clearComposer();return;}
+ if(command==="/admin"){setConnection("Admin commands: /delete <message ID> · /clear · /announce <text>");clearComposer();return;}
  if(command==="/delete"){
   const id=Number(args[0]);if(!Number.isSafeInteger(id)||id<1){setConnection("Usage: /delete <message ID>");return;}
   if(!confirm("Permanently delete message #"+id+" from #"+room+"?"))return;
@@ -158,9 +158,35 @@ async function runAdminCommand(raw){
  }
  setConnection("Unknown admin command. Type /help.");
 }
+async function runUserCommand(raw){
+ const [command,...args]=raw.trim().split(/\s+/),arg=args.join(" ").trim();
+ const reply=message=>{setConnection(message);clearComposer();};
+ if(command==="/help"){
+  reply("Commands: /me <action> · /shrug [text] · /roll [sides] · /coinflip · /whoami · /online · /time"+(isAdmin?" · Admin: /delete <ID> · /clear · /announce <text>":""));
+  return true;
+ }
+ if(command==="/whoami"){reply("Signed in as "+username+(isAdmin?" · ADMIN":""));return true;}
+ if(command==="/online"){reply(Object.keys(presence?.presenceState()||{}).length+" users online");return true;}
+ if(command==="/time"){reply("Local time: "+new Date().toLocaleString());return true;}
+ if(command==="/coinflip"){reply("Coin flip: "+(Math.random()<.5?"Heads":"Tails"));clearComposer();return true;}
+ if(command==="/roll"){
+  const sides=args[0]===undefined?6:Number(args[0]);
+  if(!Number.isSafeInteger(sides)||sides<2||sides>1000){reply("Usage: /roll [sides from 2 to 1000]");return true;}
+  reply("🎲 "+(1+Math.floor(Math.random()*sides))+" (1–"+sides+")");return true;
+ }
+ if(command==="/me"||command==="/shrug"){
+  const text=command==="/me"?arg:("¯\\_(ツ)_/¯"+(arg?" "+arg:""));
+  if(!text){reply("Usage: /me <action>");return true;}
+  const {error}=await db.from("messages").insert({channel:room,user_id:user.id,body:"* "+username+" "+text.slice(0,980),reply_to:replyTo});
+  if(error){setConnection("Send failed: "+error.message);return true;}
+  clearComposer();return true;
+ }
+ return false;
+}
 async function sendMessage(){
  const body=$("messageInput").value.trim();if(!body||!user)return;$("send").disabled=true;
  if(body.startsWith("/")){
+  if(await runUserCommand(body)){$("send").disabled=false;return;}
   if(!isAdmin){setConnection(adminError?"Admin check failed: "+adminError:"Admin check returned false for "+username+". Verify the account profile and is_chat_admin() SQL.");$("send").disabled=false;return;}
   await runAdminCommand(body);$("send").disabled=false;return;
  }
