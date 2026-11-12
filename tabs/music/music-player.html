@@ -410,7 +410,9 @@ function runSpotifyTrackArtworkQueue() {
   }
 }
 function matchSpotifyTrack(items, track) {
-  const title = spotifyClean(track.name), artist = spotifyClean(track.artist);
+  const title = spotifyClean(track.name);
+  const artist = spotifyClean(track.artist);
+  const artistTokens = String(track.artist || "").split(",").map(spotifyClean).filter(Boolean);
   return items.map(item => {
     const candidateTitle = spotifyClean(item.title);
     const candidateArtist = spotifyClean(item.subtitle);
@@ -418,8 +420,7 @@ function matchSpotifyTrack(items, track) {
       candidateTitle.length > 3 && (candidateTitle.includes(title) || title.includes(candidateTitle)) ? 5 : 0;
     const artistScore = !artist || !candidateArtist ? 0 :
       candidateArtist === artist ? 5 :
-      artist.split(/(?=[a-z])/).length && artist.split(/[^a-z0-9]+/).filter(Boolean)
-        .filter(token => token.length > 2 && candidateArtist.includes(token)).length ? 2 : 0;
+      artistTokens.some(token => token.length > 2 && candidateArtist.includes(token)) ? 2 : 0;
     return { item, score: titleScore + artistScore };
   }).sort((a, b) => b.score - a.score)[0];
 }
