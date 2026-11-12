@@ -272,7 +272,7 @@
 <div id="home">
   <div id="bar">
     <div class="logo">Eco<b>LINKS</b></div>
-    <span class="build-label" id="build-label">BUILD 2026.11.11.3</span>
+    <span class="build-label" id="build-label">BUILD 2026.11.11.4</span>
     <div id="tabs">
       <button class="tab active" data-tab="htmls" type="button">Games</button>
     </div>
@@ -801,9 +801,14 @@ async function loadCustomTab(state){
   try{
     const url = new URL(state.url, document.baseURI);
     if(!['http:', 'https:'].includes(url.protocol)) throw new Error('Use an HTTP or HTTPS HTML file link.');
-    let used = url.href, html = await grab(used);
-    if(!html.trim()){ used = bust(url.href); html = await grab(used); }
-    if(!html.trim() && toRaw(url.href)){ used = toRaw(url.href); html = await grab(used); }
+    let used = url.href, html = '';
+    try { html = await grab(used); }
+    catch (firstError) {
+      const fallback = toRaw(url.href);
+      if (!fallback) throw firstError;
+      used = fallback; html = await grab(used);
+    }
+    if(!html.trim()){ used = bust(used); html = await grab(used); }
     if(!html.trim()) throw new Error('server returned an empty body');
     state.html = withBase(html, used);
     state.frame.srcdoc = state.html;
@@ -1005,9 +1010,14 @@ async function openUrl(url, name){
   if(settings.autoFullscreen && !document.fullscreenElement && viewer.requestFullscreen)
     viewer.requestFullscreen().catch(() => {});
   try{
-    let used = url, text = await grab(url);
-    if(!text.trim()){ used = bust(url); text = await grab(used); }
-    if(!text.trim() && toRaw(url)){ used = toRaw(url); text = await grab(used); }
+    let used = url, text = '';
+    try { text = await grab(used); }
+    catch (firstError) {
+      const fallback = toRaw(url);
+      if (!fallback) throw firstError;
+      used = fallback; text = await grab(used);
+    }
+    if(!text.trim()){ used = bust(used); text = await grab(used); }
     if(!text.trim()) throw new Error('server returned an empty body');
     render(withBase(text, used), name);
   }catch(err){
