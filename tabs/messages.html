@@ -38,7 +38,7 @@ function renderMessages(){
  const root=$("messages");root.replaceChildren();
  const intro=document.createElement("div");intro.className="welcome";
  const h=document.createElement("h2");h.textContent="Welcome to #"+room;
- const p=document.createElement("p");p.textContent="Messages are shared with everyone in this channel and saved in the database.";
+ const p=document.createElement("p");p.textContent=isAdmin?"Admin access is enabled. Type /help in the message box to see your commands.":"Messages are shared with everyone in this channel and saved in the database.";
  intro.append(h,p);root.append(intro);
  if(!rows.length){const e=document.createElement("div");e.className="empty";e.textContent="No messages yet. Start the conversation.";root.append(e);return;}
  for(const m of rows){
