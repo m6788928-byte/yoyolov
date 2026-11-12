@@ -1911,7 +1911,8 @@
       "cover": "",
       "spotifyImport": true,
       "maxSongs": 100,
-      "songs": []
+      "songs": [],
+      "useSpotifyName": true
     }
   ]
 }
