@@ -580,7 +580,7 @@ async function send() {
       max_completion_tokens: 4096,
       reasoning_effort: "low"
     };
-    if (useWeb) payload.tools = [{ type: "browser_search" }];
+    if (useWeb) { payload.tools = [{ type: "browser_search" }]; payload.tool_choice = "required"; }
     if (hasImages && webOn()) live.steps.push("Image questions use Qwen 3.8; web search is off for this turn.");
     if (useWeb) live.steps.push("Web search enabled.");
     const res = await fetch(API + "/chat/completions", {
