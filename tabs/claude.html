@@ -769,7 +769,7 @@ input.addEventListener("keydown", e => {
 });
 sendBtn.addEventListener("click", send);
 $("newBtn").addEventListener("click", newChat);
-const SCREEN_GATE_KEY = "yoyolov-screen-share-unlocked";
+let screenGateUnlocked = false;
 const SCREEN_PASSWORD_HASH = "10e5d469f87efa2270d7e0368e06afafe9d4f7aefe81b6f606eed558d5c9ab91";
 const screenGate = $("screenGate"), screenPw = $("screenPw");
 function openScreenGate(){ screenGate.classList.add("show"); $("screenGateErr").textContent = ""; screenPw.value = ""; screenPw.focus(); }
@@ -782,14 +782,18 @@ $("screenGateForm").addEventListener("submit", async e => {
   const digest = await crypto.subtle.digest("SHA-256", bytes);
   const hash = [...new Uint8Array(digest)].map(b => b.toString(16).padStart(2,"0")).join("");
   if(hash !== SCREEN_PASSWORD_HASH){ $("screenGateErr").textContent = "Incorrect passphrase."; screenPw.select(); return; }
-  try { sessionStorage.setItem(SCREEN_GATE_KEY,"1"); } catch {}
+  screenGateUnlocked = true;
   closeScreenGate();
   toggleScreenShare();
 });
 $("screenShare").addEventListener("click", () => {
-  let unlocked = false;
-  try { unlocked = sessionStorage.getItem(SCREEN_GATE_KEY) === "1"; } catch {}
-  if(unlocked) toggleScreenShare(); else openScreenGate();
+  if(screenGateUnlocked) toggleScreenShare(); else openScreenGate();
+});
+window.addEventListener("message", e => {
+  if(e.data?.type !== "yoyolov-tab-hidden") return;
+  screenGateUnlocked = false;
+  stopScreenShare();
+  closeScreenGate();
 });
 window.addEventListener("pagehide", stopScreenShare);
 $("menu").addEventListener("click", () => document.body.classList.toggle("side-open"));
