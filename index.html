@@ -277,7 +277,7 @@
       <p id="unlock-error" role="alert" aria-live="polite"></p>
     </form>
     <div class="logo">repo</div>
-    <span class="build-label" id="build-label">BUILD 2026.11.12.16</span>
+    <span class="build-label" id="build-label">BUILD 2026.11.12.17</span>
     <div id="tabs">
       <button class="tab active" data-tab="htmls" type="button">Games</button>
     </div>
@@ -286,11 +286,11 @@
   </div>
 
   <main id="school-home" aria-label="ClassLink launchpad">
-    <section class="classlink-fallback">
-      <h1>ClassLink can't be embedded here</h1>
-      <p>HCDE's ClassLink redirects to myapps.classlink.com, which blocks display inside another website. Open it directly to sign in and use your apps.</p>
-      <a href="https://launchpad.classlink.com/hcde?loggedout=1" target="_blank" rel="noopener">Open ClassLink</a>
-    </section>
+    <iframe id="school-frame" title="HCDE ClassLink Launchpad"
+      src="https://launchpad.classlink.com/hcde?loggedout=1"
+      allow="clipboard-read; clipboard-write; fullscreen"
+      referrerpolicy="strict-origin-when-cross-origin"
+      loading="eager"></iframe>
   </main>
 
   <div id="tab-htmls" class="tabpanel active">
