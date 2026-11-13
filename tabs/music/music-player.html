@@ -1320,7 +1320,7 @@ function renderSearchResults() {
   if (!query) return render();
   setHeader("Search", true);
   const matches = allSearchTracks().filter(track =>
-    [track.name, track.artist, track.album].some(value => normalize(value).includes(query))
+    normalize(track.name).includes(query)
   );
   const section = el("section", null,
     el("h2", null, "Search results"),
