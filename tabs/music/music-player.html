@@ -64,6 +64,10 @@
   #back:hover { background: var(--surface-2); }
   #back[hidden] { display: none; }
   #crumb { margin: 0; font-size: 18px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  #music-search { margin-left: auto; width: min(320px, 42vw); min-width: 150px; padding: 10px 13px; border: 1px solid var(--line); border-radius: 9px; background: var(--surface); color: var(--text); font: inherit; font-size: 14px; }
+  #music-search::placeholder { color: var(--muted); }
+  .search-count { color: var(--muted); font-size: 13px; margin: -6px 0 12px; }
+  @media (max-width: 640px) { header { flex-wrap: wrap; } #music-search { order: 3; width: 100%; min-width: 0; margin: 0; } }
 
   main { max-width: 1100px; margin: 0 auto; padding: 24px 24px calc(var(--bar-h) + 40px); }
   h2 { font-size: 22px; margin: 0 0 16px; font-weight: 700; }
@@ -237,6 +241,7 @@
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
   </button>
   <h1 id="crumb">Music</h1>
+  <input id="music-search" type="search" placeholder="Search all songs..." aria-label="Search all songs" autocomplete="off">
 </header>
 
 <main id="view"><p class="muted">Loading music…</p></main>
@@ -671,7 +676,8 @@ async function hydrateSpotifyCatalogPlaylists() {
       p._loadError = error.message || "Spotify playlist import failed.";
     } finally {
       p._loading = false;
-      if (location.hash === "#/catalog-playlist/" + index || !location.hash || location.hash === "#/") render(true);
+      if ($("music-search").value.trim()) renderSearchResults();
+      else if (location.hash === "#/catalog-playlist/" + index || !location.hash || location.hash === "#/") render(true);
     }
   }));
 }
@@ -1294,7 +1300,45 @@ function renderPlaylist(id) {
   markPlaying();
 }
 
+function allSearchTracks() {
+  const tracks = [];
+  library.forEach((artist, ai) => artist.albums.forEach((album, bi) => {
+    albumTracks(ai, bi).forEach(track => tracks.push({ ...track, source: album.name }));
+  }));
+  catalogPlaylists.forEach(playlist => playlist.songs.forEach(song => tracks.push({
+    ...song, album: playlist.name, cover: song.cover || playlist.cover || "",
+    catalogKey: catalogTrackKey(song), catalogPlaylist: playlist.name,
+    spotifySourceUrl: playlist.sourceUrl, source: playlist.name,
+  })));
+  return tracks;
+}
+
+function renderSearchResults() {
+  const query = $("music-search").value.trim().toLowerCase();
+  if (!query) return render();
+  setHeader("Search", true);
+  const matches = allSearchTracks().filter(track =>
+    [track.name, track.artist, track.album, track.source].some(value => String(value || "").toLowerCase().includes(query))
+  );
+  const section = el("section", null,
+    el("h2", null, "Search results"),
+    el("p", { class: "search-count" }, matches.length + (matches.length === 1 ? " song" : " songs") + " found"));
+  const list = el("ol", { class: "songs" });
+  matches.slice(0, 250).forEach((track, i) => {
+    const action = iconButton(ICON_PLUS, "Add to your playlist", () => addDialog(track));
+    list.append(songRow([track], 0, true, action));
+    const row = list.lastElementChild;
+    row.querySelector(".song .num").textContent = String(i + 1);
+    const name = row.querySelector(".song .name");
+    if (track.album) name.append(el("span", { class: "muted" }, " · " + track.album));
+  });
+  if (!matches.length) list.append(el("li", { class: "empty" }, "No songs match “" + query + "”."));
+  if (matches.length > 250) section.append(el("p", { class: "muted" }, "Showing the first 250 matches."));
+  view.replaceChildren(section, list);
+}
+
 function render(keepScroll) {
+  if ($("music-search").value.trim()) return renderSearchResults();
   const parts = location.hash.replace(/^#\/?/, "").split("/");
   if (keepScroll !== true) window.scrollTo(0, 0);
   if (parts[0] === "playlist") renderPlaylist(parts[1]);
@@ -1304,7 +1348,11 @@ function render(keepScroll) {
   else renderHome();
 }
 
+$("music-search").addEventListener("input", renderSearchResults);
+$("music-search").addEventListener("keydown", e => { if (e.key === "Escape") { $("music-search").value = ""; render(); } });
+
 $("back").addEventListener("click", () => {
+  if ($("music-search").value.trim()) { $("music-search").value = ""; render(); return; }
   const parts = location.hash.replace(/^#\/?/, "").split("/");
   location.hash = parts[0] === "album" ? "#/artist/" + parts[1] : "#/";
 });
