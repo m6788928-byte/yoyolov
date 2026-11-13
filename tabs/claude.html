@@ -663,15 +663,15 @@ function toApi(m, allowedImages) {
 
 /* ---------- sending ---------- */
 async function send() {
-  if (ctrl) { ctrl.abort(); return; }
   const text = input.value.trim();
   const imgs = pending;
-  if (!text && !imgs.length) return;
+  if (!text && !imgs.length) { if (ctrl) ctrl.abort(); return; }
   if (!imgs.length && /^(?:\/)?clear(?:\s+chat)?$/i.test(text)) {
     clearCurrentChat();
     note("Chat cleared.");
     return;
   }
+  if (ctrl) { ctrl.abort(); return; }
   input.value = ""; grow();
   pending = []; renderPending();
 
