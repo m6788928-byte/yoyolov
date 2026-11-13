@@ -289,6 +289,6 @@ $("signOut").onclick=signOut;
 $("cancelReply").onclick=()=>{replyTo=null;$("replyBar").style.display="none";};
 window.addEventListener("online",()=>{if(db&&user)loadRoom();});
 const gateForm=$("gateForm");
-gateForm.addEventListener("submit",event=>{event.preventDefault();if($("gatePassword").value==="~-~"){$("accessGate").remove();$("app").style.visibility="visible";boot();}else{$("gateError").textContent="Incorrect password.";$("gatePassword").select();}});
+gateForm.addEventListener("submit",event=>{event.preventDefault();if($("gatePassword").value==="33"){$("accessGate").remove();$("app").style.visibility="visible";boot();}else{$("gateError").textContent="Incorrect password.";$("gatePassword").select();}});
 $("gatePassword").focus();
 </script></body></html>
