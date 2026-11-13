@@ -88,6 +88,9 @@ summary{cursor:pointer;width:fit-content}
 #attach{width:32px;height:32px;padding:0;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;background:transparent;color:var(--muted)}
 #attach:hover{color:var(--text);border-color:#3a3c42}
 #attach svg{width:17px;height:17px}
+#screenShare{height:32px;padding:0 10px;border-radius:999px;background:transparent;color:var(--muted);font-size:13px;white-space:nowrap}
+#screenShare[aria-pressed="true"]{color:var(--accent);border-color:rgba(217,119,87,.55);background:rgba(217,119,87,.1)}
+#screenVideo{position:fixed;width:1px;height:1px;opacity:0;pointer-events:none;left:-10px;top:-10px}
 
 /* web toggle: a pill with a globe and a tiny switch */
 #web{display:inline-flex;align-items:center;gap:7px;height:32px;padding:0 10px 0 9px;border-radius:999px;border:1px solid var(--border);background:transparent;color:var(--muted);font-size:13px;font-weight:500;transition:color .15s,background .15s,border-color .15s}
@@ -157,6 +160,7 @@ body.has-pw #logout{display:inline-block}
       <div id="pending"></div>
       <textarea id="input" rows="1" placeholder="Message Haiku…" autofocus></textarea>
       <div class="tools">
+        <button id="screenShare" type="button" aria-pressed="false" title="Share your screen">Share screen</button>
         <button id="attach" type="button" title="Add images" aria-label="Add images">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.5l-8.4 8.4a5.5 5.5 0 0 1-7.8-7.8l8.8-8.8a3.7 3.7 0 0 1 5.2 5.2l-8.8 8.8a1.8 1.8 0 0 1-2.6-2.6l8.1-8.1"/></svg>
         </button>
@@ -201,6 +205,41 @@ const log = $("log"), list = $("list"), scroller = $("scroller"), input = $("inp
 const newId = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
 
 let chats = loadChats(), current = null, ctrl = null, pending = [], requestVersion = 0;
+let screenStream = null;
+const screenVideo = document.createElement("video");
+screenVideo.id = "screenVideo"; screenVideo.autoplay = true; screenVideo.muted = true; screenVideo.playsInline = true;
+document.body.appendChild(screenVideo);
+function stopScreenShare(){
+  screenStream?.getTracks().forEach(t => t.stop());
+  screenStream = null; screenVideo.srcObject = null;
+  $("screenShare").textContent = "Share screen";
+  $("screenShare").setAttribute("aria-pressed","false");
+}
+async function toggleScreenShare(){
+  if(screenStream){ stopScreenShare(); return; }
+  if(!navigator.mediaDevices?.getDisplayMedia){ note("Screen sharing isn't supported in this browser. Try Chrome on your Chromebook or computer."); return; }
+  try{
+    screenStream = await navigator.mediaDevices.getDisplayMedia({video:{frameRate:2},audio:false});
+    screenVideo.srcObject = screenStream;
+    await screenVideo.play();
+    $("screenShare").textContent = "Stop sharing";
+    $("screenShare").setAttribute("aria-pressed","true");
+    screenStream.getVideoTracks()[0].addEventListener("ended",stopScreenShare,{once:true});
+    note("Screen sharing is on. Ask a question whenever you want AI to inspect the latest screen.");
+  }catch(e){
+    if(e.name !== "NotAllowedError") note("Couldn't start screen sharing: "+e.message);
+  }
+}
+function captureScreenFrame(){
+  if(!screenStream || screenVideo.readyState < 2 || !screenVideo.videoWidth) return null;
+  const scale = Math.min(1,1280/screenVideo.videoWidth);
+  const canvas = document.createElement("canvas");
+  canvas.width = Math.round(screenVideo.videoWidth*scale);
+  canvas.height = Math.round(screenVideo.videoHeight*scale);
+  canvas.getContext("2d").drawImage(screenVideo,0,0,canvas.width,canvas.height);
+  return canvas.toDataURL("image/jpeg",.68);
+}
+
 
 /* ---------- storage ---------- */
 function loadChats() { try { return JSON.parse(localStorage.getItem(STORE)) || []; } catch { return []; } }
@@ -561,13 +600,14 @@ function toApi(m, allowedImages) {
 async function send() {
   const text = input.value.trim();
   const imgs = pending;
-  if (!imgs.length && ["/clear", "clear", "/clear chat", "clear chat"].includes(text.toLowerCase())) {
+  const screenFrame = screenStream ? captureScreenFrame() : null;
+  if (!imgs.length && !screenFrame && ["/clear", "clear", "/clear chat", "clear chat"].includes(text.toLowerCase())) {
     clearCurrentChat();
     note("Chat cleared.");
     return;
   }
   if (ctrl) { ctrl.abort(); return; }
-  if (!text && !imgs.length) return;
+  if (!text && !imgs.length && !screenFrame) return;
   input.value = ""; grow();
   pending = []; renderPending();
 
@@ -576,7 +616,7 @@ async function send() {
     chats.push(current);
   }
   const chat = current;
-  const userMsg = { role: "user", content: text };
+  const userMsg = { role: "user", content: text || (screenFrame ? "Please inspect my shared screen." : "") };
   if (imgs.length) {
     userMsg.images = imgs.map(p => ({ id: p.id, type: p.type }));
     imgs.forEach(p => { imgCache[p.id] = p.data; idbPut(p.id, p.data); });
@@ -603,7 +643,7 @@ async function send() {
   const schedule = () => { if (!raf) raf = requestAnimationFrame(paint); };
 
   try {
-    const hasImages = imgs.length > 0;
+    const hasImages = imgs.length > 0 || !!screenFrame;
     const useWeb = webOn() && !hasImages;
     const requestModel = hasImages ? "qwen/qwen3.8-27b"
       : useWeb && !modelSel.value.startsWith("openai/") ? "openai/gpt-oss-120b"
@@ -612,6 +652,14 @@ async function send() {
     if (sys.value.trim()) messages.push({ role: "system", content: sys.value.trim() });
     const recentImageIds = new Set(chat.messages.flatMap(m => m.images || []).map(im => im.id).slice(-MAX_IMAGES));
     messages.push(...chat.messages.map(m => toApi(m, recentImageIds)));
+    if(screenFrame && messages.length){
+      const last = messages[messages.length-1];
+      const content = typeof last.content === "string" ? [{type:"text",text:last.content}] : [...last.content];
+      content.push({type:"text",text:"Current screenshot from the user's actively shared screen. Use it as live visual context for their question."});
+      content.push({type:"image_url",image_url:{url:screenFrame}});
+      last.content = content;
+      live.steps.push("Using the latest frame from your shared screen.");
+    }
     const payload = {
       model: requestModel,
       messages,
@@ -702,6 +750,8 @@ input.addEventListener("keydown", e => {
 });
 sendBtn.addEventListener("click", send);
 $("newBtn").addEventListener("click", newChat);
+$("screenShare").addEventListener("click", toggleScreenShare);
+window.addEventListener("pagehide", stopScreenShare);
 $("menu").addEventListener("click", () => document.body.classList.toggle("side-open"));
 $("shade").addEventListener("click", closeSide);
 
