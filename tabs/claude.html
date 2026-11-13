@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<!-- Requests go directly from this browser to Groq. -->
+<!-- Hard lock: this page may only make network requests to your own server (via the tunnel or localhost). If the tunnel address changes, update it here and in TUNNEL below. -->
 <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; connect-src 'self' https://api.groq.com; img-src 'self' data:; base-uri 'none'; form-action 'none'">
 <title>Yoyolov AI</title>
 <style>
@@ -135,71 +135,24 @@ body.has-pw #logout{display:inline-block}
   #menu{display:inline-block}
 }
 
-/* refined chat layout */
-body{background:#101114}
-#side{width:272px;background:#0c0d0f;border-color:#22252a}
-#side .top{padding:16px}
-#newBtn{height:42px;border-radius:11px;background:#17191d;border-color:#2b2e34;font-weight:600}
-#newBtn:hover{background:#202329}
-.label{padding:14px 10px 6px;color:#777d87;letter-spacing:.02em}
-.item{margin:2px 0}
-.item .title{padding:10px;border-radius:8px;font-size:13px}
-.item .del{opacity:.45}
-.item:hover .del,.item.active .del{opacity:1}
-header{min-height:62px;padding:10px 20px;background:#111215;border-color:#24272c;gap:11px}
-.brand-mark{width:28px;height:28px;display:grid;place-items:center;border-radius:9px;background:#262a31;color:#e6e9ef;font-size:13px;font-weight:800}
-header h1{font-size:14px;font-weight:650;letter-spacing:.01em}
-#clearBtn{margin-left:auto;background:transparent;color:#a4a8b0;font-size:12px;padding:6px 11px;border-radius:8px}
-#clearBtn:hover{color:#fff;background:#1c1f24}
-#logout{margin-left:0;background:#1a1c20;font-size:12px;padding:6px 10px}
-main{scrollbar-gutter:stable}
-#log{max-width:820px;padding:34px 24px 18px}
-.msg{margin-bottom:25px}
-.msg.assistant{padding:6px 2px 20px;border-bottom:1px solid #202329}
-.msg.assistant .body{font-size:15px;line-height:1.78;color:#e5e7eb}
+/* Conversation messages only */
+.msg.user{
+  max-width:min(82%,680px);padding:11px 15px;border:1px solid #30343c;
+  border-radius:16px 16px 5px 16px;background:#202329;color:#f0f1f3;line-height:1.68
+}
+.msg.assistant{max-width:100%;padding:5px 2px 17px;margin-bottom:24px;line-height:1.75}
+.msg.assistant .body{font-size:15px;color:#e5e7eb;line-height:1.75}
 .msg.assistant .body p{margin:0 0 13px}
 .msg.assistant .body p:last-child{margin-bottom:0}
-.msg.assistant .body h1,.msg.assistant .body h2,.msg.assistant .body h3{line-height:1.3;margin:22px 0 9px;color:#f1f2f4}
+.msg.assistant .body strong{color:#fff;font-weight:650}
+.msg.assistant .body h1,.msg.assistant .body h2,.msg.assistant .body h3{margin:18px 0 8px;line-height:1.3;color:#f1f2f4}
 .msg.assistant .body h1{font-size:21px}.msg.assistant .body h2{font-size:18px}.msg.assistant .body h3{font-size:16px}
 .msg.assistant .body ul,.msg.assistant .body ol{padding-left:24px;margin:8px 0 14px}
 .msg.assistant .body li{padding:2px 0}
-.msg.assistant .body blockquote{margin:12px 0;padding:8px 14px;border-left:2px solid #777f8b;color:#b9bec7;background:#17191d}
+.msg.assistant .body blockquote{margin:12px 0;padding:8px 14px;border-left:2px solid #737b87;color:#b9bec7;background:#17191d}
 .msg.assistant .body a{color:#a9c1ff;text-decoration:underline;text-underline-offset:3px}
-.user{max-width:min(78%,680px);padding:11px 15px;border:1px solid #30343c;border-radius:17px 17px 5px 17px;background:#202329;color:#f0f1f3;line-height:1.65}
-.imgs img{border:1px solid #343941}
-.empty{display:flex;flex-direction:column;align-items:center;gap:9px;margin:19vh auto 0;color:#9096a1;font-size:13px}
-.empty strong{color:#f0f1f3;font-size:23px;font-weight:650;letter-spacing:-.03em}
-.welcome-mark{width:45px;height:45px;display:grid;place-items:center;margin-bottom:6px;border:1px solid #343943;border-radius:15px;background:#1b1e23;color:#e8ebf0;font-size:20px;font-weight:800}
-footer{padding:10px 20px 16px;background:#111215;border-top:1px solid #22252a}
-details{margin-bottom:9px}
-summary{color:#9ca2ad}
-#system{background:#17191d;border-color:#2b2f36;border-radius:12px}
-.box{background:#191b1f;border-color:#343840;border-radius:19px;padding:11px 12px 9px;gap:8px;box-shadow:0 8px 26px rgba(0,0,0,.16)}
-.box:focus-within{border-color:#59616d}
-#input{min-height:42px;padding:8px 7px;line-height:1.55}
-#attach{flex:none;cursor:pointer}
-#attach:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
-#web{height:34px}
-#modelSel{height:34px}
-#send{height:35px;min-width:72px}
-.hint{margin-top:8px;color:#737985}
-.codeblock{border-color:#2e3239;border-radius:11px;background:#0b0c0e}
-.codehead{padding:7px 9px 7px 13px}
-.msg pre{padding:14px;line-height:1.6}
-code{border:1px solid #292d34}
-.sources a{border-color:#343840;background:#17191d}
-#scroller{scroll-behavior:smooth}
-@media(max-width:760px){
-  header{padding:9px 12px;gap:8px}
-  .brand-mark{width:25px;height:25px}
-  #clearBtn{padding:6px 8px}
-  #log{padding:24px 14px 12px}
-  footer{padding:9px 10px 12px}
-  .tools{gap:6px;flex-wrap:wrap}
-  .tools .sp{flex:1}
-  #modelSel{max-width:145px}
-  .user{max-width:92%}
-}
+.msg.user .imgs img{border:1px solid #3a3e46}
+@media(max-width:760px){.msg.user{max-width:92%}}
 </style>
 </head>
 <body>
@@ -211,9 +164,7 @@ code{border:1px solid #292d34}
 <div class="col">
   <header>
     <button id="menu" type="button" aria-label="Chats">☰</button>
-    <span class="brand-mark" aria-hidden="true">Y</span>
     <h1>Yoyolov AI</h1>
-    <button id="clearBtn" type="button" title="Clear the current conversation">Clear chat</button>
     <button id="logout" type="button">API key</button>
   </header>
   <main id="scroller"><div id="log"></div></main>
@@ -223,7 +174,7 @@ code{border:1px solid #292d34}
     </details>
     <div class="box" id="box">
       <div id="pending"></div>
-      <textarea id="input" rows="1" placeholder="Message Yoyolov AI…" autofocus></textarea>
+      <textarea id="input" rows="1" placeholder="Message Haiku…" autofocus></textarea>
       <div class="tools">
         <label id="attach" for="file" title="Add images" aria-label="Add images" role="button" tabindex="0">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.5l-8.4 8.4a5.5 5.5 0 0 1-7.8-7.8l8.8-8.8a3.7 3.7 0 0 1 5.2 5.2l-8.8 8.8a1.8 1.8 0 0 1-2.6-2.6l8.1-8.1"/></svg>
@@ -268,7 +219,7 @@ const $ = id => document.getElementById(id);
 const log = $("log"), list = $("list"), scroller = $("scroller"), input = $("input"), sendBtn = $("send"), sys = $("system");
 const newId = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
 
-let chats = loadChats(), current = null, ctrl = null, pending = [];
+let chats = loadChats(), current = null, ctrl = null, pending = [], requestVersion = 0;
 
 /* ---------- storage ---------- */
 function loadChats() { try { return JSON.parse(localStorage.getItem(STORE)) || []; } catch { return []; } }
@@ -439,36 +390,6 @@ document.addEventListener("drop", e => {
 /* ---------- rendering ---------- */
 const esc = s => s.replace(/[&<>]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));
 const escAttr = s => esc(s).replace(/"/g, "&quot;");
-function inlineMd(s) {
-  return esc(s)
-    .replace(/`([^`\n]+)`/g, "<code>$1</code>")
-    .replace(/\*\*([^*\n]+)\*\*/g, "<strong>$1</strong>")
-    .replace(/(^|[^*])\*([^*\n]+)\*/g, "$1<em>$2</em>")
-    .replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g, (_, label, url) =>
-      `<a href="${escAttr(url)}" target="_blank" rel="noopener noreferrer">${label}</a>`);
-}
-function renderText(part) {
-  const out = [], lines = part.split(/\r?\n/);
-  let para = [], list = [], listType = "";
-  const flushPara = () => { if (para.length) { out.push(`<p>${para.join("<br>")}</p>`); para = []; } };
-  const flushList = () => { if (list.length) { out.push(`<${listType}>${list.map(x => `<li>${x}</li>`).join("")}</${listType}>`); list = []; listType = ""; } };
-  for (const line of lines) {
-    const bullet = line.match(/^\s*[-*]\s+(.+)$/), numbered = line.match(/^\s*\d+[.)]\s+(.+)$/);
-    const heading = line.match(/^(#{1,3})\s+(.+)$/), quote = line.match(/^>\s?(.*)$/);
-    if (!line.trim()) { flushPara(); flushList(); continue; }
-    if (bullet || numbered) {
-      flushPara(); const type = bullet ? "ul" : "ol";
-      if (listType && listType !== type) flushList();
-      listType = type; list.push(inlineMd((bullet || numbered)[1])); continue;
-    }
-    flushList();
-    if (heading) { flushPara(); out.push(`<h${heading[1].length}>${inlineMd(heading[2])}</h${heading[1].length}>`); }
-    else if (quote) { flushPara(); out.push(`<blockquote>${inlineMd(quote[1])}</blockquote>`); }
-    else para.push(inlineMd(line));
-  }
-  flushPara(); flushList();
-  return out.join("");
-}
 function render(text) {
   return text.split("```").map((part, i) => {
     if (i % 2) {
@@ -479,7 +400,9 @@ function render(text) {
         `<button type="button" class="cb-copy">Copy</button><button type="button" class="cb-dl">Download</button></div>` +
         `<pre><code>${esc(code)}</code></pre></div>`;
     }
-    return renderText(part);
+    return esc(part)
+      .replace(/`([^`\n]+)`/g, "<code>$1</code>")
+      .replace(/\*\*([^*\n]+)\*\*/g, "<strong>$1</strong>");
   }).join("");
 }
 const nearBottom = () => scroller.scrollHeight - scroller.scrollTop - scroller.clientHeight < 80;
@@ -522,10 +445,7 @@ function addMsg(m) {
 
 function renderLog() {
   log.innerHTML = "";
-  if (!current || !current.messages.length) {
-    log.innerHTML = '<div class="empty"><span class="welcome-mark">Y</span><strong>What can I help with?</strong><span>Ask a question, share code, or attach a photo.</span></div>';
-    return;
-  }
+  if (!current || !current.messages.length) { log.innerHTML = '<p class="empty">Ask anything.</p>'; return; }
   current.messages.forEach(addMsg);
   // Only the latest reply gets a working Continue button.
   log.querySelectorAll(".continue").forEach((b, i, all) => { if (i < all.length - 1 || current.messages.at(-1).role !== "assistant") b.parentElement.remove(); });
@@ -596,9 +516,37 @@ function renderList() {
 
 /* ---------- chat management ---------- */
 function closeSide() { document.body.classList.remove("side-open"); }
+function newChat() { ctrl?.abort(); current = null; renderLog(); renderList(); closeSide(); input.focus(); }
+async function openChat(id) {
+  ctrl?.abort();
+  const chat = chats.find(c => c.id === id) || null;
+  current = chat; renderList(); closeSide();
+  if (chat) await loadImages(chat);
+  if (current === chat) renderLog();
+}
+function deleteChat(id) {
+  const c = chats.find(x => x.id === id);
+  if (!c || !confirm(`Delete "${c.title}"?`)) return;
+  if (current?.id === id) {
+    requestVersion++;
+    ctrl?.abort();
+    ctrl = null;
+    sendBtn.textContent = "Send";
+    sendBtn.classList.remove("stop");
+    current = null;
+    renderLog();
+  }
+  c.messages.flatMap(m => m.images || []).forEach(im => { delete imgCache[im.id]; idbDel(im.id); });
+  chats = chats.filter(x => x !== c);
+  saveChats(); renderList();
+}
 function clearCurrentChat() {
   const chat = current;
-  if (ctrl) ctrl.abort();
+  requestVersion++;
+  ctrl?.abort();
+  ctrl = null;
+  sendBtn.textContent = "Send";
+  sendBtn.classList.remove("stop");
   if (chat) {
     chat.messages.flatMap(m => m.images || []).forEach(im => {
       delete imgCache[im.id];
@@ -611,37 +559,19 @@ function clearCurrentChat() {
   input.value = "";
   grow();
   renderPending();
-  renderLog();
+  saveChats();
   renderList();
+  renderLog();
   closeSide();
   input.focus();
 }
-function newChat() {
-  if (ctrl) ctrl.abort();
-  current = null;
-  pending = [];
-  renderPending();
-  input.value = "";
-  grow();
-  renderLog();
-  renderList();
-  closeSide();
-  input.focus();
-}
-async function openChat(id) {
-  ctrl?.abort();
-  const chat = chats.find(c => c.id === id) || null;
-  current = chat; renderList(); closeSide();
-  if (chat) await loadImages(chat);
-  if (current === chat) renderLog();
-}
-function deleteChat(id) {
-  const c = chats.find(x => x.id === id);
-  if (!c || !confirm(`Delete "${c.title}"?`)) return;
-  if (current?.id === id) { ctrl?.abort(); current = null; renderLog(); }
-  c.messages.flatMap(m => m.images || []).forEach(im => { delete imgCache[im.id]; idbDel(im.id); });
-  chats = chats.filter(x => x.id !== id);
-  saveChats(); renderList();
+function handleClearCommand() {
+  if (pending.length) return false;
+  const command = input.value.trim().toLowerCase();
+  if (!["/clear", "clear", "/clear chat", "clear chat"].includes(command)) return false;
+  clearCurrentChat();
+  note("Chat cleared.");
+  return true;
 }
 
 // Turn a saved message into what the API expects (images go first, then the text).
@@ -654,24 +584,19 @@ function toApi(m, allowedImages) {
                 : { type: "text", text: "[An attached image is no longer available.]" };
   });
   if (m.images.length > selected.length)
-    content.unshift({ type: "text", text: "[Older images omitted to stay within the 3-image limit.]" });
+    content.unshift({ type: "text", text: "[Earlier images omitted; only the latest three are sent.]" });
   if (m.content) content.push({ type: "text", text: m.content });
   else if (selected.length) content.unshift({ type: "text", text: "Please analyze the attached image." });
-  else content.push({ type: "text", text: "[An image was attached earlier but is not included in this request.]" });
   return { role: "user", content };
 }
 
 /* ---------- sending ---------- */
 async function send() {
+  if (handleClearCommand()) return;
+  if (ctrl) { ctrl.abort(); return; }
   const text = input.value.trim();
   const imgs = pending;
-  if (!text && !imgs.length) { if (ctrl) ctrl.abort(); return; }
-  if (!imgs.length && /^(?:\/)?clear(?:\s+chat)?$/i.test(text)) {
-    clearCurrentChat();
-    note("Chat cleared.");
-    return;
-  }
-  if (ctrl) { ctrl.abort(); return; }
+  if (!text && !imgs.length) return;
   input.value = ""; grow();
   pending = []; renderPending();
 
@@ -693,7 +618,10 @@ async function send() {
   addMsg(userMsg);
   const live = { role: "assistant", content: "", steps: [], sources: [], thinking: false, cutoff: false };
   const out = addMsg(live); out.classList.add("typing");
-  ctrl = new AbortController(); sendBtn.textContent = "Stop"; sendBtn.classList.add("stop");
+  const request = ++requestVersion;
+  const controller = new AbortController();
+  ctrl = controller;
+  sendBtn.textContent = "Stop"; sendBtn.classList.add("stop");
   let reply = "", failed = null, raf = 0;
   const paint = () => {
     raf = 0;
@@ -727,7 +655,7 @@ async function send() {
       method: "POST",
       headers: { "Content-Type": "application/json", ...authHeaders() },
       body: JSON.stringify(payload),
-      signal: ctrl.signal,
+      signal: controller.signal,
     });
     if (!res.ok) {
       const data = await res.json().catch(() => ({}));
@@ -761,9 +689,14 @@ async function send() {
     if (raf) cancelAnimationFrame(raf);
     live.thinking = false; paint();
     out.classList.remove("typing");
-    ctrl = null; sendBtn.textContent = "Send"; sendBtn.classList.remove("stop");
+    if (request === requestVersion) {
+      ctrl = null;
+      sendBtn.textContent = "Send";
+      sendBtn.classList.remove("stop");
+    }
   }
 
+  if (request !== requestVersion) return;
   const visible = log.contains(out);   // false if the user switched chats mid-reply
   if (reply.trim()) {
     const msg = { role: "assistant", content: reply };
@@ -798,14 +731,6 @@ input.addEventListener("keydown", e => {
 });
 sendBtn.addEventListener("click", send);
 $("newBtn").addEventListener("click", newChat);
-$("clearBtn").addEventListener("click", () => {
-  if (!current && !pending.length && !input.value.trim()) { note("Nothing to clear."); return; }
-  clearCurrentChat();
-  note("Chat cleared.");
-});
-$("attach").addEventListener("keydown", e => {
-  if (e.key === "Enter" || e.key === " ") { e.preventDefault(); $("file").click(); }
-});
 $("menu").addEventListener("click", () => document.body.classList.toggle("side-open"));
 $("shade").addEventListener("click", closeSide);
 
