@@ -268,11 +268,11 @@
 <div id="home">
   <div id="bar">
     <div class="logo">repo</div>
-    <span class="build-label" id="build-label">BUILD 2026.11.12.13</span>
+    <span class="build-label" id="build-label">BUILD 2026.11.12.14</span>
     <div id="tabs">
       <button class="tab active" data-tab="htmls" type="button">Games</button>
     </div>
-    <input id="search" type="search" placeholder="Search Games..." autocomplete="off" spellcheck="false">
+    <input id="search" type="search" placeholder="Search games, apps, and tabs..." autocomplete="off" spellcheck="false">
     <button id="settings-btn" class="tab cog" data-tab="settings" type="button" aria-label="Settings" title="Settings"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></button>
   </div>
 
@@ -919,15 +919,39 @@ function buildGrid(){
   }
   hits.forEach(([name, e]) => grid.append(makeCard(name, e)));
 
-  if(!Object.keys(entries).length){
+  const apps = [...CUSTOM_TABS, ...(adminTabsUnlocked() ? ADMIN_TABS : [])]
+    .map((app, index) => ({...app, index}))
+    .filter(app => q && app.name.toLowerCase().includes(q));
+  apps.forEach(app => grid.append(makeAppCard(app)));
+
+  if(!Object.keys(entries).length && !apps.length){
     const n = document.createElement('div');
     n.className = 'note'; n.textContent = 'The list is empty.';
     grid.append(n);
-  } else if(!hits.length){
+  } else if(!hits.length && !apps.length){
     const n = document.createElement('div');
     n.className = 'note'; n.textContent = 'Nothing matches "' + $('search').value + '".';
     grid.append(n);
   }
+}
+
+function makeAppCard(app){
+  const c = document.createElement('div');
+  c.className = 'card'; c.tabIndex = 0;
+  const th = document.createElement('div');
+  th.className = 'thumb';
+  paintInitial(th, app.name);
+  const m = document.createElement('div');
+  m.className = 'meta';
+  const t = document.createElement('div');
+  t.className = 't'; t.textContent = app.name;
+  const d = document.createElement('div');
+  d.className = 'd'; d.textContent = 'Open app';
+  m.append(t, d); c.append(th, m);
+  const go = () => setTab('custom-' + app.index);
+  c.onclick = go;
+  c.onkeydown = ev => { if(ev.key === 'Enter' || ev.key === ' '){ ev.preventDefault(); go(); } };
+  return c;
 }
 
 $('search').addEventListener('input', buildGrid);
