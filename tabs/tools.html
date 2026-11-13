@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Tools</title>
+<style>
+:root{color-scheme:dark;--bg:#111214;--panel:#17191e;--card:#1b1d21;--border:#2c3036;--text:#eee;--muted:#858b95;--accent:#aeb4bf}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:14px system-ui,-apple-system,sans-serif}
+header{height:58px;display:flex;align-items:center;gap:8px;padding:0 20px;border-bottom:1px solid var(--border);background:var(--panel);position:sticky;top:0;z-index:2}
+.brand{font-size:17px;font-weight:750;margin-right:18px}.nav{display:flex;gap:4px;overflow:auto}
+button{font:inherit;color:inherit;cursor:pointer}.tab,.btn{border:1px solid transparent;background:transparent;border-radius:7px;padding:8px 12px;color:var(--muted)}
+.tab.active{background:var(--card);border-color:var(--border);color:var(--text)}button:hover{color:var(--text)}
+main{max-width:1050px;margin:auto;padding:26px 20px 50px}.section{display:none}.section.active{display:block}
+h1{font-size:22px;margin:0 0 6px}p.sub{color:var(--muted);margin:0 0 22px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:13px}
+.card{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:16px;min-width:0}
+.card h2{font-size:14px;margin:0 0 12px}.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+input,textarea,select{font:inherit;color:var(--text);background:var(--bg);border:1px solid var(--border);border-radius:7px;padding:9px 10px;min-width:0}
+input:focus,textarea:focus,select:focus{outline:1px solid var(--accent)}
+.field{width:100%}textarea{width:100%;resize:vertical;min-height:110px;line-height:1.5}
+.btn{background:var(--card);border-color:var(--border);color:var(--text)}.btn:hover{border-color:#626873}
+.result{font-size:13px;color:var(--muted);min-height:20px;margin-top:9px;overflow-wrap:anywhere}
+#note{height:calc(100dvh - 235px);min-height:280px;font:14px/1.6 system-ui}
+#dev-output{background:var(--bg);border:1px solid var(--border);border-radius:7px;padding:10px;min-height:36px;white-space:pre-wrap;overflow-wrap:anywhere;color:var(--muted)}
+#play-output{width:100%;height:250px;background:white;border:0;border-radius:7px}
+.timer{font-size:28px;font-variant-numeric:tabular-nums;margin:12px 0}
+@media(max-width:560px){header{padding:0 10px}.brand{margin-right:4px}main{padding:20px 12px}.tab{padding:8px 9px}}
+</style></head>
+<body>
+<header><div class="brand">Tools</div><nav class="nav" aria-label="Sections">
+<button class="tab active" data-section="tools">Tools</button><button class="tab" data-section="notes">Notes</button><button class="tab" data-section="developer">Developer</button>
+</nav></header>
+<main>
+<section id="tools" class="section active">
+<h1>Tools</h1><p class="sub">Small utilities, ready when you need them.</p>
+<div class="grid">
+<article class="card"><h2>Calculator</h2><input id="calc" class="field" placeholder="Example: (24 + 8) / 4" autocomplete="off"><div class="row" style="margin-top:9px"><button class="btn" id="calculate">Calculate</button><span class="result" id="calc-result"></span></div></article>
+<article class="card"><h2>Stopwatch</h2><div class="timer" id="watch">00:00.0</div><div class="row"><button class="btn" id="watch-start">Start</button><button class="btn" id="watch-reset">Reset</button></div></article>
+<article class="card"><h2>Unit converter</h2><div class="row"><input id="convert-value" type="number" value="1" style="flex:1"><select id="convert-type"><option value="mi-km">Miles → km</option><option value="km-mi">km → miles</option><option value="lb-kg">Pounds → kg</option><option value="kg-lb">kg → pounds</option><option value="f-c">°F → °C</option><option value="c-f">°C → °F</option><option value="in-cm">Inches → cm</option><option value="cm-in">cm → inches</option></select></div><div class="result" id="convert-result">1 mile = 1.60934 km</div></article>
+<article class="card"><h2>Text tools</h2><textarea id="text-input" placeholder="Paste or type text…" style="min-height:90px"></textarea><div class="row" style="margin-top:9px"><button class="btn" data-text="upper">UPPERCASE</button><button class="btn" data-text="lower">lowercase</button><button class="btn" data-text="trim">Remove extra spaces</button><button class="btn" data-text="copy">Copy</button></div><div class="result" id="text-result"></div></article>
+</div></section>
+<section id="notes" class="section"><h1>Notes</h1><p class="sub">Saved automatically in this browser.</p><textarea id="note" placeholder="Start writing…"></textarea><div class="result" id="note-status">Saved locally on this device.</div></section>
+<section id="developer" class="section">
+<h1>Developer</h1><p class="sub">Quick helpers for code and data.</p>
+<div class="grid">
+<article class="card"><h2>JSON formatter</h2><textarea id="json-input" placeholder='{"hello":"world"}'></textarea><div class="row" style="margin:9px 0"><button class="btn" id="json-format">Format</button><button class="btn" id="json-minify">Minify</button><button class="btn" id="json-copy">Copy output</button></div><div id="dev-output">Output appears here.</div><div class="result" id="json-status"></div></article>
+<article class="card"><h2>Base64</h2><textarea id="base-input" placeholder="Text to encode or Base64 to decode…"></textarea><div class="row" style="margin:9px 0"><button class="btn" id="base-encode">Encode</button><button class="btn" id="base-decode">Decode</button></div><textarea id="base-output" placeholder="Result…" style="min-height:75px"></textarea></article>
+<article class="card"><h2>Regex tester</h2><input id="regex-pattern" class="field" placeholder="Pattern (e.g. \\d+)" style="margin-bottom:8px"><input id="regex-flags" class="field" value="g" placeholder="Flags" style="margin-bottom:8px"><textarea id="regex-text" placeholder="Test text…" style="min-height:75px"></textarea><div class="result" id="regex-result"></div></article>
+<article class="card"><h2>HTML playground</h2><textarea id="html-code" placeholder="Write HTML, CSS, and JavaScript…" style="min-height:120px"><h1>Hello</h1><p>It works.</p></textarea><button class="btn" id="html-run" style="margin:9px 0">Run preview</button><iframe id="play-output" sandbox="allow-scripts"></iframe></article>
+</div></section>
+</main>
+<script>
+const $=id=>document.getElementById(id);
+document.querySelectorAll('[data-section]').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x===b));document.querySelectorAll('.section').forEach(x=>x.classList.toggle('active',x.id===b.dataset.section));}));
+const saved=localStorage.getItem('yoyolov-tools-note');$('note').value=saved||'';
+$('note').addEventListener('input',()=>{localStorage.setItem('yoyolov-tools-note',$('note').value);$('note-status').textContent='Saved.';});
+$('calculate').onclick=()=>{try{const expr=$('calc').value.trim();if(!/^[\d+\-*/().%\s]+$/.test(expr))throw Error();const n=Function('"use strict";return ('+expr+')')();if(!Number.isFinite(n))throw Error();$('calc-result').textContent='= '+n;}catch{$('calc-result').textContent='Invalid expression';}};
+let started=0,elapsed=0,interval=null;const paint=()=>{const t=elapsed+(started?performance.now()-started:0),m=Math.floor(t/60000),s=Math.floor(t/1000)%60,d=Math.floor(t/100)%10;$('watch').textContent=String(m).padStart(2,'0')+':'+String(s).padStart(2,'0')+'.'+d;};
+$('watch-start').onclick=()=>{if(started){elapsed+=performance.now()-started;started=0;clearInterval(interval);$('watch-start').textContent='Start';}else{started=performance.now();interval=setInterval(paint,70);$('watch-start').textContent='Pause';}paint();};
+$('watch-reset').onclick=()=>{clearInterval(interval);started=elapsed=0;$('watch-start').textContent='Start';paint();};
+const factors={'mi-km':1.60934,'km-mi':1/1.60934,'lb-kg':.453592,'kg-lb':1/.453592,'in-cm':2.54,'cm-in':1/2.54};
+function convert(){const v=Number($('convert-value').value),t=$('convert-type').value;let n=factors[t]?v*factors[t]:t==='f-c'?(v-32)*5/9:v*9/5+32;$('convert-result').textContent=Number.isFinite(n)?n.toLocaleString(undefined,{maximumFractionDigits:5}):'Enter a number';}
+$('convert-value').oninput=$('convert-type').onchange=convert;convert();
+document.querySelectorAll('[data-text]').forEach(b=>b.onclick=async()=>{const el=$('text-input'),v=el.value;const op=b.dataset.text;if(op==='upper')el.value=v.toUpperCase();if(op==='lower')el.value=v.toLowerCase();if(op==='trim')el.value=v.replace(/\s+/g,' ').trim();if(op==='copy'){try{await navigator.clipboard.writeText(v);$('text-result').textContent='Copied.';}catch{$('text-result').textContent='Clipboard unavailable.';}}});
+function json(mode){try{const v=JSON.parse($('json-input').value);$('dev-output').textContent=mode==='min'?JSON.stringify(v):JSON.stringify(v,null,2);$('json-status').textContent='Valid JSON.';}catch(e){$('json-status').textContent='Invalid JSON: '+e.message;}}
+$('json-format').onclick=()=>json('pretty');$('json-minify').onclick=()=>json('min');$('json-copy').onclick=async()=>{try{await navigator.clipboard.writeText($('dev-output').textContent);$('json-status').textContent='Copied.';}catch{$('json-status').textContent='Clipboard unavailable.';}};
+$('base-encode').onclick=()=>{$('base-output').value=btoa(unescape(encodeURIComponent($('base-input').value)));};
+$('base-decode').onclick=()=>{try{$('base-output').value=decodeURIComponent(escape(atob($('base-input').value.trim())));}catch{$('base-output').value='Invalid Base64 or text encoding.';}};
+function testRegex(){try{const r=new RegExp($('regex-pattern').value,$('regex-flags').value),s=$('regex-text').value,m=[...s.matchAll(new RegExp(r.source,r.flags.includes('g')?r.flags:r.flags+'g'))];$('regex-result').textContent=m.length?m.map(x=>x[0]+' (index '+x.index+')').join(' · '):'No matches';}catch(e){$('regex-result').textContent=e.message;}}
+['regex-pattern','regex-flags','regex-text'].forEach(id=>$(id).addEventListener('input',testRegex));
+$('html-run').onclick=()=>{$('play-output').srcdoc=$('html-code').value;};
+paint();
+</script></body></html>
