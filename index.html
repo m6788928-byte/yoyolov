@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>The Universe</title>
+<title>repo</title>
 <style>
   *{box-sizing:border-box}
   html,body{height:100%}
@@ -150,10 +150,6 @@
            overflow:hidden; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical}
   .meta .d{margin-top:4px; font-size:12px; color:var(--muted, #7d838c);
            overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
-  #credit{
-    position:fixed; left:16px; bottom:12px; z-index:4;
-    font-size:12px; color:var(--muted, #4d525a); pointer-events:none; user-select:none;
-  }
   .note{color:var(--muted, #6b7280); font-size:13px; padding:6px 2px}
 
   /* ---------- generic buttons (settings panel + notes) ---------- */
@@ -271,8 +267,8 @@
 
 <div id="home">
   <div id="bar">
-    <div class="logo">Eco<b>LINKS</b></div>
-    <span class="build-label" id="build-label">BUILD 2026.11.12.7</span>
+    <div class="logo">repo</div>
+    <span class="build-label" id="build-label">BUILD 2026.11.12.8</span>
     <div id="tabs">
       <button class="tab active" data-tab="htmls" type="button">Games</button>
     </div>
@@ -295,7 +291,7 @@
         <a href="https://mail.google.com/" target="_blank" rel="noopener">Gmail</a>
       </div>
       <form id="unlock-form">
-        <label for="unlock-password">Enter password to unlock the rest of EcoLINKS</label>
+        <label for="unlock-password">Enter password to unlock the rest of repo</label>
         <div class="unlock-row">
           <input id="unlock-password" type="password" placeholder="Password" autocomplete="current-password" required>
           <button class="btn" type="submit">Unlock</button>
@@ -443,7 +439,6 @@
     </div>
   </div>
 
-  <div id="credit">links for school</div>
 </div>
 
 <div id="viewer">
@@ -486,7 +481,7 @@ const CUSTOM_TABS = [
   // { name: "More Games", url: "https://example.com/games.html" },
 ];
 const ADMIN_TABS = [
-  { name: "AI Chat", url: "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@7915ed78f599f95a2d215a93941ab4243d0df373/tabs/claude.html" },
+  { name: "AI Chat", url: "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@3fdf177c97606d8558010eb4cf684e8ff5093d09/tabs/claude.html" },
 ];
 const ADMIN_TABS_KEY = "yoyolov-admin-tabs";
 const adminTabsUnlocked = () => localStorage.getItem(ADMIN_TABS_KEY) === "1";
