@@ -90,6 +90,15 @@ summary{cursor:pointer;width:fit-content}
 #attach svg{width:17px;height:17px}
 #screenShare{height:32px;padding:0 10px;border-radius:999px;background:transparent;color:var(--muted);font-size:13px;white-space:nowrap}
 #screenShare[aria-pressed="true"]{color:var(--accent);border-color:rgba(217,119,87,.55);background:rgba(217,119,87,.1)}
+#screenGate{position:fixed;inset:0;z-index:30;display:none;align-items:center;justify-content:center;padding:18px;background:#090a0bcc;backdrop-filter:blur(5px)}
+#screenGate.show{display:flex}
+#screenGate form{width:100%;max-width:340px;padding:22px;border:1px solid var(--border);border-radius:14px;background:var(--panel);display:flex;flex-direction:column;gap:10px;box-shadow:0 18px 60px #0008}
+#screenGate h2{margin:0;font-size:17px}
+#screenGate p{margin:0;color:var(--muted);font-size:13px}
+#screenPw{height:40px;padding:0 12px;border:1px solid var(--border);border-radius:9px;background:var(--side);color:var(--text);font:inherit;outline:0}
+#screenPw:focus{border-color:var(--accent)}
+#screenGate button[type=submit]{height:40px;background:var(--accent);border-color:var(--accent);color:white;font-weight:600}
+#screenGateErr{min-height:1.2em;color:var(--err)!important}
 #screenVideo{position:fixed;width:1px;height:1px;opacity:0;pointer-events:none;left:-10px;top:-10px}
 
 /* web toggle: a pill with a globe and a tiny switch */
@@ -180,6 +189,16 @@ body.has-pw #logout{display:inline-block}
     </div>
     <p class="hint" id="hint">Enter to send · Shift+Enter for a new line · Paste or drop images · Chats are saved in this browser only</p>
   </footer>
+</div>
+<div id="screenGate" role="dialog" aria-modal="true" aria-labelledby="screenGateTitle">
+  <form id="screenGateForm">
+    <h2 id="screenGateTitle">Unlock screen sharing</h2>
+    <p>Enter the private passphrase to enable screen sharing.</p>
+    <input id="screenPw" type="password" autocomplete="off" placeholder="Passphrase" spellcheck="false" required>
+    <button type="submit">Unlock</button>
+    <button id="screenGateCancel" type="button">Cancel</button>
+    <p id="screenGateErr" role="status"></p>
+  </form>
 </div>
 <div id="login"><form id="loginForm">
   <h2>Connect free AI</h2>
@@ -750,7 +769,28 @@ input.addEventListener("keydown", e => {
 });
 sendBtn.addEventListener("click", send);
 $("newBtn").addEventListener("click", newChat);
-$("screenShare").addEventListener("click", toggleScreenShare);
+const SCREEN_GATE_KEY = "yoyolov-screen-share-unlocked";
+const SCREEN_PASSWORD_HASH = "10e5d469f87efa2270d7e0368e06afafe9d4f7aefe81b6f606eed558d5c9ab91";
+const screenGate = $("screenGate"), screenPw = $("screenPw");
+function openScreenGate(){ screenGate.classList.add("show"); $("screenGateErr").textContent = ""; screenPw.value = ""; screenPw.focus(); }
+function closeScreenGate(){ screenGate.classList.remove("show"); $("screenShare").focus(); }
+$("screenGateCancel").addEventListener("click", closeScreenGate);
+screenGate.addEventListener("click", e => { if(e.target === screenGate) closeScreenGate(); });
+$("screenGateForm").addEventListener("submit", async e => {
+  e.preventDefault();
+  const bytes = new TextEncoder().encode(screenPw.value);
+  const digest = await crypto.subtle.digest("SHA-256", bytes);
+  const hash = [...new Uint8Array(digest)].map(b => b.toString(16).padStart(2,"0")).join("");
+  if(hash !== SCREEN_PASSWORD_HASH){ $("screenGateErr").textContent = "Incorrect passphrase."; screenPw.select(); return; }
+  try { sessionStorage.setItem(SCREEN_GATE_KEY,"1"); } catch {}
+  closeScreenGate();
+  toggleScreenShare();
+});
+$("screenShare").addEventListener("click", () => {
+  let unlocked = false;
+  try { unlocked = sessionStorage.getItem(SCREEN_GATE_KEY) === "1"; } catch {}
+  if(unlocked) toggleScreenShare(); else openScreenGate();
+});
 window.addEventListener("pagehide", stopScreenShare);
 $("menu").addEventListener("click", () => document.body.classList.toggle("side-open"));
 $("shade").addEventListener("click", closeSide);
