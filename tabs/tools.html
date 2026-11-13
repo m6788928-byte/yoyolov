@@ -22,7 +22,17 @@ input:focus,textarea:focus,select:focus{outline:1px solid var(--accent)}
 .result{font-size:13px;color:var(--muted);min-height:20px;margin-top:9px;overflow-wrap:anywhere}
 #note{height:calc(100dvh - 235px);min-height:280px;font:14px/1.6 system-ui}
 #dev-output{background:var(--bg);border:1px solid var(--border);border-radius:7px;padding:10px;min-height:36px;white-space:pre-wrap;overflow-wrap:anywhere;color:var(--muted)}
-#play-output{width:100%;height:250px;background:white;border:0;border-radius:7px}
+#play-output{width:100%;height:390px;background:white;border:1px solid var(--border);border-radius:7px}
+#developer .dev-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}
+#developer .playground{grid-column:1/-1;padding:18px}
+.play-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}
+.play-head h2{margin:0;font-size:16px}
+.play-workspace{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px}
+.play-pane{min-width:0}.play-pane label{display:block;color:var(--muted);font-size:12px;margin:0 0 7px}
+#html-code{height:390px;min-height:300px;resize:vertical;font:13px/1.55 ui-monospace,SFMono-Regular,Consolas,monospace;tab-size:2}
+#developer .utility-card textarea{min-height:90px}
+@media(max-width:760px){#developer .play-workspace{grid-template-columns:1fr}#html-code{height:280px;min-height:220px}#play-output{height:320px}}
+@media(max-width:560px){#developer .dev-grid{grid-template-columns:1fr}}
 .timer{font-size:28px;font-variant-numeric:tabular-nums;margin:12px 0}
 @media(max-width:560px){header{padding:0 10px}.brand{margin-right:4px}main{padding:20px 12px}.tab{padding:8px 9px}}
 </style></head>
@@ -42,11 +52,26 @@ input:focus,textarea:focus,select:focus{outline:1px solid var(--accent)}
 <section id="notes" class="section"><h1>Notes</h1><p class="sub">Saved automatically in this browser.</p><textarea id="note" placeholder="Start writing…"></textarea><div class="result" id="note-status">Saved locally on this device.</div></section>
 <section id="developer" class="section">
 <h1>Developer</h1><p class="sub">Quick helpers for code and data.</p>
-<div class="grid">
-<article class="card"><h2>JSON formatter</h2><textarea id="json-input" placeholder='{"hello":"world"}'></textarea><div class="row" style="margin:9px 0"><button class="btn" id="json-format">Format</button><button class="btn" id="json-minify">Minify</button><button class="btn" id="json-copy">Copy output</button></div><div id="dev-output">Output appears here.</div><div class="result" id="json-status"></div></article>
-<article class="card"><h2>Base64</h2><textarea id="base-input" placeholder="Text to encode or Base64 to decode…"></textarea><div class="row" style="margin:9px 0"><button class="btn" id="base-encode">Encode</button><button class="btn" id="base-decode">Decode</button></div><textarea id="base-output" placeholder="Result…" style="min-height:75px"></textarea></article>
-<article class="card"><h2>Regex tester</h2><input id="regex-pattern" class="field" placeholder="Pattern (e.g. \\d+)" style="margin-bottom:8px"><input id="regex-flags" class="field" value="g" placeholder="Flags" style="margin-bottom:8px"><textarea id="regex-text" placeholder="Test text…" style="min-height:75px"></textarea><div class="result" id="regex-result"></div></article>
-<article class="card"><h2>HTML playground</h2><textarea id="html-code" placeholder="Write HTML, CSS, and JavaScript…" style="min-height:120px"><h1>Hello</h1><p>It works.</p></textarea><button class="btn" id="html-run" style="margin:9px 0">Run preview</button><iframe id="play-output" sandbox="allow-scripts"></iframe></article>
+<div class="dev-grid">
+<article class="card playground">
+  <div class="play-head"><h2>HTML Playground</h2><button class="btn" id="html-run">Run preview</button></div>
+  <div class="play-workspace">
+    <div class="play-pane"><label for="html-code">CODE EDITOR</label><textarea id="html-code" spellcheck="false" placeholder="Write HTML, CSS, and JavaScript…"><!doctype html>
+<html>
+<head><style>body{font-family:system-ui;padding:24px}button{padding:8px 12px}</style></head>
+<body>
+  <h1>Hello, world!</h1>
+  <p>Start editing to build something.</p>
+  <button onclick="this.textContent='It works!'">Click me</button>
+</body>
+</html></textarea></div>
+    <div class="play-pane"><label for="play-output">LIVE PREVIEW</label><iframe id="play-output" title="HTML preview" sandbox="allow-scripts"></iframe></div>
+  </div>
+  <div class="result">Runs locally in a sandboxed preview. Your code stays in this page.</div>
+</article>
+<article class="card utility-card"><h2>JSON formatter</h2><textarea id="json-input" placeholder='{"hello":"world"}'></textarea><div class="row" style="margin:9px 0"><button class="btn" id="json-format">Format</button><button class="btn" id="json-minify">Minify</button><button class="btn" id="json-copy">Copy output</button></div><div id="dev-output">Output appears here.</div><div class="result" id="json-status"></div></article>
+<article class="card utility-card"><h2>Base64</h2><textarea id="base-input" placeholder="Text to encode or Base64 to decode…"></textarea><div class="row" style="margin:9px 0"><button class="btn" id="base-encode">Encode</button><button class="btn" id="base-decode">Decode</button></div><textarea id="base-output" placeholder="Result…" style="min-height:75px"></textarea></article>
+<article class="card utility-card"><h2>Regex tester</h2><input id="regex-pattern" class="field" placeholder="Pattern (e.g. \\d+)" style="margin-bottom:8px"><input id="regex-flags" class="field" value="g" placeholder="Flags" style="margin-bottom:8px"><textarea id="regex-text" placeholder="Test text…" style="min-height:75px"></textarea><div class="result" id="regex-result"></div></article>
 </div></section>
 </main>
 <script>
@@ -68,6 +93,6 @@ $('base-encode').onclick=()=>{$('base-output').value=btoa(unescape(encodeURIComp
 $('base-decode').onclick=()=>{try{$('base-output').value=decodeURIComponent(escape(atob($('base-input').value.trim())));}catch{$('base-output').value='Invalid Base64 or text encoding.';}};
 function testRegex(){try{const r=new RegExp($('regex-pattern').value,$('regex-flags').value),s=$('regex-text').value,m=[...s.matchAll(new RegExp(r.source,r.flags.includes('g')?r.flags:r.flags+'g'))];$('regex-result').textContent=m.length?m.map(x=>x[0]+' (index '+x.index+')').join(' · '):'No matches';}catch(e){$('regex-result').textContent=e.message;}}
 ['regex-pattern','regex-flags','regex-text'].forEach(id=>$(id).addEventListener('input',testRegex));
-$('html-run').onclick=()=>{$('play-output').srcdoc=$('html-code').value;};
+$('html-run').onclick=()=>{$('play-output').srcdoc=$('html-code').value;};\n$('html-code').addEventListener('keydown',e=>{if((e.ctrlKey||e.metaKey)&&e.key==='Enter'){$('html-run').click();}});\n$('play-output').srcdoc=$('html-code').value;
 paint();
 </script></body></html>
