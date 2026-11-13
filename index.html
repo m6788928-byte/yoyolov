@@ -299,7 +299,7 @@
       <p id="unlock-error" role="alert" aria-live="polite"></p>
     </form>
     <div class="logo">repo</div>
-    <span class="build-label" id="build-label">BUILD 2026.11.13.29</span>
+    <span class="build-label" id="build-label">BUILD 2026.11.13.30</span>
     <div id="tabs">
       <button class="tab active" data-tab="htmls" type="button">Games</button>
     </div>
@@ -1082,12 +1082,6 @@ function withBase(text, url){
 
 /* ---------- opening ---------- */
 async function openUrl(url, name){
-  if(name.toLowerCase() === 'openkrillion'){
-    const tab = window.open(url, '_blank');
-    if(tab) tab.opener = null;
-    else { show(); busy.classList.add('on'); busy.textContent = 'Pop-up blocked. Allow pop-ups for Yoyolov to open OpenKrillion.'; }
-    return;
-  }
   show(); busy.classList.add('on'); busy.textContent = 'Loading ' + name + '…';
   if(settings.autoFullscreen && !document.fullscreenElement && viewer.requestFullscreen)
     viewer.requestFullscreen().catch(() => {});
