@@ -299,7 +299,7 @@
       <p id="unlock-error" role="alert" aria-live="polite"></p>
     </form>
     <div class="logo">repo</div>
-    <span class="build-label" id="build-label">BUILD 2026.11.13.30</span>
+    <span class="build-label" id="build-label">BUILD 2026.11.13.31</span>
     <div id="tabs">
       <button class="tab active" data-tab="htmls" type="button">Games</button>
     </div>
@@ -1085,6 +1085,14 @@ async function openUrl(url, name){
   show(); busy.classList.add('on'); busy.textContent = 'Loading ' + name + '…';
   if(settings.autoFullscreen && !document.fullscreenElement && viewer.requestFullscreen)
     viewer.requestFullscreen().catch(() => {});
+  if(name.toLowerCase() === 'openkrillion'){
+    current = {name, url, direct:true};
+    frame.onload = () => busy.classList.remove('on');
+    frame.onerror = () => { busy.textContent = 'Could not load OpenKrillion. The site may block embedding.'; };
+    frame.removeAttribute('srcdoc');
+    frame.src = url;
+    return;
+  }
   try{
     let used = url, text = '';
     try { text = await grab(used); }
