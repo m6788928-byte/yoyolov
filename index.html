@@ -522,7 +522,7 @@ const CUSTOM_TABS = [
   // { name: "More Games", url: "https://example.com/games.html" },
 ];
 const ADMIN_TABS = [
-  { name: "AI Chat", url: "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@f5d9d22f15562697116651f0ee92d0a3facc817f/tabs/claude.html" },
+  { name: "AI Chat", url: "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@7b093200a7e79707692a37b11d45766c8bf94a08/tabs/claude.html" },
 ];
 const ADMIN_TABS_KEY = "yoyolov-admin-tabs";
 const adminTabsUnlocked = () => localStorage.getItem(ADMIN_TABS_KEY) === "1";
@@ -817,6 +817,10 @@ applyTheme(loadActiveTheme() || PRESET_THEMES[0]);
 /* ---------- tabs ---------- */
 let lastTab = 'htmls';
 function setTab(name){
+  const previous = document.querySelector('.tabpanel.active iframe.custom-frame');
+  if(previous && name !== document.querySelector('.tabpanel.active')?.id?.replace(/^tab-/,'')){
+    previous.contentWindow?.postMessage({type:'yoyolov-tab-hidden'}, '*');
+  }
   if(name !== 'settings') lastTab = name;
   document.querySelectorAll('.tab').forEach(b => {
     const active = b.dataset.tab === name;
@@ -884,7 +888,7 @@ function createCustomTabs(){
     const button = document.createElement('button');
     button.className = 'tab'; button.type = 'button'; button.textContent = name;
     button.dataset.tab = id; button.dataset.customTab = '';
-    bindTab(button); $('tabs').append(button);
+    if(name.toLowerCase() !== 'tools'){ bindTab(button); $('tabs').append(button); }
     const panel = document.createElement('div');
     panel.id = 'tab-' + id; panel.className = 'tabpanel custom-panel';
     panel.dataset.customTab = ''; panel.setAttribute('role', 'tabpanel');
