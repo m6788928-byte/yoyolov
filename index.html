@@ -38,17 +38,21 @@
   body.locked #tabs, body.locked #search, body.locked #settings-btn,
   body.locked #tab-htmls, body.locked #tab-settings,
   body.locked .custom-panel{display:none!important}
-  body.locked .logo{margin-left:auto}
   #home{display:flex;flex-direction:column}
   #school-home{display:none;flex:1;min-height:0;padding:0}
   body.locked #school-home{display:block}
   #school-frame{display:block;width:100%;height:100%;border:0;background:#fff}
-  #unlock-form{margin:0 0 0 auto;max-width:390px;min-width:0}
+  #unlock-form{order:-1;margin:0 auto 0 0;max-width:390px;min-width:0}
   #unlock-form label{display:none}
   .unlock-row{display:flex;gap:8px;align-items:center}
   #unlock-password{width:190px;min-width:0;padding:8px 10px;border:1px solid var(--border,#383c43);border-radius:8px;background:var(--bg3,#1b1d21);color:var(--text,#eee);font:inherit}
-  #unlock-error{position:absolute;right:16px;top:100%;margin:4px 0 0;color:#ff8585;font-size:12px}
+  #unlock-error{position:absolute;left:16px;top:100%;margin:4px 0 0;color:#ff8585;font-size:12px}
   body.locked .logo{margin-left:0}
+  .classlink-fallback{height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:24px;text-align:center;background:var(--bg,#111214)}
+  .classlink-fallback h1{margin:0;font-size:22px}
+  .classlink-fallback p{max-width:440px;margin:0;color:var(--muted,#8b929e);line-height:1.5}
+  .classlink-fallback a{display:inline-block;padding:11px 18px;border:1px solid var(--border,#383c43);border-radius:8px;background:var(--bg3,#1b1d21);color:var(--text,#eee);font-weight:650;text-decoration:none}
+  .classlink-fallback a:hover{border-color:var(--accent,#7c9cff)}
   /* ---------- header ---------- */
   #bar{
     position:sticky; top:0; z-index:4;
@@ -264,8 +268,6 @@
 
 <div id="home">
   <div id="bar">
-    <div class="logo">repo</div>
-    <span class="build-label" id="build-label">BUILD 2026.11.12.15</span>
     <form id="unlock-form">
       <label for="unlock-password">Enter password to unlock the rest of repo</label>
       <div class="unlock-row">
@@ -274,6 +276,8 @@
       </div>
       <p id="unlock-error" role="alert" aria-live="polite"></p>
     </form>
+    <div class="logo">repo</div>
+    <span class="build-label" id="build-label">BUILD 2026.11.12.16</span>
     <div id="tabs">
       <button class="tab active" data-tab="htmls" type="button">Games</button>
     </div>
@@ -282,7 +286,11 @@
   </div>
 
   <main id="school-home" aria-label="ClassLink launchpad">
-    <iframe id="school-frame" src="https://launchpad.classlink.com/hcde?loggedout=1" title="ClassLink Launchpad" allow="clipboard-read; clipboard-write"></iframe>
+    <section class="classlink-fallback">
+      <h1>ClassLink can't be embedded here</h1>
+      <p>HCDE's ClassLink redirects to myapps.classlink.com, which blocks display inside another website. Open it directly to sign in and use your apps.</p>
+      <a href="https://launchpad.classlink.com/hcde?loggedout=1" target="_blank" rel="noopener">Open ClassLink</a>
+    </section>
   </main>
 
   <div id="tab-htmls" class="tabpanel active">
