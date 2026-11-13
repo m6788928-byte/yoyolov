@@ -115,7 +115,7 @@
   }
   #search::placeholder{color:var(--muted, #6b7078)}
   #search:focus{border-color:var(--accent, #454a52)}
-  #bar.settings-active #search{display:none}
+  #bar.settings-active #search{visibility:hidden;pointer-events:none}
 
   /* settings cog - pinned to the top right of the bar */
   .tab.cog{display:flex; align-items:center; justify-content:center; padding:7px; flex:none}
@@ -148,7 +148,7 @@
   #tab-htmls.browsing #browse-landing{display:none}
   #tab-htmls.browsing #browse-content{display:block}
   .browse-toolbar{padding:16px 18px 0}
-  #bar:not(.games-open) #search{display:none}
+  #bar:not(.games-open) #search{visibility:hidden;pointer-events:none}
   #bar.games-open:not(.settings-active):not(.custom-active) #search{display:block}
 
   /* ---------- HTMLS grid ---------- */
@@ -299,7 +299,7 @@
       <p id="unlock-error" role="alert" aria-live="polite"></p>
     </form>
     <div class="logo">repo</div>
-    <span class="build-label" id="build-label">BUILD 2026.11.12.27</span>
+    <span class="build-label" id="build-label">BUILD 2026.11.12.28</span>
     <div id="tabs">
       <button class="tab active" data-tab="htmls" type="button">Games</button>
     </div>
