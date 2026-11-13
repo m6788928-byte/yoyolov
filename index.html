@@ -1141,7 +1141,9 @@ document.addEventListener('fullscreenchange', () => {
 
 addEventListener('keydown', e => {
   if(panicCheck(e)) return;
-  if(e.target.tagName === 'INPUT') return;
+  const target = e.target;
+  const tag = target?.tagName;
+  if(tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT' || target?.isContentEditable) return;
   if(e.key === 'f' || e.key === 'F'){ if(current) toggleFullscreen(); }
   if(e.key === 'Escape' && !document.fullscreenElement && current) closeViewer();
 });
