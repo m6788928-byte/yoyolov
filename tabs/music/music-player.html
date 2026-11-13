@@ -1314,11 +1314,13 @@ function allSearchTracks() {
 }
 
 function renderSearchResults() {
-  const query = $("music-search").value.trim().toLowerCase();
+  const normalize = value => String(value || "").normalize("NFD")
+    .replace(/[\\u0300-\\u036f]/g, "").toLowerCase().trim();
+  const query = normalize($("music-search").value);
   if (!query) return render();
   setHeader("Search", true);
   const matches = allSearchTracks().filter(track =>
-    [track.name, track.artist, track.album, track.source].some(value => String(value || "").toLowerCase().includes(query))
+    [track.name, track.artist, track.album].some(value => normalize(value).includes(query))
   );
   const section = el("section", null,
     el("h2", null, "Search results"),
