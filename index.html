@@ -98,7 +98,7 @@
   .custom-toolbar{display:flex; align-items:center; gap:8px; padding:8px 18px; flex-wrap:wrap}
   .custom-panel .custom-frame{height:calc(100% - 49px)}
   .custom-status{color:var(--muted,#7d838c); font-size:12px}
-  #bar.custom-active #search{display:none}
+  #bar.custom-active #search,#bar.settings-active #search{visibility:hidden;pointer-events:none}
   .tab{
     font:inherit; font-size:13px; color:var(--muted, #7d838c);
     background:transparent; border:1px solid transparent; border-radius:7px;
@@ -299,7 +299,7 @@
       <p id="unlock-error" role="alert" aria-live="polite"></p>
     </form>
     <div class="logo">repo</div>
-    <span class="build-label" id="build-label">BUILD 2026.11.12.26</span>
+    <span class="build-label" id="build-label">BUILD 2026.11.12.27</span>
     <div id="tabs">
       <button class="tab active" data-tab="htmls" type="button">Games</button>
     </div>
@@ -674,8 +674,10 @@ $('panic-url').addEventListener('change', e => {
 });
 addEventListener('keydown', e => {
   if(!recordingPanic) return;
-  e.preventDefault(); e.stopImmediatePropagation();
+  const target = e.target, tag = target?.tagName;
+  if(tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT' || target?.isContentEditable) return;
   if(['Shift', 'Control', 'Alt', 'Meta'].includes(e.key)) return;
+  e.preventDefault(); e.stopImmediatePropagation();
   recordingPanic = false;
   if(e.key !== 'Escape'){ settings.panicKey = e.key; saveSettings(); }
   renderPanic();
