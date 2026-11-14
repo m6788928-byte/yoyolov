@@ -518,7 +518,7 @@ const CUSTOM_TABS = [
      { name: "Tools", url: "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@4b80c50ecfd02039a8c04c37e84a3f638cf44913/tabs/tools.html" },
      { name: "Music", url: "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@4f20ce796d0aee40bd5814651badcd811a7c8cf3/tabs/music/music-player.html" },
      { name: "Messages", url: "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@c03cf2632beb183f916559682936752cc82092b6/tabs/messages.html" },
-  // { name: "Tools", url: "https://example.com/tools.html" },
+     { name: "Google", url: "https://www.google.com/search?igu=1", direct: true },
   // { name: "More Games", url: "https://example.com/games.html" },
 ];
 const ADMIN_TABS = [
@@ -857,6 +857,13 @@ async function loadCustomTab(state){
   state.reload.disabled = true;
   state.status.textContent = 'Loading ' + state.name + '…';
   try{
+    if(state.direct){
+      state.frame.removeAttribute('srcdoc');
+      state.frame.src = state.url;
+      state.loaded = true;
+      state.status.textContent = '';
+      return;
+    }
     const url = new URL(state.url, document.baseURI);
     if(!['http:', 'https:'].includes(url.protocol)) throw new Error('Use an HTTP or HTTPS HTML file link.');
     let used = url.href, html = '';
@@ -902,7 +909,8 @@ function createCustomTabs(){
     const iframe = document.createElement('iframe');
     iframe.className = 'custom-frame'; iframe.title = name;
     iframe.setAttribute('sandbox', 'allow-same-origin allow-scripts allow-forms allow-modals allow-pointer-lock');
-    const state = {name, url, frame:iframe, status, reload, loaded:false, loading:false, html:''};
+    iframe.setAttribute('sandbox', 'allow-same-origin allow-scripts allow-forms allow-modals allow-pointer-lock allow-popups allow-popups-to-escape-sandbox');
+    const state = {name, url, direct:config.direct === true, frame:iframe, status, reload, loaded:false, loading:false, html:''};
     customTabStates.set(id, state);
     watchFrame(iframe);
     reload.onclick = () => loadCustomTab(state);
@@ -1043,6 +1051,10 @@ function makeCard(name, e){
   const go = () => {
     let target;
     try { target = new URL(e.url, location.href); } catch { return; }
+    if(e.external){
+      window.open(target.href, '_blank', 'noopener,noreferrer');
+      return;
+    }
     openUrl(target.href, name);
   };
   c.onclick = go;
