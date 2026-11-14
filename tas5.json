@@ -164,12 +164,12 @@
   },
   "OpenFront": {
     "url": "https://m6788928-byte.github.io/yoyolov/openfront/index.html",
-    "desc": "Offline Solo — runs in your browser",
+    "desc": "Offline Solo \u2014 runs in your browser",
     "image": "https://raw.githubusercontent.com/openfrontio/OpenFrontIO/main/proprietary/images/OpenFrontLogo.png"
   },
   "OpenKrillion": {
     "url": "https://openkrillion.com/",
-    "desc": "Independent daily trivia — opens separately",
+    "desc": "Independent daily trivia \u2014 opens separately",
     "image": "https://raw.githubusercontent.com/VulcanEon/openkrillion.com-service/main/public/assets/icon.png"
   },
   "Get Yoked": {
