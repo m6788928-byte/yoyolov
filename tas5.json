@@ -164,12 +164,12 @@
   },
   "OpenFront": {
     "url": "https://m6788928-byte.github.io/yoyolov/openfront/index.html",
-    "desc": "Offline Solo \u2014 runs in your browser",
+    "desc": "Offline Solo — runs in your browser",
     "image": "https://raw.githubusercontent.com/openfrontio/OpenFrontIO/main/proprietary/images/OpenFrontLogo.png"
   },
   "OpenKrillion": {
     "url": "https://openkrillion.com/",
-    "desc": "Independent daily trivia \u2014 opens separately",
+    "desc": "Independent daily trivia — opens separately",
     "image": "https://raw.githubusercontent.com/VulcanEon/openkrillion.com-service/main/public/assets/icon.png"
   },
   "Get Yoked": {
@@ -184,10 +184,5 @@
   "Tunnel Rush": {
     "url": "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@297cea2fae96054248dad905e3ab1c2a77a0b23e/games/tunnel-rush/index.html",
     "image": "https://cdn.jsdelivr.net/gh/tunnelrushonline2/tunnelrushonline2.github.io@0ed34b12c690c79c5c801e5d188033c50b272a09/file/tunnel-rush-2.png"
-  },
-  "PARKOUR Reborn": {
-    "url": "https://www.roblox.com/games/11639495622/PARKOUR-Reborn",
-    "desc": "Roblox experience \u00b7 Opens Roblox",
-    "external": true
   }
 }
