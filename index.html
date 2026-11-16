@@ -1080,7 +1080,7 @@ function makeCard(name, e){
       window.open(target.href, '_blank', 'noopener,noreferrer');
       return;
     }
-    openUrl(target.href, name);
+    openUrl(target.href, name, e.direct === true);
   };
   c.onclick = go;
   c.onkeydown = ev => { if(ev.key === 'Enter' || ev.key === ' '){ ev.preventDefault(); go(); } };
@@ -1118,11 +1118,11 @@ function withBase(text, url){
 }
 
 /* ---------- opening ---------- */
-async function openUrl(url, name){
+async function openUrl(url, name, direct = false){
   show(); busy.classList.add('on'); busy.textContent = 'Loading ' + name + '…';
   if(settings.autoFullscreen && !document.fullscreenElement && viewer.requestFullscreen)
     viewer.requestFullscreen().catch(() => {});
-  if(name.toLowerCase() === 'openkrillion'){
+  if(direct || name.toLowerCase() === 'openkrillion'){
     current = {name, url, direct:true};
     frame.onload = () => busy.classList.remove('on');
     frame.onerror = () => { busy.textContent = 'Could not load OpenKrillion. The site may block embedding.'; };
