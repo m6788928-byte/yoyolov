@@ -94,5 +94,8 @@
   },
   "Team Fortress 2": {
     "url": "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@main/tf2.html"
+  },
+  "Google Snake": {
+    "url": "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@main/google-snake.html"
   }
 }
