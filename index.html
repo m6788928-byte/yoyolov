@@ -935,6 +935,7 @@ window.addEventListener('message', e => {
   }
   const tabId = 'custom-' + aiIndex, aiFrame = document.querySelector('#tab-' + tabId + ' iframe');
   if(!aiFrame){ toolsFrame.contentWindow.postMessage({type:'yoyolov-study-status',message:'AI Chat could not be opened.'}, '*'); return; }
+  const wasLoaded = customTabStates.get(tabId)?.loaded;
   let delivered = false;
   const deliver = () => {
     if(delivered) return;
@@ -942,9 +943,9 @@ window.addEventListener('message', e => {
     aiFrame.contentWindow.postMessage({type:'yoyolov-ai-study-prompt',prompt:e.data.prompt}, '*');
     toolsFrame.contentWindow.postMessage({type:'yoyolov-study-status',message:'Study prompt sent to AI Chat.'}, '*');
   };
-  aiFrame.addEventListener('load', deliver, {once:true});
+  if(!wasLoaded) aiFrame.addEventListener('load', deliver, {once:true});
   setTab(tabId);
-  if(customTabStates.get(tabId)?.loaded) setTimeout(deliver, 350);
+  if(wasLoaded) setTimeout(deliver, 100);
 });
 
 /* ---------- list ---------- */
