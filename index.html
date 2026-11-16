@@ -299,7 +299,7 @@
       <p id="unlock-error" role="alert" aria-live="polite"></p>
     </form>
     <div class="logo">repo</div>
-    <span class="build-label" id="build-label">BUILD 2026.11.16.2</span>
+    <span class="build-label" id="build-label">BUILD 2026.11.16.3</span>
     <div id="tabs">
       <button class="tab active" data-tab="htmls" type="button">Games</button>
     </div>
@@ -515,14 +515,14 @@ const LIST_URLS = [
      { name: "Tools", url: "https://example.com/tools.html" },
    ====================================================================== */
 const CUSTOM_TABS = [
-     { name: "Tools", url: "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@4b80c50ecfd02039a8c04c37e84a3f638cf44913/tabs/tools.html" },
+     { name: "Tools", url: "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@a4feed4fc8bee8e319d3d228b77915c1670b6166/tabs/tools.html" },
      { name: "Music", url: "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@4f20ce796d0aee40bd5814651badcd811a7c8cf3/tabs/music/music-player.html" },
      { name: "Messages", url: "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@b615b21aacd767abc4330744a20fdfb0a49f190b/tabs/messages.html" },
      { name: "Search", url: "https://www.bing.com/", direct: true },
   // { name: "More Games", url: "https://example.com/games.html" },
 ];
 const ADMIN_TABS = [
-  { name: "AI Chat", url: "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@79dfb38adf7b3b12d7fdf66c295256b969dd41f6/tabs/claude.html" },
+  { name: "AI Chat", url: "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@5cb8825ac32805ce4573738f395fbaa0f76684de/tabs/claude.html" },
 ];
 const ADMIN_TABS_KEY = "yoyolov-admin-tabs";
 const adminTabsUnlocked = () => localStorage.getItem(ADMIN_TABS_KEY) === "1";
@@ -922,6 +922,30 @@ function createCustomTabs(){
   updateHeight();
 }
 createCustomTabs();
+
+window.addEventListener('message', e => {
+  if(e.data?.type !== 'yoyolov-study-prompt' || typeof e.data.prompt !== 'string') return;
+  const toolsFrame = document.querySelector('#tab-custom-0 iframe');
+  if(e.source !== toolsFrame?.contentWindow) return;
+  const tabs = [...CUSTOM_TABS, ...(adminTabsUnlocked() ? ADMIN_TABS : [])];
+  const aiIndex = tabs.findIndex(x => x.name === 'AI Chat');
+  if(aiIndex < 0){
+    toolsFrame.contentWindow.postMessage({type:'yoyolov-study-status',message:'Unlock AI Chat in Settings first.'}, '*');
+    return;
+  }
+  const tabId = 'custom-' + aiIndex, aiFrame = document.querySelector('#tab-' + tabId + ' iframe');
+  if(!aiFrame){ toolsFrame.contentWindow.postMessage({type:'yoyolov-study-status',message:'AI Chat could not be opened.'}, '*'); return; }
+  let delivered = false;
+  const deliver = () => {
+    if(delivered) return;
+    delivered = true;
+    aiFrame.contentWindow.postMessage({type:'yoyolov-ai-study-prompt',prompt:e.data.prompt}, '*');
+    toolsFrame.contentWindow.postMessage({type:'yoyolov-study-status',message:'Study prompt sent to AI Chat.'}, '*');
+  };
+  aiFrame.addEventListener('load', deliver, {once:true});
+  setTab(tabId);
+  if(customTabStates.get(tabId)?.loaded) setTimeout(deliver, 350);
+});
 
 /* ---------- list ---------- */
 async function loadList(){
