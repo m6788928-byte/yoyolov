@@ -47,7 +47,7 @@ function renderMessages(){
   const main=document.createElement("div");main.className="msgMain";
   if(m.reply_to){const rp=document.createElement("div");rp.className="replyPreview";rp.textContent="↳ Reply to message #"+m.reply_to;main.append(rp);}
   const head=document.createElement("div");head.className="msgHead";
-  const name=document.createElement("span");name.className="msgName";name.textContent=m.username+(m.username.toLowerCase()==="michaelmoose"?" · ADMIN":"");
+  const name=document.createElement("span");name.className="msgName";name.textContent=m.username;
   const time=document.createElement("time");time.className="msgTime";time.textContent=new Date(m.created_at).toLocaleString()+(isAdmin?" · #"+m.id:"");head.append(name,time);
   const body=document.createElement("div");body.className="msgBody";body.textContent=m.body;
   const actions=document.createElement("div");actions.className="msgActions";
@@ -96,7 +96,7 @@ function renderDMMessages(){
   const av=document.createElement("div");av.className="msgAvatar";av.textContent=(m.sender_username||"?")[0].toUpperCase();
   const main=document.createElement("div");main.className="msgMain";
   const head=document.createElement("div");head.className="msgHead";
-  const name=document.createElement("span");name.className="msgName";name.textContent=(m.sender_id===user.id?"You":m.sender_username)+(m.sender_username.toLowerCase()==="michaelmoose"?" · ADMIN":"");
+  const name=document.createElement("span");name.className="msgName";name.textContent=(m.sender_id===user.id?"You":m.sender_username);
   const time=document.createElement("time");time.className="msgTime";time.textContent=new Date(m.created_at).toLocaleString()+(isAdmin?" · #"+m.id:"");head.append(name,time);
   const body=document.createElement("div");body.className="msgBody";body.textContent=m.body;main.append(head,body);
   if(m.sender_id===user.id||isAdmin){const actions=document.createElement("div");actions.className="msgActions";const del=document.createElement("button");del.textContent="Delete";del.onclick=async()=>{if(confirm("Delete this DM?")){const r=await db.from("dm_messages").delete().eq("id",m.id);if(r.error)setConnection("Delete failed: "+r.error.message);}};actions.append(del);main.append(actions);}
