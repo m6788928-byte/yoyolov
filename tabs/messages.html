@@ -185,7 +185,7 @@ async function runUserCommand(raw){
  return false;
 }
 async function sendMessage(){
- const file=$("fileInput").files[0]||null,body=$("messageInput").value.trim();if((!body&&!file)||!user)return;$("send").disabled=true;$("attach").disabled=true;
+ const file=$("fileInput").files[0]||null,body=$("messageInput").value.trim();if((!body&&!file)||!user)return;$("send").disabled=true;
  if(body.startsWith("/")&&!file){
   if(await runUserCommand(body)){$("send").disabled=false;return;}
   if(!isAdmin){setConnection(adminError?"Admin check failed: "+adminError:"Admin check returned false for "+username+". Verify the account profile and is_chat_admin() SQL.");$("send").disabled=false;return;}
@@ -193,7 +193,7 @@ async function sendMessage(){
  }
  let attachment={};
  if(file){
-  if(file.size>10*1024*1024){setConnection("Files must be 10 MB or smaller.");$("send").disabled=false;$("attach").disabled=false;return;}
+  if(file.size>10*1024*1024){setConnection("Files must be 10 MB or smaller.");$("send").disabled=false;return;}if(!/\.(pdf|png|jpe?g|gif|webp|txt|md|csv|docx?|xlsx?|pptx?|zip)$/i.test(file.name)){setConnection("File type not supported. Use PDF, images, text, Office files, or ZIP.");$("send").disabled=false;return;}
   const safe=file.name.replace(/[^a-zA-Z0-9._-]/g,"_").slice(-100)||"file";
   const path=activeDM?"dms/"+user.id+"/"+activeDM.id+"/"+crypto.randomUUID()+"-"+safe:"channels/"+user.id+"/"+crypto.randomUUID()+"-"+safe;
   const upload=await db.storage.from("chat-attachments").upload(path,file,{upsert:false});
