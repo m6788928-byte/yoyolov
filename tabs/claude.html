@@ -789,6 +789,9 @@ $("screenShare").addEventListener("click", () => {
   if(screenGateUnlocked) toggleScreenShare(); else openScreenGate();
 });
 window.addEventListener("message", e => {
+  if(e.data?.type === "yoyolov-ai-study-prompt" && typeof e.data.prompt === "string"){
+    input.value = e.data.prompt; grow(); send(); return;
+  }
   if(e.data?.type !== "yoyolov-tab-hidden") return;
   screenGateUnlocked = false;
   stopScreenShare();
