@@ -287,18 +287,11 @@
   #busy.on{display:flex}
 </style>
 <!--
-YOYOLOV CHANGELOG — searchable in this file; intentionally not rendered in the interface.
-2026.11.16.13
-- Messages: remove #requests and #help; keep #general.
-- Direct messages: remove @ prefixes from usernames.
-- Friends: add username friend requests and accept flow.
-- Group chats: add group creation, member lists, live group messages, and attachment access policies.
-- Fix Messages delivery: pin the Messages tab to the latest updated file commit instead of the stale 2026.11.13 revision.
--->\n<!--
-YOYOLOV CHANGELOG — searchable in this file; intentionally not rendered.
-2026.11.16.14
-- Messages: fix password gate initialization; boot() must be declared async so its await statements parse correctly.
-- Pin Messages to the corrected source commit rather than the stale cached revision.
+YOYOLOV CHANGELOG — searchable in this file; intentionally hidden from the interface.
+2026.11.16.15
+- Remove the nonfunctional Search tab.
+- Load Messages from raw.githubusercontent.com to avoid jsDelivr download/CORS failures.
+- Make AI loading retry transient network/server failures; clear expired admin tokens and show a re-unlock message.
 -->
 </head>
 <body class="locked">
@@ -314,7 +307,7 @@ YOYOLOV CHANGELOG — searchable in this file; intentionally not rendered.
       <p id="unlock-error" role="alert" aria-live="polite"></p>
     </form>
     <div class="logo">repo</div>
-    <span class="build-label" id="build-label">BUILD 2026.11.16.14</span>
+    <span class="build-label" id="build-label">BUILD 2026.11.16.15</span>
     <div id="tabs">
       <button class="tab active" data-tab="htmls" type="button">Games</button>
     </div>
@@ -522,8 +515,8 @@ const LIST_URLS = [
 const CUSTOM_TABS = [
      { name: "Tools", url: "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@27f7e4590ed03bd2b4555d732806b0bdf4251bb9/tabs/tools.html" },
      { name: "Music", url: "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@4f20ce796d0aee40bd5814651badcd811a7c8cf3/tabs/music/music-player.html" },
-     { name: "Messages", url: "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@721216b1c90e42b1fc24f95436a9cac0ae7f4a70/tabs/messages.html" },
-     { name: "Search", url: "https://www.bing.com/", direct: true },
+     { name: "Messages", url: "https://raw.githubusercontent.com/m6788928-byte/yoyolov/721216b1c90e42b1fc24f95436a9cac0ae7f4a70/tabs/messages.html" },
+
   // { name: "More Games", url: "https://example.com/games.html" },
 ];
 const ADMIN_TABS = [
@@ -874,8 +867,21 @@ async function loadCustomTab(state){
     let used = url.href, html = '';
     if(state.admin){
       const token=localStorage.getItem('yoyolov-admin-token')||'';
-      const res=await fetch(used,{headers:{Authorization:'Bearer '+token},cache:'no-store'});
-      if(!res.ok) throw new Error(res.status+' '+res.statusText);
+      let res, lastError;
+      for(let attempt=0;attempt<3;attempt++){
+        try{
+          res=await fetch(used,{headers:{Authorization:'Bearer '+token},cache:'no-store'});
+          if(res.ok) break;
+          if(res.status===401||res.status===403){
+            localStorage.removeItem('yoyolov-admin-token');
+            localStorage.removeItem(ADMIN_TABS_KEY);
+            throw new Error('AI login expired. Unlock AI again with Ctrl+Shift+Alt+A.');
+          }
+          lastError=new Error(res.status+' '+res.statusText);
+        }catch(error){lastError=error;}
+        if(attempt<2) await new Promise(resolve=>setTimeout(resolve,350*(attempt+1)));
+      }
+      if(!res?.ok) throw lastError||new Error('AI service unavailable. Click Reload to retry.');
       html=await res.text();
       if(!html.trim()) throw new Error('server returned an empty body');
       state.html=html; state.frame.srcdoc=html; state.loaded=true; state.status.textContent=''; return;
