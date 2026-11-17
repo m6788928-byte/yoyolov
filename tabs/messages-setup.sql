@@ -5,12 +5,12 @@ create table if not exists public.profiles (
   id uuid primary key references auth.users(id) on delete cascade,
   username text not null check (char_length(trim(username)) between 3 and 20),
   created_at timestamptz not null default now(),
-  avatar_color text not null default '#5865f2' check (avatar_color ~ '^#[0-9A-Fa-f]{6}$')
+  avatar_color text not null default $$#5865f2$$ check (avatar_color ~ '^#[0-9A-Fa-f]{6}$')
 );
 
 alter table public.profiles
   add column if not exists created_at timestamptz not null default now(),
-  add column if not exists avatar_color text not null default '#5865f2';
+  add column if not exists avatar_color text not null default $$#5865f2$$;
 
 create unique index if not exists profiles_username_ci_unique
   on public.profiles (lower(username));
@@ -745,7 +745,7 @@ using (
 );
 alter table public.profiles
   add column if not exists created_at timestamptz not null default now(),
-  add column if not exists avatar_color text not null default '#5865f2';
+  add column if not exists avatar_color text not null default $$#5865f2$$;
 
 create unique index if not exists profiles_username_ci_unique
   on public.profiles (lower(username));
