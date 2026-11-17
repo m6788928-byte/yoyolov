@@ -286,7 +286,15 @@
   }
   #busy.on{display:flex}
 </style>
-</head>
+<!--
+YOYOLOV CHANGELOG — searchable in this file; intentionally not rendered in the interface.
+2026.11.16.13
+- Messages: remove #requests and #help; keep #general.
+- Direct messages: remove @ prefixes from usernames.
+- Friends: add username friend requests and accept flow.
+- Group chats: add group creation, member lists, live group messages, and attachment access policies.
+- Fix Messages delivery: pin the Messages tab to the latest updated file commit instead of the stale 2026.11.13 revision.
+-->\n</head>
 <body class="locked">
 
 <div id="home">
@@ -300,7 +308,7 @@
       <p id="unlock-error" role="alert" aria-live="polite"></p>
     </form>
     <div class="logo">repo</div>
-    <span class="build-label" id="build-label">BUILD 2026.11.16.12</span>
+    <span class="build-label" id="build-label">BUILD 2026.11.16.13</span>
     <div id="tabs">
       <button class="tab active" data-tab="htmls" type="button">Games</button>
     </div>
@@ -508,7 +516,7 @@ const LIST_URLS = [
 const CUSTOM_TABS = [
      { name: "Tools", url: "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@27f7e4590ed03bd2b4555d732806b0bdf4251bb9/tabs/tools.html" },
      { name: "Music", url: "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@4f20ce796d0aee40bd5814651badcd811a7c8cf3/tabs/music/music-player.html" },
-     { name: "Messages", url: "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@99a3ddc1e302b75f74f4a6a48e4e1585a118ab1a/tabs/messages.html" },
+     { name: "Messages", url: "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@d0a19d8190a85d2c2f303a37eb45d5cb72f8fb43/tabs/messages.html" },
      { name: "Search", url: "https://www.bing.com/", direct: true },
   // { name: "More Games", url: "https://example.com/games.html" },
 ];
