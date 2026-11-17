@@ -512,7 +512,7 @@ const CUSTOM_TABS = [
   // { name: "More Games", url: "https://example.com/games.html" },
 ];
 const ADMIN_TABS = [
-  { name: "AI Chat", url: "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@4eb31dcafc1d3bf0182d5a304ca4df2a44978595/tabs/claude.html" },
+  { name: "AI Chat", url: "https://yoyolov-auth.yoyolov.workers.dev/admin-content", admin: true },
 ];
 const ADMIN_TABS_KEY = "yoyolov-admin-tabs";
 const adminTabsUnlocked = () => localStorage.getItem(ADMIN_TABS_KEY) === "1";
@@ -857,6 +857,14 @@ async function loadCustomTab(state){
     const url = new URL(state.url, document.baseURI);
     if(!['http:', 'https:'].includes(url.protocol)) throw new Error('Use an HTTP or HTTPS HTML file link.');
     let used = url.href, html = '';
+    if(state.admin){
+      const token=localStorage.getItem('yoyolov-admin-token')||'';
+      const res=await fetch(used,{headers:{Authorization:'Bearer '+token},cache:'no-store'});
+      if(!res.ok) throw new Error(res.status+' '+res.statusText);
+      html=await res.text();
+      if(!html.trim()) throw new Error('server returned an empty body');
+      state.html=html; state.frame.srcdoc=html; state.loaded=true; state.status.textContent=''; return;
+    }
     try { html = await grab(used); }
     catch (firstError) {
       const fallback = toRaw(url.href);
@@ -900,7 +908,7 @@ function createCustomTabs(){
     iframe.className = 'custom-frame'; iframe.title = name;
     iframe.setAttribute('sandbox', 'allow-same-origin allow-scripts allow-forms allow-modals allow-pointer-lock');
     iframe.setAttribute('sandbox', 'allow-same-origin allow-scripts allow-forms allow-modals allow-pointer-lock allow-popups allow-popups-to-escape-sandbox');
-    const state = {name, url, direct:config.direct === true, frame:iframe, status, reload, loaded:false, loading:false, html:''};
+    const state = {name, url, direct:config.direct === true, admin:config.admin === true, frame:iframe, status, reload, loaded:false, loading:false, html:''};
     customTabStates.set(id, state);
     watchFrame(iframe);
     reload.onclick = () => loadCustomTab(state);
@@ -1277,7 +1285,9 @@ function openAdminLogin(){
       const button=form.querySelector('[type="submit"]'); button.disabled=true; status.textContent='Checking…';
       try{
         const result=await fetch(window.YOYO_AUTH_URL+'/verify',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({type:'admin',password:form.elements.password.value})});
-        if(!result.ok||!(await result.json()).ok) throw new Error('Login failed.');
+        const data=await result.json();
+        if(!result.ok||!data.ok||!data.token) throw new Error('Login failed.');
+        localStorage.setItem('yoyolov-admin-token',data.token);
         localStorage.setItem(ADMIN_TABS_KEY,'1'); createCustomTabs(); adminDialog.remove(); adminDialog=null;
       }catch(error){status.textContent=error.message==='Failed to fetch'?'Password service unavailable.':'Incorrect login.';}
       finally{if(adminDialog)button.disabled=false;}
