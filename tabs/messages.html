@@ -74,7 +74,7 @@ async function loadDMList(){
  for(const t of dmThreads){const b=document.createElement("button");b.className="dmItem"+(activeDM?.id===t.id?" active":"");b.textContent=t.username;b.title=t.username;b.onclick=()=>openDM(t.id,t.username);root.append(b);}
 }
 async function openDM(id,name){
- activeDM={id,username:name};replyTo=null;$("replyBar").style.display="none";
+ activeGroup=null;activeDM={id,username:name};replyTo=null;$("replyBar").style.display="none";
  document.querySelectorAll(".room").forEach(b=>b.classList.remove("active"));
  document.querySelectorAll(".dmItem").forEach(b=>b.classList.toggle("active",b.textContent===name));
  $("roomTitle").textContent=name;$("messageInput").placeholder="Message "+name;
