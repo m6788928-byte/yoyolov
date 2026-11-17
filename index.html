@@ -1275,7 +1275,7 @@ function openAdminLogin(){
     adminDialog.querySelector('[data-close]').onclick=()=>adminDialog.remove();
     form.onsubmit=async e=>{
       e.preventDefault();
-      const button=form.querySelector('[type="submit]'); button.disabled=true; status.textContent='Checking…';
+      const button=form.querySelector('[type="submit"]'); button.disabled=true; status.textContent='Checking…';
       try{
         const result=await fetch(window.YOYO_AUTH_URL+'/verify',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({type:'admin',username:form.elements.username.value.trim(),password:form.elements.password.value})});
         if(!result.ok||!(await result.json()).ok) throw new Error('Login failed.');
