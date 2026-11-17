@@ -534,7 +534,7 @@ gateForm.addEventListener("submit",async event=>{
  event.preventDefault();
  const button=$("gateSubmit"); button.disabled=true; $("gateError").textContent="Checking…";
  try{
-  const response=await fetch(window.YOYO_AUTH_URL+"/verify",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({type:"messages",password:$("gatePassword").value})});
+  const response=await fetch(window.YOYO_AUTH_URL+"/verify",{method:"POST",body:JSON.stringify({type:"messages",password:$("gatePassword").value})});
   const result=await response.json();
   if(!response.ok||!result.ok) throw new Error("Incorrect password.");
   $("accessGate").remove(); $("app").style.visibility="visible"; boot();
