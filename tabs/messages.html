@@ -1,187 +1,11 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#151619"><title>Yoyolov Messages</title><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script>window.YOYO_AUTH_URL="https://yoyolov-auth.yoyolov.workers.dev";</script>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#151619"><title>Yoyolov Messages</title><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 #app{visibility:hidden}#accessGate{position:fixed;inset:0;z-index:30;display:grid;place-items:center;padding:20px;background:#101114}#accessGate .gateCard{width:min(360px,100%);padding:26px;background:#202226;border:1px solid #41444c;border-radius:12px}#accessGate h1{font-size:22px;margin:0 0 8px}#accessGate p{color:#aeb0b8;line-height:1.45}#gatePassword{width:100%;padding:11px;background:#151619;border:1px solid #454852;border-radius:6px;color:white}#gateSubmit{width:100%;margin-top:12px;padding:11px;border:0;border-radius:6px;background:#7187d8;color:white;font-weight:700}#gateError{min-height:18px;margin-top:8px;color:#ff9b9b;font-size:12px}
 :root{color-scheme:dark;--bg:#151619;--side:#1d1f23;--line:#303238;--muted:#92969f;--accent:#7187d8}*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;background:var(--bg);color:#f1f1f2;font:14px Arial,Helvetica,sans-serif}button,input,textarea{font:inherit}button{cursor:pointer}#app{height:100dvh;display:grid;grid-template-columns:220px minmax(0,1fr);overflow:hidden}aside{background:var(--side);border-right:1px solid var(--line);display:flex;flex-direction:column;min-width:0}.brand{padding:20px 17px 16px;font-size:18px;font-weight:800;border-bottom:1px solid var(--line)}.brand span{color:var(--accent)}.section{padding:18px 12px 6px;color:var(--muted);font-size:10px;font-weight:700;letter-spacing:1px}.room{margin:2px 8px;padding:10px;border:0;border-radius:6px;text-align:left;background:none;color:#c4c6cb}.room:hover,.room.active{background:#30333a;color:white}.dmNew{margin:4px 8px;padding:8px;border:1px solid var(--line);border-radius:6px;background:#252830;color:#cbd2e8;text-align:left}.dmList{overflow:auto;max-height:32vh}.dmItem{display:block;width:calc(100% - 16px);margin:2px 8px;padding:8px;border:0;border-radius:5px;background:none;color:#c4c6cb;text-align:left;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.dmItem:hover,.dmItem.active{background:#30333a;color:white}.room b{display:inline-block;width:20px;color:#8c929e}.sideBottom{margin-top:auto;border-top:1px solid var(--line);padding:12px;display:flex;align-items:center;gap:8px}.avatar{width:30px;height:30px;border-radius:50%;background:#434d71;display:grid;place-items:center;font-weight:700;flex:none}.me{min-width:0;flex:1}#myName{font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}#myStatus{font-size:11px;color:#75c994;margin-top:3px}.smallBtn{background:none;border:1px solid var(--line);color:#bbb;border-radius:5px;padding:6px 8px}main{min-width:0;min-height:0;display:grid;grid-template-rows:62px minmax(0,1fr) auto;height:100%;background:var(--bg)}.top{height:62px;flex:none;border-bottom:1px solid var(--line);display:flex;align-items:center;padding:0 20px;gap:12px}#roomTitle{font-size:16px;font-weight:700}#online{margin-left:auto;color:var(--muted);font-size:12px}#connection{font-size:11px;color:var(--muted)}#messages{flex:1 1 0;min-height:0;overflow-y:auto;overscroll-behavior:contain;padding:18px max(18px,calc((100% - 860px)/2));display:flex;flex-direction:column;gap:3px}.welcome{padding:14px 0 20px;border-bottom:1px solid var(--line);margin-bottom:12px}.welcome h2{font-size:22px;margin:0 0 7px}.welcome p{color:var(--muted);margin:0;line-height:1.5}.message{display:flex;gap:10px;padding:9px 7px;border-radius:6px}.message:hover{background:#1d2025}.msgAvatar{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:#38405a;font-weight:700;flex:none}.msgMain{min-width:0;flex:1}.msgHead{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}.msgName{font-weight:700}.msgTime{font-size:10px;color:#777}.msgBody{white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.45;margin-top:4px;color:#dedee1}.msgActions{display:flex;gap:5px;align-items:center;margin-top:6px;opacity:.75}.msgActions button{background:#282b31;border:1px solid #3a3d45;color:#c5c8d0;padding:3px 7px;border-radius:5px;font-size:11px}.msgActions button:hover{border-color:#7588d5}.replyPreview{color:#aeb5cb;font-size:11px;border-left:2px solid #6c7fc6;padding-left:8px;margin-bottom:4px}#replyBar{display:none;margin:0 auto 7px;width:min(900px,calc(100% - 32px));padding:7px 10px;background:#232630;color:#c6cce0;border-radius:5px;font-size:12px}#replyBar button{float:right;background:none;border:0;color:#aaa}.composerWrap{flex:none;position:relative;z-index:1;padding:8px 16px 16px;background:var(--bg)}.composer{width:min(900px,100%);margin:auto;background:#24262b;border:1px solid #3a3d44;border-radius:8px;display:flex;align-items:flex-end;gap:8px;padding:9px}#messageInput{background:none;border:0;outline:0;resize:none;color:#f2f2f4;min-height:24px;max-height:130px;flex:1;padding:5px}#messageInput::placeholder{color:#888}#send{border:0;border-radius:6px;background:var(--accent);color:white;font-weight:700;padding:9px 14px}#send:disabled,#attach:disabled{opacity:.4;cursor:not-allowed}#attach{font-size:19px;line-height:1;padding:7px 11px;flex:none}#setup,#profileSetup{position:fixed;inset:0;z-index:10;background:#090a0ccc;display:none;place-items:center;padding:18px}#setup.open,#profileSetup.open{display:grid}.setupCard{width:min(480px,100%);background:#202226;border:1px solid #41444c;border-radius:12px;padding:24px}.setupCard h1{font-size:21px;margin:0 0 8px}.setupCard p{color:#aeb0b8;line-height:1.5}.setupCard label{display:block;color:#bfc1c8;font-size:12px;margin:13px 0 6px}.setupCard input{width:100%;background:#151619;border:1px solid #454852;color:white;border-radius:6px;padding:10px}.setupCard button.primary{margin-top:16px;width:100%;background:var(--accent);color:white;border:0;border-radius:6px;padding:11px;font-weight:700}.setupCard a{color:#aabaff}#setupError,#profileError{color:#ff9b9b;font-size:12px;min-height:18px;margin-top:8px}.empty{color:#858a94;text-align:center;padding:26px}@media(max-width:640px){#app{grid-template-columns:68px minmax(0,1fr)}.brand{padding:18px 8px;font-size:0}.brand span{font-size:16px}.section{font-size:0;padding:12px 7px 5px}.room{margin:3px 6px;text-align:center;padding:10px 2px;font-size:0}.room b{font-size:17px;width:auto}.sideBottom{padding:8px 5px;flex-wrap:wrap;justify-content:center}.me{display:none}.smallBtn{font-size:10px;padding:5px}#messages{padding:13px 9px}.top{padding:0 12px}.composerWrap{padding:8px}.welcome h2{font-size:19px}}
-
-/* Messages: Discord-style desktop layout */
-:root{color-scheme:dark;--bg:#000;--side:#17181b;--line:#25262b;--muted:#777b84;--accent:#5865f2}
-html,body{margin:0;width:100%;height:100%;background:#000;color:#f2f3f5;font:14px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif}
-#app{height:100dvh;display:grid;grid-template-columns:64px 248px minmax(0,1fr) 250px;overflow:hidden;background:#000}
-.serverRail{background:#111214;border-right:1px solid #202126;display:flex;align-items:center;flex-direction:column;gap:10px;padding:12px 0}
-.serverIcon{width:44px;height:44px;border-radius:15px;background:#5865f2;color:#fff;display:grid;place-items:center;font-size:21px;font-weight:800;cursor:default}
-.railDivider{height:2px;width:27px;border-radius:2px;background:#33353b}
-.railIcon{height:44px;width:44px;border:0;border-radius:15px;background:#22242a;color:#b8bbc3;display:grid;place-items:center;transition:.15s}
-.railIcon.active,.railIcon:hover{border-radius:13px;background:#5865f2;color:#fff}
-.railIcon svg{width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
-#side{background:#17181b;border-right:1px solid #25262b;display:flex;flex-direction:column;min-width:0;min-height:0;overflow:hidden}
-.sideSearch{height:56px;flex:0 0 56px;padding:10px 11px;border-bottom:1px solid #25262b}
-#conversationSearch{width:100%;height:36px;border:1px solid #292b31;border-radius:6px;background:#0c0d0f;color:#e5e6e9;padding:0 11px;font-family:inherit;font-size:12px;outline:0}
-#conversationSearch::placeholder{color:#777b84}
-#conversationSearch:focus{border-color:#5965a8}
-.section{height:30px;flex:0 0 30px;padding:12px 12px 4px;color:#92969f;font-size:10px;font-weight:750;letter-spacing:.7px;display:flex;align-items:center;justify-content:space-between}
-.room{height:36px;flex:0 0 36px;margin:1px 7px;padding:0 10px;border:0;border-radius:5px;text-align:left;background:transparent;color:#aeb1b9;font-size:13px}
-.room b{display:inline-block;width:20px;color:#858a94;font-size:18px;font-weight:500;vertical-align:-1px}
-.room:hover,.room.active{background:#303238;color:#fff}
-.room.active b{color:#c8cad0}
-.dmSection{margin-top:10px}
-.dmSection button,.membersHead button{border:0;background:transparent;color:#9b9fa8;font-size:19px;line-height:1;padding:0 4px}
-.dmSection button:hover,.membersHead button:hover{color:#fff}
-.dmList{min-height:0;flex:1;overflow:auto;padding:4px 7px 12px}
-.dmItem{height:42px;width:100%;margin:1px 0;padding:0 9px;border:0;border-radius:5px;background:transparent;color:#aeb1b9;text-align:left;display:flex;align-items:center;gap:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:13px}
-.dmItem::before{content:attr(data-initial);width:27px;height:27px;flex:0 0 27px;border-radius:50%;display:grid;place-items:center;background:#3e465d;color:#f4f5f7;font-size:11px;font-weight:700}
-.dmItem:hover,.dmItem.active{background:#303238;color:#fff}
-.dmItem.active{background:#35373d}
-.sideBottom{margin-top:auto;min-height:62px;flex:0 0 62px;border-top:1px solid #25262b;background:#111214;padding:0 11px;display:flex;align-items:center;gap:9px}
-.avatar{width:32px;height:32px;border-radius:50%;background:#5865f2;display:grid;place-items:center;font-weight:750;flex:none;color:#fff}
-.me{min-width:0;flex:1}
-#myName{font-size:12px;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#e6e7eb}
-#myStatus{font-size:10px;color:#777d87;margin-top:2px}
-.smallBtn{background:transparent;border:0;color:#8f949e;border-radius:5px;padding:7px}
-.smallBtn:hover{background:#292b31;color:#fff}
-main{min-width:0;min-height:0;display:grid;grid-template-rows:62px minmax(0,1fr) auto;height:100%;background:#000}
-.top{height:62px;min-width:0;border-bottom:1px solid #222328;display:flex;align-items:center;padding:0 18px;gap:12px;background:#08090b}
-.topMark{width:29px;height:29px;border-radius:50%;background:#30384e;color:#bdc8ff;display:grid;place-items:center;font-size:14px}
-.topHeading{min-width:0;display:flex;flex-direction:column;gap:2px}
-.topHeading strong{font-size:14px;font-weight:700;color:#f1f2f4}
-.topHeading span{font-size:11px;color:#8b9099;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.topActions{margin-left:auto;display:flex;align-items:center;gap:14px;min-width:0}
-#connection{font-size:10px;color:#7d828b;max-width:150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-#online{font-size:11px;color:#9a9ea7;white-space:nowrap;margin:0}
-.topIcon{width:30px;height:30px;border:0;border-radius:5px;background:transparent;color:#a8acb5;padding:5px}
-.topIcon:hover{background:#25272d;color:#fff}
-.topIcon svg{width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
-#messages{min-height:0;overflow-y:auto;overscroll-behavior:contain;padding:15px 18px 18px;background:#000;display:flex;flex-direction:column;gap:2px}
-#messages::-webkit-scrollbar,#dmList::-webkit-scrollbar{width:8px}
-#messages::-webkit-scrollbar-thumb,#dmList::-webkit-scrollbar-thumb{background:#24262b;border:2px solid #000;border-radius:8px}
-.welcome{padding:12px 2px 17px;border-bottom:1px solid #222328;margin-bottom:8px}
-.welcome h2{font-size:20px;font-weight:750;letter-spacing:-.3px;margin:0 0 6px;color:#f0f1f3}
-.welcome p{font-size:12px;color:#858a93;margin:0;line-height:1.5}
-.dateDivider{display:flex;align-items:center;gap:10px;margin:13px 0 7px;color:#777b84;font-size:10px;font-weight:600}
-.dateDivider::before,.dateDivider::after{content:"";height:1px;background:#24262b;flex:1}
-.dateDivider span{white-space:nowrap}
-.message{display:flex;gap:11px;padding:8px 7px;border-radius:5px;min-width:0}
-.message:hover{background:#111215}
-.msgAvatar{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:#37415c;color:#f1f2f5;font-size:12px;font-weight:750;flex:none}
-.msgMain{min-width:0;flex:1}
-.msgHead{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;min-height:17px}
-.msgName{font-size:12px;font-weight:700;color:#e3e5e8}
-.msgTime{font-size:9px;color:#747983}
-.msgBody{white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.5;margin-top:3px;font-size:13px;color:#d2d4d9}
-.msgActions{display:flex;gap:5px;align-items:center;margin-top:5px;opacity:0;transition:opacity .12s}
-.message:hover .msgActions,.message:focus-within .msgActions{opacity:1}
-.msgActions button{background:#202228;border:1px solid #32353c;color:#c5c8d0;padding:3px 7px;border-radius:4px;font-size:10px}
-.msgActions button:hover{border-color:#6979bf;color:#fff}
-.replyPreview{color:#9da8c9;font-size:10px;border-left:2px solid #6c7fc6;padding-left:8px;margin-bottom:4px}
-.composerWrap{flex:none;position:relative;z-index:1;padding:8px 16px 15px;background:#000}
-#replyBar{display:none;margin:0 auto 7px;width:min(100%,1100px);padding:7px 10px;background:#191b20;color:#c6cce0;border-radius:5px;font-size:11px}
-#replyBar button{float:right;background:none;border:0;color:#aaa}
-.composer{width:100%;margin:auto;background:#17181c;border:1px solid #34363d;border-radius:8px;display:flex;align-items:center;gap:9px;padding:5px 8px;min-height:50px}
-.composer:focus-within{border-color:#50535e}
-#messageInput{background:transparent;border:0;outline:0;resize:none;color:#f2f2f4;min-height:27px;max-height:130px;flex:1;min-width:0;padding:6px 2px;font-family:inherit;font-size:13px;line-height:1.4}
-#messageInput::placeholder{color:#777c85}
-#attach{width:30px;height:30px;border:0;background:transparent;color:#a0a5ae;border-radius:50%;font-size:23px;font-weight:300;line-height:1;padding:0}
-#attach:hover{background:#292b31;color:#fff}
-#send{width:33px;height:33px;border:0;border-radius:6px;background:transparent;color:#9ea3ad;padding:6px;display:grid;place-items:center}
-#send:hover:not(:disabled){background:#343743;color:#fff}
-#send svg{width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
-#send:disabled,#attach:disabled{opacity:.35;cursor:not-allowed}
-#membersPanel{background:#111214;border-left:1px solid #222328;padding:14px 11px;min-width:0;overflow-y:auto}
-.membersHead{height:34px;display:flex;align-items:center;justify-content:space-between;padding:0 5px 9px;color:#8e939d;font-size:10px;font-weight:800;letter-spacing:.55px}
-.memberRow{height:43px;display:flex;align-items:center;gap:9px;padding:0 7px;border-radius:5px}
-.memberRow:hover{background:#202126}
-.memberAvatar{width:29px;height:29px;flex:0 0 29px;border-radius:50%;display:grid;place-items:center;background:#39435d;color:#fff;font-size:11px;font-weight:750}
-.memberCopy{min-width:0;flex:1;display:flex;flex-direction:column;gap:2px}
-.memberCopy strong{font-size:11px;color:#d8dbe0;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.memberCopy span{font-size:9px;color:#757b84}
-.memberDot{width:8px;height:8px;border-radius:50%;background:#777d86;flex:none}
-.memberDot.online{background:#23a55a}
-.membersFoot{margin:24px 4px 0;padding:15px 10px;background:#191a1e;border:1px solid #292b31;border-radius:7px;display:flex;flex-direction:column;align-items:flex-start;gap:7px}
-.membersFootMark{width:35px;height:35px;border-radius:11px;background:#5865f2;display:grid;place-items:center;color:white;font-weight:800}
-.membersFoot strong{font-size:11px;color:#e1e3e7}
-.membersFoot p{font-size:10px;line-height:1.45;color:#858a93;margin:0 0 3px}
-#membersNewMessage{width:100%;height:31px;border:1px solid #363941;border-radius:5px;background:#22242a;color:#c9cbd1;font-size:10px}
-#membersNewMessage:hover{border-color:#646b8c;color:#fff}
-body.members-hidden #membersPanel{display:none}
-#membersToggle[aria-pressed="false"]{background:#282a30;color:#fff}
-@media(max-width:1120px){#app{grid-template-columns:60px 225px minmax(0,1fr)}#membersPanel{display:none}}
-@media(max-width:700px){
-  #app{grid-template-columns:54px minmax(0,1fr)}
-  #side{position:fixed;left:54px;top:0;bottom:0;width:245px;z-index:9;transform:translateX(-110%);transition:transform .18s;box-shadow:10px 0 32px #0008}
-  body.side-open #side{transform:translateX(0)}
-  .serverRail{z-index:10}
-  main{grid-column:2}
-  .top{padding:0 10px}
-  #messages{padding:12px 8px}
-  .composerWrap{padding:7px 8px 10px}
-  .topActions{gap:7px}
-  #connection{display:none}
-}
-@media(max-width:420px){.topMark{display:none}#online{font-size:9px}.welcome h2{font-size:17px}.msgAvatar{width:30px;height:30px}.message{gap:8px;padding:7px 2px}}
-
 </style></head><body>
 <div id="accessGate"><section class="gateCard"><h1>Yoyolov Messages</h1><p>Enter the access password to continue.</p><form id="gateForm"><input id="gatePassword" type="password" placeholder="Access password" autocomplete="off" required><button id="gateSubmit" type="submit">Continue</button></form><div id="gateError" role="status"></div></section></div>
-<div id="app">
-<nav class="serverRail" aria-label="Workspace">
-  <div class="serverIcon" title="Yoyolov">Y</div>
-  <div class="railDivider"></div>
-  <button id="sideToggle" class="railIcon active" type="button" title="Direct Messages" aria-label="Direct Messages">
-    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3h11A2.5 2.5 0 0 1 20 5.5v8a2.5 2.5 0 0 1-2.5 2.5H10l-5 4v-4.5A2.5 2.5 0 0 1 3 13V5.5Z"/></svg>
-  </button>
-</nav>
-<aside id="side">
-  <div class="sideSearch">
-    <input id="conversationSearch" type="search" placeholder="Find or start a conversation" aria-label="Find or start a conversation">
-  </div>
-  <div class="section">TEXT CHANNELS</div>
-  <button class="room active" data-room="general"><b>#</b> general</button>
-  <button class="room" data-room="requests"><b>#</b> requests</button>
-  <button class="room" data-room="help"><b>#</b> help</button>
-  <div class="section dmSection"><span>DIRECT MESSAGES</span><button id="newDM" type="button" title="New message" aria-label="New message">＋</button></div>
-  <div class="dmList" id="dmList"></div>
-  <div class="sideBottom">
-    <div class="avatar" id="myAvatar">?</div>
-    <div class="me"><div id="myName">Not connected</div><div id="myStatus">offline</div></div>
-    <button class="smallBtn" id="signOut" title="Log out">↪</button>
-  </div>
-</aside>
-<main>
-  <div class="top">
-    <div class="topMark">◉</div>
-    <div class="topHeading"><strong>Direct Messages</strong><span id="roomTitle"># general</span></div>
-    <div class="topActions">
-      <span id="connection">Not connected</span>
-      <span id="online">— online</span>
-      <button id="membersToggle" class="topIcon" type="button" title="Toggle member list" aria-label="Toggle member list" aria-pressed="true">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8ZM20 8v6M23 11h-6"/></svg>
-      </button>
-    </div>
-  </div>
-  <div id="messages">
-    <div class="welcome"><h2>Welcome to #general</h2><p>This is the start of the conversation. Messages are saved in the shared database.</p></div>
-  </div>
-  <div class="composerWrap">
-    <div id="replyBar"><span id="replyText"></span><button id="cancelReply">Cancel</button></div>
-    <form class="composer" id="composer">
-      <input id="fileInput" type="file" hidden accept=".pdf,.png,.jpg,.jpeg,.gif,.webp,.txt,.md,.csv,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.zip">
-      <button id="attach" type="button" title="Attach file" aria-label="Attach file" disabled>＋</button>
-      <textarea id="messageInput" rows="1" maxlength="1000" placeholder="Message #general" disabled></textarea>
-      <button id="send" disabled aria-label="Send message" title="Send message">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11.5 21 3l-8.5 18-2-7.5L3 11.5Zm7.5 2L21 3"/></svg>
-      </button>
-    </form>
-  </div>
-</main>
-<aside id="membersPanel">
-  <div class="membersHead"><span id="memberCount">MEMBERS — 0</span><button id="rightNewDM" type="button" title="New message">＋</button></div>
-  <div id="memberList"></div>
-  <div class="membersFoot">
-    <div class="membersFootMark">Y</div>
-    <strong>Yoyolov Messages</strong>
-    <p>Private conversations and shared channels.</p>
-    <button id="membersNewMessage" type="button">＋ New message</button>
-  </div>
-</aside>
-</div>
+<div id="app"><aside><div class="brand">YOYO<span>CHAT</span></div><div class="section">TEXT CHANNELS</div><button class="room active" data-room="general"><b>#</b> general</button><button class="room" data-room="requests"><b>#</b> requests</button><button class="room" data-room="help"><b>#</b> help</button><div class="section">DIRECT MESSAGES</div><button class="dmNew" id="newDM">+ New message</button><div class="dmList" id="dmList"></div><div class="sideBottom"><div class="avatar" id="myAvatar">?</div><div class="me"><div id="myName">Not connected</div><div id="myStatus">offline</div></div><button class="smallBtn" id="signOut">Log out</button></div></aside>
+<main><div class="top"><div id="roomTitle"># general</div><div id="connection">Not connected</div><div id="online">— online</div></div><div id="messages"><div class="welcome"><h2>Welcome to #general</h2><p>This is the start of the conversation. Messages are saved in the shared database.</p></div></div><div class="composerWrap"><div id="replyBar"><span id="replyText"></span><button id="cancelReply">Cancel</button></div><form class="composer" id="composer"><input id="fileInput" type="file" hidden accept=".pdf,.png,.jpg,.jpeg,.gif,.webp,.txt,.md,.csv,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.zip"><button id="attach" type="button" class="smallBtn" title="Attach file" aria-label="Attach file" disabled>＋</button><textarea id="messageInput" rows="1" maxlength="1000" placeholder="Message #general" disabled></textarea><button id="send" disabled>Send</button></form></div></main></div>
 <div id="setup"><section class="setupCard"><h1>Connect Yoyolov Chat</h1><p>Create a Supabase project, run the setup SQL, then in Authentication settings turn OFF Confirm email and disable Anonymous sign-ins. Paste the Project URL and Publishable key below. They are public app settings, not secret credentials. They are saved in this browser; to skip this setup for everyone, these values must be added to the published app.</p><p><a href="https://supabase.com/dashboard" target="_blank" rel="noopener">Create/open Supabase project ↗</a> · <a href="https://raw.githubusercontent.com/m6788928-byte/yoyolov/main/tabs/messages-setup.sql" target="_blank" rel="noopener">Open setup SQL ↗</a></p><label for="projectUrl">Project URL</label><input id="projectUrl" placeholder="https://your-project.supabase.co" autocomplete="url"><label for="publishableKey">Publishable key</label><input id="publishableKey" placeholder="sb_publishable_..." autocomplete="off" spellcheck="false"><button id="connectButton" class="primary">Connect chat</button><div id="setupError"></div></section></div>
 <div id="profileSetup"><section class="setupCard"><h1 id="authTitle">Sign in to Yoyolov Chat</h1><p id="authDescription">Use your unique username and password. Your login is saved on this device.</p><label for="usernameInput">Username (3–20 letters, numbers or _)</label><input id="usernameInput" maxlength="20" placeholder="Your username" autocomplete="username" spellcheck="false"><label for="passwordInput">Password (at least 8 characters)</label><input id="passwordInput" type="password" minlength="8" placeholder="Your password" autocomplete="current-password"><button id="authSubmit" class="primary">Sign in</button><button id="authSwitch" class="smallBtn" style="width:100%;margin-top:10px">Create a new account</button><div id="profileError"></div><p style="font-size:11px">Use a password you do not use elsewhere. There is no password reset because accounts do not collect email addresses.</p></section></div>
 <script>
@@ -209,39 +33,6 @@ function updateProfileUI(){
  $("myStatus").textContent=isAdmin?"ADMIN · online":username.toLowerCase()==="michaelmoose"?(adminError?"ADMIN SETUP ERROR":"Admin setup required"):"online";
  if(presence&&user)presence.track({username,online_at:new Date().toISOString()});
 }
-
-function renderMembers(){
- const root=$("memberList");if(!root)return;root.replaceChildren();
- const state=presence?.presenceState?.()||{};
- const online=[];
- for(const entries of Object.values(state))for(const entry of entries||[]){
-  if(entry?.username&&!online.some(x=>x.username.toLowerCase()===entry.username.toLowerCase()))online.push({username:entry.username,online:true});
- }
- if(!online.some(x=>x.username.toLowerCase()===username.toLowerCase()))online.unshift({username,online:true,me:true});
- let members=online;
- if(activeDM){
-  const peerOnline=online.some(x=>x.username.toLowerCase()===activeDM.username.toLowerCase());
-  members=[{username,online:true,me:true},{username:activeDM.username,online:peerOnline,me:false}];
- }
- $("memberCount").textContent=(activeDM?"CONVERSATION":"MEMBERS")+" — "+members.length;
- for(const person of members){
-  const row=document.createElement("div");row.className="memberRow";
-  const avatar=document.createElement("div");avatar.className="memberAvatar";avatar.textContent=(person.username||"?")[0].toUpperCase();
-  const copy=document.createElement("div");copy.className="memberCopy";
-  const name=document.createElement("strong");name.textContent=person.username+(person.me?" (you)":"");
-  const status=document.createElement("span");status.textContent=person.me?"Your account":person.online?"Online":"Offline";
-  const dot=document.createElement("span");dot.className="memberDot"+(person.online?" online":"");
-  copy.append(name,status);row.append(avatar,copy,dot);root.append(row);
- }
-}
-function addDateDivider(root,message,state){
- const date=new Date(message.created_at),key=date.toDateString();
- if(state.value===key)return;
- state.value=key;const divider=document.createElement("div");divider.className="dateDivider";
- const label=document.createElement("span");label.textContent=date.toLocaleDateString(undefined,{month:"long",day:"numeric",year:"numeric"});
- divider.append(label);root.append(divider);
-}
-
 function renderMessages(){
  if(activeDM){renderDMMessages();return;}
  const root=$("messages");root.replaceChildren();
@@ -250,16 +41,14 @@ function renderMessages(){
  const p=document.createElement("p");p.textContent=isAdmin?"Admin access is enabled. Type /help in the message box to see your commands.":"Messages are shared with everyone in this channel and saved in the database.";
  intro.append(h,p);root.append(intro);
  if(!rows.length){const e=document.createElement("div");e.className="empty";e.textContent="No messages yet. Start the conversation.";root.append(e);return;}
- const dateState={value:""};
  for(const m of rows){
-  addDateDivider(root,m,dateState);
   const el=document.createElement("article");el.className="message";
   const av=document.createElement("div");av.className="msgAvatar";av.textContent=(m.username||"?")[0].toUpperCase();
   const main=document.createElement("div");main.className="msgMain";
   if(m.reply_to){const rp=document.createElement("div");rp.className="replyPreview";rp.textContent="↳ Reply to message #"+m.reply_to;main.append(rp);}
   const head=document.createElement("div");head.className="msgHead";
   const name=document.createElement("span");name.className="msgName";name.textContent=m.username;
-  const time=document.createElement("time");time.className="msgTime";time.textContent=new Date(m.created_at).toLocaleTimeString([],{hour:"numeric",minute:"2-digit"})+(isAdmin?" · #"+m.id:"");time.title=new Date(m.created_at).toLocaleString();head.append(name,time);
+  const time=document.createElement("time");time.className="msgTime";time.textContent=new Date(m.created_at).toLocaleString()+(isAdmin?" · #"+m.id:"");head.append(name,time);
   const body=document.createElement("div");body.className="msgBody";body.textContent=m.body;
   const actions=document.createElement("div");actions.className="msgActions";
   for(const [emoji,label] of [["👍","Like"],["❤️","Heart"],["😂","Laugh"]]){
@@ -282,32 +71,34 @@ async function loadDMList(){
  if(ids.length){const r=await db.from("profiles").select("id,username").in("id",ids);if(!r.error)profiles=r.data||[];}
  dmThreads=ids.map(id=>({id,username:profiles.find(p=>p.id===id)?.username||"Unknown user",last:latest.get(id)}));
  const root=$("dmList");root.replaceChildren();
- for(const t of dmThreads){const b=document.createElement("button");b.className="dmItem"+(activeDM?.id===t.id?" active":"");b.textContent=t.username;b.dataset.initial=(t.username||"?")[0].toUpperCase();b.title=t.username;b.onclick=()=>openDM(t.id,t.username);root.append(b);}
+ for(const t of dmThreads){const b=document.createElement("button");b.className="dmItem"+(activeDM?.id===t.id?" active":"");b.textContent="@ "+t.username;b.title=t.username;b.onclick=()=>openDM(t.id,t.username);root.append(b);}
 }
 async function openDM(id,name){
- activeDM={id,username:name};renderMembers();replyTo=null;$("replyBar").style.display="none";
+ activeDM={id,username:name};replyTo=null;$("replyBar").style.display="none";
  document.querySelectorAll(".room").forEach(b=>b.classList.remove("active"));
- document.querySelectorAll(".dmItem").forEach(b=>b.classList.toggle("active",b.textContent===name));
+ document.querySelectorAll(".dmItem").forEach(b=>b.classList.toggle("active",b.textContent==="@ "+name));
  $("roomTitle").textContent="@ "+name;$("messageInput").placeholder="Message "+name;
  setConnection("Loading private messages…");
  let query=await db.from("dm_messages").select("id,sender_id,recipient_id,sender_username,body,created_at,attachment_path,attachment_name,attachment_size").or("and(sender_id.eq."+user.id+",recipient_id.eq."+id+"),and(sender_id.eq."+id+",recipient_id.eq."+user.id+")").order("created_at",{ascending:true}).limit(200);
  if(query.error&&/attachment_(path|name|size)/i.test(query.error.message))query=await db.from("dm_messages").select("id,sender_id,recipient_id,sender_username,body,created_at").or("and(sender_id.eq."+user.id+",recipient_id.eq."+id+"),and(sender_id.eq."+id+",recipient_id.eq."+user.id+")").order("created_at",{ascending:true}).limit(200);
  if(query.error){setConnection("DM load failed: "+query.error.message);return;}
- dmRows=query.data||[];renderDMMessages();renderMembers();setConnection("Private");
+ dmRows=query.data||[];renderDMMessages();setConnection("Private");
  $("messageInput").disabled=false;$("send").disabled=!$("messageInput").value.trim();
 }
 function renderDMMessages(){
  const root=$("messages");root.replaceChildren();
- if(!dmRows.length){const intro=document.createElement("div");intro.className="welcome";const h=document.createElement("h2");h.textContent="This is the beginning of your conversation with "+activeDM.username;const p=document.createElement("p");p.textContent="Only you and "+activeDM.username+" can read these messages.";intro.append(h,p);root.append(intro);const e=document.createElement("div");e.className="empty";e.textContent="No messages yet. Say hello to start this DM.";root.append(e);return;}
- const dateState={value:""};
+ const intro=document.createElement("div");intro.className="welcome";
+ const h=document.createElement("h2");h.textContent="Private conversation with @"+activeDM.username;
+ const p=document.createElement("p");p.textContent="Only you and @"+activeDM.username+" can read these messages.";
+ intro.append(h,p);root.append(intro);
+ if(!dmRows.length){const e=document.createElement("div");e.className="empty";e.textContent="No messages yet. Say hello to start this DM.";root.append(e);return;}
  for(const m of dmRows){
-  addDateDivider(root,m,dateState);
   const el=document.createElement("article");el.className="message";
   const av=document.createElement("div");av.className="msgAvatar";av.textContent=(m.sender_username||"?")[0].toUpperCase();
   const main=document.createElement("div");main.className="msgMain";
   const head=document.createElement("div");head.className="msgHead";
   const name=document.createElement("span");name.className="msgName";name.textContent=(m.sender_id===user.id?"You":m.sender_username);
-  const time=document.createElement("time");time.className="msgTime";time.textContent=new Date(m.created_at).toLocaleTimeString([],{hour:"numeric",minute:"2-digit"})+(isAdmin?" · #"+m.id:"");time.title=new Date(m.created_at).toLocaleString();head.append(name,time);
+  const time=document.createElement("time");time.className="msgTime";time.textContent=new Date(m.created_at).toLocaleString()+(isAdmin?" · #"+m.id:"");head.append(name,time);
   const body=document.createElement("div");body.className="msgBody";body.textContent=m.body;main.append(head,body);if(m.attachment_path)addAttachment(main,m);
   if(m.sender_id===user.id||isAdmin){const actions=document.createElement("div");actions.className="msgActions";const del=document.createElement("button");del.textContent="Delete";del.onclick=async()=>{if(confirm("Delete this DM?")){const r=await db.from("dm_messages").delete().eq("id",m.id);if(r.error)setConnection("Delete failed: "+r.error.message);}};actions.append(del);main.append(actions);}
   el.append(av,main);root.append(el);
@@ -334,7 +125,7 @@ async function loadRoom(){
  if(!db||!user)return;
  activeDM=null;
  document.querySelectorAll(".dmItem").forEach(b=>b.classList.remove("active"));
- room=ROOMS.includes(room)?room:"general";$("roomTitle").textContent="# "+room;renderMembers();$("messageInput").placeholder="Message #"+room+(isAdmin?" · /help for admin commands":"");
+ room=ROOMS.includes(room)?room:"general";$("roomTitle").textContent="# "+room;$("messageInput").placeholder="Message #"+room+(isAdmin?" · /help for admin commands":"");
  document.querySelectorAll(".room").forEach(b=>b.classList.toggle("active",b.dataset.room===room));
  setConnection("Loading…");rows=[];reactions=[];renderMessages();
  let query=await db.from("messages").select("id,channel,user_id,username,body,reply_to,created_at,attachment_path,attachment_name,attachment_size").eq("channel",room).order("created_at",{ascending:false}).limit(100);
@@ -471,9 +262,9 @@ async function enterChat(){
   }).subscribe(status=>{if(status==="SUBSCRIBED")setConnection("Live");else if(status==="CHANNEL_ERROR")setConnection("Realtime unavailable");});
  if(presence)await db.removeChannel(presence);
  presence=db.channel("yoyolov-chat-presence",{config:{presence:{key:user.id}}});
- presence.on("presence",{event:"sync"},()=>{$("online").textContent=Object.keys(presence.presenceState()).length+" online";renderMembers();})
+ presence.on("presence",{event:"sync"},()=>{$("online").textContent=Object.keys(presence.presenceState()).length+" online";})
   .subscribe(status=>{if(status==="SUBSCRIBED")presence.track({username,online_at:new Date().toISOString()});});
- await loadRoom();await loadDMList();renderMembers();$("messageInput").disabled=false;$("send").disabled=false;$("attach").disabled=false;
+ await loadRoom();await loadDMList();$("messageInput").disabled=false;$("send").disabled=false;$("attach").disabled=false;
 }
 async function signOut(){
  if(presence)await db.removeChannel(presence);if(live)await db.removeChannel(live);
@@ -498,20 +289,6 @@ async function boot(){
   }else{if(session)await db.auth.signOut();authPrompt("signup");}
  }catch(error){setup(error.message||String(error));}
 }
-
-$("conversationSearch").addEventListener("input",()=>{
- const q=$("conversationSearch").value.trim().toLowerCase();
- document.querySelectorAll(".room").forEach(b=>b.hidden=!b.dataset.room.includes(q));
- document.querySelectorAll(".dmItem").forEach(b=>b.hidden=!b.textContent.toLowerCase().includes(q));
-});
-$("sideToggle").onclick=()=>document.body.classList.toggle("side-open");
-$("membersToggle").onclick=()=>{
- const hidden=document.body.classList.toggle("members-hidden");
- $("membersToggle").setAttribute("aria-pressed",String(!hidden));
-};
-$("rightNewDM").onclick=startDM;
-$("membersNewMessage").onclick=startDM;
-
 document.querySelectorAll(".room").forEach(b=>b.onclick=async()=>{room=b.dataset.room;await loadRoom();});
 $("newDM").onclick=startDM;
 $("composer").addEventListener("submit",e=>{e.preventDefault();sendMessage();});
@@ -530,26 +307,6 @@ $("signOut").onclick=signOut;
 $("cancelReply").onclick=()=>{replyTo=null;$("replyBar").style.display="none";};
 window.addEventListener("online",()=>{if(db&&user)loadRoom();});
 const gateForm=$("gateForm");
-gateForm.addEventListener("submit",async event=>{
- event.preventDefault();
- const button=$("gateSubmit"); button.disabled=true; $("gateError").textContent="Checking…";
- const controller=new AbortController(),timeout=setTimeout(()=>controller.abort(),12000);
- try{
-  const response=await fetch(window.YOYO_AUTH_URL+"/verify",{method:"POST",body:JSON.stringify({type:"messages",password:$("gatePassword").value}),signal:controller.signal});
-  const result=await response.json();
-  if(!response.ok||!result.ok) throw new Error("Incorrect password.");
-  $("accessGate").remove(); $("app").style.visibility="visible"; boot();
- }catch(error){
-  if(error.name==="AbortError") $("gateError").textContent="Password check timed out. The service did not respond.";
-  else if(error.message==="Failed to fetch"){
-   try{
-    const health=await fetch(window.YOYO_AUTH_URL+"/health",{cache:"no-store"});
-    const data=await health.json();
-    $("gateError").textContent=health.ok&&data.ok?"Password request was blocked by the browser or network. Try opening Yoyolov in Chrome instead of the local SVG viewer.":"Password service is not responding correctly.";
-   }catch{$("gateError").textContent="Cannot reach the password service. Check your connection or whether the network blocks yoyolov-auth.yoyolov.workers.dev.";}
-  }else $("gateError").textContent=error.message;
-  $("gatePassword").select();
- }finally{clearTimeout(timeout);button.disabled=false;}
-});
+gateForm.addEventListener("submit",event=>{event.preventDefault();if($("gatePassword").value==="33"){$("accessGate").remove();$("app").style.visibility="visible";boot();}else{$("gateError").textContent="Incorrect password.";$("gatePassword").select();}});
 $("gatePassword").focus();
 </script></body></html>
