@@ -467,16 +467,6 @@
         </div>
       </section>
 
-      <section>
-        <h2>Additional tabs</h2>
-        <p class="sub">Enter the authorized username to show the AI Chat tab.</p>
-        <div class="row">
-          <input id="admin-tab-username" class="field" type="text" placeholder="Username" autocomplete="username" spellcheck="false"><input id="admin-tab-password" class="field" type="password" placeholder="Admin password" autocomplete="current-password">
-          <button id="admin-tab-unlock" class="btn" type="button">Show tabs</button>
-        </div>
-        <p id="admin-tab-status" class="sub after" role="status" aria-live="polite"></p>
-      </section>
-
     </div>
   </div>
 
@@ -1263,26 +1253,43 @@ function maybeAutoBlank(){
   }, true);
 }
 
-/* ---------- admin-only tab visibility ---------- */
-$('admin-tab-unlock').onclick = async () => {
-  const button = $('admin-tab-unlock');
-  button.disabled = true;
-  $('admin-tab-status').textContent = 'Checking credentials…';
-  try {
-    const result = await fetch(window.YOYO_AUTH_URL + '/verify', {
-      method: 'POST', headers: {'content-type':'application/json'},
-      body: JSON.stringify({type:'admin', username:$('admin-tab-username').value.trim(), password:$('admin-tab-password').value})
-    });
-    if (!result.ok || !(await result.json()).ok) throw new Error('Username or password is incorrect.');
-    localStorage.setItem(ADMIN_TABS_KEY, '1');
-    $('admin-tab-status').textContent = 'AI Chat tab is now visible in this browser.';
-    createCustomTabs();
-    $('admin-tab-username').value = '';
-    $('admin-tab-password').value = '';
-  } catch (error) {
-    $('admin-tab-status').textContent = error.message === 'Failed to fetch' ? 'Could not reach the password service. Check its deployment and URL.' : error.message;
-  } finally { button.disabled = false; }
-};
+/* ---------- private admin entry ---------- */
+let adminDialog;
+function openAdminLogin(){
+  if(adminTabsUnlocked()) return;
+  if(!adminDialog){
+    adminDialog = document.createElement('div');
+    adminDialog.setAttribute('role','dialog');
+    adminDialog.setAttribute('aria-modal','true');
+    adminDialog.setAttribute('aria-label','Admin login');
+    Object.assign(adminDialog.style,{position:'fixed',inset:'0',zIndex:'99999',display:'grid',placeItems:'center',background:'rgba(0,0,0,.72)',padding:'20px'});
+    adminDialog.innerHTML = `<form style="width:min(360px,100%);background:#17191d;color:#eee;border:1px solid #343840;border-radius:12px;padding:20px;display:grid;gap:12px;font:inherit">
+      <strong>Restricted access</strong>
+      <input name="username" class="field" placeholder="Username" autocomplete="username" required>
+      <input name="password" class="field" type="password" placeholder="Password" autocomplete="current-password" required>
+      <p class="sub" role="status" style="margin:0"></p>
+      <div class="row"><button class="btn" type="submit">Unlock</button><button class="btn" type="button" data-close>Cancel</button></div>
+    </form>`;
+    document.body.append(adminDialog);
+    const form=adminDialog.querySelector('form'), status=form.querySelector('[role="status"]');
+    adminDialog.querySelector('[data-close]').onclick=()=>adminDialog.remove();
+    form.onsubmit=async e=>{
+      e.preventDefault();
+      const button=form.querySelector('[type="submit]'); button.disabled=true; status.textContent='Checking…';
+      try{
+        const result=await fetch(window.YOYO_AUTH_URL+'/verify',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({type:'admin',username:form.elements.username.value.trim(),password:form.elements.password.value})});
+        if(!result.ok||!(await result.json()).ok) throw new Error('Login failed.');
+        localStorage.setItem(ADMIN_TABS_KEY,'1'); createCustomTabs(); adminDialog.remove(); adminDialog=null;
+      }catch(error){status.textContent=error.message==='Failed to fetch'?'Password service unavailable.':'Incorrect login.';}
+      finally{if(adminDialog)button.disabled=false;}
+    };
+  }
+  adminDialog.style.display='grid';
+  adminDialog.querySelector('input').focus();
+}
+document.addEventListener('keydown',e=>{
+  if(e.ctrlKey&&e.shiftKey&&e.altKey&&e.code==='KeyA'&&!e.repeat){e.preventDefault();openAdminLogin();}
+});
 
 /* ---------- editable school bookmarks ---------- */
 const SCHOOL_BOOKMARKS_KEY = 'repo-school-bookmarks';
