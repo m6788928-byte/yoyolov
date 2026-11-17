@@ -31,6 +31,11 @@ create table if not exists public.message_reactions (
   unique (message_id,user_id,emoji)
 );
 
+-- Keep the app's #requests room aligned with older #games messages.
+alter table public.messages drop constraint if exists messages_channel_check;
+update public.messages set channel='requests' where channel='games';
+alter table public.messages add constraint messages_channel_check check (channel in ('general','requests','help'));
+
 -- Remove guest profiles from the previous anonymous-login version; keep messages.
 delete from public.profiles p
 using auth.users u
