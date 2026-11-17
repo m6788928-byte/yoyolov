@@ -1265,7 +1265,6 @@ function openAdminLogin(){
     Object.assign(adminDialog.style,{position:'fixed',inset:'0',zIndex:'99999',display:'grid',placeItems:'center',background:'rgba(0,0,0,.72)',padding:'20px'});
     adminDialog.innerHTML = `<form style="width:min(360px,100%);background:#17191d;color:#eee;border:1px solid #343840;border-radius:12px;padding:20px;display:grid;gap:12px;font:inherit">
       <strong>Restricted access</strong>
-      <input name="username" class="field" placeholder="Username" autocomplete="username" required>
       <input name="password" class="field" type="password" placeholder="Password" autocomplete="current-password" required>
       <p class="sub" role="status" style="margin:0"></p>
       <div class="row"><button class="btn" type="submit">Unlock</button><button class="btn" type="button" data-close>Cancel</button></div>
@@ -1277,7 +1276,7 @@ function openAdminLogin(){
       e.preventDefault();
       const button=form.querySelector('[type="submit"]'); button.disabled=true; status.textContent='Checking…';
       try{
-        const result=await fetch(window.YOYO_AUTH_URL+'/verify',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({type:'admin',username:form.elements.username.value.trim(),password:form.elements.password.value})});
+        const result=await fetch(window.YOYO_AUTH_URL+'/verify',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({type:'admin',password:form.elements.password.value})});
         if(!result.ok||!(await result.json()).ok) throw new Error('Login failed.');
         localStorage.setItem(ADMIN_TABS_KEY,'1'); createCustomTabs(); adminDialog.remove(); adminDialog=null;
       }catch(error){status.textContent=error.message==='Failed to fetch'?'Password service unavailable.':'Incorrect login.';}
