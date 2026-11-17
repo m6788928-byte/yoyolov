@@ -209,7 +209,7 @@ body.has-pw #logout{display:inline-block}
   <button id="removeKey" type="button" hidden>Remove saved key</button>
   <p id="loginErr"></p>
 </form></div>
-<script>
+<script src="../auth-config.js"></script>\n<script>
 // Direct browser connection: no Yoyolov backend or local server is required.
 const API = "https://api.groq.com/openai/v1";
 const KEY_STORE = "yoyolov-groq-api-key";
@@ -777,13 +777,22 @@ $("screenGateCancel").addEventListener("click", closeScreenGate);
 screenGate.addEventListener("click", e => { if(e.target === screenGate) closeScreenGate(); });
 $("screenGateForm").addEventListener("submit", async e => {
   e.preventDefault();
-  const bytes = new TextEncoder().encode(screenPw.value);
-  const digest = await crypto.subtle.digest("SHA-256", bytes);
-  const hash = [...new Uint8Array(digest)].map(b => b.toString(16).padStart(2,"0")).join("");
-  if(hash !== SCREEN_PASSWORD_HASH){ $("screenGateErr").textContent = "Incorrect passphrase."; screenPw.select(); return; }
-  screenGateUnlocked = true;
-  closeScreenGate();
-  toggleScreenShare();
+  const button = $("screenGateForm").querySelector('button[type="submit"]');
+  button.disabled = true;
+  try {
+    const response = await fetch(window.YOYO_AUTH_URL + "/verify", {
+      method:"POST", headers:{"content-type":"application/json"},
+      body:JSON.stringify({type:"screen",password:screenPw.value})
+    });
+    const result = await response.json();
+    if(!response.ok || !result.ok) throw new Error("Incorrect passphrase.");
+    screenGateUnlocked = true;
+    closeScreenGate();
+    toggleScreenShare();
+  } catch(error) {
+    $("screenGateErr").textContent = error.message === "Failed to fetch" ? "Password service unavailable. Try again later." : error.message;
+    screenPw.select();
+  } finally { button.disabled = false; }
 });
 $("screenShare").addEventListener("click", () => {
   if(screenGateUnlocked) toggleScreenShare(); else openScreenGate();
