@@ -1284,14 +1284,19 @@ function openAdminLogin(){
     form.onsubmit=async e=>{
       e.preventDefault();
       const button=form.querySelector('[type="submit"]'); button.disabled=true; status.textContent='Checking…';
+      const controller=new AbortController(), timeout=setTimeout(()=>controller.abort(),12000);
       try{
-        const result=await fetch(window.YOYO_AUTH_URL+'/verify',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({type:'admin',password:form.elements.password.value})});
+        const result=await fetch(window.YOYO_AUTH_URL+'/verify',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({type:'admin',password:form.elements.password.value}),signal:controller.signal});
         const data=await result.json();
         if(!result.ok||!data.ok||!data.token) throw new Error('Login failed.');
         localStorage.setItem('yoyolov-admin-token',data.token);
         localStorage.setItem(ADMIN_TABS_KEY,'1'); createCustomTabs(); adminDialog.remove(); adminDialog=null;
-      }catch(error){status.textContent=error.message==='Failed to fetch'?'Password service unavailable.':'Incorrect login.';}
-      finally{if(adminDialog)button.disabled=false;}
+      }catch(error){
+        status.textContent=error.name==='AbortError'?'Password check timed out. Try again.':error.message==='Failed to fetch'?'Password service unavailable.':'Incorrect login.';
+      }finally{
+        clearTimeout(timeout);
+        if(adminDialog)button.disabled=false;
+      }
     };
   }
   adminDialog.style.display='grid';
