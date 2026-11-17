@@ -1375,20 +1375,22 @@ function passwordGate(){
       const submit = form.querySelector('button[type="submit"]');
       submit.disabled = true;
       error.textContent = 'Checking…';
+      const controller = new AbortController(), timeout = setTimeout(() => controller.abort(), 12000);
       fetch(window.YOYO_AUTH_URL + '/verify', {
         method:'POST', headers:{'content-type':'application/json'},
-        body:JSON.stringify({type:'main',password:input.value})
+        body:JSON.stringify({type:'main',password:input.value}), signal:controller.signal
       }).then(async res => {
         const result = await res.json();
         if(!res.ok || !result.ok) throw new Error('Incorrect password');
+        error.textContent = '';
         document.body.classList.remove('locked');
         $('school-home').remove();
         resolve(true);
       }).catch(err => {
-        error.textContent = err.message === 'Failed to fetch' ? 'Password service unavailable. Try again later.' : err.message;
+        error.textContent = err.name === 'AbortError' ? 'Password check timed out. Try again.' : err.message === 'Failed to fetch' ? 'Password service unavailable. Try again later.' : err.message;
         input.value = '';
         input.focus();
-      }).finally(() => { submit.disabled = false; });
+      }).finally(() => { clearTimeout(timeout); submit.disabled = false; });
     });
     input.focus();
   });
