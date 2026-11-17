@@ -4,13 +4,13 @@
 :root{color-scheme:dark;--bg:#151619;--side:#1d1f23;--line:#303238;--muted:#92969f;--accent:#7187d8}*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;background:var(--bg);color:#f1f1f2;font:14px Arial,Helvetica,sans-serif}button,input,textarea{font:inherit}button{cursor:pointer}#app{height:100dvh;display:grid;grid-template-columns:220px minmax(0,1fr);overflow:hidden}aside{background:var(--side);border-right:1px solid var(--line);display:flex;flex-direction:column;min-width:0}.brand{padding:20px 17px 16px;font-size:18px;font-weight:800;border-bottom:1px solid var(--line)}.brand span{color:var(--accent)}.section{padding:18px 12px 6px;color:var(--muted);font-size:10px;font-weight:700;letter-spacing:1px}.room{margin:2px 8px;padding:10px;border:0;border-radius:6px;text-align:left;background:none;color:#c4c6cb}.room:hover,.room.active{background:#30333a;color:white}.dmNew{margin:4px 8px;padding:8px;border:1px solid var(--line);border-radius:6px;background:#252830;color:#cbd2e8;text-align:left}.dmList{overflow:auto;max-height:32vh}.dmItem{display:block;width:calc(100% - 16px);margin:2px 8px;padding:8px;border:0;border-radius:5px;background:none;color:#c4c6cb;text-align:left;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.dmItem:hover,.dmItem.active{background:#30333a;color:white}.room b{display:inline-block;width:20px;color:#8c929e}.sideBottom{margin-top:auto;border-top:1px solid var(--line);padding:12px;display:flex;align-items:center;gap:8px}.avatar{width:30px;height:30px;border-radius:50%;background:#434d71;display:grid;place-items:center;font-weight:700;flex:none}.me{min-width:0;flex:1}#myName{font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}#myStatus{font-size:11px;color:#75c994;margin-top:3px}.smallBtn{background:none;border:1px solid var(--line);color:#bbb;border-radius:5px;padding:6px 8px}main{min-width:0;min-height:0;display:grid;grid-template-rows:62px minmax(0,1fr) auto;height:100%;background:var(--bg)}.top{height:62px;flex:none;border-bottom:1px solid var(--line);display:flex;align-items:center;padding:0 20px;gap:12px}#roomTitle{font-size:16px;font-weight:700}#online{margin-left:auto;color:var(--muted);font-size:12px}#connection{font-size:11px;color:var(--muted)}#messages{flex:1 1 0;min-height:0;overflow-y:auto;overscroll-behavior:contain;padding:18px max(18px,calc((100% - 860px)/2));display:flex;flex-direction:column;gap:3px}.welcome{padding:14px 0 20px;border-bottom:1px solid var(--line);margin-bottom:12px}.welcome h2{font-size:22px;margin:0 0 7px}.welcome p{color:var(--muted);margin:0;line-height:1.5}.message{display:flex;gap:10px;padding:9px 7px;border-radius:6px}.message:hover{background:#1d2025}.msgAvatar{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:#38405a;font-weight:700;flex:none}.msgMain{min-width:0;flex:1}.msgHead{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}.msgName{font-weight:700}.msgTime{font-size:10px;color:#777}.msgBody{white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.45;margin-top:4px;color:#dedee1}.msgActions{display:flex;gap:5px;align-items:center;margin-top:6px;opacity:.75}.msgActions button{background:#282b31;border:1px solid #3a3d45;color:#c5c8d0;padding:3px 7px;border-radius:5px;font-size:11px}.msgActions button:hover{border-color:#7588d5}.replyPreview{color:#aeb5cb;font-size:11px;border-left:2px solid #6c7fc6;padding-left:8px;margin-bottom:4px}#replyBar{display:none;margin:0 auto 7px;width:min(900px,calc(100% - 32px));padding:7px 10px;background:#232630;color:#c6cce0;border-radius:5px;font-size:12px}#replyBar button{float:right;background:none;border:0;color:#aaa}.composerWrap{flex:none;position:relative;z-index:1;padding:8px 16px 16px;background:var(--bg)}.composer{width:min(900px,100%);margin:auto;background:#24262b;border:1px solid #3a3d44;border-radius:8px;display:flex;align-items:flex-end;gap:8px;padding:9px}#messageInput{background:none;border:0;outline:0;resize:none;color:#f2f2f4;min-height:24px;max-height:130px;flex:1;padding:5px}#messageInput::placeholder{color:#888}#send{border:0;border-radius:6px;background:var(--accent);color:white;font-weight:700;padding:9px 14px}#send:disabled,#attach:disabled{opacity:.4;cursor:not-allowed}#attach{font-size:19px;line-height:1;padding:7px 11px;flex:none}#setup,#profileSetup{position:fixed;inset:0;z-index:10;background:#090a0ccc;display:none;place-items:center;padding:18px}#setup.open,#profileSetup.open{display:grid}.setupCard{width:min(480px,100%);background:#202226;border:1px solid #41444c;border-radius:12px;padding:24px}.setupCard h1{font-size:21px;margin:0 0 8px}.setupCard p{color:#aeb0b8;line-height:1.5}.setupCard label{display:block;color:#bfc1c8;font-size:12px;margin:13px 0 6px}.setupCard input{width:100%;background:#151619;border:1px solid #454852;color:white;border-radius:6px;padding:10px}.setupCard button.primary{margin-top:16px;width:100%;background:var(--accent);color:white;border:0;border-radius:6px;padding:11px;font-weight:700}.setupCard a{color:#aabaff}#setupError,#profileError{color:#ff9b9b;font-size:12px;min-height:18px;margin-top:8px}.empty{color:#858a94;text-align:center;padding:26px}@media(max-width:640px){#app{grid-template-columns:68px minmax(0,1fr)}.brand{padding:18px 8px;font-size:0}.brand span{font-size:16px}.section{font-size:0;padding:12px 7px 5px}.room{margin:3px 6px;text-align:center;padding:10px 2px;font-size:0}.room b{font-size:17px;width:auto}.sideBottom{padding:8px 5px;flex-wrap:wrap;justify-content:center}.me{display:none}.smallBtn{font-size:10px;padding:5px}#messages{padding:13px 9px}.top{padding:0 12px}.composerWrap{padding:8px}.welcome h2{font-size:19px}}
 </style></head><body>
 <div id="accessGate"><section class="gateCard"><h1>Yoyolov Messages</h1><p>Enter the access password to continue.</p><form id="gateForm"><input id="gatePassword" type="password" placeholder="Access password" autocomplete="off" required><button id="gateSubmit" type="submit">Continue</button></form><div id="gateError" role="status"></div></section></div>
-<div id="app"><aside><div class="brand">YOYO<span>CHAT</span></div><div class="section">TEXT CHANNELS</div><button class="room active" data-room="general"><b>#</b> general</button><button class="room" data-room="requests"><b>#</b> requests</button><button class="room" data-room="help"><b>#</b> help</button><div class="section">DIRECT MESSAGES</div><button class="dmNew" id="newDM">+ New message</button><div class="dmList" id="dmList"></div><div class="sideBottom"><div class="avatar" id="myAvatar">?</div><div class="me"><div id="myName">Not connected</div><div id="myStatus">offline</div></div><button class="smallBtn" id="signOut">Log out</button></div></aside>
+<div id="app"><aside><div class="brand">YOYO<span>CHAT</span></div><div class="section">TEXT CHANNELS</div><button class="room active" data-room="general"><b>#</b> general</button><div class="section">DIRECT MESSAGES</div><button class="dmNew" id="newDM">+ New message</button><div class="dmList" id="dmList"></div><div class="section">FRIENDS</div><button class="dmNew" id="addFriend">+ Add friend</button><div class="dmList" id="friendList"></div><div class="section">GROUP CHATS</div><button class="dmNew" id="newGroup">+ Create group</button><div class="dmList" id="groupList"></div><div class="sideBottom"><div class="avatar" id="myAvatar">?</div><div class="me"><div id="myName">Not connected</div><div id="myStatus">offline</div></div><button class="smallBtn" id="signOut">Log out</button></div></aside>
 <main><div class="top"><div id="roomTitle"># general</div><div id="connection">Not connected</div><div id="online">— online</div></div><div id="messages"><div class="welcome"><h2>Welcome to #general</h2><p>This is the start of the conversation. Messages are saved in the shared database.</p></div></div><div class="composerWrap"><div id="replyBar"><span id="replyText"></span><button id="cancelReply">Cancel</button></div><form class="composer" id="composer"><input id="fileInput" type="file" hidden accept=".pdf,.png,.jpg,.jpeg,.gif,.webp,.txt,.md,.csv,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.zip"><button id="attach" type="button" class="smallBtn" title="Attach file" aria-label="Attach file" disabled>＋</button><textarea id="messageInput" rows="1" maxlength="1000" placeholder="Message #general" disabled></textarea><button id="send" disabled>Send</button></form></div></main></div>
 <div id="setup"><section class="setupCard"><h1>Connect Yoyolov Chat</h1><p>Create a Supabase project, run the setup SQL, then in Authentication settings turn OFF Confirm email and disable Anonymous sign-ins. Paste the Project URL and Publishable key below. They are public app settings, not secret credentials. They are saved in this browser; to skip this setup for everyone, these values must be added to the published app.</p><p><a href="https://supabase.com/dashboard" target="_blank" rel="noopener">Create/open Supabase project ↗</a> · <a href="https://raw.githubusercontent.com/m6788928-byte/yoyolov/main/tabs/messages-setup.sql" target="_blank" rel="noopener">Open setup SQL ↗</a></p><label for="projectUrl">Project URL</label><input id="projectUrl" placeholder="https://your-project.supabase.co" autocomplete="url"><label for="publishableKey">Publishable key</label><input id="publishableKey" placeholder="sb_publishable_..." autocomplete="off" spellcheck="false"><button id="connectButton" class="primary">Connect chat</button><div id="setupError"></div></section></div>
 <div id="profileSetup"><section class="setupCard"><h1 id="authTitle">Sign in to Yoyolov Chat</h1><p id="authDescription">Use your unique username and password. Your login is saved on this device.</p><label for="usernameInput">Username (3–20 letters, numbers or _)</label><input id="usernameInput" maxlength="20" placeholder="Your username" autocomplete="username" spellcheck="false"><label for="passwordInput">Password (at least 8 characters)</label><input id="passwordInput" type="password" minlength="8" placeholder="Your password" autocomplete="current-password"><button id="authSubmit" class="primary">Sign in</button><button id="authSwitch" class="smallBtn" style="width:100%;margin-top:10px">Create a new account</button><div id="profileError"></div><p style="font-size:11px">Use a password you do not use elsewhere. There is no password reset because accounts do not collect email addresses.</p></section></div>
 <script>
-const $=id=>document.getElementById(id),ROOMS=["general","requests","help"];
-let db=null,user=null,username="",isAdmin=false,adminError="",room="general",live=null,presence=null,replyTo=null,rows=[],reactions=[],authMode="login",activeDM=null,dmRows=[],dmThreads=[];
+const $=id=>document.getElementById(id),ROOMS=["general"];
+let db=null,user=null,username="",isAdmin=false,adminError="",room="general",live=null,presence=null,replyTo=null,rows=[],reactions=[],authMode="login",activeDM=null,dmRows=[],dmThreads=[],activeGroup=null,groupRows=[],groupChats=[],friendRows=[];
 let overrideConfig=null;
 const SUPABASE_URL="https://ybtpzchvczgoyozxterw.supabase.co";
 const SUPABASE_KEY="sb_publishable_k_NWMde9ZreUm6DypDfgzw_zsuRMKr9";
@@ -34,7 +34,7 @@ function updateProfileUI(){
  if(presence&&user)presence.track({username,online_at:new Date().toISOString()});
 }
 function renderMessages(){
- if(activeDM){renderDMMessages();return;}
+ if(activeGroup){renderGroupMessages();return;}if(activeGroup){renderGroupMessages();return;}if(activeDM){renderDMMessages();return;}
  const root=$("messages");root.replaceChildren();
  const intro=document.createElement("div");intro.className="welcome";
  const h=document.createElement("h2");h.textContent="Welcome to #"+room;
@@ -71,13 +71,13 @@ async function loadDMList(){
  if(ids.length){const r=await db.from("profiles").select("id,username").in("id",ids);if(!r.error)profiles=r.data||[];}
  dmThreads=ids.map(id=>({id,username:profiles.find(p=>p.id===id)?.username||"Unknown user",last:latest.get(id)}));
  const root=$("dmList");root.replaceChildren();
- for(const t of dmThreads){const b=document.createElement("button");b.className="dmItem"+(activeDM?.id===t.id?" active":"");b.textContent="@ "+t.username;b.title=t.username;b.onclick=()=>openDM(t.id,t.username);root.append(b);}
+ for(const t of dmThreads){const b=document.createElement("button");b.className="dmItem"+(activeDM?.id===t.id?" active":"");b.textContent=t.username;b.title=t.username;b.onclick=()=>openDM(t.id,t.username);root.append(b);}
 }
 async function openDM(id,name){
  activeDM={id,username:name};replyTo=null;$("replyBar").style.display="none";
  document.querySelectorAll(".room").forEach(b=>b.classList.remove("active"));
- document.querySelectorAll(".dmItem").forEach(b=>b.classList.toggle("active",b.textContent==="@ "+name));
- $("roomTitle").textContent="@ "+name;$("messageInput").placeholder="Message "+name;
+ document.querySelectorAll(".dmItem").forEach(b=>b.classList.toggle("active",b.textContent===name));
+ $("roomTitle").textContent=name;$("messageInput").placeholder="Message "+name;
  setConnection("Loading private messages…");
  let query=await db.from("dm_messages").select("id,sender_id,recipient_id,sender_username,body,created_at,attachment_path,attachment_name,attachment_size").or("and(sender_id.eq."+user.id+",recipient_id.eq."+id+"),and(sender_id.eq."+id+",recipient_id.eq."+user.id+")").order("created_at",{ascending:true}).limit(200);
  if(query.error&&/attachment_(path|name|size)/i.test(query.error.message))query=await db.from("dm_messages").select("id,sender_id,recipient_id,sender_username,body,created_at").or("and(sender_id.eq."+user.id+",recipient_id.eq."+id+"),and(sender_id.eq."+id+",recipient_id.eq."+user.id+")").order("created_at",{ascending:true}).limit(200);
@@ -88,8 +88,8 @@ async function openDM(id,name){
 function renderDMMessages(){
  const root=$("messages");root.replaceChildren();
  const intro=document.createElement("div");intro.className="welcome";
- const h=document.createElement("h2");h.textContent="Private conversation with @"+activeDM.username;
- const p=document.createElement("p");p.textContent="Only you and @"+activeDM.username+" can read these messages.";
+ const h=document.createElement("h2");h.textContent="Private conversation with "+activeDM.username;
+ const p=document.createElement("p");p.textContent="Only you and "+activeDM.username+" can read these messages.";
  intro.append(h,p);root.append(intro);
  if(!dmRows.length){const e=document.createElement("div");e.className="empty";e.textContent="No messages yet. Say hello to start this DM.";root.append(e);return;}
  for(const m of dmRows){
@@ -116,14 +116,71 @@ async function startDM(){
  if(!target){alert("No chat account found with that username.");return;}
  await loadDMList();await openDM(target.id,target.username);
 }
-async function loadReactions(){
+
+async function addFriend(){
+ const name=prompt("Enter the exact username to add as a friend:");if(!name)return;
+ if(!/^[A-Za-z0-9_]{3,20}$/.test(name)||name.toLowerCase()===username.toLowerCase()){alert("Enter another valid username.");return;}
+ const {data:target,error}=await db.from("profiles").select("id,username").ilike("username",name).maybeSingle();
+ if(error||!target){setConnection("User not found.");return;}
+ const {error:sendError}=await db.from("friend_requests").insert({sender_id:user.id,recipient_id:target.id});
+ if(sendError){setConnection(sendError.code==="23505"?"A friend request already exists.":sendError.message);return;}
+ setConnection("Friend request sent to "+target.username);await loadFriends();
+}
+async function loadFriends(){
+ const {data,error}=await db.from("friend_requests").select("id,sender_id,recipient_id,status").or("sender_id.eq."+user.id+",recipient_id.eq."+user.id);
+ if(error){setConnection("Friends need the latest setup SQL: "+error.message);return;}
+ const ids=[...new Set((data||[]).filter(x=>x.status==="accepted").map(x=>x.sender_id===user.id?x.recipient_id:x.sender_id))];
+ const pending=(data||[]).filter(x=>x.status==="pending"&&x.recipient_id===user.id);
+ const {data:profiles}=ids.length?await db.from("profiles").select("id,username").in("id",ids):{data:[]};
+ friendRows=(profiles||[]);
+ const root=$("friendList");root.replaceChildren();
+ for(const p of friendRows){const b=document.createElement("button");b.className="dmItem";b.textContent=p.username;b.onclick=()=>openDM(p.id,p.username);root.append(b);}
+ for(const req of pending){const p=await db.from("profiles").select("username").eq("id",req.sender_id).maybeSingle();const b=document.createElement("button");b.className="dmItem";b.textContent="Accept "+(p.data?.username||"request");b.onclick=async()=>{const a=await db.from("friend_requests").update({status:"accepted"}).eq("id",req.id);if(a.error)setConnection(a.error.message);else{await loadFriends();setConnection("Friend added.");}};root.append(b);}
+}
+async function createGroup(){
+ const name=prompt("Group name:");if(!name?.trim())return;
+ const members=prompt("Usernames to add (comma-separated, include friends only):");if(!members)return;
+ const wanted=members.split(",").map(x=>x.trim()).filter(Boolean);
+ const ids=friendRows.filter(p=>wanted.some(n=>n.toLowerCase()===p.username.toLowerCase())).map(p=>p.id);
+ if(!ids.length){alert("Add those users as friends first.");return;}
+ const {data:g,error}=await db.from("group_chats").insert({name:name.trim().slice(0,40),owner_id:user.id}).select("id,name").single();
+ if(error){setConnection("Group create failed: "+error.message);return;}
+ const {error:memberError}=await db.from("group_members").insert([{group_id:g.id,user_id:user.id},...ids.map(id=>({group_id:g.id,user_id:id}))]);
+ if(memberError){setConnection("Group members failed: "+memberError.message);return;}
+ await loadGroups();openGroup(g.id,g.name);
+}
+async function loadGroups(){
+ const {data:members,error}=await db.from("group_members").select("group_id").eq("user_id",user.id);
+ if(error){setConnection("Groups need the latest setup SQL: "+error.message);return;}
+ const ids=(members||[]).map(x=>x.group_id);
+ const {data}=ids.length?await db.from("group_chats").select("id,name").in("id",ids):{data:[]};
+ groupChats=data||[];const root=$("groupList");root.replaceChildren();
+ for(const g of groupChats){const b=document.createElement("button");b.className="dmItem";b.textContent=g.name;b.onclick=()=>openGroup(g.id,g.name);root.append(b);}
+}
+async function openGroup(id,name){
+ activeDM=null;activeGroup={id,name};replyTo=null;$("replyBar").style.display="none";
+ document.querySelectorAll(".room,.dmItem").forEach(b=>b.classList.remove("active"));
+ $("roomTitle").textContent=name;$("messageInput").placeholder="Message "+name;setConnection("Loading group…");
+ const {data,error}=await db.from("group_messages").select("id,group_id,sender_id,body,created_at,attachment_path,attachment_name,attachment_size").eq("group_id",id).order("created_at",{ascending:true}).limit(300);
+ if(error){setConnection("Group load failed: "+error.message);return;}
+ groupRows=data||[];await renderGroupMessages();setConnection("Group chat");
+}
+async function renderGroupMessages(){
+ const root=$("messages");root.replaceChildren();
+ const intro=document.createElement("div");intro.className="welcome";const h=document.createElement("h2");h.textContent=activeGroup.name;const p=document.createElement("p");p.textContent="Group conversation";intro.append(h,p);root.append(intro);
+ if(!groupRows.length){const e=document.createElement("div");e.className="empty";e.textContent="No messages yet. Start the group conversation.";root.append(e);return;}
+ const ids=[...new Set(groupRows.map(m=>m.sender_id))];const {data:profiles}=await db.from("profiles").select("id,username").in("id",ids);
+ for(const m of groupRows){const el=document.createElement("article");el.className="message";const av=document.createElement("div");av.className="msgAvatar";const name=profiles?.find(p=>p.id===m.sender_id)?.username||"User";av.textContent=name[0].toUpperCase();const main=document.createElement("div");main.className="msgMain";const head=document.createElement("div");head.className="msgHead";const n=document.createElement("span");n.className="msgName";n.textContent=m.sender_id===user.id?"You":name;const t=document.createElement("time");t.className="msgTime";t.textContent=new Date(m.created_at).toLocaleString();head.append(n,t);const body=document.createElement("div");body.className="msgBody";body.textContent=m.body;main.append(head,body);if(m.attachment_path)addAttachment(main,m);el.append(av,main);root.append(el);}
+ root.scrollTop=root.scrollHeight;
+}
+\nasync function loadReactions(){
  if(!rows.length){reactions=[];return;}
  const {data,error}=await db.from("message_reactions").select("id,message_id,user_id,emoji").in("message_id",rows.map(x=>x.id));
  if(!error)reactions=data||[];
 }
 async function loadRoom(){
  if(!db||!user)return;
- activeDM=null;
+ activeDM=null;activeGroup=null;
  document.querySelectorAll(".dmItem").forEach(b=>b.classList.remove("active"));
  room=ROOMS.includes(room)?room:"general";$("roomTitle").textContent="# "+room;$("messageInput").placeholder="Message #"+room+(isAdmin?" · /help for admin commands":"");
  document.querySelectorAll(".room").forEach(b=>b.classList.toggle("active",b.dataset.room===room));
@@ -133,10 +190,10 @@ async function loadRoom(){
  if(query.error){setConnection("Load failed: "+query.error.message);return;}
  rows=(query.data||[]).reverse();await loadReactions();renderMessages();setConnection(isAdmin?"ADMIN READY · type /help":username.toLowerCase()==="michaelmoose"?"ADMIN NOT ACTIVE · "+(adminError||"Database role check returned false. Run updated chat SQL, then sign out and back in."):"Live");
 }
-function clearComposer(){ $("messageInput").value="";$("messageInput").style.height="auto";$("messageInput").placeholder=activeDM?"Message "+activeDM.username:"Message #"+room;$("fileInput").value="";replyTo=null;$("replyBar").style.display="none"; }
+function clearComposer(){ $("messageInput").value="";$("messageInput").style.height="auto";$("messageInput").placeholder=activeGroup?"Message "+activeGroup.name:activeDM?"Message "+activeDM.username:"Message #"+room;$("fileInput").value="";replyTo=null;$("replyBar").style.display="none"; }
 async function runAdminCommand(raw){
  const [command,...args]=raw.trim().split(/\s+/),arg=args.join(" ").trim();
- if(activeDM){setConnection("Admin commands only work in public channels.");return;}
+ if(activeDM||activeGroup){setConnection("Admin commands only work in public channels.");return;}
  if(command==="/admin"){setConnection("Admin commands: /delete <message ID> · /clear · /announce <text>");clearComposer();return;}
  if(command==="/delete"){
   const id=Number(args[0]);if(!Number.isSafeInteger(id)||id<1){setConnection("Usage: /delete <message ID>");return;}
@@ -177,7 +234,7 @@ async function runUserCommand(raw){
   reply("🎲 "+(1+Math.floor(Math.random()*sides))+" (1–"+sides+")");return true;
  }
  if(command==="/me"||command==="/shrug"){
-  if(activeDM){reply("This command only works in public channels.");return true;}
+  if(activeDM||activeGroup){reply("This command only works in public channels.");return true;}
   const text=command==="/me"?arg:("¯\\_(ツ)_/¯"+(arg?" "+arg:""));
   if(!text){reply("Usage: /me <action>");return true;}
   const {error}=await db.from("messages").insert({channel:room,user_id:user.id,body:"* "+username+" "+text.slice(0,980),reply_to:replyTo});
@@ -197,15 +254,17 @@ async function sendMessage(){
  if(file){
   if(file.size>10*1024*1024){setConnection("Files must be 10 MB or smaller.");$("send").disabled=false;return;}if(!/\.(pdf|png|jpe?g|gif|webp|txt|md|csv|docx?|xlsx?|pptx?|zip)$/i.test(file.name)){setConnection("File type not supported. Use PDF, images, text, Office files, or ZIP.");$("send").disabled=false;return;}
   const safe=file.name.replace(/[^a-zA-Z0-9._-]/g,"_").slice(-100)||"file";
-  const path=activeDM?"dms/"+user.id+"/"+activeDM.id+"/"+crypto.randomUUID()+"-"+safe:"channels/"+user.id+"/"+crypto.randomUUID()+"-"+safe;
+  const path=activeGroup?"groups/"+activeGroup.id+"/"+user.id+"/"+crypto.randomUUID()+"-"+safe:activeDM?"dms/"+user.id+"/"+activeDM.id+"/"+crypto.randomUUID()+"-"+safe:"channels/"+user.id+"/"+crypto.randomUUID()+"-"+safe;
   const upload=await db.storage.from("chat-attachments").upload(path,file,{upsert:false});
   if(upload.error){setConnection("Upload failed: "+upload.error.message+" · Run the latest messages setup SQL.");$("send").disabled=false;$("attach").disabled=false;return;}
   attachment={attachment_path:path,attachment_name:file.name,attachment_size:file.size};
  }
  const messageBody=body||"📎 "+file.name;
- const result=activeDM
-  ?await db.from("dm_messages").insert({sender_id:user.id,recipient_id:activeDM.id,body:messageBody,...attachment})
-  :await db.from("messages").insert({channel:room,user_id:user.id,body:messageBody,reply_to:replyTo,...attachment});
+ const result=activeGroup
+  ?await db.from("group_messages").insert({group_id:activeGroup.id,sender_id:user.id,body:messageBody,...attachment})
+  :activeDM
+   ?await db.from("dm_messages").insert({sender_id:user.id,recipient_id:activeDM.id,body:messageBody,...attachment})
+   :await db.from("messages").insert({channel:room,user_id:user.id,body:messageBody,reply_to:replyTo,...attachment});
  const {error}=result;
  if(error){setConnection("Send failed: "+error.message);$("send").disabled=false;return;}
  clearComposer();$("send").disabled=false;$("attach").disabled=false;
@@ -264,7 +323,7 @@ async function enterChat(){
  presence=db.channel("yoyolov-chat-presence",{config:{presence:{key:user.id}}});
  presence.on("presence",{event:"sync"},()=>{$("online").textContent=Object.keys(presence.presenceState()).length+" online";})
   .subscribe(status=>{if(status==="SUBSCRIBED")presence.track({username,online_at:new Date().toISOString()});});
- await loadRoom();await loadDMList();$("messageInput").disabled=false;$("send").disabled=false;$("attach").disabled=false;
+ await loadRoom();await loadDMList();await loadFriends();await loadGroups();$("messageInput").disabled=false;$("send").disabled=false;$("attach").disabled=false;
 }
 async function signOut(){
  if(presence)await db.removeChannel(presence);if(live)await db.removeChannel(live);
@@ -290,7 +349,7 @@ async function boot(){
  }catch(error){setup(error.message||String(error));}
 }
 document.querySelectorAll(".room").forEach(b=>b.onclick=async()=>{room=b.dataset.room;await loadRoom();});
-$("newDM").onclick=startDM;
+$("newDM").onclick=startDM;$("addFriend").onclick=addFriend;$("newGroup").onclick=createGroup;
 $("composer").addEventListener("submit",e=>{e.preventDefault();sendMessage();});
 $("messageInput").addEventListener("input",e=>{e.target.style.height="auto";e.target.style.height=Math.min(e.target.scrollHeight,130)+"px";$("send").disabled=!e.target.value.trim()&&!$("fileInput").files.length;});
  $("attach").onclick=()=>$("fileInput").click();
