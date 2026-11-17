@@ -1378,6 +1378,7 @@ function passwordGate(){
       const controller = new AbortController(), timeout = setTimeout(() => controller.abort(), 12000);
       fetch(window.YOYO_AUTH_URL + '/verify', {
         method:'POST',
+        headers:{'Content-Type':'application/json'},
         body:JSON.stringify({type:'main',password:input.value}), signal:controller.signal
       }).then(async res => {
         const result = await res.json();
