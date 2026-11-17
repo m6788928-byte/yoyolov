@@ -173,7 +173,8 @@ async function renderGroupMessages(){
  for(const m of groupRows){const el=document.createElement("article");el.className="message";const av=document.createElement("div");av.className="msgAvatar";const name=profiles?.find(p=>p.id===m.sender_id)?.username||"User";av.textContent=name[0].toUpperCase();const main=document.createElement("div");main.className="msgMain";const head=document.createElement("div");head.className="msgHead";const n=document.createElement("span");n.className="msgName";n.textContent=m.sender_id===user.id?"You":name;const t=document.createElement("time");t.className="msgTime";t.textContent=new Date(m.created_at).toLocaleString();head.append(n,t);const body=document.createElement("div");body.className="msgBody";body.textContent=m.body;main.append(head,body);if(m.attachment_path)addAttachment(main,m);el.append(av,main);root.append(el);}
  root.scrollTop=root.scrollHeight;
 }
-\nasync function loadReactions(){
+
+async function loadReactions(){
  if(!rows.length){reactions=[];return;}
  const {data,error}=await db.from("message_reactions").select("id,message_id,user_id,emoji").in("message_id",rows.map(x=>x.id));
  if(!error)reactions=data||[];
