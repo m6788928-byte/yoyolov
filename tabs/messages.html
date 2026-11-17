@@ -34,7 +34,7 @@ function updateProfileUI(){
  if(presence&&user)presence.track({username,online_at:new Date().toISOString()});
 }
 function renderMessages(){
- if(activeGroup){renderGroupMessages();return;}if(activeGroup){renderGroupMessages();return;}if(activeDM){renderDMMessages();return;}
+ if(activeGroup){renderGroupMessages();return;}if(activeDM){renderDMMessages();return;}
  const root=$("messages");root.replaceChildren();
  const intro=document.createElement("div");intro.className="welcome";
  const h=document.createElement("h2");h.textContent="Welcome to #"+room;
@@ -314,6 +314,10 @@ async function enterChat(){
     await loadDMList();
     if(activeDM&&(m.sender_id===activeDM.id||m.recipient_id===activeDM.id))await openDM(activeDM.id,activeDM.username);
    }
+  })
+  .on("postgres_changes",{event:"*",schema:"public",table:"group_messages"},async payload=>{
+   const m=payload.new||payload.old;
+   if(activeGroup&&m?.group_id===activeGroup.id){const q=await db.from("group_messages").select("id,group_id,sender_id,body,created_at,attachment_path,attachment_name,attachment_size").eq("group_id",activeGroup.id).order("created_at",{ascending:true}).limit(300);if(!q.error){groupRows=q.data||[];renderGroupMessages();}}
   })
   .on("postgres_changes",{event:"*",schema:"public",table:"message_reactions"},async payload=>{
    if(payload.eventType==="INSERT"&&rows.some(x=>x.id===payload.new.message_id)){reactions.push(payload.new);renderMessages();}
