@@ -350,3 +350,23 @@ grant select,insert,delete on public.group_messages to authenticated;
 grant usage,select on sequence public.group_messages_id_seq to authenticated;
 grant select,insert,update,delete on public.group_chats,public.group_members to authenticated;
 do $$ begin execute 'alter publication supabase_realtime add table public.group_messages'; exception when duplicate_object then null; end $$;
+
+-- Permit group file uploads/downloads only to group members.
+drop policy if exists "chat members upload own files" on storage.objects;
+create policy "chat members upload own files" on storage.objects for insert to authenticated
+with check (
+ bucket_id='chat-attachments' and (
+  ((storage.foldername(name))[1]='channels' and (storage.foldername(name))[2]=auth.uid()::text)
+  or ((storage.foldername(name))[1]='dms' and (storage.foldername(name))[2]=auth.uid()::text)
+  or ((storage.foldername(name))[1]='groups' and (storage.foldername(name))[3]=auth.uid()::text and public.is_group_member(((storage.foldername(name))[2])::uuid))
+ )
+);
+drop policy if exists "chat members read permitted files" on storage.objects;
+create policy "chat members read permitted files" on storage.objects for select to authenticated
+using (
+ bucket_id='chat-attachments' and (
+  (storage.foldername(name))[1]='channels'
+  or ((storage.foldername(name))[1]='dms' and auth.uid()::text in ((storage.foldername(name))[2],(storage.foldername(name))[3]))
+  or ((storage.foldername(name))[1]='groups' and public.is_group_member(((storage.foldername(name))[2])::uuid))
+ )
+);
