@@ -288,7 +288,10 @@
 </style>
 <!--
 YOYOLOV CHANGELOG — searchable in this file; intentionally hidden from the interface.
-2026.11.17.18
+2026.11.17.19
+- Hide the main unlock form after successful entry and show remaining attempts.
+- Add a 10-failure per-IP main-password lockout in the Cloudflare Worker.
+- Fix screen-share unlock to check the configured passphrase locally instead of calling the failing verify endpoint.
 - Make Messages use a near-black dark theme.
 - Add profile settings to choose a persistent initial-avatar color.
 - Fix Messages JavaScript syntax error that prevented the page from running.
@@ -311,7 +314,7 @@ YOYOLOV CHANGELOG — searchable in this file; intentionally hidden from the int
       <p id="unlock-error" role="alert" aria-live="polite"></p>
     </form>
     <div class="logo">repo</div>
-    <span class="build-label" id="build-label">BUILD 2026.11.17.18</span>
+    <span class="build-label" id="build-label">BUILD 2026.11.17.19</span>
     <div id="tabs">
       <button class="tab active" data-tab="htmls" type="button">Games</button>
     </div>
@@ -1406,16 +1409,21 @@ function passwordGate(){
         body:JSON.stringify({type:'main',password:input.value}), signal:controller.signal
       }).then(async res => {
         const result = await res.json();
-        if(!res.ok || !result.ok) throw new Error('Incorrect password');
+        if(res.status===429 || result.locked){
+          error.textContent = 'Too many attempts. Try again in 15 minutes.';
+          input.disabled = true; submit.disabled = true; return;
+        }
+        if(!res.ok || !result.ok) throw new Error('Incorrect password' + (Number.isInteger(result.remaining) ? ` — ${result.remaining} attempts left.` : ''));
         error.textContent = '';
         document.body.classList.remove('locked');
         $('school-home').remove();
+        form.remove();
         resolve(true);
       }).catch(err => {
         error.textContent = err.name === 'AbortError' ? 'Password check timed out. Try again.' : err.message === 'Failed to fetch' ? 'Password service unavailable. Try again later.' : err.message;
         input.value = '';
         input.focus();
-      }).finally(() => { clearTimeout(timeout); submit.disabled = false; });
+      }).finally(() => { clearTimeout(timeout); if(input.isConnected && !input.disabled) submit.disabled = false; });
     });
     input.focus();
   });
