@@ -471,7 +471,7 @@
         <h2>Additional tabs</h2>
         <p class="sub">Enter the authorized username to show the AI Chat tab.</p>
         <div class="row">
-          <input id="admin-tab-username" class="field" type="text" placeholder="Username" autocomplete="off" spellcheck="false">
+          <input id="admin-tab-username" class="field" type="text" placeholder="Username" autocomplete="username" spellcheck="false"><input id="admin-tab-password" class="field" type="password" placeholder="Admin password" autocomplete="current-password">
           <button id="admin-tab-unlock" class="btn" type="button">Show tabs</button>
         </div>
         <p id="admin-tab-status" class="sub after" role="status" aria-live="polite"></p>
@@ -493,7 +493,7 @@
   <div id="busy">Loading…</div>
 </div>
 
-<script>
+<script src="auth-config.js"></script>\n<script>
 /* ======================================================================
    Your list lives in a JSON file:  { "Name": "html link", ... }
    An entry can also be an object for a custom tile:
@@ -1264,15 +1264,24 @@ function maybeAutoBlank(){
 }
 
 /* ---------- admin-only tab visibility ---------- */
-$('admin-tab-unlock').onclick = () => {
-  if($('admin-tab-username').value.trim() !== 'admin1'){
-    $('admin-tab-status').textContent = 'Username not recognized.';
-    return;
-  }
-  localStorage.setItem(ADMIN_TABS_KEY, '1');
-  $('admin-tab-status').textContent = 'AI Chat tab is now visible in this browser.';
-  createCustomTabs();
-  $('admin-tab-username').value = '';
+$('admin-tab-unlock').onclick = async () => {
+  const button = $('admin-tab-unlock');
+  button.disabled = true;
+  $('admin-tab-status').textContent = 'Checking credentials…';
+  try {
+    const result = await fetch(window.YOYO_AUTH_URL + '/verify', {
+      method: 'POST', headers: {'content-type':'application/json'},
+      body: JSON.stringify({type:'admin', username:$('admin-tab-username').value.trim(), password:$('admin-tab-password').value})
+    });
+    if (!result.ok || !(await result.json()).ok) throw new Error('Username or password is incorrect.');
+    localStorage.setItem(ADMIN_TABS_KEY, '1');
+    $('admin-tab-status').textContent = 'AI Chat tab is now visible in this browser.';
+    createCustomTabs();
+    $('admin-tab-username').value = '';
+    $('admin-tab-password').value = '';
+  } catch (error) {
+    $('admin-tab-status').textContent = error.message === 'Failed to fetch' ? 'Could not reach the password service. Check its deployment and URL.' : error.message;
+  } finally { button.disabled = false; }
 };
 
 /* ---------- editable school bookmarks ---------- */
@@ -1313,7 +1322,6 @@ function renderSchoolBookmarks(){
 renderSchoolBookmarks();
 
 /* ---------- remote access controls ---------- */
-const ACCESS_PASSWORD = 'yyy';
 
 async function getRemoteStatus(){
   try{
@@ -1342,15 +1350,23 @@ function passwordGate(){
     const form = $('unlock-form'), input = $('unlock-password'), error = $('unlock-error');
     form.addEventListener('submit', e => {
       e.preventDefault();
-      if(input.value === ACCESS_PASSWORD){
+      const submit = form.querySelector('button[type="submit"]');
+      submit.disabled = true;
+      error.textContent = 'Checking…';
+      fetch(window.YOYO_AUTH_URL + '/verify', {
+        method:'POST', headers:{'content-type':'application/json'},
+        body:JSON.stringify({type:'main',password:input.value})
+      }).then(async res => {
+        const result = await res.json();
+        if(!res.ok || !result.ok) throw new Error('Incorrect password');
         document.body.classList.remove('locked');
         $('school-home').remove();
         resolve(true);
-      }else{
-        error.textContent = 'Incorrect password';
+      }).catch(err => {
+        error.textContent = err.message === 'Failed to fetch' ? 'Password service unavailable. Try again later.' : err.message;
         input.value = '';
         input.focus();
-      }
+      }).finally(() => { submit.disabled = false; });
     });
     input.focus();
   });
