@@ -83,7 +83,6 @@ async function openDM(id,name){
  if(query.error&&/attachment_(path|name|size)/i.test(query.error.message))query=await db.from("dm_messages").select("id,sender_id,recipient_id,sender_username,body,created_at").or("and(sender_id.eq."+user.id+",recipient_id.eq."+id+"),and(sender_id.eq."+id+",recipient_id.eq."+user.id+")").order("created_at",{ascending:true}).limit(200);
  if(query.error){setConnection("DM load failed: "+query.error.message);return;}
  dmRows=query.data||[];renderDMMessages();setConnection("Private");
- dmRows=data||[];renderDMMessages();setConnection("Private");
  $("messageInput").disabled=false;$("send").disabled=!$("messageInput").value.trim();
 }
 function renderDMMessages(){
@@ -132,8 +131,7 @@ async function loadRoom(){
  let query=await db.from("messages").select("id,channel,user_id,username,body,reply_to,created_at,attachment_path,attachment_name,attachment_size").eq("channel",room).order("created_at",{ascending:false}).limit(100);
  if(query.error&&/attachment_(path|name|size)/i.test(query.error.message))query=await db.from("messages").select("id,channel,user_id,username,body,reply_to,created_at").eq("channel",room).order("created_at",{ascending:false}).limit(100);
  if(query.error){setConnection("Load failed: "+query.error.message);return;}
- rows=(query.data||[]).reverse();await loadReactions();renderMessages();
- rows=(data||[]).reverse();await loadReactions();renderMessages();setConnection(isAdmin?"ADMIN READY · type /help":username.toLowerCase()==="michaelmoose"?"ADMIN NOT ACTIVE · "+(adminError||"Database role check returned false. Run updated chat SQL, then sign out and back in."):"Live");
+ rows=(query.data||[]).reverse();await loadReactions();renderMessages();setConnection(isAdmin?"ADMIN READY · type /help":username.toLowerCase()==="michaelmoose"?"ADMIN NOT ACTIVE · "+(adminError||"Database role check returned false. Run updated chat SQL, then sign out and back in."):"Live");
 }
 function clearComposer(){ $("messageInput").value="";$("messageInput").style.height="auto";$("messageInput").placeholder=activeDM?"Message "+activeDM.username:"Message #"+room;$("fileInput").value="";replyTo=null;$("replyBar").style.display="none"; }
 async function runAdminCommand(raw){
