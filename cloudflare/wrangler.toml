@@ -1,0 +1,6 @@
+name = "yoyolov-auth"
+main = "src/index.js"
+compatibility_date = "2026-11-16"
+
+[vars]
+ALLOWED_ORIGINS = "https://m6788928-byte.github.io"
