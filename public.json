@@ -95,12 +95,7 @@
   "Team Fortress 2": {
     "url": "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@main/tf2.html"
   },
-  "Google Snake": {
-    "url": "https://www.google.com/fbx?fbx=snake_arcade",
-    "direct": true
-  },
-  "Google Snake Mods": {
-    "url": "https://googlesnakemods.com/",
-    "direct": true
+  "Snake Game": {
+    "url": "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@main/snake-game.html"
   }
 }
