@@ -161,7 +161,7 @@
   .shortcut-icon{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;background:var(--bg2,#141619);font-size:20px;font-weight:650;color:var(--text,#ddd)}
   .shortcut-label{font-size:12px;max-width:90%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
   .shortcut-edit{position:absolute;right:7px;top:7px;background:transparent;border:0;color:var(--muted,#7d838c);font-size:13px;cursor:pointer}
-  .shortcut-edit:hover{color:var(--text,#fff)}}
+  .shortcut-edit:hover{color:var(--text,#fff)}
   #browse-btn{min-width:150px; padding:12px 28px; font-size:14px; font-weight:650}
   #browse-content{display:none}
   #tab-htmls.browsing #browse-landing{display:none}
@@ -304,7 +304,7 @@
 </style>
 <!--
 YOYOLOV CHANGELOG — searchable in this file; intentionally hidden from the interface.
-2026.11.17.25 — Updated the Music tab with Spotify-style layout and lyric preview controls.
+2026.11.17.26 — Fixed shortcut hover CSS, improved tab-cloak icon handling, and set default tab title to Login.
 2026.11.17.24 — Updated the pinned Messages file so the sidebar label displays “chat”.
 2026.11.17.24
 - Route screen-share unlock through the Cloudflare Worker password verification endpoint.
@@ -334,7 +334,7 @@ YOYOLOV CHANGELOG — searchable in this file; intentionally hidden from the int
       <p id="unlock-error" role="alert" aria-live="polite"></p>
     </form>
     <div class="logo">repo</div>
-    <span class="build-label" id="build-label">BUILD 2026.11.17.25</span>
+    <span class="build-label" id="build-label">BUILD 2026.11.17.26</span>
     <div id="tabs">
       <button class="tab active" data-tab="htmls" type="button">Search</button>
     </div>
@@ -553,7 +553,7 @@ let entries = {};          // name -> {url, image, desc}
 let current = null;        // {name, html}
 
 /* ---------- settings (saved in this browser) ---------- */
-const DEFAULT_TITLE = 'The Universe';
+const DEFAULT_TITLE = 'Login';
 const DEFAULT_SETTINGS = {
   cloakTitle:'', cloakIcon:'',
   panicKey:'', panicUrl:'https://www.google.com',
@@ -586,9 +586,8 @@ const emojiIcon = e => 'data:image/svg+xml,' + encodeURIComponent(
 function applyCloak(){
   document.title = settings.cloakTitle || DEFAULT_TITLE;
   let link = document.querySelector('link[rel="icon"]');
-  if(!settings.cloakIcon && !link) return;
   if(!link){ link = document.createElement('link'); link.rel = 'icon'; document.head.append(link); }
-  link.href = settings.cloakIcon || 'data:,';
+  link.href = settings.cloakIcon || 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect x="4" y="4" width="56" height="56" rx="15" fill="#23a8d2"/><path d="M15 32 32 15 49 32 32 49Z" fill="#fff"/></svg>';
 }
 $('cloak-title').addEventListener('input', e => {
   settings.cloakTitle = e.target.value.trim(); saveSettings(); applyCloak();
