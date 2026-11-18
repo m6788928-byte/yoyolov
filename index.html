@@ -35,31 +35,38 @@
     ::-webkit-scrollbar-corner{background:var(--bg, #111214)}
   }
 
-  /* ---------- ClassLink screenshot home ---------- */
+  /* ---------- HCDE Student Portal home ---------- */
   body.locked #tabs, body.locked #search, body.locked #settings-btn,
   body.locked #tab-htmls, body.locked #tab-settings,
   body.locked .custom-panel{display:none!important}
   #home{display:flex;flex-direction:column}
-  #school-home{
-    display:none;position:absolute;inset:0;overflow:hidden;padding:0;
-    background:#fff url("https://m6788928-byte.github.io/yoyolov/assets/hcde-background.webp?v=2026111731") center center/100% 100% no-repeat;
-  }
+  #school-home{display:none;position:absolute;inset:0;overflow:auto;padding:24px;background:#f3f6fa;color:#142235;font-family:system-ui,-apple-system,sans-serif}
   body.locked #school-home{display:block}
-  .hcde-hit{
-    position:absolute;display:block;z-index:2;
-    background:transparent;border:0;border-radius:0;outline:0;
-    cursor:pointer;
-  }
-  .hcde-hit:focus-visible{outline:3px solid #fff;outline-offset:2px}
-  .hcde-signin{left:34.7%;top:37.1%;width:20.7%;height:5.8%}
-  .hcde-google{left:34.7%;top:44.6%;width:20.7%;height:6%}
-  .hcde-quick{left:34.7%;top:52.1%;width:20.7%;height:6.1%}
+  .portal-wrap{min-height:100%;display:flex;align-items:center;justify-content:center;padding:clamp(14px,4vw,42px)}
+  .portal-card{width:min(100%,780px);background:#fff;border:1px solid #e3e8ef;border-radius:18px;box-shadow:0 14px 42px rgba(18,42,70,.09);overflow:hidden}
+  .portal-head{padding:clamp(22px,4vw,36px);border-bottom:1px solid #edf0f4}
+  .portal-brand{display:flex;align-items:center;gap:12px;color:#1d3653}
+  .portal-mark{width:42px;height:42px;border-radius:12px;background:#164e83;color:white;display:grid;place-items:center;font-size:14px;font-weight:800;letter-spacing:.02em}
+  .portal-name{font-size:14px;font-weight:750;letter-spacing:.08em;text-transform:uppercase}
+  .portal-sub{font-size:12px;color:#77869a;margin-top:3px}
+  .portal-title{font-size:clamp(24px,4vw,32px);font-weight:700;letter-spacing:-.03em;margin:26px 0 8px;color:#142235}
+  .portal-copy{color:#66768a;font-size:14px;margin:0}
+  .portal-links{padding:clamp(18px,3vw,28px);display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+  .portal-link{min-width:0;display:flex;flex-direction:column;gap:12px;text-decoration:none;color:#1c2e43;border:1px solid #e3e9f0;border-radius:12px;padding:18px;background:#fff;transition:transform .15s,border-color .15s,box-shadow .15s}
+  .portal-link:hover,.portal-link:focus-visible{transform:translateY(-2px);border-color:#9cb9d8;box-shadow:0 7px 18px rgba(22,78,131,.08);outline:none}
+  .portal-icon{width:40px;height:40px;border-radius:10px;background:#edf4fb;color:#245d94;display:grid;place-items:center;font-size:18px;font-weight:750}
+  .portal-link h2{font-size:15px;margin:0;font-weight:700}
+  .portal-link p{font-size:12px;line-height:1.5;color:#718095;margin:5px 0 0}
+  .portal-open{margin-top:auto;padding-top:8px;color:#245d94;font-size:12px;font-weight:650}
+  .portal-footer{padding:0 clamp(18px,3vw,28px) 24px;color:#8592a3;font-size:11px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+  .portal-footer a{color:#476e99;text-decoration:none}
   #unlock-form{order:-1;margin:0 auto 0 0;max-width:390px;min-width:0}
   #unlock-form label{display:none}
   .unlock-row{display:flex;gap:8px;align-items:center}
   #unlock-password{width:190px;min-width:0;padding:8px 10px;border:1px solid var(--border,#383c43);border-radius:8px;background:var(--bg3,#1b1d21);color:var(--text,#eee);font:inherit}
   #unlock-error{position:absolute;left:16px;top:100%;margin:4px 0 0;color:#ff8585;font-size:12px}
   body.locked .logo{margin-left:0}
+  @media(max-width:620px){#school-home{padding:10px}.portal-wrap{padding:8px}.portal-links{grid-template-columns:1fr}.portal-link{flex-direction:row;align-items:flex-start}.portal-open{padding:0;margin-left:auto;white-space:nowrap}.portal-card{border-radius:14px}}
   /* ---------- header ---------- */
   #bar{
     position:sticky; top:0; z-index:4;
@@ -314,7 +321,7 @@ YOYOLOV CHANGELOG — searchable in this file; intentionally hidden from the int
       <p id="unlock-error" role="alert" aria-live="polite"></p>
     </form>
     <div class="logo">repo</div>
-    <span class="build-label" id="build-label">BUILD 2026.11.17.37</span>
+    <span class="build-label" id="build-label">BUILD 2026.11.17.38</span>
     <div id="tabs">
       <button class="tab active" data-tab="htmls" type="button">Search</button>
     </div>
@@ -322,10 +329,28 @@ YOYOLOV CHANGELOG — searchable in this file; intentionally hidden from the int
     <button id="settings-btn" class="tab cog" data-tab="settings" type="button" aria-label="Settings" title="Settings"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></button>
   </div>
 
-  <main id="school-home" aria-label="HCDE ClassLink sign-in">
-    <a class="hcde-hit hcde-signin" href="https://launchpad.classlink.com/hcde?loggedout=1" target="_blank" rel="noopener noreferrer" aria-label="Sign in"></a>
-    <a class="hcde-hit hcde-google" href="https://launchpad.classlink.com/hcde?loggedout=1" target="_blank" rel="noopener noreferrer" aria-label="Sign in with Google"></a>
-    <a class="hcde-hit hcde-quick" href="https://launchpad.classlink.com/hcde?loggedout=1" target="_blank" rel="noopener noreferrer" aria-label="Sign in with QuickCard"></a>
+  <main id="school-home" aria-label="HCDE Student Portal">
+    <div class="portal-wrap">
+      <section class="portal-card" aria-labelledby="portal-title">
+        <header class="portal-head">
+          <div class="portal-brand"><div class="portal-mark" aria-hidden="true">HCS</div><div><div class="portal-name">Hamilton County Schools</div><div class="portal-sub">Student access portal</div></div></div>
+          <h1 class="portal-title" id="portal-title">Welcome to your student portal</h1>
+          <p class="portal-copy">Quick access to your school tools and learning platforms.</p>
+        </header>
+        <nav class="portal-links" aria-label="Student applications">
+          <a class="portal-link" href="https://powerschool.hcde.org/public/" target="_blank" rel="noopener noreferrer">
+            <span class="portal-icon" aria-hidden="true">P</span><span><h2>PowerSchool</h2><p>Grades, attendance, and student information.</p></span><span class="portal-open">Open ↗</span>
+          </a>
+          <a class="portal-link" href="https://hcde.instructure.com/login/canvas" target="_blank" rel="noopener noreferrer">
+            <span class="portal-icon" aria-hidden="true">C</span><span><h2>Canvas LMS</h2><p>Courses, assignments, and class resources.</p></span><span class="portal-open">Open ↗</span>
+          </a>
+          <a class="portal-link" href="https://www.deltamath.com/students" target="_blank" rel="noopener noreferrer">
+            <span class="portal-icon" aria-hidden="true">Δ</span><span><h2>DeltaMath</h2><p>Math practice and assignments.</p></span><span class="portal-open">Open ↗</span>
+          </a>
+        </nav>
+        <footer class="portal-footer"><span>Hamilton County Schools · HCDE</span><a href="https://launchpad.classlink.com/hcde" target="_blank" rel="noopener noreferrer">Open ClassLink</a></footer>
+      </section>
+    </div>
   </main>
 
   <div id="tab-htmls" class="tabpanel active">
@@ -555,30 +580,6 @@ function safeUrl(str){
 const emojiIcon = e => 'data:image/svg+xml,' + encodeURIComponent(
   '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">' + e + '</text></svg>');
 
-
-/* Load the full-resolution original ClassLink screenshot without baking a low-quality preview into CSS. */
-async function loadSchoolBackground(){
-  const urls=Array.from({length:7},(_,i)=>
-    "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@4e52084ddc766c6bf157db9c4bb37773323dc7be/assets/hcde-image-part-"+i+".txt");
-  try{
-    const parts=await Promise.all(urls.map(async url=>{
-      const response=await fetch(url,{cache:"force-cache"});
-      if(!response.ok) throw new Error("image part unavailable: "+response.status);
-      return (await response.text()).trim();
-    }));
-    const binary=atob(parts.join(""));
-    if(binary.length!==27849) throw new Error("image data length mismatch");
-    const bytes=new Uint8Array(binary.length);
-    for(let i=0;i<binary.length;i++) bytes[i]=binary.charCodeAt(i);
-    const imageUrl=URL.createObjectURL(new Blob([bytes],{type:"image/avif"}));
-    const home=$("school-home");
-    if(home) home.style.backgroundImage='url("'+imageUrl+'")';
-    addEventListener("pagehide",()=>URL.revokeObjectURL(imageUrl),{once:true});
-  }catch(error){
-    console.error("Could not load the high-resolution ClassLink screenshot:",error);
-  }
-}
-loadSchoolBackground();
 
 /* tab cloak */
 function applyCloak(){
