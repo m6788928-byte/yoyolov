@@ -58,11 +58,10 @@
   .classlink-mark{font-size:25px;font-weight:750;letter-spacing:-1px;color:#e6e9ef}
   .classlink-mark span{color:#79a9ed}
   .classlink-school{margin:8px 0 28px;color:#929aa7;font-size:13px}
-  .classlink-card h1{margin:0 0 22px;font-size:21px;font-weight:650}
-  .classlink-google{display:flex;align-items:center;justify-content:center;gap:12px;width:100%;padding:13px 12px;border:1px solid #3a3f48;border-radius:6px;background:#25282e;color:#e6e9ef;font-size:14px;font-weight:600}
-  .classlink-google img{width:18px;height:18px}
-  .classlink-hint{margin:22px 0 0;color:#929aa7;font-size:12px}
-  .classlink-open{display:block;margin-top:20px;color:#79a9ed;font-size:13px;font-weight:650}
+  .classlink-card h1{margin:0 0 12px;font-size:25px;font-weight:650}
+  .classlink-description{margin:0 0 26px;color:#929aa7;font-size:14px}
+  .classlink-launch{display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:14px 24px;border-radius:8px;background:#3979cf;color:#fff;font-size:15px;font-weight:650}
+  .classlink-launch:hover{background:#2d69b9}
   .classlink-preview:hover .classlink-card{box-shadow:0 12px 34px rgba(0,0,0,.4);border-color:#454c58}
   @media(max-width:520px){.classlink-preview{padding:16px}.classlink-card{padding:30px 22px}}
   #unlock-form{order:-1;margin:0 auto 0 0;max-width:390px;min-width:0}
@@ -332,17 +331,13 @@ YOYOLOV CHANGELOG — searchable in this file; intentionally hidden from the int
   </div>
 
   <main id="school-home" aria-label="HCDE ClassLink sign-in">
-    <a class="classlink-preview" href="https://launchpad.classlink.com/hcde?loggedout=1" target="_blank" rel="noopener noreferrer" aria-label="Open the real HCDE ClassLink sign-in page">
-      <section class="classlink-card" aria-hidden="true">
+    <a class="classlink-preview" href="https://launchpad.classlink.com/hcde?loggedout=1" target="_blank" rel="noopener noreferrer" aria-label="Open HCDE ClassLink">
+      <section class="classlink-card">
         <div class="classlink-mark">Class<span>Link</span></div>
         <div class="classlink-school">Hamilton County Department of Education</div>
-        <h1>Sign in to ClassLink</h1>
-        <div class="classlink-google">
-          <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="">
-          Sign in with Google
-        </div>
-        <div class="classlink-hint">Use your HCDE school account</div>
-        <span class="classlink-open">Click anywhere to open sign in ↗</span>
+        <h1>ClassLink Launchpad</h1>
+        <p class="classlink-description">Access your school apps and resources.</p>
+        <span class="classlink-launch">Open ClassLink ↗</span>
       </section>
     </a>
   </main>
