@@ -234,6 +234,36 @@
   }
 
 /* Spotify-style visual polish */body{background:#121212;--surface:#242424;--surface-2:#303030;--accent:#1ed760;--bar-h:92px}header{background:#080808;border:0;padding:10px 22px 10px 82px;height:54px}#back{display:none}#crumb{font-size:16px}#music-search{margin:0 auto;width:min(420px,48vw);border-radius:24px;background:#242424;border:0;padding:12px 18px}main{max-width:none;margin:0 0 0 68px;padding:18px 28px calc(var(--bar-h) + 32px)}section+section{margin-top:30px}h2{font-size:20px;margin-bottom:12px}.row{gap:12px}.row .card{flex-basis:164px!important;width:164px!important;min-width:164px!important;max-width:164px}.grid{grid-template-columns:repeat(auto-fill,minmax(164px,1fr));gap:18px 12px}.card{padding:10px;border-radius:6px}.card:hover{background:#242424}.card .title{font-weight:700}.art{border-radius:6px!important}#player{left:0;background:#080808;border-top:1px solid #282828}.buttons button#toggle{background:#fff;color:#111;border-radius:50%}.buttons button#shuffle.active{color:#1ed760}#music-rail{position:fixed;left:0;top:54px;bottom:var(--bar-h);width:68px;background:#080808;z-index:4;display:flex;flex-direction:column;align-items:center;gap:14px;padding:16px 10px}#music-rail button{width:42px;height:42px;border-radius:8px;background:#181818;color:#aaa;font-size:20px;display:grid;place-items:center}#music-rail button:hover{background:#292929;color:white}#music-rail .rail-active{background:#282828;color:#1ed760}#lyrics-panel{display:none;position:fixed;z-index:9;right:20px;bottom:calc(var(--bar-h) + 16px);width:min(420px,calc(100vw - 40px));max-height:min(65vh,600px);overflow:auto;padding:24px;background:#202020;border:1px solid #3a3a3a;border-radius:12px;box-shadow:0 12px 40px #0009}#lyrics-panel.open{display:block}#lyrics-panel h2{margin:0 0 16px;font-size:18px}#lyrics-panel .lyrics-text{white-space:pre-wrap;line-height:1.7;color:#eee;font-size:14px}#lyrics-panel .lyrics-close{float:right;color:#aaa;font-size:18px}#player-lyrics{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;color:#aaa}#player-lyrics:hover{color:#fff}@media(max-width:640px){header{padding-left:16px}main{margin-left:0;padding:14px 14px calc(var(--bar-h) + 30px)}#music-rail{display:none}#player{grid-template-columns:minmax(0,1fr) auto}#lyrics-panel{right:10px;bottom:100px}.right{display:flex}}
+
+/* Spotify desktop home refinement */
+body{background:#121212!important;--surface:#242424;--surface-2:#303030;--accent:#1ed760;--bar-h:92px}
+header{height:54px;padding:10px 22px 10px 82px;background:#080808;border:0}
+#back{display:none}
+#crumb{font-size:16px}
+#music-search{margin:0 auto;width:min(420px,48vw);border-radius:24px;background:#242424;border:0;padding:12px 18px}
+main{max-width:none;margin:0 0 0 68px;padding:18px 28px calc(var(--bar-h) + 32px)}
+section+section{margin-top:30px}
+h2{font-size:20px;margin-bottom:12px}
+#view>section:first-child .row{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;padding:0;overflow:visible}
+#view>section:first-child .card{display:flex;align-items:center;gap:0;padding:0;border-radius:4px;background:#242424;min-width:0;overflow:hidden}
+#view>section:first-child .card:hover{background:#303030}
+#view>section:first-child .art{width:68px;height:68px;aspect-ratio:1;flex:0 0 68px;border-radius:0!important}
+#view>section:first-child .title{margin:0;padding:0 12px;white-space:normal;line-height:1.25}
+#view>section:first-child .sub{display:none}
+#view>section:nth-child(2) .grid,#view>section:nth-child(3) .grid{display:flex;gap:12px;overflow-x:auto;padding:2px 0 10px;scrollbar-width:thin}
+#view>section:nth-child(2) .card,#view>section:nth-child(3) .card{flex:0 0 164px;width:164px;min-width:164px;max-width:164px;padding:10px;border-radius:6px}
+#view>section:nth-child(2) .art,#view>section:nth-child(3) .art{border-radius:6px!important}
+#view>section:nth-child(2) .card .title,#view>section:nth-child(3) .card .title{font-weight:700}
+#view>section:nth-child(3) .card.artist{text-align:left}
+#view>section:nth-child(3) .art.round{border-radius:50%!important}
+#player{left:0;background:#080808;border-top:1px solid #282828}
+#music-rail{position:fixed;left:0;top:54px;bottom:var(--bar-h);width:68px;background:#080808;z-index:4;display:flex;flex-direction:column;align-items:center;gap:14px;padding:16px 10px}
+#music-rail button{width:42px;height:42px;border-radius:8px;background:#181818;color:#aaa;font-size:20px;display:grid;place-items:center}
+#music-rail button:hover{background:#292929;color:white}
+#music-rail .rail-active{background:#282828;color:#1ed760}
+@media(max-width:900px){#view>section:first-child .row{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:640px){header{padding-left:16px}main{margin-left:0;padding:14px 14px calc(var(--bar-h) + 30px)}#music-rail{display:none}#player{grid-template-columns:minmax(0,1fr) auto}#view>section:first-child .row{grid-template-columns:repeat(2,minmax(0,1fr)}#view>section:nth-child(2) .card,#view>section:nth-child(3) .card{flex-basis:140px;width:140px;min-width:140px;max-width:140px}}
+
 </style>
 </head>
 <body>
@@ -1127,7 +1157,7 @@ function renderHome() {
   setHeader("Music", false);
 
   const recent = getRecent();
-  const recentSection = el("section", null, el("h2", null, "Recently played"));
+  const recentSection = el("section", { class: "quick-access" }, el("h2", null, "Recently played"));
   if (recent.length) {
     const row = el("div", { class: "row" });
     recent.forEach((t) => {
@@ -1143,7 +1173,7 @@ function renderHome() {
     recentSection.append(el("p", { class: "empty" }, "Songs you play will show up here."));
   }
 
-  const artistSection = el("section", null, el("h2", null, "Artists"));
+  const artistSection = el("section", { class: "stations" }, el("h2", null, "Recommended Stations"));
   if (library.length) {
     const grid = el("div", { class: "grid" });
     library.forEach((a, ai) => {
