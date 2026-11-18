@@ -232,94 +232,21 @@
     .hero .art { width: 140px; flex-basis: auto; }
     .grid { grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 12px 8px; }
   }
-
-/* Spotify-style visual polish */body{background:#121212;--surface:#242424;--surface-2:#303030;--accent:#1ed760;--bar-h:92px}header{background:#080808;border:0;padding:10px 22px 10px 82px;height:54px}#back{display:none}#crumb{font-size:16px}#music-search{margin:0 auto;width:min(420px,48vw);border-radius:24px;background:#242424;border:0;padding:12px 18px}main{max-width:none;margin:0 0 0 68px;padding:18px 28px calc(var(--bar-h) + 32px)}section+section{margin-top:30px}h2{font-size:20px;margin-bottom:12px}.row{gap:12px}.row .card{flex-basis:164px!important;width:164px!important;min-width:164px!important;max-width:164px}.grid{grid-template-columns:repeat(auto-fill,minmax(164px,1fr));gap:18px 12px}.card{padding:10px;border-radius:6px}.card:hover{background:#242424}.card .title{font-weight:700}.art{border-radius:6px!important}#player{left:0;background:#080808;border-top:1px solid #282828}.buttons button#toggle{background:#fff;color:#111;border-radius:50%}.buttons button#shuffle.active{color:#1ed760}#music-rail{position:fixed;left:0;top:54px;bottom:var(--bar-h);width:68px;background:#080808;z-index:4;display:flex;flex-direction:column;align-items:center;gap:14px;padding:16px 10px}#music-rail button{width:42px;height:42px;border-radius:8px;background:#181818;color:#aaa;font-size:20px;display:grid;place-items:center}#music-rail button:hover{background:#292929;color:white}#music-rail .rail-active{background:#282828;color:#1ed760}#lyrics-panel{display:none;position:fixed;z-index:9;right:20px;bottom:calc(var(--bar-h) + 16px);width:min(420px,calc(100vw - 40px));max-height:min(65vh,600px);overflow:auto;padding:24px;background:#202020;border:1px solid #3a3a3a;border-radius:12px;box-shadow:0 12px 40px #0009}#lyrics-panel.open{display:block}#lyrics-panel h2{margin:0 0 16px;font-size:18px}#lyrics-panel .lyrics-text{white-space:pre-wrap;line-height:1.7;color:#eee;font-size:14px}#lyrics-panel .lyrics-close{float:right;color:#aaa;font-size:18px}#player-lyrics{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;color:#aaa}#player-lyrics:hover{color:#fff}@media(max-width:640px){header{padding-left:16px}main{margin-left:0;padding:14px 14px calc(var(--bar-h) + 30px)}#music-rail{display:none}#player{grid-template-columns:minmax(0,1fr) auto}#lyrics-panel{right:10px;bottom:100px}.right{display:flex}}
-
-/* Spotify desktop layout */
-:root{--bg:#121212;--surface:#242424;--surface-2:#303030;--line:#303030;--text:#fff;--muted:#b3b3b3;--accent:#1ed760;--bar-h:92px}
-body{background:#121212;color:#fff;font-family:Arial,Helvetica,sans-serif}
-header{height:54px;position:sticky;top:0;z-index:5;display:flex;align-items:center;gap:10px;padding:0 22px;background:#000;border:0}
-.history-controls{display:flex;align-items:center;gap:10px;margin-right:10px}
-.history-controls button{width:24px;height:34px;display:grid;place-items:center;color:#b3b3b3;font-size:24px}
-.history-controls .more-button{font-size:15px;letter-spacing:2px}
-#back{display:grid}
-#back[hidden]{display:grid!important;opacity:.45}
-#forward{width:22px}
-.home-button{width:42px;height:42px;flex:0 0 42px;border-radius:50%;display:grid;place-items:center;background:#242424;color:#fff;font-size:22px}
-#crumb{display:none}
-#music-search{margin:0;width:min(410px,35vw);height:42px;border:1px solid transparent;border-radius:24px;background:#242424;color:#fff;padding:0 17px;font:14px Arial,sans-serif}
-#music-search::placeholder{color:#b3b3b3}
-#music-search:focus{outline:2px solid #fff;background:#2a2a2a}
-.header-actions{display:flex;align-items:center;gap:18px;margin-left:auto;color:#b3b3b3;font-size:18px}
-.profile-dot{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;background:#252525;color:#fff;font-size:17px}
-.visually-hidden{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap}
-main{width:auto;max-width:none;height:calc(100dvh - 54px - var(--bar-h));overflow:auto;margin:0 0 0 68px;padding:18px 28px 32px;background:#121212}
-section+section{margin-top:34px}
-h2{font-size:20px;letter-spacing:-.4px;margin:0 0 16px;font-weight:750}
-.empty{color:#b3b3b3}
-#music-rail{position:fixed;left:0;top:54px;bottom:var(--bar-h);z-index:4;width:68px;background:#000;display:flex;flex-direction:column;align-items:center;gap:12px;padding:14px 10px;overflow:hidden}
-#music-rail>button{width:44px;height:42px;flex:0 0 42px;border-radius:8px;color:#b3b3b3;background:transparent;font-size:23px;display:grid;place-items:center}
-#music-rail>button:hover{color:#fff;background:#181818}
-#music-rail>button.rail-active{background:#242424;color:#fff}
-.rail-divider{height:1px;width:34px;background:#282828;margin:3px 0}
-#rail-covers{width:100%;display:flex;flex-direction:column;align-items:center;gap:9px;overflow:hidden}
-#rail-covers button{width:42px;height:42px;border-radius:5px;overflow:hidden;background:#242424}
-#rail-covers .art{width:100%;height:100%;border-radius:5px!important;font-size:13px}
-.music-filters{display:flex;gap:8px;margin:0 0 14px}
-.music-filters span{padding:7px 13px;border-radius:999px;background:#2a2a2a;color:#fff;font-size:12px;font-weight:650}
-.music-filters .active{background:#fff;color:#111}
-.quick-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
-.quick-tile{min-width:0;min-height:68px;display:flex;align-items:center;text-align:left;padding:0;border-radius:4px;overflow:hidden;background:#242424;color:#fff;transition:background .12s}
-.quick-tile:hover{background:#333}
-.quick-cover{width:68px;height:68px;flex:0 0 68px;position:relative;overflow:hidden;background:#303030}
-.quick-cover .art{width:100%;height:100%;border-radius:0!important}
-.quick-cover img{object-fit:cover}
-.quick-tile .title{padding:0 12px;margin:0;font-size:13px;font-weight:700;line-height:1.25;white-space:normal;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
-.your-playlists .grid,.stations .grid{display:flex;gap:12px;overflow-x:auto;padding:2px 0 10px;scrollbar-width:thin;scrollbar-color:#555 transparent}
-.your-playlists .card{flex:0 0 164px;width:164px;min-width:164px;max-width:164px;padding:10px;border-radius:6px;text-align:left}
-.your-playlists .card:hover,.stations .card:hover{background:#242424}
-.your-playlists .art{width:100%;aspect-ratio:1;border-radius:6px!important}
-.your-playlists .card .title{font-size:14px;font-weight:700;margin-top:10px}
-.your-playlists .card .sub{font-size:12px;color:#b3b3b3;margin-top:4px}
-.stations .station-card{flex:0 0 176px;width:176px;min-width:176px;max-width:176px;height:150px;border-radius:6px;padding:10px;position:relative;overflow:hidden;text-align:left;color:#111}
-.stations .station-card:nth-child(6n+1){background:#c89bf3}
-.stations .station-card:nth-child(6n+2){background:#86e8b0}
-.stations .station-card:nth-child(6n+3){background:#a7a4f5}
-.stations .station-card:nth-child(6n+4){background:#f8d67e}
-.stations .station-card:nth-child(6n+5){background:#c4ee63}
-.stations .station-card:nth-child(6n){background:#fa776d}
-.station-kicker{position:absolute;right:10px;top:8px;font-size:9px;font-weight:900;letter-spacing:1px}
-.stations .station-card .art{width:82px;height:82px;margin:10px auto 8px;border:2px solid rgba(255,255,255,.75);border-radius:50%!important;background:#333}
-.stations .station-card .title{font-size:18px;font-weight:800;color:#111;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin:0}
-.stations .station-card .sub{font-size:11px;color:#252525;margin-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-#player{left:0;right:0;bottom:0;height:var(--bar-h);background:#080808;border-top:1px solid #282828;z-index:10}
-#player .buttons button#toggle{background:#fff;color:#111}
-#player .buttons button#shuffle.active{color:#1ed760}
-#player-lyrics{color:#b3b3b3}
-#player-lyrics:hover{color:#fff}
-#lyrics-panel{background:#202020;border:1px solid #383838}
-@media(max-width:1100px){.quick-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.header-actions{gap:10px}}
-@media(max-width:700px){header{padding:0 12px;gap:8px}.history-controls .more-button,.history-controls #forward,.header-actions{display:none}#music-search{width:auto;flex:1;min-width:0}main{margin-left:0;padding:16px 14px 28px}#music-rail{display:none}.quick-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.stations .station-card{flex-basis:152px;min-width:152px;max-width:152px}.your-playlists .card{flex-basis:140px;min-width:140px;max-width:140px}#player{grid-template-columns:minmax(0,1fr) auto;padding:0 10px}.right{display:flex}.right input,.right svg{display:none}.seekline .time{display:none}}
-
+  .reel-card{max-width:640px;width:100%;display:flex;align-items:center;gap:16px;padding:12px;border:1px solid var(--line);border-radius:12px;background:var(--surface);text-align:left;cursor:pointer}
+  .reel-card:hover{background:var(--surface-2)}
+  .reel-thumb{width:112px;aspect-ratio:9/16;max-height:160px;background:#24262b;border-radius:8px;flex:none}
+  .reel-player{width:min(480px,100%);aspect-ratio:9/16;background:#000;border:0;border-radius:12px}
+  .reel-fallback{display:block;margin-top:12px;color:var(--muted);font-size:13px}
 </style>
 </head>
 <body>
 
-<nav id="music-rail" aria-label="Music navigation">
-  <button title="Home" class="rail-active">⌂</button><button title="Search">⌕</button>
-  <div class="rail-divider"></div><button title="Your Library">▤</button>
-  <div id="rail-covers"></div>
-</nav>
 <header>
-  <div class="history-controls">
-    <button class="more-button" aria-label="More">•••</button>
-    <button id="back" aria-label="Back" title="Back">‹</button>
-    <button id="forward" aria-label="Forward" title="Forward">›</button>
-  </div>
-  <button class="home-button" aria-label="Home" title="Home">⌂</button>
-  <input id="music-search" type="search" placeholder="What do you want to play?" aria-label="Search all songs" autocomplete="off">
-  <div class="header-actions"><span aria-hidden="true">♧</span><span aria-hidden="true">♟</span><div class="profile-dot">♪</div></div>
-  <h1 id="crumb" class="visually-hidden">Music</h1>
+  <button id="back" aria-label="Back" hidden>
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+  </button>
+  <h1 id="crumb">Music</h1>
+  <input id="music-search" type="search" placeholder="Search all songs..." aria-label="Search all songs" autocomplete="off">
 </header>
 
 <main id="view"><p class="muted">Loading music…</p></main>
@@ -354,7 +281,6 @@ h2{font-size:20px;letter-spacing:-.4px;margin:0 0 16px;font-weight:750}
   </div>
 
   <div class="right">
-    <button id="player-lyrics" aria-label="Lyrics" title="Lyrics">♪</button>
     <button id="add-current" class="iconbtn" aria-label="Add to playlist" title="Add to playlist">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
     </button>
@@ -363,7 +289,6 @@ h2{font-size:20px;letter-spacing:-.4px;margin:0 0 16px;font-weight:750}
   </div>
 </footer>
 
-<aside id="lyrics-panel" aria-live="polite"><button class="lyrics-close" aria-label="Close lyrics">×</button><h2>Lyrics preview</h2><div class="lyrics-text">Play a song and tap Lyrics.</div></aside>
 <dialog id="dialog"></dialog>
 <div id="toast" role="status"></div>
 <audio id="audio" preload="metadata"></audio>
@@ -372,8 +297,7 @@ h2{font-size:20px;letter-spacing:-.4px;margin:0 0 16px;font-weight:750}
 /* ============================================================
    SETTINGS — change this to where your .json file lives
    ============================================================ */
-const JSON_URL = "https://raw.githubusercontent.com/m6788928-byte/yoyolov/main/tabs/music/music.json";
-const JSON_FALLBACK_URL = "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@16309eaa136bacde008a250fd157b2cd99a8cdcc/tabs/music/music.json";
+const JSON_URL   = "https://raw.githubusercontent.com/m6788928-byte/yoyolov/main/tabs/music/music.json";
 const RECENT_MAX = 10;
 const RECENT_KEY = "music.recent";
 const VOLUME_KEY = "music.volume";
@@ -1102,9 +1026,6 @@ function toggle() {
   if (audio.paused) audio.play().catch(() => {}); else audio.pause();
 }
 
-let lyricsKey="";
-async function showLyrics(){const t=current();if(!t){toast("Play a song first.");return;}const p=$("lyrics-panel"),out=p.querySelector(".lyrics-text");p.classList.add("open");out.textContent="Searching for lyrics…";const k=t.name+"|"+t.artist;if(lyricsKey===k&&out.dataset.loaded==="1")return;lyricsKey=k;out.dataset.loaded="";try{const r=await fetch("https://api.lyrics.ovh/v1/"+encodeURIComponent(t.artist||"")+"/"+encodeURIComponent(t.name||""));if(!r.ok)throw new Error("Lyrics unavailable for this track.");const d=await r.json();if(lyricsKey!==k)return;if(!d.lyrics?.trim())throw new Error("No lyrics found.");out.textContent=d.lyrics.trim();out.dataset.loaded="1";}catch(e){if(lyricsKey===k)out.textContent=e.message||"Couldn’t load lyrics.";}}
-$("player-lyrics").addEventListener("click",showLyrics);$("lyrics-panel .lyrics-close").addEventListener("click",()=>$("lyrics-panel").classList.remove("open"));
 function renderPlayer() {
   const t = current();
   if (!t) return;
@@ -1201,78 +1122,74 @@ function setHeader(title, showBack) {
 
 function renderHome() {
   setHeader("Music", false);
-  const quickSection = el("section", { class: "quick-section" });
-  const filters = el("div", { class: "music-filters" },
-    el("span", { class: "active" }, "All"),
-    el("span", null, "Music"),
-    el("span", null, "Podcasts"),
-    el("span", null, "Audiobooks"));
-  const quickGrid = el("div", { class: "quick-grid" });
-  const quickItems = [];
-  catalogPlaylists.forEach((p, pi) => quickItems.push({
-    title:p.name, cover:playlistArtBox(p),
-    open:() => { location.hash = "#/catalog-playlist/" + pi; }
-  }));
-  getPlaylists().forEach(p => {
-    const src=playlistIcon(p), cover=art(src,p.name);
-    if(!src && p.songs[0]) resolveArtwork(p.songs[0],cover);
-    quickItems.push({title:p.name,cover,open:() => { location.hash="#/playlist/"+p.id; }});
-  });
-  getRecent().forEach(t => {
-    const cover=art(t.cover,t.name);
-    if(!t.cover) resolveArtwork(t,cover);
-    quickItems.push({title:t.name,cover,open:() => playRecent(t)});
-  });
-  library.forEach((a,ai) => quickItems.push({
-    title:a.artist,cover:art(a.poster,a.artist,true),
-    open:() => { location.hash="#/artist/"+ai; }
-  }));
-  quickItems.slice(0,8).forEach(item => {
-    const cover=el("div",{class:"quick-cover"},item.cover);
-    quickGrid.append(el("button",{class:"quick-tile",onclick:item.open},cover,el("div",{class:"title"},item.title)));
-  });
-  if(!quickItems.length) quickGrid.append(el("p",{class:"empty"},"No music has been added yet."));
-  quickSection.append(filters,quickGrid);
 
-  const playlistSection = el("section", { class: "your-playlists" }, el("h2", null, "Your playlists"));
+  const reelSection = el("section", null, el("h2", null, "Featured video"));
+  reelSection.append(el("button", { class: "reel-card", onclick: () => { location.hash = "#/instagram-reel"; } },
+    el("div", { class: "reel-thumb" }),
+    el("div", null, el("div", { class: "title" }, "Instagram Reel"), el("div", { class: "sub" }, "Tap to watch"))));
+  const recent = getRecent();
+  const recentSection = el("section", null, el("h2", null, "Recently played"));
+  if (recent.length) {
+    const row = el("div", { class: "row" });
+    recent.forEach((t) => {
+      const cover = art(t.cover, t.name);
+      if (!t.cover) resolveArtwork(t, cover);
+      row.append(el("button", { class: "card", onclick: () => playRecent(t) },
+        cover,
+        el("div", { class: "title" }, t.name),
+        el("div", { class: "sub" }, t.artist || "")));
+    });
+    recentSection.append(row);
+  } else {
+    recentSection.append(el("p", { class: "empty" }, "Songs you play will show up here."));
+  }
+
+  const artistSection = el("section", null, el("h2", null, "Artists"));
+  if (library.length) {
+    const grid = el("div", { class: "grid" });
+    library.forEach((a, ai) => {
+      grid.append(el("button", { class: "card artist", onclick: () => { location.hash = "#/artist/" + ai; } },
+        art(a.poster, a.artist, true),
+        el("div", { class: "title" }, a.artist)));
+    });
+    artistSection.append(grid);
+  } else {
+    artistSection.append(el("p", { class: "empty" }, "No artists in the JSON file yet."));
+  }
+
+  const playlistSection = el("section", null, el("h2", null, "Playlists"));
   const playlistGrid = el("div", { class: "grid" });
-  catalogPlaylists.forEach((p,pi) => playlistGrid.append(
-    el("button",{class:"card",onclick:() => {location.hash="#/catalog-playlist/"+pi;}},
-      playlistArtBox(p),el("div",{class:"title"},p.name),
-      el("div",{class:"sub"},songCount(p.songs.length)))));
-  getPlaylists().forEach(p => {
-    const src=playlistIcon(p),cover=art(src,p.name);
-    if(!src&&p.songs[0])resolveArtwork(p.songs[0],cover);
-    playlistGrid.append(el("button",{class:"card",onclick:() => {location.hash="#/playlist/"+p.id;}},
-      cover,el("div",{class:"title"},p.name),el("div",{class:"sub"},songCount(p.songs.length))));
+  catalogPlaylists.forEach((p, pi) => {
+    const cover = playlistArtBox(p);
+    playlistGrid.append(el("button", { class: "card", onclick: () => { location.hash = "#/catalog-playlist/" + pi; } },
+      cover,
+      el("div", { class: "title" }, p.name),
+      el("div", { class: "sub" }, songCount(p.songs.length))));
   });
-  playlistGrid.append(el("button",{class:"card",onclick:newPlaylistDialog},
-    el("div",{class:"art new"},"+"),el("div",{class:"title"},"New playlist")));
+  getPlaylists().forEach((p) => {
+    const src = playlistIcon(p), cover = art(src, p.name);
+    if (!src && p.songs[0]) resolveArtwork(p.songs[0], cover);
+    playlistGrid.append(el("button", { class: "card", onclick: () => { location.hash = "#/playlist/" + p.id; } },
+      cover,
+      el("div", { class: "title" }, p.name),
+      el("div", { class: "sub" }, songCount(p.songs.length))));
+  });
+  playlistGrid.append(el("button", { class: "card", onclick: newPlaylistDialog },
+    el("div", { class: "art new" }, "+"),
+    el("div", { class: "title" }, "New playlist")));
   playlistSection.append(playlistGrid);
 
-  const stationSection=el("section",{class:"stations"},el("h2",null,"Recommended Stations"));
-  const stationGrid=el("div",{class:"grid"});
-  library.forEach((a,ai) => {
-    stationGrid.append(el("button",{class:"card station-card",onclick:() => {location.hash="#/artist/"+ai;}},
-      el("span",{class:"station-kicker"},"RADIO"),
-      art(a.poster,a.artist,true),
-      el("div",{class:"title"},a.artist),
-      el("div",{class:"sub"},"Radio based on "+a.artist)));
-  });
-  if(!library.length) stationGrid.append(el("p",{class:"empty"},"No artists in the music library yet."));
-  stationSection.append(stationGrid);
-  view.replaceChildren(quickSection,playlistSection,stationSection);
-
-  const rail=$("rail-covers");
-  if(rail){
-    rail.replaceChildren();
-    catalogPlaylists.slice(0,7).forEach((p,pi)=>{
-      const cover=playlistArtBox(p);
-      rail.append(el("button",{title:p.name,onclick:() => {location.hash="#/catalog-playlist/"+pi;}},cover));
-    });
-  }
+  view.replaceChildren(recentSection, reelSection, playlistSection, artistSection);
 }
 
+function renderInstagramReel(){
+  setHeader("Instagram Reel", true);
+  const section = el("section", null,
+    el("h2", null, "Instagram Reel"),
+    el("iframe", { class: "reel-player", src: "https://www.instagram.com/reel/DfiTDQHCw5e/embed", title: "Instagram Reel", allow: "autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share", allowfullscreen: "", loading: "lazy" }),
+    el("a", { class: "reel-fallback", href: "https://www.instagram.com/reel/DfiTDQHCw5e/", target: "_blank", rel: "noopener noreferrer" }, "If the embed doesn't load, open the Reel on Instagram."));
+  view.replaceChildren(section);
+}
 function renderArtist(ai) {
   const a = library[ai];
   if (!a) return renderHome();
@@ -1443,7 +1360,8 @@ function render(keepScroll) {
   if ($("music-search").value.trim()) return renderSearchResults();
   const parts = location.hash.replace(/^#\/?/, "").split("/");
   if (keepScroll !== true) window.scrollTo(0, 0);
-  if (parts[0] === "playlist") renderPlaylist(parts[1]);
+  if (parts[0] === "instagram-reel") renderInstagramReel();
+  else if (parts[0] === "playlist") renderPlaylist(parts[1]);
   else if (parts[0] === "artist") renderArtist(Number(parts[1]));
   else if (parts[0] === "album") renderAlbum(Number(parts[1]), Number(parts[2]));
   else if (parts[0] === "catalog-playlist") renderCatalogPlaylist(Number(parts[1]));
@@ -1453,7 +1371,6 @@ function render(keepScroll) {
 $("music-search").addEventListener("input", renderSearchResults);
 $("music-search").addEventListener("keydown", e => { if (e.key === "Escape") { $("music-search").value = ""; render(); } });
 
-$("forward").addEventListener("click", () => history.forward());
 $("back").addEventListener("click", () => {
   if ($("music-search").value.trim()) { $("music-search").value = ""; render(); return; }
   const parts = location.hash.replace(/^#\/?/, "").split("/");
@@ -1462,20 +1379,8 @@ $("back").addEventListener("click", () => {
 window.addEventListener("hashchange", render);
 
 /* ---------- start ---------- */
-async function fetchMusicData(){
-  let lastError;
-  for(const url of [JSON_URL, JSON_FALLBACK_URL]){
-    try{
-      const response=await fetch(url,{cache:"no-store"});
-      if(!response.ok) throw new Error("The server answered "+response.status+".");
-      const data=await response.json();
-      if(!Array.isArray(data?.music)) throw new Error("music.json has an invalid format.");
-      return data;
-    }catch(error){lastError=error;}
-  }
-  throw lastError||new Error("Music library unavailable.");
-}
-fetchMusicData()
+fetch(JSON_URL, { cache: "no-store" })
+  .then((res) => { if (!res.ok) throw new Error("The server answered " + res.status + "."); return res.json(); })
   .then((data) => {
     library = normalise(data);
     catalogPlaylists = normalisePlaylists(data.playlists);
