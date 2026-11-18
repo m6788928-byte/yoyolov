@@ -142,6 +142,7 @@
     display:grid; place-items:center; padding:24px;
   }
   .game-search{width:min(620px,100%);display:flex;flex-direction:column;align-items:stretch;gap:16px}
+  .search-title{margin:0 0 4px;text-align:center;font-size:48px;font-weight:600;letter-spacing:-1.5px;color:var(--text,#fff)}
   .game-search #search{width:100%;max-width:none;margin:0;padding:15px 18px;border-radius:999px;font-size:16px;box-shadow:0 3px 18px #0002}
   .game-search #browse-btn{align-self:center}
   #browse-btn{min-width:150px; padding:12px 28px; font-size:14px; font-weight:650}
@@ -317,7 +318,7 @@ YOYOLOV CHANGELOG — searchable in this file; intentionally hidden from the int
     <div class="logo">repo</div>
     <span class="build-label" id="build-label">BUILD 2026.11.17.24</span>
     <div id="tabs">
-      <button class="tab active" data-tab="htmls" type="button">Games</button>
+      <button class="tab active" data-tab="htmls" type="button">Search</button>
     </div>
     
     <button id="settings-btn" class="tab cog" data-tab="settings" type="button" aria-label="Settings" title="Settings"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></button>
@@ -360,7 +361,7 @@ YOYOLOV CHANGELOG — searchable in this file; intentionally hidden from the int
 
   <div id="tab-htmls" class="tabpanel active">
     <div id="browse-landing">
-      <div class="game-search"><input id="search" type="search" placeholder="Search games..." autocomplete="off" spellcheck="false" aria-label="Search games"><button id="browse-btn" class="btn" type="button">Browse</button></div>
+      <div class="game-search"><h1 class="search-title">Search</h1><input id="search" type="search" placeholder="Search..." autocomplete="off" spellcheck="false" aria-label="Search"><button id="browse-btn" class="btn" type="button">Browse</button></div>
     </div>
     <div id="browse-content">
       <div class="browse-toolbar">
