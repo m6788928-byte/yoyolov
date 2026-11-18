@@ -1,4 +1,25 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Retro Bowl</title>
-<style>html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#000}iframe{display:block;width:100%;height:100%;border:0}</style></head>
-<body><iframe title="Retro Bowl" src="https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@main/games/retro-bowl/index.html" allow="autoplay; fullscreen; gamepad; pointer-lock" allowfullscreen></iframe></body></html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+  <base href="https://cdn.jsdelivr.net/gh/wnasmile/LAMAR@main/retro-bowl/">
+  <title>Retro Bowl</title>
+  <style>
+    html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#000}
+    body{display:grid;place-items:center}
+    .gm4html5_div_class{width:100vw;height:100vh;display:grid;place-items:center}
+    canvas{display:block;width:min(100vw,160vh);height:auto;max-height:100vh;aspect-ratio:16/9;image-rendering:pixelated;-webkit-interpolation-mode:nearest-neighbor;touch-action:none}
+  </style>
+</head>
+<body>
+  <div class="gm4html5_div_class" id="gm4html5_div_id">
+    <img src="html5game/splash.png" id="GM4HTML5_loadingscreen" alt="Retro Bowl" style="display:none">
+    <canvas id="canvas" width="960" height="540">
+      <p>Your browser doesn't support HTML5 canvas.</p>
+    </canvas>
+  </div>
+  <script src="html5game/RetroBowl.js?WAEAC=1633155445"></script>
+  <script>window.onload=GameMaker_Init;</script>
+</body>
+</html>

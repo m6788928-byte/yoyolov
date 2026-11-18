@@ -154,22 +154,18 @@
     "url": "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@main/games/snow-rider/index.html",
     "image": "https://snowrider.com/assets/img/logo.png"
   },
-  "Retro Bowl": {
-    "url": "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@9f8fd9e030af2dffbe881cebd6b58d3d53250585/games/retro-bowl/index.html",
-    "image": "https://cdn-1.webcatalog.io/catalog/retro-bowl/retro-bowl-icon.png?v=1769388148598"
-  },
   "Wordle": {
     "url": "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@f1797047367b39667831860ec264ecb4cb4ea043/wordle-build6.html",
     "image": "https://cdn.jsdelivr.net/gh/selfhst/icons/webp/nyt-wordle.webp"
   },
   "OpenFront": {
     "url": "https://m6788928-byte.github.io/yoyolov/openfront/index.html",
-    "desc": "Offline Solo \u2014 runs in your browser",
+    "desc": "Offline Solo — runs in your browser",
     "image": "https://raw.githubusercontent.com/openfrontio/OpenFrontIO/main/proprietary/images/OpenFrontLogo.png"
   },
   "OpenKrillion": {
     "url": "https://openkrillion.com/",
-    "desc": "Independent daily trivia \u2014 opens separately",
+    "desc": "Independent daily trivia — opens separately",
     "image": "https://raw.githubusercontent.com/VulcanEon/openkrillion.com-service/main/public/assets/icon.png"
   },
   "Get Yoked": {
@@ -187,5 +183,17 @@
   },
   "Snake Game": {
     "url": "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@main/snake-game.html"
+  },
+  "Retro Bowl College": {
+    "url": "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@9f8fd9e030af2dffbe881cebd6b58d3d53250585/games/retro-bowl/index.html",
+    "image": "https://cdn-1.webcatalog.io/catalog/retro-bowl/retro-bowl-icon.png?v=1769388148598"
+  },
+  "Retro Bowl": {
+    "url": "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@main/retrobowl.html",
+    "image": "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@main/thumbs/retrobowl.webp"
+  },
+  "Baldi's Basics": {
+    "url": "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@main/baldi.html",
+    "image": "https://cdn.jsdelivr.net/gh/bubbls/UGS-Assets@main/baldis-basics/splash.png"
   }
 }
