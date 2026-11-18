@@ -372,7 +372,8 @@ h2{font-size:20px;letter-spacing:-.4px;margin:0 0 16px;font-weight:750}
 /* ============================================================
    SETTINGS — change this to where your .json file lives
    ============================================================ */
-const JSON_URL   = "./music.json";
+const JSON_URL = "https://raw.githubusercontent.com/m6788928-byte/yoyolov/main/tabs/music/music.json";
+const JSON_FALLBACK_URL = "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@16309eaa136bacde008a250fd157b2cd99a8cdcc/tabs/music/music.json";
 const RECENT_MAX = 10;
 const RECENT_KEY = "music.recent";
 const VOLUME_KEY = "music.volume";
@@ -1461,8 +1462,20 @@ $("back").addEventListener("click", () => {
 window.addEventListener("hashchange", render);
 
 /* ---------- start ---------- */
-fetch(JSON_URL, { cache: "no-store" })
-  .then((res) => { if (!res.ok) throw new Error("The server answered " + res.status + "."); return res.json(); })
+async function fetchMusicData(){
+  let lastError;
+  for(const url of [JSON_URL, JSON_FALLBACK_URL]){
+    try{
+      const response=await fetch(url,{cache:"no-store"});
+      if(!response.ok) throw new Error("The server answered "+response.status+".");
+      const data=await response.json();
+      if(!Array.isArray(data?.music)) throw new Error("music.json has an invalid format.");
+      return data;
+    }catch(error){lastError=error;}
+  }
+  throw lastError||new Error("Music library unavailable.");
+}
+fetchMusicData()
   .then((data) => {
     library = normalise(data);
     catalogPlaylists = normalisePlaylists(data.playlists);
