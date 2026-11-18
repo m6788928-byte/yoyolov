@@ -40,7 +40,7 @@
   body.locked #tab-htmls, body.locked #tab-settings,
   body.locked .custom-panel{display:none!important}
   #home{display:flex;flex-direction:column}
-  #school-home{display:none;position:absolute;inset:0;overflow:auto;padding:24px;background:var(--portal-bg,#f3f6fa);color:var(--portal-text,#142235);font-family:system-ui,-apple-system,sans-serif} #school-home[data-theme="dark"]{--portal-bg:#111820;--portal-text:#e8eef5;--portal-card:#1b2531;--portal-border:#303e4d;--portal-heading:#edf4fb;--portal-muted:#9aabc0;--portal-link:#83b8f0;--portal-icon-bg:#26394c} #school-home[data-theme="light"]{--portal-bg:#f3f6fa;--portal-text:#142235;--portal-card:#fff;--portal-border:#e3e8ef;--portal-heading:#142235;--portal-muted:#66768a;--portal-link:#476e99;--portal-icon-bg:#edf4fb} #portal-theme-toggle{position:absolute;top:14px;right:16px;z-index:2;border:1px solid var(--portal-border,#e3e8ef);border-radius:9px;padding:8px 12px;background:var(--portal-card,#fff);color:var(--portal-text,#142235);font:600 12px system-ui;cursor:pointer} #school-home[data-theme="dark"] .portal-card{background:var(--portal-card);border-color:var(--portal-border);box-shadow:0 14px 42px rgba(0,0,0,.28)} #school-home[data-theme="dark"] .portal-head{border-color:var(--portal-border)} #school-home[data-theme="dark"] .portal-brand,#school-home[data-theme="dark"] .portal-title{color:var(--portal-heading)} #school-home[data-theme="dark"] .portal-copy,#school-home[data-theme="dark"] .portal-sub,#school-home[data-theme="dark"] .portal-link p{color:var(--portal-muted)} #school-home[data-theme="dark"] .portal-link{background:var(--portal-card);color:var(--portal-text);border-color:var(--portal-border)} #school-home[data-theme="dark"] .portal-icon{background:var(--portal-icon-bg)} #school-home[data-theme="dark"] .portal-footer{color:var(--portal-muted)} #school-home[data-theme="dark"] .portal-footer a,#school-home[data-theme="dark"] .portal-open{color:var(--portal-link)} .deltamath-logo svg{width:100%;height:34px;object-fit:contain}
+  #school-home{display:none;position:absolute;inset:0;overflow:auto;padding:24px;background:var(--portal-bg,#f3f6fa);color:var(--portal-text,#142235);font-family:system-ui,-apple-system,sans-serif} #school-home[data-theme="dark"]{--portal-bg:#111820;--portal-text:#e8eef5;--portal-card:#1b2531;--portal-border:#303e4d;--portal-heading:#edf4fb;--portal-muted:#9aabc0;--portal-link:#83b8f0;--portal-icon-bg:#26394c} #school-home[data-theme="light"]{--portal-bg:#f3f6fa;--portal-text:#142235;--portal-card:#fff;--portal-border:#e3e8ef;--portal-heading:#142235;--portal-muted:#66768a;--portal-link:#476e99;--portal-icon-bg:#edf4fb} #portal-theme-toggle{display:block;position:relative;z-index:2;margin:0 0 16px auto;border:1px solid var(--portal-border,#e3e8ef);border-radius:9px;padding:9px 13px;background:var(--portal-card,#fff);color:var(--portal-text,#142235);font:600 13px system-ui;cursor:pointer;min-height:36px} #portal-theme-toggle:hover{filter:brightness(.96)} #school-home[data-theme="dark"] .portal-card{background:var(--portal-card);border-color:var(--portal-border);box-shadow:0 14px 42px rgba(0,0,0,.28)} #school-home[data-theme="dark"] .portal-head{border-color:var(--portal-border)} #school-home[data-theme="dark"] .portal-brand,#school-home[data-theme="dark"] .portal-title{color:var(--portal-heading)} #school-home[data-theme="dark"] .portal-copy,#school-home[data-theme="dark"] .portal-sub,#school-home[data-theme="dark"] .portal-link p{color:var(--portal-muted)} #school-home[data-theme="dark"] .portal-link{background:var(--portal-card);color:var(--portal-text);border-color:var(--portal-border)} #school-home[data-theme="dark"] .portal-icon{background:var(--portal-icon-bg)} #school-home[data-theme="dark"] .portal-footer{color:var(--portal-muted)} #school-home[data-theme="dark"] .portal-footer a,#school-home[data-theme="dark"] .portal-open{color:var(--portal-link)} .deltamath-logo svg{width:100%;height:34px;object-fit:contain}
   body.locked #school-home{display:block}
   .portal-wrap{min-height:100%;display:flex;align-items:center;justify-content:center;padding:clamp(14px,4vw,42px)}
   .portal-card{width:min(100%,780px);background:#fff;border:1px solid #e3e8ef;border-radius:18px;box-shadow:0 14px 42px rgba(18,42,70,.09);overflow:hidden}
@@ -297,6 +297,7 @@ YOYOLOV CHANGELOG — searchable in this file; intentionally hidden from the int
 2026.11.17.35 — Load the high-resolution ClassLink image parts from the pinned jsDelivr CDN commit.
 2026.11.17.37 — Add the Instagram Reel player inside Music.
 2026.11.17.41 — Replace DeltaMath remote logo with inline SVG; add persistent home light/dark switch.
+2026.11.17.42 — Relocate home theme toggle into portal header and make it visibly inline.
 2026.11.17.31 — Cache-bust the corrected ClassLink screenshot and direct-loaded Music tab.
 2026.11.17.27 — Spotify-style music home refinement.
 2026.11.17.26 — Fixed shortcut hover CSS, improved tab-cloak icon handling, and set default tab title to Login.
@@ -329,7 +330,7 @@ YOYOLOV CHANGELOG — searchable in this file; intentionally hidden from the int
       <p id="unlock-error" role="alert" aria-live="polite"></p>
     </form>
     <div class="logo">repo</div>
-    <span class="build-label" id="build-label">BUILD 2026.11.17.41</span>
+    <span class="build-label" id="build-label">BUILD 2026.11.17.42</span>
     <div id="tabs">
       <button class="tab active" data-tab="htmls" type="button">Search</button>
     </div>
@@ -338,10 +339,10 @@ YOYOLOV CHANGELOG — searchable in this file; intentionally hidden from the int
   </div>
 
   <main id="school-home" aria-label="HCDE Student Portal">
-    <button id="portal-theme-toggle" type="button" aria-label="Switch home theme" title="Switch light/dark mode">☾ Dark mode</button>
     <div class="portal-wrap">
       <section class="portal-card" aria-labelledby="portal-title">
         <header class="portal-head">
+          <button id="portal-theme-toggle" type="button" aria-label="Switch home theme" title="Switch light/dark mode">☾ Dark mode</button>
           <div class="portal-brand"><div class="portal-mark" aria-hidden="true">HCS</div><div><div class="portal-name">Hamilton County Schools</div><div class="portal-sub">Student access portal</div></div></div>
           <h1 class="portal-title" id="portal-title">Welcome to your student portal</h1>
           <p class="portal-copy">Quick access to your school tools and learning platforms.</p>
