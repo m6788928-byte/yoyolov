@@ -278,7 +278,7 @@
 </style>
 <!--
 YOYOLOV CHANGELOG — searchable in this file; intentionally hidden from the interface.
-2026.11.17.29 — Direct-load Music and fix main-window panic-key handling.
+2026.11.17.30 — Expand tab-cloak image guidance and upload support to all browser-readable image types.
 2026.11.17.27 — Spotify-style music home refinement.
 2026.11.17.26 — Fixed shortcut hover CSS, improved tab-cloak icon handling, and set default tab title to Login.
 2026.11.17.24 — Updated the pinned Messages file so the sidebar label displays “chat”.
@@ -310,7 +310,7 @@ YOYOLOV CHANGELOG — searchable in this file; intentionally hidden from the int
       <p id="unlock-error" role="alert" aria-live="polite"></p>
     </form>
     <div class="logo">repo</div>
-    <span class="build-label" id="build-label">BUILD 2026.11.17.29</span>
+    <span class="build-label" id="build-label">BUILD 2026.11.17.30</span>
     <div id="tabs">
       <button class="tab active" data-tab="htmls" type="button">Search</button>
     </div>
@@ -387,7 +387,7 @@ YOYOLOV CHANGELOG — searchable in this file; intentionally hidden from the int
 
       <section>
         <h2>Tab cloak</h2>
-        <p class="sub">Change this tab's name and icon. Paste a direct image address, or upload an image file from your device.</p>
+        <p class="sub">Change this tab's name and icon. Paste a direct image URL (right-click an image and choose Copy image address), or use Upload icon… to select an image from your device.</p>
         <div class="row" id="cloak-presets">
           <button class="btn" type="button" data-title="" data-emoji="">Off</button>
           <button class="btn" type="button" data-title="Untitled document" data-emoji="📄">Document</button>
@@ -399,7 +399,7 @@ YOYOLOV CHANGELOG — searchable in this file; intentionally hidden from the int
           <input id="cloak-title" class="field" type="text" placeholder="Tab name" autocomplete="off" spellcheck="false">
           <input id="cloak-icon" class="field" type="url" placeholder="Direct image URL (optional)" autocomplete="off" spellcheck="false">
           <button id="cloak-upload" class="btn" type="button">Upload icon…</button>
-          <input id="cloak-file" type="file" accept="image/png,image/jpeg,image/webp,image/gif,image/x-icon" hidden>
+          <input id="cloak-file" type="file" accept="image/*" hidden>
         </div>
       </section>
 
