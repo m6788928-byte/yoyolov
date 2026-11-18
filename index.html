@@ -53,8 +53,8 @@
   .school-bookmark .school-link{height:100%;padding-right:48px}
   .school-bookmark button{position:absolute;right:8px;top:8px;padding:4px 7px;border:1px solid #3a3f48;border-radius:5px;background:#25282e;color:#aeb5c0;font:11px system-ui;cursor:pointer}
   .school-bookmark button:hover{border-color:#3979cf;color:#fff}
-  .classlink-preview{height:auto;min-height:420px;display:grid;place-items:center;padding:28px;background:#111214;text-decoration:none}
-  .classlink-card{width:min(420px,100%);padding:38px 34px 30px;border:1px solid #30343b;border-radius:12px;background:#1b1d21;box-shadow:0 8px 28px rgba(0,0,0,.28);color:#e6e9ef;text-align:center}
+  .classlink-preview{height:auto;min-height:540px;display:grid;place-items:center;padding:28px;background:#111214;text-decoration:none}
+  .classlink-card{width:min(520px,100%);padding:48px 40px 38px;border:1px solid #30343b;border-radius:12px;background:#1b1d21;box-shadow:0 8px 28px rgba(0,0,0,.28);color:#e6e9ef;text-align:center}
   .classlink-mark{font-size:25px;font-weight:750;letter-spacing:-1px;color:#e6e9ef}
   .classlink-mark span{color:#79a9ed}
   .classlink-school{margin:8px 0 28px;color:#929aa7;font-size:13px}
@@ -145,6 +145,13 @@
   .search-title{margin:0 0 4px;text-align:center;font-size:48px;font-weight:600;letter-spacing:-1.5px;color:var(--text,#fff)}
   .game-search #search{width:100%;max-width:none;margin:0;padding:15px 18px;border-radius:999px;font-size:16px;box-shadow:0 3px 18px #0002}
   .game-search #browse-btn{align-self:center}
+  #shortcut-grid{width:100%;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:4px}
+  .shortcut{min-height:104px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;border:1px solid var(--border,#2c3036);border-radius:12px;background:var(--bg3,#1b1d21);color:var(--text,#ddd);cursor:pointer;position:relative;font:inherit}
+  .shortcut:hover{border-color:var(--accent,#454a52)}
+  .shortcut-icon{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;background:var(--bg2,#141619);font-size:20px;font-weight:650;color:var(--text,#ddd)}
+  .shortcut-label{font-size:12px;max-width:90%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .shortcut-edit{position:absolute;right:7px;top:7px;background:transparent;border:0;color:var(--muted,#7d838c);font-size:13px;cursor:pointer}
+  .shortcut-edit:hover{color:var(--text,#fff}
   #browse-btn{min-width:150px; padding:12px 28px; font-size:14px; font-weight:650}
   #browse-content{display:none}
   #tab-htmls.browsing #browse-landing{display:none}
@@ -338,30 +345,11 @@ YOYOLOV CHANGELOG — searchable in this file; intentionally hidden from the int
         <span class="classlink-open">Click anywhere to open sign in ↗</span>
       </section>
     </a>
-    <section class="school-links" aria-label="School links">
-      <div class="school-links-inner">
-        <h2>School links</h2>
-        <div class="school-link-grid">
-          <a class="school-link" href="https://drive.google.com/" target="_blank" rel="noopener noreferrer">Google Drive<small>Files and storage</small></a>
-          <a class="school-link" href="https://docs.google.com/" target="_blank" rel="noopener noreferrer">Google Docs<small>Documents</small></a>
-          <a class="school-link" href="https://slides.google.com/" target="_blank" rel="noopener noreferrer">Google Slides<small>Presentations</small></a>
-          <a class="school-link" href="https://www.savvasrealize.com/" target="_blank" rel="noopener noreferrer">Savvas<small>Learning platform</small></a>
-          <a class="school-link" href="https://hcde.instructure.com/" target="_blank" rel="noopener noreferrer">Canvas LMS<small>Courses and assignments</small></a>
-          <a class="school-link" href="https://www.deltamath.com/" target="_blank" rel="noopener noreferrer">DeltaMath<small>Math practice</small></a>
-          <a class="school-link" href="https://app.masteryconnect.com/" target="_blank" rel="noopener noreferrer">Mastery Connect<small>Assessments and learning</small></a>
-          <a class="school-link" href="https://pass.securly.com/" target="_blank" rel="noopener noreferrer">Securly Pass<small>Hall pass</small></a>
-          <a class="school-link" href="https://mail.google.com/" target="_blank" rel="noopener noreferrer">Gmail<small>Email</small></a>
-          <a class="school-link" href="https://powerschool.hcde.org/public/" target="_blank" rel="noopener noreferrer">PowerSchool<small>Grades and attendance</small></a>
-          <div class="school-bookmark" data-bookmark="0"><a class="school-link" href="#" target="_blank" rel="noopener noreferrer">Add bookmark<small>Click to set a URL</small></a><button type="button" aria-label="Edit bookmark 1">Edit</button></div>
-          <div class="school-bookmark" data-bookmark="1"><a class="school-link" href="#" target="_blank" rel="noopener noreferrer">Add bookmark<small>Click to set a URL</small></a><button type="button" aria-label="Edit bookmark 2">Edit</button></div>
-        </div>
-      </div>
-    </section>
   </main>
 
   <div id="tab-htmls" class="tabpanel active">
     <div id="browse-landing">
-      <div class="game-search"><h1 class="search-title">Search</h1><input id="search" type="search" placeholder="Search..." autocomplete="off" spellcheck="false" aria-label="Search"><button id="browse-btn" class="btn" type="button">Browse</button></div>
+      <div class="game-search"><h1 class="search-title">Search</h1><input id="search" type="search" placeholder="Search..." autocomplete="off" spellcheck="false" aria-label="Search"><button id="browse-btn" class="btn" type="button">Browse</button><div id="shortcut-grid" aria-label="Shortcuts"></div></div>
     </div>
     <div id="browse-content">
       <div class="browse-toolbar">
@@ -1124,6 +1112,41 @@ function paintInitial(el, name){
   el.style.background = 'linear-gradient(150deg, hsl(' + h + ' 70% 48%), hsl(' + ((h + 40) % 360) + ' 72% 34%))';
   el.textContent = name.trim().charAt(0).toUpperCase() || '?';
 }
+
+/* ---------- search shortcuts ---------- */
+const SEARCH_SHORTCUTS_KEY='repo-search-shortcuts';
+function getSearchShortcuts(){
+  try{const d=JSON.parse(localStorage.getItem(SEARCH_SHORTCUTS_KEY)||'[]');return Array.isArray(d)?d.slice(0,3):[];}catch{return [];}
+}
+function editSearchShortcut(i){
+  const saved=getSearchShortcuts(), current=saved[i]||{};
+  const name=prompt('Shortcut name:',current.name||'');
+  if(name===null)return;
+  const urlText=prompt('Shortcut URL (https://...):',current.url||'');
+  if(urlText===null)return;
+  let url;try{url=new URL(urlText.trim());}catch{alert('Enter a valid URL.');return;}
+  if(!['http:','https:'].includes(url.protocol)){alert('Only HTTP and HTTPS links are allowed.');return;}
+  saved[i]={name:name.trim()||'Shortcut',url:url.href};
+  localStorage.setItem(SEARCH_SHORTCUTS_KEY,JSON.stringify(saved));
+  renderSearchShortcuts();
+}
+function renderSearchShortcuts(){
+  const root=$('shortcut-grid');if(!root)return;
+  root.innerHTML='';
+  for(let i=0;i<3;i++){
+    const item=getSearchShortcuts()[i]||{};
+    const tile=document.createElement('div');tile.className='shortcut';tile.tabIndex=0;
+    const icon=document.createElement('div');icon.className='shortcut-icon';icon.textContent=item.name?item.name.trim().charAt(0).toUpperCase():'＋';
+    const label=document.createElement('div');label.className='shortcut-label';label.textContent=item.name||'Add shortcut';
+    const edit=document.createElement('button');edit.className='shortcut-edit';edit.type='button';edit.textContent='✎';edit.setAttribute('aria-label','Edit shortcut '+(i+1));
+    edit.onclick=e=>{e.stopPropagation();editSearchShortcut(i);};
+    tile.append(icon,label,edit);
+    tile.onclick=()=>item.url?window.open(item.url,'_blank','noopener,noreferrer'):editSearchShortcut(i);
+    tile.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();tile.click();}};
+    root.append(tile);
+  }
+}
+renderSearchShortcuts();
 
 /* ---------- fetching ---------- */
 const bust = u => u + (u.includes('?') ? '&' : '?') + 'cb=' + Date.now();
