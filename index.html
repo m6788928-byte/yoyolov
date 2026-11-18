@@ -279,6 +279,7 @@
 <!--
 YOYOLOV CHANGELOG — searchable in this file; intentionally hidden from the interface.
 2026.11.17.33 — Load the original ClassLink screenshot at high resolution from split AVIF assets.
+2026.11.17.34 — Make Music library loading use an absolute JSON URL with a CDN fallback.
 2026.11.17.31 — Cache-bust the corrected ClassLink screenshot and direct-loaded Music tab.
 2026.11.17.27 — Spotify-style music home refinement.
 2026.11.17.26 — Fixed shortcut hover CSS, improved tab-cloak icon handling, and set default tab title to Login.
@@ -311,7 +312,7 @@ YOYOLOV CHANGELOG — searchable in this file; intentionally hidden from the int
       <p id="unlock-error" role="alert" aria-live="polite"></p>
     </form>
     <div class="logo">repo</div>
-    <span class="build-label" id="build-label">BUILD 2026.11.17.33</span>
+    <span class="build-label" id="build-label">BUILD 2026.11.17.34</span>
     <div id="tabs">
       <button class="tab active" data-tab="htmls" type="button">Search</button>
     </div>
@@ -491,7 +492,7 @@ const LIST_URLS = [
    ====================================================================== */
 const CUSTOM_TABS = [
      { name: "Tools", url: "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@27f7e4590ed03bd2b4555d732806b0bdf4251bb9/tabs/tools.html" },
-     { name: "Music", url: "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@16309eaa136bacde008a250fd157b2cd99a8cdcc/tabs/music/music-player.html" },
+     { name: "Music", url: "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@e9cf4ca232914e4a2c5aa499f09cc67f0f0c44e1/tabs/music/music-player.html" },
      { name: "Messages", url: "https://raw.githubusercontent.com/m6788928-byte/yoyolov/819d243dad8d55c73295f96221a08b39c9e386ac/tabs/messages.html" },
 
   // { name: "More Games", url: "https://example.com/games.html" },
