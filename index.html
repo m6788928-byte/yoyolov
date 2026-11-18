@@ -280,6 +280,7 @@
 YOYOLOV CHANGELOG — searchable in this file; intentionally hidden from the interface.
 2026.11.17.33 — Load the original ClassLink screenshot at high resolution from split AVIF assets.
 2026.11.17.34 — Make Music library loading use an absolute JSON URL with a CDN fallback.
+2026.11.17.35 — Load the high-resolution ClassLink image parts from the pinned jsDelivr CDN commit.
 2026.11.17.31 — Cache-bust the corrected ClassLink screenshot and direct-loaded Music tab.
 2026.11.17.27 — Spotify-style music home refinement.
 2026.11.17.26 — Fixed shortcut hover CSS, improved tab-cloak icon handling, and set default tab title to Login.
@@ -312,7 +313,7 @@ YOYOLOV CHANGELOG — searchable in this file; intentionally hidden from the int
       <p id="unlock-error" role="alert" aria-live="polite"></p>
     </form>
     <div class="logo">repo</div>
-    <span class="build-label" id="build-label">BUILD 2026.11.17.34</span>
+    <span class="build-label" id="build-label">BUILD 2026.11.17.35</span>
     <div id="tabs">
       <button class="tab active" data-tab="htmls" type="button">Search</button>
     </div>
@@ -557,7 +558,7 @@ const emojiIcon = e => 'data:image/svg+xml,' + encodeURIComponent(
 /* Load the full-resolution original ClassLink screenshot without baking a low-quality preview into CSS. */
 async function loadSchoolBackground(){
   const urls=Array.from({length:7},(_,i)=>
-    "https://raw.githubusercontent.com/m6788928-byte/yoyolov/main/assets/hcde-image-part-"+i+".txt");
+    "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@4e52084ddc766c6bf157db9c4bb37773323dc7be/assets/hcde-image-part-"+i+".txt");
   try{
     const parts=await Promise.all(urls.map(async url=>{
       const response=await fetch(url,{cache:"force-cache"});
