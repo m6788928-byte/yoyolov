@@ -587,7 +587,7 @@ function applyCloak(){
   document.title = settings.cloakTitle || DEFAULT_TITLE;
   let link = document.querySelector('link[rel="icon"]');
   if(!link){ link = document.createElement('link'); link.rel = 'icon'; document.head.append(link); }
-  link.href = settings.cloakIcon || 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect x="4" y="4" width="56" height="56" rx="15" fill="#23a8d2"/><path d="M15 32 32 15 49 32 32 49Z" fill="#fff"/></svg>';
+  link.href = settings.cloakIcon || 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect x="4" y="4" width="56" height="56" rx="15" fill="#23a8d2"/><path d="M15 32 32 15 49 32 32 49Z" fill="#fff"/></svg>');
 }
 $('cloak-title').addEventListener('input', e => {
   settings.cloakTitle = e.target.value.trim(); saveSettings(); applyCloak();
