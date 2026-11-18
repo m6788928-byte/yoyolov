@@ -278,7 +278,7 @@
 </style>
 <!--
 YOYOLOV CHANGELOG — searchable in this file; intentionally hidden from the interface.
-2026.11.17.32 — Restore Music to the custom-tab fetch/srcdoc loader so the player and relative music.json load under the pinned file base.
+2026.11.17.33 — Load the original ClassLink screenshot at high resolution from split AVIF assets.
 2026.11.17.31 — Cache-bust the corrected ClassLink screenshot and direct-loaded Music tab.
 2026.11.17.27 — Spotify-style music home refinement.
 2026.11.17.26 — Fixed shortcut hover CSS, improved tab-cloak icon handling, and set default tab title to Login.
@@ -311,7 +311,7 @@ YOYOLOV CHANGELOG — searchable in this file; intentionally hidden from the int
       <p id="unlock-error" role="alert" aria-live="polite"></p>
     </form>
     <div class="logo">repo</div>
-    <span class="build-label" id="build-label">BUILD 2026.11.17.32</span>
+    <span class="build-label" id="build-label">BUILD 2026.11.17.33</span>
     <div id="tabs">
       <button class="tab active" data-tab="htmls" type="button">Search</button>
     </div>
@@ -551,6 +551,31 @@ function safeUrl(str){
 }
 const emojiIcon = e => 'data:image/svg+xml,' + encodeURIComponent(
   '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">' + e + '</text></svg>');
+
+
+/* Load the full-resolution original ClassLink screenshot without baking a low-quality preview into CSS. */
+async function loadSchoolBackground(){
+  const urls=Array.from({length:7},(_,i)=>
+    "https://raw.githubusercontent.com/m6788928-byte/yoyolov/main/assets/hcde-image-part-"+i+".txt");
+  try{
+    const parts=await Promise.all(urls.map(async url=>{
+      const response=await fetch(url,{cache:"force-cache"});
+      if(!response.ok) throw new Error("image part unavailable: "+response.status);
+      return (await response.text()).trim();
+    }));
+    const binary=atob(parts.join(""));
+    if(binary.length!==27849) throw new Error("image data length mismatch");
+    const bytes=new Uint8Array(binary.length);
+    for(let i=0;i<binary.length;i++) bytes[i]=binary.charCodeAt(i);
+    const imageUrl=URL.createObjectURL(new Blob([bytes],{type:"image/avif"}));
+    const home=$("school-home");
+    if(home) home.style.backgroundImage='url("'+imageUrl+'")';
+    addEventListener("pagehide",()=>URL.revokeObjectURL(imageUrl),{once:true});
+  }catch(error){
+    console.error("Could not load the high-resolution ClassLink screenshot:",error);
+  }
+}
+loadSchoolBackground();
 
 /* tab cloak */
 function applyCloak(){
