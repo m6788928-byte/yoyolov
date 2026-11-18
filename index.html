@@ -40,7 +40,7 @@
   body.locked #tab-htmls, body.locked #tab-settings,
   body.locked .custom-panel{display:none!important}
   #home{display:flex;flex-direction:column}
-  #school-home{display:none;position:absolute;inset:0;overflow:auto;padding:24px;background:#f3f6fa;color:#142235;font-family:system-ui,-apple-system,sans-serif}
+  #school-home{display:none;position:absolute;inset:0;overflow:auto;padding:24px;background:var(--portal-bg,#f3f6fa);color:var(--portal-text,#142235);font-family:system-ui,-apple-system,sans-serif} #school-home[data-theme="dark"]{--portal-bg:#111820;--portal-text:#e8eef5;--portal-card:#1b2531;--portal-border:#303e4d;--portal-heading:#edf4fb;--portal-muted:#9aabc0;--portal-link:#83b8f0;--portal-icon-bg:#26394c} #school-home[data-theme="light"]{--portal-bg:#f3f6fa;--portal-text:#142235;--portal-card:#fff;--portal-border:#e3e8ef;--portal-heading:#142235;--portal-muted:#66768a;--portal-link:#476e99;--portal-icon-bg:#edf4fb} #portal-theme-toggle{position:absolute;top:14px;right:16px;z-index:2;border:1px solid var(--portal-border,#e3e8ef);border-radius:9px;padding:8px 12px;background:var(--portal-card,#fff);color:var(--portal-text,#142235);font:600 12px system-ui;cursor:pointer} #school-home[data-theme="dark"] .portal-card{background:var(--portal-card);border-color:var(--portal-border);box-shadow:0 14px 42px rgba(0,0,0,.28)} #school-home[data-theme="dark"] .portal-head{border-color:var(--portal-border)} #school-home[data-theme="dark"] .portal-brand,#school-home[data-theme="dark"] .portal-title{color:var(--portal-heading)} #school-home[data-theme="dark"] .portal-copy,#school-home[data-theme="dark"] .portal-sub,#school-home[data-theme="dark"] .portal-link p{color:var(--portal-muted)} #school-home[data-theme="dark"] .portal-link{background:var(--portal-card);color:var(--portal-text);border-color:var(--portal-border)} #school-home[data-theme="dark"] .portal-icon{background:var(--portal-icon-bg)} #school-home[data-theme="dark"] .portal-footer{color:var(--portal-muted)} #school-home[data-theme="dark"] .portal-footer a,#school-home[data-theme="dark"] .portal-open{color:var(--portal-link)} .deltamath-logo svg{width:100%;height:34px;object-fit:contain}
   body.locked #school-home{display:block}
   .portal-wrap{min-height:100%;display:flex;align-items:center;justify-content:center;padding:clamp(14px,4vw,42px)}
   .portal-card{width:min(100%,780px);background:#fff;border:1px solid #e3e8ef;border-radius:18px;box-shadow:0 14px 42px rgba(18,42,70,.09);overflow:hidden}
@@ -296,6 +296,7 @@ YOYOLOV CHANGELOG — searchable in this file; intentionally hidden from the int
 2026.11.17.34 — Make Music library loading use an absolute JSON URL with a CDN fallback.
 2026.11.17.35 — Load the high-resolution ClassLink image parts from the pinned jsDelivr CDN commit.
 2026.11.17.37 — Add the Instagram Reel player inside Music.
+2026.11.17.41 — Replace DeltaMath remote logo with inline SVG; add persistent home light/dark switch.
 2026.11.17.31 — Cache-bust the corrected ClassLink screenshot and direct-loaded Music tab.
 2026.11.17.27 — Spotify-style music home refinement.
 2026.11.17.26 — Fixed shortcut hover CSS, improved tab-cloak icon handling, and set default tab title to Login.
@@ -328,7 +329,7 @@ YOYOLOV CHANGELOG — searchable in this file; intentionally hidden from the int
       <p id="unlock-error" role="alert" aria-live="polite"></p>
     </form>
     <div class="logo">repo</div>
-    <span class="build-label" id="build-label">BUILD 2026.11.17.40</span>
+    <span class="build-label" id="build-label">BUILD 2026.11.17.41</span>
     <div id="tabs">
       <button class="tab active" data-tab="htmls" type="button">Search</button>
     </div>
@@ -337,6 +338,7 @@ YOYOLOV CHANGELOG — searchable in this file; intentionally hidden from the int
   </div>
 
   <main id="school-home" aria-label="HCDE Student Portal">
+    <button id="portal-theme-toggle" type="button" aria-label="Switch home theme" title="Switch light/dark mode">☾ Dark mode</button>
     <div class="portal-wrap">
       <section class="portal-card" aria-labelledby="portal-title">
         <header class="portal-head">
@@ -352,7 +354,7 @@ YOYOLOV CHANGELOG — searchable in this file; intentionally hidden from the int
             <span class="portal-icon portal-logo"><img alt="Canvas logo" src="https://commons.wikimedia.org/wiki/Special:FilePath/Logo_of_Canvas.svg"></span><span><h2>Canvas LMS</h2><p>Courses, assignments, and class resources.</p></span><span class="portal-open">Open ↗</span>
           </a>
           <a class="portal-link" href="https://www.deltamath.com/students" target="_blank" rel="noopener noreferrer">
-            <span class="portal-icon portal-logo"><img alt="DeltaMath logo" src="https://finallite.com/wp-content/uploads/2022/12/Logo_Final2_baf63dcc-3548-4b61-a529-79d7f787ffeb.webp"></span><span><h2>DeltaMath</h2><p>Math practice and assignments.</p></span><span class="portal-open">Open ↗</span>
+            <span class="portal-icon portal-logo deltamath-logo" aria-label="DeltaMath"><svg viewBox="0 0 160 44" role="img" aria-label="DeltaMath logo" xmlns="http://www.w3.org/2000/svg"><path d="M4 38 24 5l20 33H4Zm10-6h20L24 15 14 32Z" fill="#1676d2"/><text x="50" y="30" font-family="Arial,sans-serif" font-size="24" font-weight="700" fill="#1676d2">Delta</text><text x="105" y="30" font-family="Arial,sans-serif" font-size="24" font-weight="700" fill="#303943">Math</text></svg></span><span><h2>DeltaMath</h2><p>Math practice and assignments.</p></span><span class="portal-open">Open ↗</span>
           </a>
         </nav>
         <footer class="portal-footer"><span>Hamilton County Schools · HCDE</span><a href="https://launchpad.classlink.com/hcde" target="_blank" rel="noopener noreferrer">Open ClassLink</a></footer>
@@ -729,6 +731,17 @@ function applySettings(){
   renderPanic();
 }
 applySettings();
+
+/* home portal theme toggle */
+const portal=$('school-home'), portalThemeBtn=$('portal-theme-toggle');
+function setPortalTheme(mode){
+  portal.dataset.theme=mode;
+  localStorage.setItem('yoyolov-portal-theme',mode);
+  portalThemeBtn.textContent=mode==='dark'?'☀ Light mode':'☾ Dark mode';
+  portalThemeBtn.title=mode==='dark'?'Switch to light mode':'Switch to dark mode';
+}
+setPortalTheme(localStorage.getItem('yoyolov-portal-theme')==='dark'?'dark':'light');
+portalThemeBtn.onclick=()=>setPortalTheme(portal.dataset.theme==='dark'?'light':'dark');
 
 /* ---------- themes ---------- */
 const PRESET_THEMES = [
