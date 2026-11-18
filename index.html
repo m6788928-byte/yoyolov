@@ -53,17 +53,28 @@
   .school-bookmark .school-link{height:100%;padding-right:48px}
   .school-bookmark button{position:absolute;right:8px;top:8px;padding:4px 7px;border:1px solid #3a3f48;border-radius:5px;background:#25282e;color:#aeb5c0;font:11px system-ui;cursor:pointer}
   .school-bookmark button:hover{border-color:#3979cf;color:#fff}
-  .classlink-preview{height:auto;min-height:540px;display:grid;place-items:center;padding:28px;background:#111214;text-decoration:none}
-  .classlink-card{width:min(520px,100%);padding:48px 40px 38px;border:1px solid #30343b;border-radius:12px;background:#1b1d21;box-shadow:0 8px 28px rgba(0,0,0,.28);color:#e6e9ef;text-align:center}
-  .classlink-mark{font-size:25px;font-weight:750;letter-spacing:-1px;color:#e6e9ef}
-  .classlink-mark span{color:#79a9ed}
-  .classlink-school{margin:8px 0 28px;color:#929aa7;font-size:13px}
-  .classlink-card h1{margin:0 0 12px;font-size:25px;font-weight:650}
-  .classlink-description{margin:0 0 26px;color:#929aa7;font-size:14px}
-  .classlink-launch{display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:14px 24px;border-radius:8px;background:#3979cf;color:#fff;font-size:15px;font-weight:650}
-  .classlink-launch:hover{background:#2d69b9}
-  .classlink-preview:hover .classlink-card{box-shadow:0 12px 34px rgba(0,0,0,.4);border-color:#454c58}
-  @media(max-width:520px){.classlink-preview{padding:16px}.classlink-card{padding:30px 22px}}
+  #school-home{position:absolute;inset:0;display:none;flex-direction:column;overflow:hidden;padding:0;background:#fff}
+  body.locked #school-home{display:flex}
+  .hcde-top{height:31px;flex:none;background:#98497f;color:#fff;text-align:center;font-size:12px;text-shadow:0 1px 2px #222;line-height:31px;white-space:nowrap}
+  .hcde-blue{height:34%;min-height:210px;flex:none;background:linear-gradient(145deg,#0786c5,#008ed2 60%,#047db8);border-bottom:9px solid #f5f5f5}
+  .hcde-wall{position:relative;flex:1;min-height:0;background-color:#c9c9c9;background-image:repeating-linear-gradient(0deg,transparent 0 35px,#aaa 36px,#e5e5e5 41px),repeating-linear-gradient(90deg,#d0d0d0 0 80px,#b7b7b7 82px,#eee 85px);background-blend-mode:multiply;display:flex;justify-content:center;align-items:flex-start}
+  .hcde-wall:before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(90deg,transparent 0 42px,rgba(255,255,255,.16) 43px 45px,transparent 46px 84px);opacity:.6}
+  .hcde-brand{position:absolute;right:4%;top:16%;display:flex;align-items:center;gap:20px;color:#1382bb;opacity:.95;font-weight:900;font-size:clamp(28px,5vw,70px);line-height:.95}
+  .hcde-brand strong{display:block;white-space:nowrap}
+  .hcde-brand span{display:block;color:#727272;font-size:.78em;letter-spacing:-1px}
+  .hcde-symbol{width:clamp(80px,13vw,230px);height:clamp(120px,15vw,250px);display:grid;place-items:center;background:#1486be;color:#fff;font-size:clamp(35px,6vw,100px);font-weight:900}
+  .hcde-login{position:relative;z-index:1;width:min(400px,90%);margin-top:-155px;display:flex;flex-direction:column;gap:16px}
+  .hcde-login h1{margin:0 0 2px;text-align:center;color:#f5f5f5;font-size:clamp(20px,2vw,29px);font-weight:650;text-shadow:0 1px 3px #333}
+  .hcde-login a{height:54px;display:flex;align-items:center;justify-content:center;text-decoration:none;color:#fff;font-size:18px;font-weight:600;text-shadow:0 1px 2px #333;border-radius:5px;box-shadow:0 1px 2px #666}
+  .hcde-signin,.hcde-quick{background:#31a8c7}
+  .hcde-google{background:#4285f4;position:relative}
+  .google-g{position:absolute;left:4px;top:4px;height:46px;width:48px;background:#fff;border-radius:3px;color:#4285f4;text-shadow:none;font-size:25px;font-weight:800;display:grid;place-items:center}
+  .hcde-login a:hover{filter:brightness(.96)}
+  .hcde-footer{height:66px;flex:none;display:flex;align-items:center;justify-content:space-between;padding:0 20px;background:linear-gradient(#fff 0 55%,#0786c5 56%);color:#555;border-top:4px solid #eee;font-size:12px}
+  .hcde-classlink{font-weight:650}
+  .hcde-footerlinks{display:flex;gap:28px;margin-right:40%}
+  .hcde-footerlinks a{color:#666;text-decoration:none;white-space:nowrap}
+  @media(max-width:650px){.hcde-brand{right:2%;opacity:.3}.hcde-login{margin-top:-135px}.hcde-footerlinks{margin-right:0;gap:10px}.hcde-footer{padding:0 10px}}
   #unlock-form{order:-1;margin:0 auto 0 0;max-width:390px;min-width:0}
   #unlock-form label{display:none}
   .unlock-row{display:flex;gap:8px;align-items:center}
@@ -331,16 +342,19 @@ YOYOLOV CHANGELOG — searchable in this file; intentionally hidden from the int
   </div>
 
   <main id="school-home" aria-label="HCDE ClassLink sign-in">
-    <a class="classlink-preview" href="https://launchpad.classlink.com/hcde?loggedout=1" target="_blank" rel="noopener noreferrer" aria-label="Open HCDE ClassLink">
-      <section class="classlink-card">
-        <div class="classlink-mark">Class<span>Link</span></div>
-        <div class="classlink-school">Hamilton County Department of Education</div>
-        <h1>ClassLink Launchpad</h1>
-        <p class="classlink-description">Access your school apps and resources.</p>
-        <span class="classlink-launch">Open ClassLink ↗</span>
-      </section>
-    </a>
-  </main>
+  <div class="hcde-top">STUDENTS: Use 'Sign in with Google' | STAFF: Sign in with email username &amp; password</div>
+  <div class="hcde-blue"></div>
+  <div class="hcde-wall">
+    <div class="hcde-brand"><div class="hcde-symbol">H</div><div><strong>HAMILTON</strong><span>COUNTY<br>SCHOOLS</span></div></div>
+    <div class="hcde-login">
+      <h1>HCS Single Sign On</h1>
+      <a class="hcde-signin" href="https://launchpad.classlink.com/hcde?loggedout=1" target="_blank" rel="noopener noreferrer">Sign In</a>
+      <a class="hcde-google" href="https://launchpad.classlink.com/hcde?loggedout=1" target="_blank" rel="noopener noreferrer"><span class="google-g">G</span>Sign in with Google</a>
+      <a class="hcde-quick" href="https://launchpad.classlink.com/hcde?loggedout=1" target="_blank" rel="noopener noreferrer">▦ Sign in with QuickCard</a>
+    </div>
+  </div>
+  <footer class="hcde-footer"><span class="hcde-classlink">◉　ClassLink</span><div class="hcde-footerlinks"><a href="https://launchpad.classlink.com/hcde" target="_blank" rel="noopener noreferrer">Help ↗</a><a href="https://launchpad.classlink.com/hcde" target="_blank" rel="noopener noreferrer">Browser Check ↗</a><a href="https://launchpad.classlink.com/hcde" target="_blank" rel="noopener noreferrer">Privacy ↗</a></div></footer>
+</main>
 
   <div id="tab-htmls" class="tabpanel active">
     <div id="browse-landing">
