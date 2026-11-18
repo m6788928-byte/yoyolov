@@ -232,10 +232,13 @@
     .hero .art { width: 140px; flex-basis: auto; }
     .grid { grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 12px 8px; }
   }
+
+/* Spotify-style visual polish */body{background:#121212;--surface:#242424;--surface-2:#303030;--accent:#1ed760;--bar-h:92px}header{background:#080808;border:0;padding:10px 22px 10px 82px;height:54px}#back{display:none}#crumb{font-size:16px}#music-search{margin:0 auto;width:min(420px,48vw);border-radius:24px;background:#242424;border:0;padding:12px 18px}main{max-width:none;margin:0 0 0 68px;padding:18px 28px calc(var(--bar-h) + 32px)}section+section{margin-top:30px}h2{font-size:20px;margin-bottom:12px}.row{gap:12px}.row .card{flex-basis:164px!important;width:164px!important;min-width:164px!important;max-width:164px}.grid{grid-template-columns:repeat(auto-fill,minmax(164px,1fr));gap:18px 12px}.card{padding:10px;border-radius:6px}.card:hover{background:#242424}.card .title{font-weight:700}.art{border-radius:6px!important}#player{left:0;background:#080808;border-top:1px solid #282828}.buttons button#toggle{background:#fff;color:#111;border-radius:50%}.buttons button#shuffle.active{color:#1ed760}#music-rail{position:fixed;left:0;top:54px;bottom:var(--bar-h);width:68px;background:#080808;z-index:4;display:flex;flex-direction:column;align-items:center;gap:14px;padding:16px 10px}#music-rail button{width:42px;height:42px;border-radius:8px;background:#181818;color:#aaa;font-size:20px;display:grid;place-items:center}#music-rail button:hover{background:#292929;color:white}#music-rail .rail-active{background:#282828;color:#1ed760}#lyrics-panel{display:none;position:fixed;z-index:9;right:20px;bottom:calc(var(--bar-h) + 16px);width:min(420px,calc(100vw - 40px));max-height:min(65vh,600px);overflow:auto;padding:24px;background:#202020;border:1px solid #3a3a3a;border-radius:12px;box-shadow:0 12px 40px #0009}#lyrics-panel.open{display:block}#lyrics-panel h2{margin:0 0 16px;font-size:18px}#lyrics-panel .lyrics-text{white-space:pre-wrap;line-height:1.7;color:#eee;font-size:14px}#lyrics-panel .lyrics-close{float:right;color:#aaa;font-size:18px}#player-lyrics{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;color:#aaa}#player-lyrics:hover{color:#fff}@media(max-width:640px){header{padding-left:16px}main{margin-left:0;padding:14px 14px calc(var(--bar-h) + 30px)}#music-rail{display:none}#player{grid-template-columns:minmax(0,1fr) auto}#lyrics-panel{right:10px;bottom:100px}.right{display:flex}}
 </style>
 </head>
 <body>
 
+<nav id="music-rail" aria-label="Music navigation"><button title="Music" class="rail-active">▮▮</button><button title="Library">♥</button><button title="Playlists">▣</button><button title="Albums">▤</button></nav>
 <header>
   <button id="back" aria-label="Back" hidden>
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
@@ -276,6 +279,7 @@
   </div>
 
   <div class="right">
+    <button id="player-lyrics" aria-label="Lyrics" title="Lyrics">♪</button>
     <button id="add-current" class="iconbtn" aria-label="Add to playlist" title="Add to playlist">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
     </button>
@@ -284,6 +288,7 @@
   </div>
 </footer>
 
+<aside id="lyrics-panel" aria-live="polite"><button class="lyrics-close" aria-label="Close lyrics">×</button><h2>Lyrics preview</h2><div class="lyrics-text">Play a song and tap Lyrics.</div></aside>
 <dialog id="dialog"></dialog>
 <div id="toast" role="status"></div>
 <audio id="audio" preload="metadata"></audio>
@@ -1021,6 +1026,9 @@ function toggle() {
   if (audio.paused) audio.play().catch(() => {}); else audio.pause();
 }
 
+let lyricsKey="";
+async function showLyrics(){const t=current();if(!t){toast("Play a song first.");return;}const p=$("lyrics-panel"),out=p.querySelector(".lyrics-text");p.classList.add("open");out.textContent="Searching for lyrics…";const k=t.name+"|"+t.artist;if(lyricsKey===k&&out.dataset.loaded==="1")return;lyricsKey=k;out.dataset.loaded="";try{const r=await fetch("https://api.lyrics.ovh/v1/"+encodeURIComponent(t.artist||"")+"/"+encodeURIComponent(t.name||""));if(!r.ok)throw new Error("Lyrics unavailable for this track.");const d=await r.json();if(lyricsKey!==k)return;if(!d.lyrics?.trim())throw new Error("No lyrics found.");out.textContent=d.lyrics.trim();out.dataset.loaded="1";}catch(e){if(lyricsKey===k)out.textContent=e.message||"Couldn’t load lyrics.";}}
+$("player-lyrics").addEventListener("click",showLyrics);$("lyrics-panel .lyrics-close").addEventListener("click",()=>$("lyrics-panel").classList.remove("open"));
 function renderPlayer() {
   const t = current();
   if (!t) return;
