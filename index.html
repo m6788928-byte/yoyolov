@@ -292,6 +292,7 @@
 </style>
 <!--
 YOYOLOV CHANGELOG — searchable in this file; intentionally hidden from the interface.
+2026.11.18.26 — Mask explicit words in music titles and Wordle guess dictionaries; retain entries using asterisks.
 2026.11.17.33 — Load the original ClassLink screenshot at high resolution from split AVIF assets.
 2026.11.17.34 — Make Music library loading use an absolute JSON URL with a CDN fallback.
 2026.11.17.35 — Load the high-resolution ClassLink image parts from the pinned jsDelivr CDN commit.
@@ -301,8 +302,8 @@ YOYOLOV CHANGELOG — searchable in this file; intentionally hidden from the int
 2026.11.17.31 — Cache-bust the corrected ClassLink screenshot and direct-loaded Music tab.
 2026.11.17.27 — Spotify-style music home refinement.
 2026.11.17.26 — Fixed shortcut hover CSS, improved tab-cloak icon handling, and set default tab title to Login.
-2026.11.18.25 — AI Chat now accepts Groq or OpenRouter API keys and loads provider-specific models.
-2026.11.18.25
+2026.11.18.26 — AI Chat now accepts Groq or OpenRouter API keys and loads provider-specific models.
+2026.11.18.26
 - Route screen-share unlock through the Cloudflare Worker password verification endpoint.
 - Move game search to a search-engine-style field above Browse; live searches filter games and Browse shows the full catalog.
 - Hide the main unlock form after successful entry and show remaining attempts.
@@ -512,7 +513,7 @@ YOYOLOV CHANGELOG — searchable in this file; intentionally hidden from the int
    An entry can also be an object for a custom tile:
      "Name": { "url": "...", "image": "...", "desc": "subtitle text" }
    ====================================================================== */
-const WORDLE_URL = "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@f1797047367b39667831860ec264ecb4cb4ea043/wordle-build6.html";
+const WORDLE_URL = "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@a32d2ff93fd9347d21b9e781a10f02eb67589677/wordle-build6.html";
 const LIST_URLS = [
   "https://raw.githubusercontent.com/m6788928-byte/yoyolov/main/tas5.json"
 ];
