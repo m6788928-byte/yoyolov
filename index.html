@@ -292,6 +292,7 @@
 </style>
 <!--
 YOYOLOV CHANGELOG — searchable in this file; intentionally hidden from the interface.
+2026.11.18.27 — Block slur terms in Wordle live input, submission, and allowed-word validation.
 2026.11.18.26 — Mask explicit words in music titles and Wordle guess dictionaries; retain entries using asterisks.
 2026.11.17.33 — Load the original ClassLink screenshot at high resolution from split AVIF assets.
 2026.11.17.34 — Make Music library loading use an absolute JSON URL with a CDN fallback.
@@ -331,7 +332,7 @@ YOYOLOV CHANGELOG — searchable in this file; intentionally hidden from the int
       <p id="unlock-error" role="alert" aria-live="polite"></p>
     </form>
     <div class="logo">repo</div>
-    <span class="build-label" id="build-label">BUILD 2026.11.18.26</span>
+    <span class="build-label" id="build-label">BUILD 2026.11.18.27</span>
     <div id="tabs">
       <button class="tab active" data-tab="htmls" type="button">Search</button>
     </div>
@@ -513,7 +514,7 @@ YOYOLOV CHANGELOG — searchable in this file; intentionally hidden from the int
    An entry can also be an object for a custom tile:
      "Name": { "url": "...", "image": "...", "desc": "subtitle text" }
    ====================================================================== */
-const WORDLE_URL = "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@a32d2ff93fd9347d21b9e781a10f02eb67589677/wordle-build6.html";
+const WORDLE_URL = "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@4965c0ec57b0730099ffc9498cbfce5002f49ed4/wordle-build6.html";
 const LIST_URLS = [
   "https://raw.githubusercontent.com/m6788928-byte/yoyolov/main/tas5.json"
 ];
