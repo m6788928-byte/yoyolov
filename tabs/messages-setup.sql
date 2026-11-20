@@ -132,6 +132,7 @@ as 'select exists (
 revoke all on function public.is_chat_admin() from public, anon;
 grant execute on function public.is_chat_admin() to authenticated;
 
+
 alter table public.profiles enable row level security;
 alter table public.messages enable row level security;
 alter table public.message_reactions enable row level security;
