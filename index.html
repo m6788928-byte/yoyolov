@@ -739,11 +739,11 @@ applySettings();
 const portal=$('school-home'), portalThemeBtn=$('portal-theme-toggle');
 function setPortalTheme(mode){
   portal.dataset.theme=mode;
-  localStorage.setItem('yoyolov-portal-theme',mode);
+  localStorage.setItem('student-portal-theme-v2',mode);
   portalThemeBtn.textContent=mode==='dark'?'☀ Light mode':'☾ Dark mode';
   portalThemeBtn.title=mode==='dark'?'Switch to light mode':'Switch to dark mode';
 }
-setPortalTheme(localStorage.getItem('yoyolov-portal-theme')==='light'?'light':'dark');
+setPortalTheme(localStorage.getItem('student-portal-theme-v2')==='light'?'light':'dark');
 portalThemeBtn.onclick=()=>setPortalTheme(portal.dataset.theme==='dark'?'light':'dark');
 
 /* ---------- themes ---------- */
