@@ -133,6 +133,10 @@ revoke all on function public.is_chat_admin() from public, anon;
 grant execute on function public.is_chat_admin() to authenticated;
 
 
+alter table public.messages add column if not exists attachment_path text;
+alter table public.messages add column if not exists attachment_name text;
+alter table public.messages add column if not exists attachment_size bigint;
+
 alter table public.profiles enable row level security;
 alter table public.messages enable row level security;
 alter table public.message_reactions enable row level security;
@@ -198,9 +202,6 @@ exception when duplicate_object then
 end $$;
 
 -- Secure file attachments: private bucket; channel files are shared with members and DM files only with participants.
-alter table public.messages add column if not exists attachment_path text;
-alter table public.messages add column if not exists attachment_name text;
-alter table public.messages add column if not exists attachment_size bigint;
 insert into storage.buckets(id,name,public,file_size_limit)
 values ('chat-attachments','chat-attachments',false,10485760)
 on conflict (id) do update set public=false,file_size_limit=10485760;
