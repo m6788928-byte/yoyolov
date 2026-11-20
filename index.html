@@ -292,6 +292,7 @@
 </style>
 <!--
 YOYOLOV CHANGELOG — searchable in this file; intentionally hidden from the interface.
+2026.11.19.25 — Allow the admin login dialog to reopen after Cancel.
 2026.11.19.24 — Show the actual admin password lockout state instead of reporting a generic login failure.
 2026.11.19.23 — Enforce the 1,000-character limit in group chat at the database policy layer.
 2026.11.19.22 — Limit Messages sequence permissions to its own five identity sequences.
@@ -357,7 +358,7 @@ YOYOLOV CHANGELOG — searchable in this file; intentionally hidden from the int
       <p id="unlock-error" role="alert" aria-live="polite"></p>
     </form>
     <div class="logo">repo</div>
-    <span class="build-label" id="build-label">BUILD 2026.11.19.24</span>
+    <span class="build-label" id="build-label">BUILD 2026.11.19.25</span>
     <div id="tabs">
       <button class="tab active" data-tab="htmls" type="button">Search</button>
     </div>
@@ -1409,7 +1410,7 @@ function openAdminLogin(){
     </form>`;
     document.body.append(adminDialog);
     const form=adminDialog.querySelector('form'), status=form.querySelector('[role="status"]');
-    adminDialog.querySelector('[data-close]').onclick=()=>adminDialog.remove();
+    adminDialog.querySelector('[data-close]').onclick=()=>{adminDialog.remove();adminDialog=null;};
     form.onsubmit=async e=>{
       e.preventDefault();
       const button=form.querySelector('[type="submit"]'); button.disabled=true; status.textContent='Checking…';
