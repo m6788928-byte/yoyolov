@@ -275,6 +275,7 @@
 </style>
 <!--
 YOYOLOV CHANGELOG — searchable in this file; intentionally hidden from the interface.
+2026.11.19.32 — Remove the unused bookmark renderer left behind by the old recreated portal.
 2026.11.19.31 — Remove the obsolete recreated portal-card CSS; keep the exact screenshot, hotspots, and theme switch.
 2026.11.19.30 — Use the original high-resolution AVIF ClassLink screenshot with a WebP fallback; keep the login hotspots transparent.
 2026.11.19.29 — Restore the original HCDE ClassLink screenshot background with transparent sign-in, Google, and QuickCard hotspots.
@@ -347,7 +348,7 @@ YOYOLOV CHANGELOG — searchable in this file; intentionally hidden from the int
       <p id="unlock-error" role="alert" aria-live="polite"></p>
     </form>
     <div class="logo">repo</div>
-    <span class="build-label" id="build-label">BUILD 2026.11.19.31</span>
+    <span class="build-label" id="build-label">BUILD 2026.11.19.32</span>
     <div id="tabs">
       <button class="tab active" data-tab="htmls" type="button">Search</button>
     </div>
@@ -1409,43 +1410,6 @@ function openAdminLogin(){
 document.addEventListener('keydown',e=>{
   if(e.ctrlKey&&e.shiftKey&&e.altKey&&e.code==='KeyA'&&!e.repeat){e.preventDefault();openAdminLogin();}
 });
-
-/* ---------- editable school bookmarks ---------- */
-const SCHOOL_BOOKMARKS_KEY = 'repo-school-bookmarks';
-function loadSchoolBookmarks(){
-  try{
-    const data = JSON.parse(localStorage.getItem(SCHOOL_BOOKMARKS_KEY) || '[]');
-    return Array.isArray(data) ? data : [];
-  }catch{return [];}
-}
-function editSchoolBookmark(index){
-  const saved = loadSchoolBookmarks();
-  const current = saved[index] || {};
-  const name = prompt('Bookmark name:', current.name || '');
-  if(name === null) return;
-  const urlText = prompt('Bookmark URL (https://...):', current.url || '');
-  if(urlText === null) return;
-  let url;
-  try{ url = new URL(urlText.trim()); }catch{ alert('Enter a valid URL.'); return; }
-  if(!['http:','https:'].includes(url.protocol)){ alert('Only HTTP and HTTPS links are allowed.'); return; }
-  saved[index] = {name:name.trim() || 'Bookmark', url:url.href};
-  localStorage.setItem(SCHOOL_BOOKMARKS_KEY, JSON.stringify(saved));
-  renderSchoolBookmarks();
-}
-function renderSchoolBookmarks(){
-  const saved = loadSchoolBookmarks();
-  document.querySelectorAll('.school-bookmark').forEach(tile => {
-    const index = Number(tile.dataset.bookmark), item = saved[index];
-    const link = tile.querySelector('a'), edit = tile.querySelector('button');
-    link.href = item?.url || '#';
-    link.innerHTML = item
-      ? item.name.replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])) + '<small>Saved bookmark</small>'
-      : 'Add bookmark<small>Click to set a URL</small>';
-    link.onclick = e => { if(!saved[index]){ e.preventDefault(); editSchoolBookmark(index); } };
-    edit.onclick = () => editSchoolBookmark(index);
-  });
-}
-renderSchoolBookmarks();
 
 /* ---------- remote access controls ---------- */
 
