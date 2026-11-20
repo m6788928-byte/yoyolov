@@ -40,7 +40,8 @@
   body.locked #tab-htmls, body.locked #tab-settings,
   body.locked .custom-panel{display:none!important}
   #home{display:flex;flex-direction:column}
-  #school-home{display:none;position:absolute;inset:0;overflow:hidden;padding:0;background-color:#fff;background-image:url("assets/hcde-background.avif?v=20261119"),url("assets/hcde-background.webp?v=20261119");background-position:center;background-size:100% 100%;background-repeat:no-repeat} #school-home[data-theme="dark"]{--portal-bg:#111820;--portal-text:#e8eef5;--portal-card:#1b2531;--portal-border:#303e4d;--portal-heading:#edf4fb;--portal-muted:#9aabc0;--portal-link:#83b8f0;--portal-icon-bg:#26394c} #school-home[data-theme="light"]{--portal-bg:#f3f6fa;--portal-text:#142235;--portal-card:#fff;--portal-border:#e3e8ef;--portal-heading:#142235;--portal-muted:#66768a;--portal-link:#476e99;--portal-icon-bg:#edf4fb} #portal-theme-toggle{display:block;position:relative;z-index:2;margin:0 0 16px auto;border:1px solid var(--portal-border,#e3e8ef);border-radius:9px;padding:9px 13px;background:var(--portal-card,#fff);color:var(--portal-text,#142235);font:600 13px system-ui;cursor:pointer;min-height:36px} #portal-theme-toggle:hover{filter:brightness(.96)} #school-home[data-theme="dark"] .portal-card{background:var(--portal-card);border-color:var(--portal-border);box-shadow:0 14px 42px rgba(0,0,0,.28)} #school-home[data-theme="dark"] .portal-head{border-color:var(--portal-border)} #school-home[data-theme="dark"] .portal-brand,#school-home[data-theme="dark"] .portal-title{color:var(--portal-heading)} #school-home[data-theme="dark"] .portal-copy,#school-home[data-theme="dark"] .portal-sub,#school-home[data-theme="dark"] .portal-link p{color:var(--portal-muted)} #school-home[data-theme="dark"] .portal-link{background:var(--portal-card);color:var(--portal-text);border-color:var(--portal-border)} #school-home[data-theme="dark"] .portal-icon{background:var(--portal-icon-bg)} #school-home[data-theme="dark"] .deltamath-logo svg{filter:brightness(0) invert(1)} #school-home[data-theme="dark"] .portal-footer{color:var(--portal-muted)} #school-home[data-theme="dark"] .portal-footer a,#school-home[data-theme="dark"] .portal-open{color:var(--portal-link)} .deltamath-logo svg{width:100%;height:34px;object-fit:contain}
+  #school-home{display:none;position:absolute;inset:0;overflow:hidden;padding:0;background-color:#fff;background-image:url("assets/hcde-background.avif?v=20261119"),url("assets/hcde-background.webp?v=20261119");background-position:center;background-size:100% 100%;background-repeat:no-repeat}
+  body.locked #school-home{display:block}
   .hcde-hit{position:absolute;display:block;z-index:2;background:transparent;border:0;border-radius:0;outline:0;cursor:pointer}
   .hcde-hit:focus-visible{outline:3px solid #fff;outline-offset:2px}
   .hcde-signin{left:34.7%;top:37.1%;width:20.7%;height:5.8%}
@@ -48,32 +49,7 @@
   .hcde-quick{left:34.7%;top:52.1%;width:20.7%;height:6.1%}
   #portal-theme-toggle{position:absolute;top:72px;right:12px;z-index:4;margin:0;border:1px solid rgba(255,255,255,.7);border-radius:8px;padding:7px 10px;background:rgba(15,25,35,.72);color:#fff;font:600 12px system-ui;cursor:pointer}
   #school-home[data-theme="dark"]::after{content:"";position:absolute;inset:0;z-index:1;background:rgba(0,0,0,.24);pointer-events:none}
-  body.locked #school-home{display:block}
-  .portal-wrap{min-height:100%;display:flex;align-items:center;justify-content:center;padding:clamp(14px,4vw,42px)}
-  .portal-card{width:min(100%,780px);background:#fff;border:1px solid #e3e8ef;border-radius:18px;box-shadow:0 14px 42px rgba(18,42,70,.09);overflow:hidden}
-  .portal-head{padding:clamp(22px,4vw,36px);border-bottom:1px solid #edf0f4}
-  .portal-brand{display:flex;align-items:center;gap:12px;color:#1d3653}
-  .portal-mark{width:42px;height:42px;border-radius:12px;background:#164e83;color:white;display:grid;place-items:center;font-size:14px;font-weight:800;letter-spacing:.02em}
-  .portal-name{font-size:14px;font-weight:750;letter-spacing:.08em;text-transform:uppercase}
-  .portal-sub{font-size:12px;color:#77869a;margin-top:3px}
-  .portal-title{font-size:clamp(24px,4vw,32px);font-weight:700;letter-spacing:-.03em;margin:26px 0 8px;color:#142235}
-  .portal-copy{color:#66768a;font-size:14px;margin:0}
-  .portal-links{padding:clamp(18px,3vw,28px);display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
-  .portal-link{min-width:0;display:flex;flex-direction:column;gap:12px;text-decoration:none;color:#1c2e43;border:1px solid #e3e9f0;border-radius:12px;padding:18px;background:#fff;transition:transform .15s,border-color .15s,box-shadow .15s}
-  .portal-link:hover,.portal-link:focus-visible{transform:translateY(-2px);border-color:#9cb9d8;box-shadow:0 7px 18px rgba(22,78,131,.08);outline:none}
-  .portal-icon{width:40px;height:40px;border-radius:10px;background:#edf4fb;color:#245d94;display:grid;place-items:center;font-size:18px;font-weight:750}
-  .portal-logo{background:transparent;display:flex;align-items:center;justify-content:flex-start;overflow:hidden}
-  .portal-link:first-child .portal-logo{width:124px;height:34px}
-  .portal-link:first-child .portal-logo img{display:block;width:78px;height:auto;max-width:78px;max-height:20px;object-fit:contain}
-  .portal-link:nth-child(2) .portal-logo{width:44px;height:34px}
-  .portal-link:nth-child(2) .portal-logo img{display:block;max-width:44px;max-height:34px;object-fit:contain}
-  .portal-link:nth-child(3) .portal-logo{width:92px;height:34px}
-  .portal-link:nth-child(3) .portal-logo img{display:block;width:92px;height:34px;object-fit:cover;object-position:center}
-  .portal-link h2{font-size:15px;margin:0;font-weight:700}
-  .portal-link p{font-size:12px;line-height:1.5;color:#718095;margin:5px 0 0}
-  .portal-open{margin-top:auto;padding-top:8px;color:#245d94;font-size:12px;font-weight:650}
-  .portal-footer{padding:0 clamp(18px,3vw,28px) 24px;color:#8592a3;font-size:11px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
-  .portal-footer a{color:#476e99;text-decoration:none}
+  @media(max-width:620px){#portal-theme-toggle{top:96px;right:8px;padding:6px 8px}}
   #unlock-form{order:-1;margin:0 auto 0 0;max-width:390px;min-width:0}
   #unlock-form label{display:none}
   .unlock-row{display:flex;gap:8px;align-items:center}
@@ -299,6 +275,7 @@
 </style>
 <!--
 YOYOLOV CHANGELOG — searchable in this file; intentionally hidden from the interface.
+2026.11.19.31 — Remove the obsolete recreated portal-card CSS; keep the exact screenshot, hotspots, and theme switch.
 2026.11.19.30 — Use the original high-resolution AVIF ClassLink screenshot with a WebP fallback; keep the login hotspots transparent.
 2026.11.19.29 — Restore the original HCDE ClassLink screenshot background with transparent sign-in, Google, and QuickCard hotspots.
 2026.11.19.28 — Keep the DeltaMath graduation-cap logo high-contrast in dark mode.
@@ -370,7 +347,7 @@ YOYOLOV CHANGELOG — searchable in this file; intentionally hidden from the int
       <p id="unlock-error" role="alert" aria-live="polite"></p>
     </form>
     <div class="logo">repo</div>
-    <span class="build-label" id="build-label">BUILD 2026.11.19.30</span>
+    <span class="build-label" id="build-label">BUILD 2026.11.19.31</span>
     <div id="tabs">
       <button class="tab active" data-tab="htmls" type="button">Search</button>
     </div>
