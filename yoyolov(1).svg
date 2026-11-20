@@ -1,33 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Yoyolov launcher: preserves the hosted app origin for sign-in. -->
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xhtml="http://www.w3.org/1999/xhtml" width="100%" height="100%" viewBox="0 0 1920 1080">
-  <title>Yoyolov</title>
-  <foreignObject id="fo" width="1920" height="1080" x="0" y="0">
-    <xhtml:html xmlns="http://www.w3.org/1999/xhtml" style="width:100%;height:100%;margin:0;padding:0;">
-      <xhtml:head>
-        <xhtml:title>Yoyolov</xhtml:title>
-        <xhtml:style>
-          *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-          html, body { width: 100%; height: 100%; overflow: hidden; background: #000; }
-          iframe { position: fixed; inset: 0; width: 100%; height: 100%; border: 0; }
-        </xhtml:style>
-      </xhtml:head>
-      <xhtml:body>
-        <xhtml:iframe id="fm" src="https://m6788928-byte.github.io/yoyolov/" title="Yoyolov app" sandbox="allow-scripts allow-forms allow-same-origin" referrerpolicy="no-referrer" allowfullscreen="true"></xhtml:iframe>
-        <xhtml:script><![CDATA[
-          (function() {
-            function size() {
-              var w = window.innerWidth, h = window.innerHeight;
-              var svg = document.querySelector('svg');
-              var fo = document.querySelector('foreignObject');
-              if (svg) { svg.setAttribute('width', w); svg.setAttribute('height', h); svg.setAttribute('viewBox', '0 0 ' + w + ' ' + h); }
-              if (fo) { fo.setAttribute('width', w); fo.setAttribute('height', h); }
-            }
-            size();
-            window.addEventListener('resize', size);
-          })();
-        ]]></xhtml:script>
-      </xhtml:body>
-    </xhtml:html>
-  </foreignObject>
+<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 960 540" role="img" aria-labelledby="title desc">
+  <title id="title">Yoyolov launcher</title>
+  <desc id="desc">Opening the hosted Yoyolov app. If it does not open automatically, select Open Yoyolov.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#192338"/>
+      <stop offset="1" stop-color="#080a0f"/>
+    </linearGradient>
+  </defs>
+  <rect width="960" height="540" fill="url(#bg)"/>
+  <text x="480" y="225" text-anchor="middle" fill="#f4f6fa" font-family="system-ui,sans-serif" font-size="44" font-weight="700">Yoyolov</text>
+  <text x="480" y="270" text-anchor="middle" fill="#aab3c3" font-family="system-ui,sans-serif" font-size="18">Opening the secure sign-in page…</text>
+  <a href="https://m6788928-byte.github.io/yoyolov/" target="_top" aria-label="Open Yoyolov">
+    <rect x="370" y="315" width="220" height="56" rx="12" fill="#3778df"/>
+    <text x="480" y="351" text-anchor="middle" fill="#ffffff" font-family="system-ui,sans-serif" font-size="18" font-weight="600">Open Yoyolov</text>
+  </a>
+  <script type="application/ecmascript"><![CDATA[
+    window.location.replace("https://m6788928-byte.github.io/yoyolov/");
+  ]]></script>
 </svg>
