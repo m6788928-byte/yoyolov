@@ -308,7 +308,9 @@ drop policy if exists "recipients accept friend requests" on public.friend_reque
 create policy "recipients accept friend requests" on public.friend_requests for update to authenticated using(recipient_id=auth.uid() and status='pending') with check(recipient_id=auth.uid() and status='accepted');
 drop policy if exists "participants remove friend requests" on public.friend_requests;
 create policy "participants remove friend requests" on public.friend_requests for delete to authenticated using(sender_id=auth.uid() or recipient_id=auth.uid());
-grant select,insert,update,delete on public.friend_requests to authenticated;
+revoke all on public.friend_requests from authenticated;
+grant select,insert,delete on public.friend_requests to authenticated;
+grant update(status) on public.friend_requests to authenticated;
 grant usage,select on sequence public.friend_requests_id_seq to authenticated;
 
 -- Group chats and membership.
