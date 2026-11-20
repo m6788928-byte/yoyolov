@@ -292,6 +292,7 @@
 </style>
 <!--
 YOYOLOV CHANGELOG — searchable in this file; intentionally hidden from the interface.
+2026.11.19.18 — Restrict Messages inserts to allowed columns (no forged IDs, timestamps, or pre-accepted friend requests) and add chat lookup indexes.
 2026.11.19.17 — Roll back a newly created group if member setup fails, preventing orphaned groups.
 2026.11.19.16 — Require group membership for attachment uploads and allow owners to clean up their own files after leaving.
 2026.11.19.15 — Let group attachment owners delete their uploads even after leaving a group, so failed sends do not strand files.
@@ -350,7 +351,7 @@ YOYOLOV CHANGELOG — searchable in this file; intentionally hidden from the int
       <p id="unlock-error" role="alert" aria-live="polite"></p>
     </form>
     <div class="logo">repo</div>
-    <span class="build-label" id="build-label">BUILD 2026.11.19.17</span>
+    <span class="build-label" id="build-label">BUILD 2026.11.19.18</span>
     <div id="tabs">
       <button class="tab active" data-tab="htmls" type="button">Search</button>
     </div>
