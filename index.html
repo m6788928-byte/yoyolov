@@ -292,6 +292,7 @@
 </style>
 <!--
 YOYOLOV CHANGELOG — searchable in this file; intentionally hidden from the interface.
+2026.11.19.3 — Remove a redundant iframe sandbox assignment in custom tabs.
 2026.11.19.2 — Remove three nonfunctional example.com tracks and the empty test album from Music.
 2026.11.19.1 — Remove the hardcoded Messages access password; verify access through the Cloudflare Worker.
 2026.11.18.28 — Expand Wordle filtering for additional slurs and sexual/profane terms; block them during input and submission.
@@ -335,7 +336,7 @@ YOYOLOV CHANGELOG — searchable in this file; intentionally hidden from the int
       <p id="unlock-error" role="alert" aria-live="polite"></p>
     </form>
     <div class="logo">repo</div>
-    <span class="build-label" id="build-label">BUILD 2026.11.19.2</span>
+    <span class="build-label" id="build-label">BUILD 2026.11.19.3</span>
     <div id="tabs">
       <button class="tab active" data-tab="htmls" type="button">Search</button>
     </div>
@@ -971,7 +972,6 @@ function createCustomTabs(){
     status.className = 'custom-status'; status.setAttribute('role', 'status');
     const iframe = document.createElement('iframe');
     iframe.className = 'custom-frame'; iframe.title = name;
-    iframe.setAttribute('sandbox', 'allow-same-origin allow-scripts allow-forms allow-modals allow-pointer-lock');
     iframe.setAttribute('sandbox', 'allow-same-origin allow-scripts allow-forms allow-modals allow-pointer-lock allow-popups allow-popups-to-escape-sandbox');
     const state = {name, url, direct:config.direct === true, admin:config.admin === true, frame:iframe, status, reload, loaded:false, loading:false, html:''};
     customTabStates.set(id, state);
