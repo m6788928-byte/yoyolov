@@ -24,10 +24,21 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/configure-pages@v5
-      - name: Upload complete site
+      - name: Stage Pages site
+        run: |
+          rm -rf _site
+          mkdir -p _site
+          cp index.html auth-config.js .nojekyll _site/
+          cp -R assets openfront _site/
+          test -s _site/index.html
+          test -s _site/auth-config.js
+          test -s _site/assets/hcde-background.avif
+          test -s _site/openfront/index.html
+          test -s _site/openfront/assets/index-xDRx6PtE.js
+      - name: Upload site runtime
         uses: actions/upload-pages-artifact@v3
         with:
-          path: .
+          path: _site
       - name: Deploy site
         id: deployment
         uses: actions/deploy-pages@v5
