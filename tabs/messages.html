@@ -148,7 +148,10 @@ async function createGroup(){
  const {data:g,error}=await db.from("group_chats").insert({name:name.trim().slice(0,40),owner_id:user.id}).select("id,name").single();
  if(error){setConnection("Group create failed: "+error.message);return;}
  const {error:memberError}=await db.from("group_members").insert([{group_id:g.id,user_id:user.id},...ids.map(id=>({group_id:g.id,user_id:id}))]);
- if(memberError){setConnection("Group members failed: "+memberError.message);return;}
+ if(memberError){
+  await db.from("group_chats").delete().eq("id",g.id).eq("owner_id",user.id);
+  setConnection("Group members failed: "+memberError.message);return;
+ }
  await loadGroups();openGroup(g.id,g.name);
 }
 async function loadGroups(){
