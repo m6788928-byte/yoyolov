@@ -3,18 +3,21 @@ const PBKDF2_ITERATIONS = 210000;
 const SESSION_SECONDS = 12 * 60 * 60;
 const REQUEST_TTL = 30 * 24 * 60 * 60;
 
-function json(body, status, origin) {
-  return new Response(JSON.stringify(body), {
-    status,
-    headers: {
-      "content-type": "application/json; charset=utf-8",
-      "cache-control": "no-store",
-      "access-control-allow-origin": origin,
-      "access-control-allow-methods": "GET, POST, OPTIONS",
-      "access-control-allow-headers": "content-type, authorization",
-      "vary": "Origin"
-    }
+function corsHeaders(origin) {
+  return new Headers({
+    "access-control-allow-origin": origin,
+    "access-control-allow-methods": "GET, POST, OPTIONS",
+    "access-control-allow-headers": "Content-Type, Authorization",
+    "access-control-max-age": "86400",
+    "vary": "Origin, Access-Control-Request-Method, Access-Control-Request-Headers"
   });
+}
+
+function json(body, status, origin) {
+  const headers = corsHeaders(origin);
+  headers.set("content-type", "application/json; charset=utf-8");
+  headers.set("cache-control", "no-store");
+  return new Response(JSON.stringify(body), { status, headers });
 }
 
 function bytesToBase64Url(bytes) {
@@ -267,17 +270,15 @@ export default {
   async fetch(request, env) {
     const origin = request.headers.get("Origin") || "";
     const allowed = (env.ALLOWED_ORIGINS || "").split(",").map(x => x.trim()).filter(Boolean);
-    if (!allowed.includes(origin)) return new Response("Forbidden origin", { status: 403 });
+    if (!allowed.includes(origin)) return new Response(JSON.stringify({ ok: false, error: "Origin not allowed. Open the hosted Yoyolov page." }), {
+      status: 403,
+      headers: { "content-type": "application/json; charset=utf-8", "cache-control": "no-store" }
+    });
     if (request.method === "OPTIONS") return new Response(null, {
       status: 204,
-      headers: {
-        "access-control-allow-origin": origin,
-        "access-control-allow-methods": "GET, POST, OPTIONS",
-        "access-control-allow-headers": "content-type, authorization",
-        "access-control-max-age": "86400",
-        "vary": "Origin"
-      }
+      headers: corsHeaders(origin)
     });
+    try {
     const path = new URL(request.url).pathname;
     if (path === "/admin-content") {
       if (request.method !== "GET") return json({ ok: false, error: "Method not allowed." }, 405, origin);
@@ -286,13 +287,11 @@ export default {
         return json({ ok: false, error: "Owner sign-in required." }, 401, origin);
       const html = await env.ACCESS.get("admin-content-v1");
       if (!html) return json({ ok: false, error: "AI content is unavailable." }, 503, origin);
-      return new Response(html, { status: 200, headers: {
-        "content-type": "text/html; charset=utf-8",
-        "cache-control": "no-store",
-        "access-control-allow-origin": origin,
-        "vary": "Origin",
-        "x-content-type-options": "nosniff"
-      }});
+      const headers = corsHeaders(origin);
+      headers.set("content-type", "text/html; charset=utf-8");
+      headers.set("cache-control", "no-store");
+      headers.set("x-content-type-options", "nosniff");
+      return new Response(html, { status: 200, headers });
     }
     if (request.method !== "POST") return json({ ok: false, error: "Not found." }, 404, origin);
     const contentLength = Number(request.headers.get("Content-Length") || 0);
@@ -311,5 +310,12 @@ export default {
       default: return json({ ok: false, error: "Invalid request type." }, 400, origin);
     }
     return json({ ok }, ok ? 200 : 401, origin);
+    } catch {
+      console.error("Unhandled authentication Worker error", {
+        method: request.method,
+        path: new URL(request.url).pathname
+      });
+      return json({ ok: false, error: "The authentication service is temporarily unavailable." }, 500, origin);
+    }
   }
 };
