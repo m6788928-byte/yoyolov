@@ -40,39 +40,40 @@
   body.locked #tab-htmls, body.locked #tab-settings,
   body.locked .custom-panel{display:none!important}
   #home{display:flex;flex-direction:column}
-  #school-home{display:none;position:absolute;inset:0;overflow:auto;padding:clamp(18px,4vw,54px);font-family:Inter,ui-sans-serif,system-ui,-apple-system,sans-serif;background:var(--portal-bg);color:var(--portal-text);color-scheme:dark;--portal-bg:#0b1018;--portal-panel:#111a26;--portal-card:#141f2d;--portal-border:#263447;--portal-heading:#f2f6fc;--portal-text:#dce5f0;--portal-muted:#8798ad;--portal-link:#a9c9f2;--portal-accent:#6e9fd7;--portal-icon-bg:#1c2b3d}
-  #school-home[data-theme="light"]{color-scheme:light;--portal-bg:#f2f5f9;--portal-panel:#fff;--portal-card:#fff;--portal-border:#dce4ed;--portal-heading:#142235;--portal-text:#26384d;--portal-muted:#718197;--portal-link:#315f91;--portal-accent:#386fa8;--portal-icon-bg:#edf3f9}
+  #school-home{display:none;position:absolute;inset:0;overflow:auto;padding:24px;background:var(--portal-bg,#f3f6fa);color:var(--portal-text,#142235);font-family:system-ui,-apple-system,sans-serif} #school-home[data-theme="dark"]{--portal-bg:#111820;--portal-text:#e8eef5;--portal-card:#1b2531;--portal-border:#303e4d;--portal-heading:#edf4fb;--portal-muted:#9aabc0;--portal-link:#83b8f0;--portal-icon-bg:#26394c} #school-home[data-theme="light"]{--portal-bg:#f3f6fa;--portal-text:#142235;--portal-card:#fff;--portal-border:#e3e8ef;--portal-heading:#142235;--portal-muted:#66768a;--portal-link:#476e99;--portal-icon-bg:#edf4fb} #portal-theme-toggle{display:block;position:relative;z-index:2;margin:0 0 16px auto;border:1px solid var(--portal-border,#e3e8ef);border-radius:9px;padding:9px 13px;background:var(--portal-card,#fff);color:var(--portal-text,#142235);font:600 13px system-ui;cursor:pointer;min-height:36px} #portal-theme-toggle:hover{filter:brightness(.96)} #school-home[data-theme="dark"] .portal-card{background:var(--portal-card);border-color:var(--portal-border);box-shadow:0 14px 42px rgba(0,0,0,.28)} #school-home[data-theme="dark"] .portal-head{border-color:var(--portal-border)} #school-home[data-theme="dark"] .portal-brand,#school-home[data-theme="dark"] .portal-title{color:var(--portal-heading)} #school-home[data-theme="dark"] .portal-copy,#school-home[data-theme="dark"] .portal-sub,#school-home[data-theme="dark"] .portal-link p{color:var(--portal-muted)} #school-home[data-theme="dark"] .portal-link{background:var(--portal-card);color:var(--portal-text);border-color:var(--portal-border)} #school-home[data-theme="dark"] .portal-icon{background:var(--portal-icon-bg)} #school-home[data-theme="dark"] .portal-footer{color:var(--portal-muted)} #school-home[data-theme="dark"] .portal-footer a,#school-home[data-theme="dark"] .portal-open{color:var(--portal-link)} .deltamath-logo svg{width:100%;height:34px;object-fit:contain}
   body.locked #school-home{display:block}
-  .portal-wrap{min-height:100%;display:flex;align-items:center;justify-content:center;padding:clamp(8px,2vw,24px)}
-  .portal-card{width:min(100%,1040px);background:var(--portal-panel);border:1px solid var(--portal-border);border-radius:22px;overflow:hidden;box-shadow:0 28px 90px rgba(0,0,0,.34),0 2px 8px rgba(0,0,0,.16)}
-  .portal-head{position:relative;padding:clamp(28px,5vw,52px);border-bottom:1px solid var(--portal-border);background:linear-gradient(135deg,rgba(44,76,112,.19),transparent 62%)}
-  .portal-brand{display:flex;align-items:center;gap:14px;color:var(--portal-heading)}
-  .portal-mark{width:48px;height:48px;border:1px solid rgba(148,180,218,.25);border-radius:14px;background:linear-gradient(145deg,#24476d,#142b45);color:#eaf3ff;display:grid;place-items:center;font-size:13px;font-weight:800;letter-spacing:.06em;box-shadow:inset 0 1px rgba(255,255,255,.12),0 8px 22px rgba(0,0,0,.2)}
-  .portal-name{font-size:13px;font-weight:750;letter-spacing:.12em;text-transform:uppercase;color:var(--portal-heading)}
-  .portal-sub{font-size:12px;color:var(--portal-muted);margin-top:5px;letter-spacing:.025em}
-  .portal-title{max-width:680px;font-size:clamp(30px,4.5vw,44px);line-height:1.12;font-weight:650;letter-spacing:-.045em;margin:42px 0 12px;color:var(--portal-heading)}
-  .portal-copy{color:var(--portal-muted);font-size:14px;line-height:1.7;margin:0}
-  #portal-theme-toggle{position:absolute;right:clamp(22px,4vw,42px);top:clamp(22px,4vw,38px);border:1px solid var(--portal-border);border-radius:999px;padding:9px 14px;background:rgba(255,255,255,.035);color:var(--portal-text);font:600 12px system-ui;cursor:pointer;transition:background .18s,border-color .18s}
-  #portal-theme-toggle:hover{background:rgba(126,169,218,.12);border-color:#526c8a}
-  .portal-links{padding:clamp(20px,3.5vw,36px);display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
-  .portal-link{min-width:0;min-height:194px;display:flex;flex-direction:column;gap:15px;text-decoration:none;color:var(--portal-text);border:1px solid var(--portal-border);border-radius:15px;padding:22px;background:var(--portal-card);transition:transform .18s,border-color .18s,box-shadow .18s,background .18s}
-  .portal-link:hover,.portal-link:focus-visible{transform:translateY(-3px);border-color:#54769d;box-shadow:0 14px 32px rgba(0,0,0,.22);outline:none;background:color-mix(in srgb,var(--portal-card) 88%,#29496c)}
-  .portal-icon{width:46px;height:46px;border-radius:12px;background:var(--portal-icon-bg);color:var(--portal-link);display:grid;place-items:center;font-size:18px;font-weight:750}
+  .portal-wrap{min-height:100%;display:flex;align-items:center;justify-content:center;padding:clamp(14px,4vw,42px)}
+  .portal-card{width:min(100%,780px);background:#fff;border:1px solid #e3e8ef;border-radius:18px;box-shadow:0 14px 42px rgba(18,42,70,.09);overflow:hidden}
+  .portal-head{padding:clamp(22px,4vw,36px);border-bottom:1px solid #edf0f4}
+  .portal-brand{display:flex;align-items:center;gap:12px;color:#1d3653}
+  .portal-mark{width:42px;height:42px;border-radius:12px;background:#164e83;color:white;display:grid;place-items:center;font-size:14px;font-weight:800;letter-spacing:.02em}
+  .portal-name{font-size:14px;font-weight:750;letter-spacing:.08em;text-transform:uppercase}
+  .portal-sub{font-size:12px;color:#77869a;margin-top:3px}
+  .portal-title{font-size:clamp(24px,4vw,32px);font-weight:700;letter-spacing:-.03em;margin:26px 0 8px;color:#142235}
+  .portal-copy{color:#66768a;font-size:14px;margin:0}
+  .portal-links{padding:clamp(18px,3vw,28px);display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+  .portal-link{min-width:0;display:flex;flex-direction:column;gap:12px;text-decoration:none;color:#1c2e43;border:1px solid #e3e9f0;border-radius:12px;padding:18px;background:#fff;transition:transform .15s,border-color .15s,box-shadow .15s}
+  .portal-link:hover,.portal-link:focus-visible{transform:translateY(-2px);border-color:#9cb9d8;box-shadow:0 7px 18px rgba(22,78,131,.08);outline:none}
+  .portal-icon{width:40px;height:40px;border-radius:10px;background:#edf4fb;color:#245d94;display:grid;place-items:center;font-size:18px;font-weight:750}
   .portal-logo{background:transparent;display:flex;align-items:center;justify-content:flex-start;overflow:hidden}
-  .portal-link:first-child .portal-logo{width:112px;height:42px}
-  .portal-link:first-child .portal-logo img{display:block;width:108px;height:auto;max-width:108px;max-height:32px;object-fit:contain}
-  .portal-link:nth-child(2) .portal-logo{width:50px;height:42px}
-  .portal-link:nth-child(2) .portal-logo img{display:block;max-width:50px;max-height:42px;object-fit:contain}
-  .portal-link:nth-child(3) .portal-logo{width:112px;height:42px}
-  .portal-link:nth-child(3) .portal-logo svg{width:112px;height:42px;object-fit:contain}
-  .portal-link h2{font-size:16px;margin:0;font-weight:680;letter-spacing:-.015em;color:var(--portal-heading)}
-  .portal-link p{font-size:12px;line-height:1.6;color:var(--portal-muted);margin:7px 0 0}
-  .portal-open{margin-top:auto;padding-top:10px;color:var(--portal-link);font-size:11px;font-weight:700;letter-spacing:.07em;text-transform:uppercase}
-  .portal-footer{padding:0 clamp(20px,3.5vw,36px) 26px;color:var(--portal-muted);font-size:11px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
-  .portal-footer a{color:var(--portal-link);text-decoration:none}
-  .portal-footer a:hover{text-decoration:underline}
-  .deltamath-logo svg{width:100%;height:34px;object-fit:contain}
-  @media(max-width:720px){#school-home{padding:10px}.portal-wrap{padding:6px}.portal-card{border-radius:16px}.portal-head{padding:26px 22px 30px}.portal-title{margin-top:36px}.portal-links{grid-template-columns:1fr;padding:16px;gap:10px}.portal-link{min-height:112px;display:grid;grid-template-columns:90px 1fr;align-items:center;gap:8px 14px;padding:16px}.portal-link .portal-logo{grid-row:1 / span 2}.portal-open{grid-column:2;margin:0;padding:0}#portal-theme-toggle{right:18px;top:18px;padding:8px 11px}.portal-brand{padding-right:110px}}
+  .portal-link:first-child .portal-logo{width:82px;height:30px}
+  .portal-link:first-child .portal-logo img{display:block;width:78px;height:auto;max-width:78px;max-height:20px;object-fit:contain}
+  .portal-link:nth-child(2) .portal-logo{width:44px;height:34px}
+  .portal-link:nth-child(2) .portal-logo img{display:block;max-width:44px;max-height:34px;object-fit:contain}
+  .portal-link:nth-child(3) .portal-logo{width:92px;height:34px}
+  .portal-link:nth-child(3) .portal-logo img{display:block;width:92px;height:34px;object-fit:cover;object-position:center}
+  .portal-link h2{font-size:15px;margin:0;font-weight:700}
+  .portal-link p{font-size:12px;line-height:1.5;color:#718095;margin:5px 0 0}
+  .portal-open{margin-top:auto;padding-top:8px;color:#245d94;font-size:12px;font-weight:650}
+  .portal-footer{padding:0 clamp(18px,3vw,28px) 24px;color:#8592a3;font-size:11px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+  .portal-footer a{color:#476e99;text-decoration:none}
+  #unlock-form{order:-1;margin:0 auto 0 0;max-width:390px;min-width:0}
+  #unlock-form label{display:none}
+  .unlock-row{display:flex;gap:8px;align-items:center}
+  #unlock-password{width:190px;min-width:0;padding:8px 10px;border:1px solid var(--border,#383c43);border-radius:8px;background:var(--bg3,#1b1d21);color:var(--text,#eee);font:inherit}
+  #unlock-error{position:absolute;left:16px;top:100%;margin:4px 0 0;color:#ff8585;font-size:12px}
+  body.locked .logo{margin-left:0}
+  @media(max-width:620px){#school-home{padding:10px}.portal-wrap{padding:8px}.portal-links{grid-template-columns:1fr}.portal-link{flex-direction:row;align-items:flex-start}.portal-open{padding:0;margin-left:auto;white-space:nowrap}.portal-card{border-radius:14px}}
   /* ---------- header ---------- */
   #bar{
     position:sticky; top:0; z-index:4;
@@ -291,7 +292,7 @@
 </style>
 <!--
 YOYOLOV CHANGELOG — searchable in this file; intentionally hidden from the interface.
-2026.11.19.29 — Expand Wordle filtering for additional slurs and sexual/profane terms; block them during input and submission.
+2026.11.18.28 — Expand Wordle filtering for additional slurs and sexual/profane terms; block them during input and submission.
 2026.11.18.27 — Block slur terms in Wordle live input, submission, and allowed-word validation.
 2026.11.18.26 — Mask explicit words in music titles and Wordle guess dictionaries; retain entries using asterisks.
 2026.11.17.33 — Load the original ClassLink screenshot at high resolution from split AVIF assets.
@@ -332,7 +333,7 @@ YOYOLOV CHANGELOG — searchable in this file; intentionally hidden from the int
       <p id="unlock-error" role="alert" aria-live="polite"></p>
     </form>
     <div class="logo">repo</div>
-    <span class="build-label" id="build-label">BUILD 2026.11.19.29</span>
+    <span class="build-label" id="build-label">BUILD 2026.11.18.28</span>
     <div id="tabs">
       <button class="tab active" data-tab="htmls" type="button">Search</button>
     </div>
@@ -739,11 +740,11 @@ applySettings();
 const portal=$('school-home'), portalThemeBtn=$('portal-theme-toggle');
 function setPortalTheme(mode){
   portal.dataset.theme=mode;
-  localStorage.setItem('student-portal-theme-v2',mode);
+  localStorage.setItem('yoyolov-portal-theme',mode);
   portalThemeBtn.textContent=mode==='dark'?'☀ Light mode':'☾ Dark mode';
   portalThemeBtn.title=mode==='dark'?'Switch to light mode':'Switch to dark mode';
 }
-setPortalTheme(localStorage.getItem('student-portal-theme-v2')==='light'?'light':'dark');
+setPortalTheme(localStorage.getItem('yoyolov-portal-theme')==='dark'?'dark':'light');
 portalThemeBtn.onclick=()=>setPortalTheme(portal.dataset.theme==='dark'?'light':'dark');
 
 /* ---------- themes ---------- */
