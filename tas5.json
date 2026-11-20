@@ -155,17 +155,17 @@
     "image": "https://snowrider.com/assets/img/logo.png"
   },
   "Wordle": {
-    "url": "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@main/wordle.html",
+    "url": "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@f1797047367b39667831860ec264ecb4cb4ea043/wordle-build6.html",
     "image": "https://cdn.jsdelivr.net/gh/selfhst/icons/webp/nyt-wordle.webp"
   },
   "OpenFront": {
     "url": "https://m6788928-byte.github.io/yoyolov/openfront/index.html",
-    "desc": "Offline Solo \u2014 runs in your browser",
+    "desc": "Offline Solo — runs in your browser",
     "image": "https://raw.githubusercontent.com/openfrontio/OpenFrontIO/main/proprietary/images/OpenFrontLogo.png"
   },
   "OpenKrillion": {
     "url": "https://openkrillion.com/",
-    "desc": "Independent daily trivia \u2014 opens separately",
+    "desc": "Independent daily trivia — opens separately",
     "image": "https://raw.githubusercontent.com/VulcanEon/openkrillion.com-service/main/public/assets/icon.png"
   },
   "Get Yoked": {
