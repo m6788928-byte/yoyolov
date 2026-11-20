@@ -292,6 +292,7 @@
 </style>
 <!--
 YOYOLOV CHANGELOG — searchable in this file; intentionally hidden from the interface.
+2026.11.19.26 — Fix the Tools study button finding the actual admin tab name (`AI`).
 2026.11.19.25 — Allow the admin login dialog to reopen after Cancel.
 2026.11.19.24 — Show the actual admin password lockout state instead of reporting a generic login failure.
 2026.11.19.23 — Enforce the 1,000-character limit in group chat at the database policy layer.
@@ -358,7 +359,7 @@ YOYOLOV CHANGELOG — searchable in this file; intentionally hidden from the int
       <p id="unlock-error" role="alert" aria-live="polite"></p>
     </form>
     <div class="logo">repo</div>
-    <span class="build-label" id="build-label">BUILD 2026.11.19.25</span>
+    <span class="build-label" id="build-label">BUILD 2026.11.19.26</span>
     <div id="tabs">
       <button class="tab active" data-tab="htmls" type="button">Search</button>
     </div>
@@ -1013,7 +1014,7 @@ window.addEventListener('message', e => {
   const toolsFrame = document.querySelector('#tab-custom-0 iframe');
   if(e.source !== toolsFrame?.contentWindow) return;
   const tabs = [...CUSTOM_TABS, ...(adminTabsUnlocked() ? ADMIN_TABS : [])];
-  const aiIndex = tabs.findIndex(x => x.name === 'AI Chat');
+  const aiIndex = tabs.findIndex(x => x.name === 'AI Chat' || x.name === 'AI');
   if(aiIndex < 0){
     toolsFrame.contentWindow.postMessage({type:'yoyolov-study-status',message:'Unlock AI Chat in Settings first.'}, '*');
     return;
