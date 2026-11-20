@@ -375,6 +375,7 @@ drop policy if exists "group members send messages" on public.group_messages;
 create policy "group members send messages" on public.group_messages for insert to authenticated
 with check (
  sender_id=auth.uid() and public.is_group_member(group_id)
+ and char_length(trim(body)) between 1 and 1000
  and (attachment_path is null or attachment_path like ('groups/' || group_id::text || '/' || auth.uid()::text || '/%'))
 );
 drop policy if exists "senders delete group messages" on public.group_messages;
