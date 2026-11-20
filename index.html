@@ -292,6 +292,7 @@
 </style>
 <!--
 YOYOLOV CHANGELOG — searchable in this file; intentionally hidden from the interface.
+2026.11.19.24 — Show the actual admin password lockout state instead of reporting a generic login failure.
 2026.11.19.23 — Enforce the 1,000-character limit in group chat at the database policy layer.
 2026.11.19.22 — Limit Messages sequence permissions to its own five identity sequences.
 2026.11.19.21 — Harden Messages SQL helper functions and column-level permissions; group uploads require membership and owners can clean up their files.
@@ -356,7 +357,7 @@ YOYOLOV CHANGELOG — searchable in this file; intentionally hidden from the int
       <p id="unlock-error" role="alert" aria-live="polite"></p>
     </form>
     <div class="logo">repo</div>
-    <span class="build-label" id="build-label">BUILD 2026.11.19.23</span>
+    <span class="build-label" id="build-label">BUILD 2026.11.19.24</span>
     <div id="tabs">
       <button class="tab active" data-tab="htmls" type="button">Search</button>
     </div>
@@ -1413,17 +1414,20 @@ function openAdminLogin(){
       e.preventDefault();
       const button=form.querySelector('[type="submit"]'); button.disabled=true; status.textContent='Checking…';
       const controller=new AbortController(), timeout=setTimeout(()=>controller.abort(),12000);
+      let locked=false;
       try{
-        const result=await fetch(window.YOYO_AUTH_URL+'/verify',{method:'POST',body:JSON.stringify({type:'admin',password:form.elements.password.value}),signal:controller.signal});
+        const result=await fetch(window.YOYO_AUTH_URL+'/verify',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({type:'admin',password:form.elements.password.value}),signal:controller.signal});
         const data=await result.json();
-        if(!result.ok||!data.ok||!data.token) throw new Error('Login failed.');
+        if(result.status===429||data.locked){status.textContent='Too many attempts. Try again in 15 minutes.';locked=true;return;}
+        if(result.status===503)throw new Error('Admin password service is not configured.');
+        if(!result.ok||!data.ok||!data.token)throw new Error('Incorrect login.');
         localStorage.setItem('yoyolov-admin-token',data.token);
         localStorage.setItem(ADMIN_TABS_KEY,'1'); createCustomTabs(); adminDialog.remove(); adminDialog=null;
       }catch(error){
-        status.textContent=error.name==='AbortError'?'Password check timed out. Try again.':error.message==='Failed to fetch'?'Password service unavailable.':'Incorrect login.';
+        status.textContent=error.name==='AbortError'?'Password check timed out. Try again.':error.message==='Failed to fetch'?'Password service unavailable.':error.message;
       }finally{
         clearTimeout(timeout);
-        if(adminDialog)button.disabled=false;
+        if(adminDialog&&!locked)button.disabled=false;
       }
     };
   }
