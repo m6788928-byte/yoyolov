@@ -200,6 +200,8 @@ async function handleAccess(request, env, origin, path) {
   }
 
   if (path === "/access/admin/login") {
+    if (!await rateAllowed(env, request, "owner-login", 6, 300))
+      return json({ ok: false, error: "Too many owner sign-in attempts. Try again in a few minutes." }, 429, origin);
     const expected = env.ADMIN_TABS_PASSWORD || env.ADMIN_PASSWORD;
     if (!await matchesSecret(body.password, expected))
       return json({ ok: false, error: "Owner password is incorrect." }, 401, origin);
@@ -278,6 +280,8 @@ export default {
     });
     if (request.method !== "POST") return json({ ok: false, error: "Not found." }, 404, origin);
     const path = new URL(request.url).pathname;
+    const contentLength = Number(request.headers.get("Content-Length") || 0);
+    if (contentLength > 16384) return json({ ok: false, error: "Request is too large." }, 413, origin);
     if (path.startsWith("/access/")) return handleAccess(request, env, origin, path);
     if (path !== "/verify") return json({ ok: false, error: "Not found." }, 404, origin);
 
@@ -286,7 +290,6 @@ export default {
     catch { return json({ ok: false, error: "Invalid request." }, 400, origin); }
     let ok = false;
     switch (body?.type) {
-      case "main": ok = await matchesSecret(body.password, env.MAIN_PASSWORD); break;
       case "messages": ok = await matchesSecret(body.password, env.MESSAGES_PASSWORD); break;
       case "screen": ok = await matchesSecret(body.password, env.SCREEN_SHARE_PASSWORD); break;
       case "admin": ok = await matchesSecret(body.password, env.ADMIN_TABS_PASSWORD || env.ADMIN_PASSWORD); break;
