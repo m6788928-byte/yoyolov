@@ -290,7 +290,7 @@
 </style>
 <!--
 YOYOLOV CHANGELOG — searchable in this file; intentionally hidden from the interface.
-2026.11.20.49 — Update repository SVG launchers to preserve the hosted origin for Chromebook sign-in.
+2026.11.20.50 — Open the hosted app directly to avoid opaque SVG origins on ChromeOS.
 2026.11.20.48 — Allow the protected AI page to load its same-origin config script and image blobs.
 2026.11.20.47 — Align the signed-in header build label with the sign-in build number.
 2026.11.20.46 — Require the admin password to unlock AI and serve its protected page through the Worker.
@@ -390,7 +390,7 @@ YOYOLOV CHANGELOG — searchable in this file; intentionally hidden from the int
       </form>
       <p id="access-status" role="status" aria-live="polite"></p>
       <button id="owner-entry" type="button" onclick="window.yoyolovOwnerSignIn();return false;">Owner sign-in</button>
-      <small id="auth-build" style="display:block;margin-top:12px;text-align:center;color:#929daf;font-size:11px">BUILD 2026.11.20.49</small>
+      <small id="auth-build" style="display:block;margin-top:12px;text-align:center;color:#929daf;font-size:11px">BUILD 2026.11.20.50</small>
 
     </main>
   </div>
@@ -404,7 +404,7 @@ YOYOLOV CHANGELOG — searchable in this file; intentionally hidden from the int
       <button id="signout" type="button">Sign out</button>
     </div>
     <div class="logo">Yoyolov</div>
-    <span class="build-label" id="build-label">BUILD 2026.11.20.49</span>
+    <span class="build-label" id="build-label">BUILD 2026.11.20.50</span>
     <div id="tabs">
       <button class="tab active" data-tab="htmls" type="button">Search</button>
     </div>
