@@ -49,7 +49,7 @@ create or replace function public.create_chat_profile()
 returns trigger
 language plpgsql
 security definer
-set search_path=public
+set search_path=public,pg_temp
 as $$
 declare requested_name text;
 begin
@@ -72,6 +72,7 @@ create trigger on_auth_user_created_chat_profile
 after insert on auth.users
 for each row when (new.raw_user_meta_data ? 'username')
 execute function public.create_chat_profile();
+revoke all on function public.create_chat_profile() from public,anon,authenticated;
 
 -- Backfill accounts created before the trigger was installed.
 -- Existing profiles and usernames already claimed by another account are skipped.
@@ -91,7 +92,7 @@ create or replace function public.stamp_message_author()
 returns trigger
 language plpgsql
 security definer
-set search_path=public
+set search_path=public,pg_temp
 as $$
 begin
   if new.user_id is distinct from auth.uid() then
@@ -110,6 +111,7 @@ drop trigger if exists messages_stamp_author on public.messages;
 create trigger messages_stamp_author
 before insert on public.messages
 for each row execute function public.stamp_message_author();
+revoke all on function public.stamp_message_author() from public,anon,authenticated;
 
 create index if not exists messages_channel_created_idx
   on public.messages(channel,created_at);
@@ -123,7 +125,7 @@ returns boolean
 language sql
 stable
 security definer
-set search_path = public
+set search_path = public, pg_temp
 as 'select exists (
   select 1 from public.profiles
   where id = auth.uid() and lower(username) = ''michaelmoose''
@@ -232,7 +234,7 @@ create or replace function public.stamp_dm_sender()
 returns trigger
 language plpgsql
 security definer
-set search_path=public
+set search_path=public,pg_temp
 as $$
 begin
   if new.sender_id is distinct from auth.uid() then
@@ -254,6 +256,7 @@ drop trigger if exists dm_messages_stamp_sender on public.dm_messages;
 create trigger dm_messages_stamp_sender
 before insert on public.dm_messages
 for each row execute function public.stamp_dm_sender();
+revoke all on function public.stamp_dm_sender() from public,anon,authenticated;
 
 create index if not exists dm_messages_sender_created_idx
   on public.dm_messages(sender_id,created_at desc);
@@ -333,11 +336,13 @@ create table if not exists public.group_members (
 );
 create index if not exists group_members_user_group_idx on public.group_members(user_id,group_id);
 create or replace function public.is_group_member(gid uuid)
-returns boolean language sql stable security definer set search_path=public
+returns boolean language sql stable security definer set search_path=public,pg_temp
 as 'select exists(select 1 from public.group_members where group_id=gid and user_id=auth.uid())';
 create or replace function public.is_group_owner(gid uuid)
-returns boolean language sql stable security definer set search_path=public
+returns boolean language sql stable security definer set search_path=public,pg_temp
 as 'select exists(select 1 from public.group_chats where id=gid and owner_id=auth.uid())';
+revoke all on function public.is_group_member(uuid),public.is_group_owner(uuid) from public,anon;
+grant execute on function public.is_group_member(uuid),public.is_group_owner(uuid) to authenticated;
 alter table public.group_chats enable row level security;
 alter table public.group_members enable row level security;
 drop policy if exists "members view their groups" on public.group_chats;
