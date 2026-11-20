@@ -393,7 +393,7 @@ with check (
  bucket_id='chat-attachments' and (
   ((storage.foldername(name))[1]='channels' and (storage.foldername(name))[2]=auth.uid()::text)
   or ((storage.foldername(name))[1]='dms' and (storage.foldername(name))[2]=auth.uid()::text)
-  or ((storage.foldername(name))[1]='groups' and (storage.foldername(name))[3]=auth.uid()::text)
+  or ((storage.foldername(name))[1]='groups' and (storage.foldername(name))[3]=auth.uid()::text and public.is_group_member(((storage.foldername(name))[2])::uuid))
  )
 );
 drop policy if exists "chat members read permitted files" on storage.objects;
@@ -411,6 +411,6 @@ create policy "chat members delete own files" on storage.objects for delete to a
 using (
  bucket_id='chat-attachments' and (
   ((storage.foldername(name))[1] in ('channels','dms') and (storage.foldername(name))[2]=auth.uid()::text)
-  or ((storage.foldername(name))[1]='groups' and (storage.foldername(name))[3]=auth.uid()::text and public.is_group_member(((storage.foldername(name))[2])::uuid))
+  or ((storage.foldername(name))[1]='groups' and (storage.foldername(name))[3]=auth.uid()::text)
  )
 );
