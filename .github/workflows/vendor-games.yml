@@ -22,10 +22,13 @@ jobs:
           set -euo pipefail
           git clone --depth 1 --filter=blob:none --sparse https://github.com/bubbls/UGS-Assets.git /tmp/ugs-assets
           git -C /tmp/ugs-assets sparse-checkout set "snow-rider" "retro bowl" "rocket-goal" "get yoked" "golf-battle"
+          git clone --depth 1 --filter=blob:none --sparse https://github.com/wnasmile/LAMAR.git /tmp/lamar
+          git -C /tmp/lamar sparse-checkout set "retro-bowl"
 
-          mkdir -p games/snow-rider games/retro-bowl games/rocket-goal games/get-yoked games/golf-battle
+          mkdir -p games/snow-rider games/retro-bowl games/retro-bowl-classic games/rocket-goal games/get-yoked games/golf-battle
           cp -a /tmp/ugs-assets/snow-rider/. games/snow-rider/
           cp -a "/tmp/ugs-assets/retro bowl/." games/retro-bowl/
+          cp -a /tmp/lamar/retro-bowl/. games/retro-bowl-classic/
           cp -a /tmp/ugs-assets/rocket-goal/. games/rocket-goal/
           cp -a "/tmp/ugs-assets/get yoked/." games/get-yoked/
           cp -a /tmp/ugs-assets/golf-battle/. games/golf-battle/
@@ -42,6 +45,7 @@ jobs:
           pages = [
               root / "snow-rider/index.html",
               root / "retro-bowl/index.html",
+              root / "retro-bowl-classic/index.html",
               root / "rocket-goal/index.html",
               root / "get-yoked/index.html",
               root / "golf-battle/index.html",
@@ -88,9 +92,25 @@ jobs:
                   html = html.replace("playcanvas-stable.min.js", "playcanvas-stable.max.js")
                   html = re.sub(r'<link\b[^>]*manifest\.json[^>]*>', "", html, flags=re.I)
 
-              # This source build identifies itself as the College edition.
+              # Keep the original Retro Bowl separate from the College edition.
               if page.parts[1] == "retro-bowl":
-                  html = html.replace("<title>Retro Bowl College</title>", "<title>Retro Bowl</title>")
+                  html = html.replace("<title>Retro Bowl College</title>", "<title>Retro Bowl College</title>")
+
+              if page.parts[1] == "retro-bowl-classic":
+                  html = re.sub(
+                      r"window\.onload\s*=\s*GameMaker_Init\s*;",
+                      """window.addEventListener("load", function () {
+                        if (typeof window.GameMaker_Init === "function") window.GameMaker_Init();
+                        else {
+                          const message = document.createElement("div");
+                          message.style.cssText = "position:fixed;inset:0;padding:24px;background:#000;color:#fff;font:16px Arial";
+                          message.textContent = "Retro Bowl failed to load its game engine. Reload and try again.";
+                          document.body.append(message);
+                        }
+                      });""",
+                      html,
+                      flags=re.I
+                  )
 
               page.write_text(html, encoding="utf-8")
 
@@ -103,7 +123,8 @@ jobs:
               "Get Yoked": "games/get-yoked/index.html",
               "Golf Battle": "games/golf-battle/index.html",
               "Wordle": "wordle.html",
-              "Retro Bowl": "games/retro-bowl/index.html",
+              "Retro Bowl": "games/retro-bowl-classic/index.html",
+              "Retro Bowl College": "games/retro-bowl/index.html",
               "Snow Rider 3D": "games/snow-rider/index.html",
           }
           for name, path in targets.items():
