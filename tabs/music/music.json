@@ -91,10 +91,6 @@
               "url": "https://res.cloudinary.com/r8rf9fhv/video/upload/v1791513412/All_Of_The_Lights_spotdown.org_zaum1p.mp3"
             },
             {
-              "name": "Monster",
-              "url": "https://example.com/music/fold.mp3"
-            },
-            {
               "name": "So Appalled",
               "url": "https://res.cloudinary.com/r8rf9fhv/video/upload/v1791513411/So_Appalled_spotdown.org_mlgjuq.mp3"
             },
@@ -129,22 +125,7 @@
     {
       "artist": "Lil Wayne",
       "poster": "https://example.com/images/copper-owls.png",
-      "albums": [
-        {
-          "name": "test album",
-          "cover": "https://example.com/images/rust-and-feathers.png",
-          "songs": [
-            {
-              "name": "test",
-              "url": "https://example.com/music/night-shift.mp3"
-            },
-            {
-              "name": "test",
-              "url": "https://example.com/music/barn-light.mp3"
-            }
-          ]
-        }
-      ]
+      "albums": []
     }
   ],
   "playlists": [
