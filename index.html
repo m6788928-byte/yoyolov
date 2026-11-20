@@ -292,6 +292,7 @@
 </style>
 <!--
 YOYOLOV CHANGELOG — searchable in this file; intentionally hidden from the interface.
+2026.11.19.13 — Load Yoyolov-hosted jsDelivr games as cross-origin documents instead of same-origin srcdoc.
 2026.11.19.12 — Restrict friend-request updates to status only, preventing edits to sender and recipient IDs.
 2026.11.19.11 — Fix the AI study button being overwritten by a duplicate click handler.
 2026.11.19.10 — Add owner-scoped Storage delete rules so failed Messages uploads can be cleaned up.
@@ -345,7 +346,7 @@ YOYOLOV CHANGELOG — searchable in this file; intentionally hidden from the int
       <p id="unlock-error" role="alert" aria-live="polite"></p>
     </form>
     <div class="logo">repo</div>
-    <span class="build-label" id="build-label">BUILD 2026.11.19.12</span>
+    <span class="build-label" id="build-label">BUILD 2026.11.19.13</span>
     <div id="tabs">
       <button class="tab active" data-tab="htmls" type="button">Search</button>
     </div>
@@ -1232,10 +1233,16 @@ async function openUrl(url, name, direct = false){
   show(); busy.classList.add('on'); busy.textContent = 'Loading ' + name + '…';
   if(settings.autoFullscreen && !document.fullscreenElement && viewer.requestFullscreen)
     viewer.requestFullscreen().catch(() => {});
-  if(direct || name.toLowerCase() === 'openkrillion'){
+  let isolatedCdn = false;
+  try {
+    const target = new URL(url, location.href);
+    isolatedCdn = target.protocol === 'https:' && target.hostname === 'cdn.jsdelivr.net'
+      && target.pathname.startsWith('/gh/m6788928-byte/yoyolov@');
+  } catch {}
+  if(direct || name.toLowerCase() === 'openkrillion' || isolatedCdn){
     current = {name, url, direct:true};
     frame.onload = () => busy.classList.remove('on');
-    frame.onerror = () => { busy.textContent = 'Could not load OpenKrillion. The site may block embedding.'; };
+    frame.onerror = () => { busy.textContent = 'Could not load ' + name + '. The host may be unavailable or block embedding.'; };
     frame.removeAttribute('srcdoc');
     frame.src = url;
     return;
