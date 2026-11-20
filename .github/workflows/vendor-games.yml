@@ -110,14 +110,13 @@ jobs:
 
               page.write_text(html, encoding="utf-8")
 
-          # Point the six current catalog entries to files in this repo, served through jsDelivr.
+          # Point the five vendored catalog entries to files in this repo, served through jsDelivr.
           catalog_path = Path("tas5.json")
           catalog = json.loads(catalog_path.read_text(encoding="utf-8"))
           cdn = "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@main/"
           targets = {
               "Get Yoked": "games/get-yoked/index.html",
               "Golf Battle": "games/golf-battle/index.html",
-              "Wordle": "wordle.html",
               "Retro Bowl": "games/retro-bowl-classic/index.html",
               "Retro Bowl College": "games/retro-bowl/index.html",
               "Snow Rider 3D": "games/snow-rider/index.html",
