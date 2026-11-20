@@ -139,5 +139,10 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add -A openfront tas5.json
+          if git diff --cached --quiet; then
+            echo "OpenFront Solo is already up to date."
+            exit 0
+          fi
           git commit -m "Host OpenFront Solo as a browser game"
+          git pull --rebase origin main
           git push origin main
