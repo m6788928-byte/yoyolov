@@ -29,7 +29,7 @@
             const url='https://m6788928-byte.github.io/yoyolov/';
             const res=await fetch(url); if(!res.ok) throw new Error('HTTP '+res.status);
             let html=await res.text();
-            if(!/<base\\s/i.test(html)) html=html.replace(/<head([^>]*)>/i,'<head$1><base href="'+url+'">');
+            if(!/<base\s/i.test(html)) html=html.replace(/<head([^>]*)>/i,'<head$1><base href="'+url+'">');
             const frame=document.getElementById('fm'),doc=frame.contentDocument||frame.contentWindow.document;
             doc.open();doc.write(html);doc.close();
           }catch(e){console.error('Yoyolov launcher:',e);}
