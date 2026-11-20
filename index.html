@@ -291,6 +291,7 @@
 </style>
 <!--
 YOYOLOV CHANGELOG — searchable in this file; intentionally hidden from the interface.
+2026.11.20.37 — Make owner sign-in open directly from its button even if later startup binding fails.
 2026.11.19.36 — Replace the shared password and screenshot landing with approved individual accounts.
 2026.11.19.35 — Keep the AI access token out of iframe-accessible storage.
 2026.11.19.34 — Preload the high-resolution ClassLink background to reduce first-screen image delay.
@@ -379,7 +380,7 @@ YOYOLOV CHANGELOG — searchable in this file; intentionally hidden from the int
         <button class="auth-primary" type="submit">Send access request</button>
       </form>
       <p id="access-status" role="status" aria-live="polite"></p>
-      <button id="owner-entry" type="button">Owner sign-in</button>
+      <button id="owner-entry" type="button" onclick="openAdminLogin();return false;">Owner sign-in</button>
     </main>
   </div>
 </div>
@@ -392,7 +393,7 @@ YOYOLOV CHANGELOG — searchable in this file; intentionally hidden from the int
       <button id="signout" type="button">Sign out</button>
     </div>
     <div class="logo">Yoyolov</div>
-    <span class="build-label" id="build-label">BUILD 2026.11.19.36</span>
+    <span class="build-label" id="build-label">BUILD 2026.11.20.37</span>
     <div id="tabs">
       <button class="tab active" data-tab="htmls" type="button">Search</button>
     </div>
