@@ -155,7 +155,7 @@
     "image": "https://snowrider.com/assets/img/logo.png"
   },
   "Wordle": {
-    "url": "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@f1797047367b39667831860ec264ecb4cb4ea043/wordle-build6.html",
+    "url": "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@main/wordle.html",
     "image": "https://cdn.jsdelivr.net/gh/selfhst/icons/webp/nyt-wordle.webp"
   },
   "OpenFront": {
@@ -185,11 +185,11 @@
     "url": "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@main/snake-game.html"
   },
   "Retro Bowl College": {
-    "url": "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@9f8fd9e030af2dffbe881cebd6b58d3d53250585/games/retro-bowl/index.html",
+    "url": "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@main/games/retro-bowl/index.html",
     "image": "https://cdn-1.webcatalog.io/catalog/retro-bowl/retro-bowl-icon.png?v=1769388148598"
   },
   "Retro Bowl": {
-    "url": "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@main/games/retro-bowl/index.html",
+    "url": "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@main/games/retro-bowl-classic/index.html",
     "image": "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@main/thumbs/retrobowl.webp"
   },
   "Baldi's Basics": {
