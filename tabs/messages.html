@@ -247,30 +247,42 @@ async function runUserCommand(raw){
  return false;
 }
 async function sendMessage(){
- const file=$("fileInput").files[0]||null,body=$("messageInput").value.trim();if((!body&&!file)||!user)return;$("send").disabled=true;
- if(body.startsWith("/")&&!file){
-  if(await runUserCommand(body)){$("send").disabled=false;return;}
-  if(!isAdmin){setConnection(adminError?"Admin check failed: "+adminError:"Admin check returned false for "+username+". Verify the account profile and is_chat_admin() SQL.");$("send").disabled=false;return;}
-  await runAdminCommand(body);$("send").disabled=false;return;
+ const file=$("fileInput").files[0]||null,body=$("messageInput").value.trim();
+ if((!body&&!file)||!user)return;
+ const send=$("send"),attach=$("attach");
+ send.disabled=true;attach.disabled=true;
+ let uploadedPath="";
+ try{
+  if(body.startsWith("/")&&!file){
+   if(await runUserCommand(body))return;
+   if(!isAdmin){setConnection(adminError?"Admin check failed: "+adminError:"Admin check returned false for "+username+". Verify the account profile and is_chat_admin() SQL.");return;}
+   await runAdminCommand(body);return;
+  }
+  let attachment={};
+  if(file){
+   if(file.size>10*1024*1024)throw new Error("Files must be 10 MB or smaller.");
+   if(!/\.(pdf|png|jpe?g|gif|webp|txt|md|csv|docx?|xlsx?|pptx?|zip)$/i.test(file.name))throw new Error("File type not supported. Use PDF, images, text, Office files, or ZIP.");
+   const safe=file.name.replace(/[^a-zA-Z0-9._-]/g,"_").slice(-100)||"file";
+   uploadedPath=activeGroup?"groups/"+activeGroup.id+"/"+user.id+"/"+crypto.randomUUID()+"-"+safe:activeDM?"dms/"+user.id+"/"+activeDM.id+"/"+crypto.randomUUID()+"-"+safe:"channels/"+user.id+"/"+crypto.randomUUID()+"-"+safe;
+   const upload=await db.storage.from("chat-attachments").upload(uploadedPath,file,{upsert:false});
+   if(upload.error)throw new Error("Upload failed: "+upload.error.message+" · Run the latest messages setup SQL.");
+   attachment={attachment_path:uploadedPath,attachment_name:file.name,attachment_size:file.size};
+  }
+  const messageBody=body||"📎 "+file.name;
+  const result=activeGroup
+   ?await db.from("group_messages").insert({group_id:activeGroup.id,sender_id:user.id,body:messageBody,...attachment})
+   :activeDM
+    ?await db.from("dm_messages").insert({sender_id:user.id,recipient_id:activeDM.id,body:messageBody,...attachment})
+    :await db.from("messages").insert({channel:room,user_id:user.id,body:messageBody,reply_to:replyTo,...attachment});
+  if(result.error)throw result.error;
+  clearComposer();
+ }catch(error){
+  if(uploadedPath)try{await db.storage.from("chat-attachments").remove([uploadedPath]);}catch{}
+  setConnection(error.message||"Message failed.");
+ }finally{
+  send.disabled=!user||(!$("messageInput").value.trim()&&!$("fileInput").files.length);
+  attach.disabled=!user;
  }
- let attachment={};
- if(file){
-  if(file.size>10*1024*1024){setConnection("Files must be 10 MB or smaller.");$("send").disabled=false;return;}if(!/\.(pdf|png|jpe?g|gif|webp|txt|md|csv|docx?|xlsx?|pptx?|zip)$/i.test(file.name)){setConnection("File type not supported. Use PDF, images, text, Office files, or ZIP.");$("send").disabled=false;return;}
-  const safe=file.name.replace(/[^a-zA-Z0-9._-]/g,"_").slice(-100)||"file";
-  const path=activeGroup?"groups/"+activeGroup.id+"/"+user.id+"/"+crypto.randomUUID()+"-"+safe:activeDM?"dms/"+user.id+"/"+activeDM.id+"/"+crypto.randomUUID()+"-"+safe:"channels/"+user.id+"/"+crypto.randomUUID()+"-"+safe;
-  const upload=await db.storage.from("chat-attachments").upload(path,file,{upsert:false});
-  if(upload.error){setConnection("Upload failed: "+upload.error.message+" · Run the latest messages setup SQL.");$("send").disabled=false;$("attach").disabled=false;return;}
-  attachment={attachment_path:path,attachment_name:file.name,attachment_size:file.size};
- }
- const messageBody=body||"📎 "+file.name;
- const result=activeGroup
-  ?await db.from("group_messages").insert({group_id:activeGroup.id,sender_id:user.id,body:messageBody,...attachment})
-  :activeDM
-   ?await db.from("dm_messages").insert({sender_id:user.id,recipient_id:activeDM.id,body:messageBody,...attachment})
-   :await db.from("messages").insert({channel:room,user_id:user.id,body:messageBody,reply_to:replyTo,...attachment});
- const {error}=result;
- if(error){setConnection("Send failed: "+error.message);$("send").disabled=false;return;}
- clearComposer();$("send").disabled=false;$("attach").disabled=false;
 }
 function addAttachment(main,m){
  const b=document.createElement("button");b.className="smallBtn";b.style.marginTop="7px";b.textContent="↓ "+(m.attachment_name||"Download file")+" · "+(m.attachment_size?Math.max(1,Math.round(m.attachment_size/1024))+" KB":"");
@@ -336,7 +348,7 @@ async function signOut(){
  if(presence)await db.removeChannel(presence);if(live)await db.removeChannel(live);
  presence=live=null;await db.auth.signOut();user=null;username="";isAdmin=false;adminError="";
  $("myName").textContent="Signed out";$("myAvatar").textContent="?";$("myStatus").textContent="offline";
- $("messageInput").disabled=true;$("send").disabled=true;authPrompt("login");
+ $("messageInput").disabled=true;$("send").disabled=true;$("attach").disabled=true;authPrompt("login");
 }
 async function boot(){
  if(!window.supabase){setup("Supabase client failed to load. Check internet access to jsDelivr.");return;}
