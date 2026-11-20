@@ -4,3 +4,20 @@ compatibility_date = "2026-11-16"
 
 [vars]
 ALLOWED_ORIGINS = "https://m6788928-byte.github.io"
+
+[[kv_namespaces]]
+binding = "ACCESS"
+id = "078f579c8b634734b117d9d86c9eb79b"
+
+[observability]
+enabled = true
+head_sampling_rate = 1.0
+
+[observability.logs]
+enabled = true
+invocation_logs = true
+head_sampling_rate = 1.0
+
+[observability.traces]
+enabled = true
+head_sampling_rate = 0.1
