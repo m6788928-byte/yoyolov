@@ -15,6 +15,8 @@ The page no longer uses `MAIN_PASSWORD`. Keep `ADMIN_TABS_PASSWORD` private; it 
 
 The KV namespace `yoyolov-access` is bound as `ACCESS` in `wrangler.toml`. The checked-in namespace ID is for the current Cloudflare account. For a different account, create a KV namespace and replace that ID.
 
+The protected AI page is stored in the same private KV namespace under `admin-content-v1`. The Worker serves it only to a valid owner session at `GET /admin-content`.
+
 Required Worker secret:
 
 - `ADMIN_TABS_PASSWORD`
