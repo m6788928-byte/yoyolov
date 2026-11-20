@@ -147,7 +147,9 @@ create policy "members read messages" on public.messages
 for select to authenticated using (true);
 drop policy if exists "members send own messages" on public.messages;
 create policy "members send own messages" on public.messages
-for insert to authenticated with check (user_id=auth.uid());
+for insert to authenticated with check (
+  user_id=auth.uid() and username=(select p.username from public.profiles p where p.id=auth.uid())
+);
 drop policy if exists "authors edit own messages" on public.messages;
 drop policy if exists "authors delete own messages" on public.messages;
 drop policy if exists "authors and admins delete messages" on public.messages;
@@ -260,7 +262,10 @@ using (sender_id=auth.uid() or recipient_id=auth.uid());
 drop policy if exists "users send DMs as self" on public.dm_messages;
 create policy "users send DMs as self" on public.dm_messages
 for insert to authenticated
-with check (sender_id=auth.uid() and recipient_id<>auth.uid());
+with check (
+  sender_id=auth.uid() and recipient_id<>auth.uid()
+  and sender_username=(select p.username from public.profiles p where p.id=auth.uid())
+);
 drop policy if exists "senders delete own DMs" on public.dm_messages;
 drop policy if exists "senders and admins delete DMs" on public.dm_messages;
 create policy "senders and admins delete DMs" on public.dm_messages
