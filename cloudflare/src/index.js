@@ -10,7 +10,7 @@ function json(body, status, origin) {
       "content-type": "application/json; charset=utf-8",
       "cache-control": "no-store",
       "access-control-allow-origin": origin,
-      "access-control-allow-methods": "POST, OPTIONS",
+      "access-control-allow-methods": "GET, POST, OPTIONS",
       "access-control-allow-headers": "content-type, authorization",
       "vary": "Origin"
     }
@@ -272,14 +272,29 @@ export default {
       status: 204,
       headers: {
         "access-control-allow-origin": origin,
-        "access-control-allow-methods": "POST, OPTIONS",
+        "access-control-allow-methods": "GET, POST, OPTIONS",
         "access-control-allow-headers": "content-type, authorization",
         "access-control-max-age": "86400",
         "vary": "Origin"
       }
     });
-    if (request.method !== "POST") return json({ ok: false, error: "Not found." }, 404, origin);
     const path = new URL(request.url).pathname;
+    if (path === "/admin-content") {
+      if (request.method !== "GET") return json({ ok: false, error: "Method not allowed." }, 405, origin);
+      const claims = await readSession(env, request);
+      if (!claims || claims.role !== "owner")
+        return json({ ok: false, error: "Owner sign-in required." }, 401, origin);
+      const html = await env.ACCESS.get("admin-content-v1");
+      if (!html) return json({ ok: false, error: "AI content is unavailable." }, 503, origin);
+      return new Response(html, { status: 200, headers: {
+        "content-type": "text/html; charset=utf-8",
+        "cache-control": "no-store",
+        "access-control-allow-origin": origin,
+        "vary": "Origin",
+        "x-content-type-options": "nosniff"
+      }});
+    }
+    if (request.method !== "POST") return json({ ok: false, error: "Not found." }, 404, origin);
     const contentLength = Number(request.headers.get("Content-Length") || 0);
     if (contentLength > 16384) return json({ ok: false, error: "Request is too large." }, 413, origin);
     if (path.startsWith("/access/")) return handleAccess(request, env, origin, path);
