@@ -291,6 +291,7 @@
 </style>
 <!--
 YOYOLOV CHANGELOG — searchable in this file; intentionally hidden from the interface.
+2026.11.20.38 — Show the build on sign-in and make owner authentication independent of main app startup.
 2026.11.20.37 — Make owner sign-in open directly from its button even if later startup binding fails.
 2026.11.19.36 — Replace the shared password and screenshot landing with approved individual accounts.
 2026.11.19.35 — Keep the AI access token out of iframe-accessible storage.
@@ -380,7 +381,8 @@ YOYOLOV CHANGELOG — searchable in this file; intentionally hidden from the int
         <button class="auth-primary" type="submit">Send access request</button>
       </form>
       <p id="access-status" role="status" aria-live="polite"></p>
-      <button id="owner-entry" type="button" onclick="openAdminLogin();return false;">Owner sign-in</button>
+      <button id="owner-entry" type="button" onclick="window.yoyolovOwnerSignIn();return false;">Owner sign-in</button>
+      <small id="auth-build" style="display:block;margin-top:12px;text-align:center;color:#929daf;font-size:11px">BUILD 2026.11.20.38</small>
     </main>
   </div>
 </div>
@@ -393,7 +395,7 @@ YOYOLOV CHANGELOG — searchable in this file; intentionally hidden from the int
       <button id="signout" type="button">Sign out</button>
     </div>
     <div class="logo">Yoyolov</div>
-    <span class="build-label" id="build-label">BUILD 2026.11.20.37</span>
+    <span class="build-label" id="build-label">BUILD 2026.11.20.38</span>
     <div id="tabs">
       <button class="tab active" data-tab="htmls" type="button">Search</button>
     </div>
@@ -545,7 +547,26 @@ YOYOLOV CHANGELOG — searchable in this file; intentionally hidden from the int
   <div id="busy">Loading…</div>
 </div>
 
-<script src="auth-config.js"></script>\n<script>
+<script src="auth-config.js"></script>
+<script>
+window.yoyolovOwnerSignIn = async function () {
+  const password = window.prompt('Enter the owner password');
+  if (password === null) return;
+  try {
+    const response = await fetch(window.YOYO_AUTH_URL + '/access/admin/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ password })
+    });
+    const data = await response.json().catch(() => ({}));
+    if (!response.ok || !data.ok || !data.token) throw new Error(data.error || 'Owner sign-in failed.');
+    sessionStorage.setItem('yoyolov-admin-session', data.token);
+    window.location.reload();
+  } catch (error) {
+    window.alert(error.message || 'Owner sign-in failed.');
+  }
+};
+</script>\n<script>
 /* ======================================================================
    Your list lives in a JSON file:  { "Name": "html link", ... }
    An entry can also be an object for a custom tile:
@@ -576,7 +597,7 @@ const CUSTOM_TABS = [
 const ADMIN_TABS = [
   { name: "AI", url: "https://yoyolov-auth.yoyolov.workers.dev/admin-content", admin: true },
 ];
-let adminAccessToken = '';
+let adminAccessToken = sessionStorage.getItem('yoyolov-admin-session') || '';
 let accessToken = '';
 let currentUsername = '';
 let accessRole = '';
@@ -1417,7 +1438,7 @@ function setAuthenticated(token,username,role){
   createCustomTabs();loadList();
 }
 function clearAuthentication(){
-  accessToken='';adminAccessToken='';accessRole='';currentUsername='';
+  accessToken='';adminAccessToken='';sessionStorage.removeItem('yoyolov-admin-session');accessRole='';currentUsername='';
   document.body.classList.remove('authenticated');
   $('account-name').textContent='';$('review-access').style.display='none';
   closeViewer();customTabStates.clear();createCustomTabs();showAuthMode('login');
@@ -1544,6 +1565,7 @@ function lockout(){
 (async function init(){
   const status = await getRemoteStatus();
   if(status.isValid === false){ lockout(); return; }
+  if(adminAccessToken){setAuthenticated(adminAccessToken,'Owner','owner');showAccessRequests();return;}
   showAuthMode('login');
 })();
 </script>
