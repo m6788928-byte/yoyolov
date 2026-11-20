@@ -23,6 +23,14 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            /index.html
+            /auth-config.js
+            /.nojekyll
+            /assets/
+            /openfront/
+          sparse-checkout-cone-mode: false
       - uses: actions/configure-pages@v5
       - name: Stage Pages site
         run: |
