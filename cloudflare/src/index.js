@@ -20,11 +20,11 @@ function json(body, status, origin) {
 function bytesToBase64Url(bytes) {
   let binary = "";
   for (const byte of bytes) binary += String.fromCharCode(byte);
-  return btoa(binary).replace(/=/g, "").replace(/\\+/g, "-").replace(/\\//g, "_");
+  return btoa(binary).replaceAll("=", "").replaceAll("+", "-").replaceAll("/", "_");
 }
 
 function base64UrlToBytes(value) {
-  const padded = value.replace(/-/g, "+").replace(/_/g, "/") + "===".slice((value.length + 3) % 4);
+  const padded = value.replaceAll("-", "+").replaceAll("_", "/") + "=".repeat((4 - value.length % 4) % 4);
   const binary = atob(padded);
   return Uint8Array.from(binary, char => char.charCodeAt(0));
 }
@@ -87,8 +87,10 @@ async function signSession(env, claims) {
 }
 
 async function readSession(env, request) {
-  const match = /^Bearer\\s+(.+)$/i.exec(request.headers.get("Authorization") || "");
-  if (!match) return null;
+  const authorization = request.headers.get("Authorization") || "";
+  const token = authorization.toLowerCase().startsWith("bearer ") ? authorization.slice(7).trim() : "";
+  if (!token) return null;
+  const pieces = token.split(".");
   const pieces = match[1].split(".");
   if (pieces.length !== 2) return null;
   const secret = sessionSecret(env);
@@ -118,7 +120,9 @@ function text(value, max) {
 }
 
 function validEmail(value) {
-  return value.length <= 254 && /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(value);
+  const at = value.indexOf("@");
+  return value.length <= 254 && at > 0 && at === value.lastIndexOf("@") &&
+    at < value.length - 3 && value.slice(at + 1).includes(".") && !value.includes(" ");
 }
 
 async function listPending(env) {
