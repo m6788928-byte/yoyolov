@@ -58,7 +58,7 @@ function renderMessages(){
    const b=document.createElement("button");b.textContent=emoji+" "+list.length;b.title=label+(mine?" (you reacted)":"");b.onclick=()=>react(m.id,emoji);actions.append(b);
   }
   const reply=document.createElement("button");reply.textContent="Reply";reply.onclick=()=>{replyTo=m.id;$("replyText").textContent="Replying to "+m.username;$("replyBar").style.display="block";$("messageInput").focus();};actions.append(reply);
-  if(m.user_id===user.id||isAdmin){const del=document.createElement("button");del.textContent="Delete";del.onclick=()=>deleteMessage(m.id);actions.append(del);}
+  if(m.user_id===user.id||isAdmin){const del=document.createElement("button");del.textContent="Delete";del.onclick=()=>deleteMessage(m);actions.append(del);}
   main.append(head,body);if(m.attachment_path)addAttachment(main,m);main.append(actions);el.append(av,main);root.append(el);
  }
  root.scrollTop=root.scrollHeight;
@@ -102,7 +102,7 @@ function renderDMMessages(){
   const name=document.createElement("span");name.className="msgName";name.textContent=(m.sender_id===user.id?"You":m.sender_username);
   const time=document.createElement("time");time.className="msgTime";time.textContent=new Date(m.created_at).toLocaleString()+(isAdmin?" · #"+m.id:"");head.append(name,time);
   const body=document.createElement("div");body.className="msgBody";body.textContent=m.body;main.append(head,body);if(m.attachment_path)addAttachment(main,m);
-  if(m.sender_id===user.id||isAdmin){const actions=document.createElement("div");actions.className="msgActions";const del=document.createElement("button");del.textContent="Delete";del.onclick=async()=>{if(confirm("Delete this DM?")){const r=await db.from("dm_messages").delete().eq("id",m.id);if(r.error)setConnection("Delete failed: "+r.error.message);}};actions.append(del);main.append(actions);}
+  if(m.sender_id===user.id||isAdmin){const actions=document.createElement("div");actions.className="msgActions";const del=document.createElement("button");del.textContent="Delete";del.onclick=async()=>{if(confirm("Delete this DM?")){const r=await db.from("dm_messages").delete().eq("id",m.id);if(r.error)setConnection("Delete failed: "+r.error.message);else if(m.sender_id===user.id&&m.attachment_path)await cleanupAttachment(m.attachment_path);}};actions.append(del);main.append(actions);}
   el.append(av,main);root.append(el);
  }
  root.scrollTop=root.scrollHeight;
@@ -291,7 +291,8 @@ function addAttachment(main,m){
  const b=document.createElement("button");b.className="smallBtn";b.style.marginTop="7px";b.textContent="↓ "+(m.attachment_name||"Download file")+" · "+(m.attachment_size?Math.max(1,Math.round(m.attachment_size/1024))+" KB":"");
  b.onclick=async()=>{b.disabled=true;const {data,error}=await db.storage.from("chat-attachments").createSignedUrl(m.attachment_path,60);b.disabled=false;if(error){setConnection("File unavailable: "+error.message);return;}const a=document.createElement("a");a.href=data.signedUrl;a.download=m.attachment_name||"download";a.target="_blank";a.rel="noopener";document.body.append(a);a.click();a.remove();};main.append(b);
 }
-async function deleteMessage(id){if(!confirm("Delete this message?"))return;let query=db.from("messages").delete().eq("id",id);if(!isAdmin)query=query.eq("user_id",user.id);const {error}=await query;if(error)setConnection("Delete failed: "+error.message);}
+async function deleteMessage(m){if(!confirm("Delete this message?"))return;let query=db.from("messages").delete().eq("id",m.id);if(!isAdmin)query=query.eq("user_id",user.id);const {error}=await query;if(error)setConnection("Delete failed: "+error.message);else if(m.user_id===user.id&&m.attachment_path)await cleanupAttachment(m.attachment_path);}
+async function cleanupAttachment(path){const {error}=await db.storage.from("chat-attachments").remove([path]);if(error)setConnection("Message deleted, but its file could not be removed: "+error.message);}
 async function react(id,emoji){
  const existing=reactions.find(x=>x.message_id===id&&x.user_id===user.id&&x.emoji===emoji);
  const result=existing?await db.from("message_reactions").delete().eq("id",existing.id).eq("user_id",user.id):await db.from("message_reactions").insert({message_id:id,user_id:user.id,emoji});
