@@ -91,7 +91,6 @@ async function readSession(env, request) {
   const token = authorization.toLowerCase().startsWith("bearer ") ? authorization.slice(7).trim() : "";
   if (!token) return null;
   const pieces = token.split(".");
-  const pieces = match[1].split(".");
   if (pieces.length !== 2) return null;
   const secret = sessionSecret(env);
   if (!secret) return null;
