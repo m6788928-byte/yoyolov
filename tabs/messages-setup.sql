@@ -148,7 +148,9 @@ for select to authenticated using (true);
 drop policy if exists "members send own messages" on public.messages;
 create policy "members send own messages" on public.messages
 for insert to authenticated with check (
-  user_id=auth.uid() and username=(select p.username from public.profiles p where p.id=auth.uid())
+  user_id=auth.uid()
+  and username=(select p.username from public.profiles p where p.id=auth.uid())
+  and (attachment_path is null or attachment_path like ('channels/' || auth.uid()::text || '/%'))
 );
 drop policy if exists "authors edit own messages" on public.messages;
 drop policy if exists "authors delete own messages" on public.messages;
@@ -265,6 +267,7 @@ for insert to authenticated
 with check (
   sender_id=auth.uid() and recipient_id<>auth.uid()
   and sender_username=(select p.username from public.profiles p where p.id=auth.uid())
+  and (attachment_path is null or attachment_path like ('dms/' || auth.uid()::text || '/' || recipient_id::text || '/%'))
 );
 drop policy if exists "senders delete own DMs" on public.dm_messages;
 drop policy if exists "senders and admins delete DMs" on public.dm_messages;
@@ -353,7 +356,11 @@ alter table public.group_messages enable row level security;
 drop policy if exists "group members read messages" on public.group_messages;
 create policy "group members read messages" on public.group_messages for select to authenticated using(public.is_group_member(group_id));
 drop policy if exists "group members send messages" on public.group_messages;
-create policy "group members send messages" on public.group_messages for insert to authenticated with check(sender_id=auth.uid() and public.is_group_member(group_id));
+create policy "group members send messages" on public.group_messages for insert to authenticated
+with check (
+ sender_id=auth.uid() and public.is_group_member(group_id)
+ and (attachment_path is null or attachment_path like ('groups/' || group_id::text || '/' || auth.uid()::text || '/%'))
+);
 drop policy if exists "senders delete group messages" on public.group_messages;
 create policy "senders delete group messages" on public.group_messages for delete to authenticated using(sender_id=auth.uid() or public.is_group_owner(group_id));
 grant select,insert,delete on public.group_messages to authenticated;
