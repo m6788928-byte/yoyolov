@@ -1,17 +1,16 @@
 name: Host OpenFront Solo in Yoyolov
 
 on:
-  push:
-    branches: [main]
   release:
     types: [published]
+  workflow_dispatch:
 
 permissions:
   contents: write
 
 jobs:
   host-openfront:
-    if: github.event_name == 'push' || startsWith(github.event.release.tag_name, 'openfront-solo-')
+    if: github.event_name == 'workflow_dispatch' || startsWith(github.event.release.tag_name, 'openfront-solo-')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
