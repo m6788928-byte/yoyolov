@@ -540,6 +540,7 @@ const CUSTOM_TABS = [
 const ADMIN_TABS = [
   { name: "AI", url: "https://yoyolov-auth.yoyolov.workers.dev/admin-content", admin: true },
 ];
+let adminAccessToken = '';
 const ADMIN_TABS_KEY = "yoyolov-admin-tabs";
 const adminTabsUnlocked = () => localStorage.getItem(ADMIN_TABS_KEY) === "1";
 
@@ -908,14 +909,14 @@ async function loadCustomTab(state){
     if(!['http:', 'https:'].includes(url.protocol)) throw new Error('Use an HTTP or HTTPS HTML file link.');
     let used = url.href, html = '';
     if(state.admin){
-      const token=localStorage.getItem('yoyolov-admin-token')||'';
+      const token=adminAccessToken;
       let res, lastError;
       for(let attempt=0;attempt<3;attempt++){
         try{
           res=await fetch(used,{headers:{Authorization:'Bearer '+token},cache:'no-store'});
           if(res.ok) break;
           if(res.status===401||res.status===403){
-            localStorage.removeItem('yoyolov-admin-token');
+            adminAccessToken='';
             localStorage.removeItem(ADMIN_TABS_KEY);
             throw new Error('AI login expired. Unlock AI again with Ctrl+Shift+Alt+A.');
           }
@@ -1397,7 +1398,7 @@ function openAdminLogin(){
         if(result.status===429||data.locked){status.textContent='Too many attempts. Try again in 15 minutes.';locked=true;return;}
         if(result.status===503)throw new Error('Admin password service is not configured.');
         if(!result.ok||!data.ok||!data.token)throw new Error('Incorrect login.');
-        localStorage.setItem('yoyolov-admin-token',data.token);
+        adminAccessToken=data.token;
         localStorage.setItem(ADMIN_TABS_KEY,'1'); createCustomTabs(); adminDialog.remove(); adminDialog=null;
       }catch(error){
         status.textContent=error.name==='AbortError'?'Password check timed out. Try again.':error.message==='Failed to fetch'?'Password service unavailable.':error.message;
