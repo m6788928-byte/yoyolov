@@ -302,6 +302,7 @@ create table if not exists public.friend_requests (
  constraint friend_request_not_self check(sender_id<>recipient_id),
  unique(sender_id,recipient_id)
 );
+create index if not exists friend_requests_recipient_created_idx on public.friend_requests(recipient_id,created_at desc);
 alter table public.friend_requests enable row level security;
 drop policy if exists "friend requests visible to participants" on public.friend_requests;
 create policy "friend requests visible to participants" on public.friend_requests for select to authenticated using(sender_id=auth.uid() or recipient_id=auth.uid());
@@ -330,6 +331,7 @@ create table if not exists public.group_members (
  joined_at timestamptz not null default now(),
  primary key(group_id,user_id)
 );
+create index if not exists group_members_user_group_idx on public.group_members(user_id,group_id);
 create or replace function public.is_group_member(gid uuid)
 returns boolean language sql stable security definer set search_path=public
 as 'select exists(select 1 from public.group_members where group_id=gid and user_id=auth.uid())';
@@ -360,6 +362,7 @@ create table if not exists public.group_messages (
  attachment_path text, attachment_name text, attachment_size bigint,
  created_at timestamptz not null default now()
 );
+create index if not exists group_messages_group_created_idx on public.group_messages(group_id,created_at);
 alter table public.group_messages enable row level security;
 drop policy if exists "group members read messages" on public.group_messages;
 create policy "group members read messages" on public.group_messages for select to authenticated using(public.is_group_member(group_id));
