@@ -182,9 +182,11 @@ drop policy if exists "users update own avatar color" on public.profiles;
 create policy "users update own avatar color" on public.profiles for update to authenticated using (id=auth.uid()) with check (id=auth.uid());
 grant select,update (avatar_color) on public.profiles to authenticated;
 revoke all on public.messages from authenticated;
-grant select,insert,delete on public.messages to authenticated;
+grant select,delete on public.messages to authenticated;
+grant insert (channel,user_id,body,reply_to,attachment_path,attachment_name,attachment_size) on public.messages to authenticated;
 revoke all on public.message_reactions from authenticated;
-grant select,insert,delete on public.message_reactions to authenticated;
+grant select,delete on public.message_reactions to authenticated;
+grant insert (message_id,user_id,emoji) on public.message_reactions to authenticated;
 grant usage,select on all sequences in schema public to authenticated;
 
 do $$
@@ -278,7 +280,8 @@ for delete to authenticated using (sender_id=auth.uid() or public.is_chat_admin(
 
 revoke all on public.dm_messages from anon;
 revoke all on public.dm_messages from authenticated;
-grant select,insert,delete on public.dm_messages to authenticated;
+grant select,delete on public.dm_messages to authenticated;
+grant insert (sender_id,recipient_id,body,attachment_path,attachment_name,attachment_size) on public.dm_messages to authenticated;
 grant usage,select on sequence public.dm_messages_id_seq to authenticated;
 
 do $$
@@ -309,7 +312,8 @@ create policy "recipients accept friend requests" on public.friend_requests for 
 drop policy if exists "participants remove friend requests" on public.friend_requests;
 create policy "participants remove friend requests" on public.friend_requests for delete to authenticated using(sender_id=auth.uid() or recipient_id=auth.uid());
 revoke all on public.friend_requests from authenticated;
-grant select,insert,delete on public.friend_requests to authenticated;
+grant select,delete on public.friend_requests to authenticated;
+grant insert (sender_id,recipient_id) on public.friend_requests to authenticated;
 grant update(status) on public.friend_requests to authenticated;
 grant usage,select on sequence public.friend_requests_id_seq to authenticated;
 
@@ -367,9 +371,16 @@ with check (
 );
 drop policy if exists "senders delete group messages" on public.group_messages;
 create policy "senders delete group messages" on public.group_messages for delete to authenticated using(sender_id=auth.uid() or public.is_group_owner(group_id));
-grant select,insert,delete on public.group_messages to authenticated;
+revoke all on public.group_messages from authenticated;
+grant select,delete on public.group_messages to authenticated;
+grant insert (group_id,sender_id,body,attachment_path,attachment_name,attachment_size) on public.group_messages to authenticated;
 grant usage,select on sequence public.group_messages_id_seq to authenticated;
-grant select,insert,update,delete on public.group_chats,public.group_members to authenticated;
+revoke all on public.group_chats,public.group_members from authenticated;
+grant select,delete on public.group_chats to authenticated;
+grant insert (name,owner_id) on public.group_chats to authenticated;
+grant update (name) on public.group_chats to authenticated;
+grant select,delete on public.group_members to authenticated;
+grant insert (group_id,user_id) on public.group_members to authenticated;
 do $$ begin execute 'alter publication supabase_realtime add table public.group_messages'; exception when duplicate_object then null; end $$;
 
 -- Permit group file uploads/downloads only to group members.
