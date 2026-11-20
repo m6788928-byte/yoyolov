@@ -117,7 +117,6 @@
   .tab.cog{display:flex; align-items:center; justify-content:center; padding:7px; flex:none}
   .tab.cog svg{display:block; transition:transform .25s}
   .tab.cog:hover svg, .tab.cog.active svg{transform:rotate(60deg)}
-  #bar.settings-active .cog, #bar.custom-active .cog{margin-left:auto}
 
   @media (max-width:620px){
     .logo{font-size:16px}
@@ -387,7 +386,7 @@ YOYOLOV CHANGELOG — searchable in this file; intentionally hidden from the int
       </form>
       <p id="access-status" role="status" aria-live="polite"></p>
       <button id="owner-entry" type="button" onclick="window.yoyolovOwnerSignIn();return false;">Owner sign-in</button>
-      <small id="auth-build" style="display:block;margin-top:12px;text-align:center;color:#929daf;font-size:11px">BUILD 2026.11.20.44</small>
+      <small id="auth-build" style="display:block;margin-top:12px;text-align:center;color:#929daf;font-size:11px">BUILD 2026.11.20.45</small>
 
     </main>
   </div>
@@ -1541,8 +1540,15 @@ async function showAccessRequests(){
     }
   }catch(error){status.textContent=error.message;status.classList.add('error');}
 }
-function openAdminLogin(){
-  if(adminAccessToken){showAccessRequests();return;}
+function openAiTab(){
+  if(!adminAccessToken){openAdminLogin('ai');return;}
+  const configs=[...CUSTOM_TABS,...ADMIN_TABS];
+  const index=configs.findIndex(item=>item.name==='AI');
+  if(index<0){alert('The AI tab is not configured.');return;}
+  setTab('custom-'+index);
+}
+function openAdminLogin(destination='requests'){
+  if(adminAccessToken){if(destination==='ai'){openAiTab();return;}showAccessRequests();return;}
   if(!adminDialog){
     adminDialog=document.createElement('div');
     adminDialog.setAttribute('role','dialog');adminDialog.setAttribute('aria-modal','true');adminDialog.setAttribute('aria-label','Owner sign-in');
@@ -1556,14 +1562,14 @@ function openAdminLogin(){
       try{
         const result=await accessRequest('/access/admin/login',{password:form.elements.password.value});
         adminAccessToken=result.token;form.elements.password.value='';
-        setAuthenticated(adminAccessToken,'Owner','owner');adminDialog.remove();adminDialog=null;showAccessRequests();
+        setAuthenticated(adminAccessToken,'Owner','owner');adminDialog.remove();adminDialog=null;if(destination==='ai')openAiTab();else showAccessRequests();
       }catch(error){status.textContent=error.message;form.elements.password.value='';button.disabled=false;}
     };
   }
   adminDialog.style.display='grid';
 }
 document.addEventListener('keydown',e=>{
-  if(e.ctrlKey&&e.shiftKey&&e.altKey&&e.code==='KeyA'&&!e.repeat){e.preventDefault();openAdminLogin();}
+  if(e.ctrlKey&&e.shiftKey&&e.altKey&&e.code==='KeyA'&&!e.repeat){e.preventDefault();openAdminLogin('ai');}
 });
 
 /* ---------- remote access controls ---------- */
