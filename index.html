@@ -291,7 +291,7 @@
 </style>
 <!--
 YOYOLOV CHANGELOG — searchable in this file; intentionally hidden from the interface.
-2026.11.20.39 — Use an in-page owner password dialog that works in the sandboxed launcher iframe.\n2026.11.20.39 — Show the build on sign-in and make owner authentication independent of main app startup.
+2026.11.20.40 — Allow the sandboxed SVG launcher to reach the account Worker API.\n2026.11.20.40 — Show the build on sign-in and make owner authentication independent of main app startup.
 2026.11.20.37 — Make owner sign-in open directly from its button even if later startup binding fails.
 2026.11.19.36 — Replace the shared password and screenshot landing with approved individual accounts.
 2026.11.19.35 — Keep the AI access token out of iframe-accessible storage.
@@ -382,7 +382,7 @@ YOYOLOV CHANGELOG — searchable in this file; intentionally hidden from the int
       </form>
       <p id="access-status" role="status" aria-live="polite"></p>
       <button id="owner-entry" type="button" onclick="window.yoyolovOwnerSignIn();return false;">Owner sign-in</button>
-      <small id="auth-build" style="display:block;margin-top:12px;text-align:center;color:#929daf;font-size:11px">BUILD 2026.11.20.39</small>
+      <small id="auth-build" style="display:block;margin-top:12px;text-align:center;color:#929daf;font-size:11px">BUILD 2026.11.20.40</small>
     </main>
   </div>
 </div>
@@ -395,7 +395,7 @@ YOYOLOV CHANGELOG — searchable in this file; intentionally hidden from the int
       <button id="signout" type="button">Sign out</button>
     </div>
     <div class="logo">Yoyolov</div>
-    <span class="build-label" id="build-label">BUILD 2026.11.20.39</span>
+    <span class="build-label" id="build-label">BUILD 2026.11.20.40</span>
     <div id="tabs">
       <button class="tab active" data-tab="htmls" type="button">Search</button>
     </div>
