@@ -275,6 +275,7 @@
 </style>
 <!--
 YOYOLOV CHANGELOG — searchable in this file; intentionally hidden from the interface.
+2026.11.19.33 — Keep the ClassLink theme switch text-only and unobtrusive.
 2026.11.19.32 — Remove the unused bookmark renderer left behind by the old recreated portal.
 2026.11.19.31 — Remove the obsolete recreated portal-card CSS; keep the exact screenshot, hotspots, and theme switch.
 2026.11.19.30 — Use the original high-resolution AVIF ClassLink screenshot with a WebP fallback; keep the login hotspots transparent.
@@ -348,7 +349,7 @@ YOYOLOV CHANGELOG — searchable in this file; intentionally hidden from the int
       <p id="unlock-error" role="alert" aria-live="polite"></p>
     </form>
     <div class="logo">repo</div>
-    <span class="build-label" id="build-label">BUILD 2026.11.19.32</span>
+    <span class="build-label" id="build-label">BUILD 2026.11.19.33</span>
     <div id="tabs">
       <button class="tab active" data-tab="htmls" type="button">Search</button>
     </div>
@@ -360,7 +361,7 @@ YOYOLOV CHANGELOG — searchable in this file; intentionally hidden from the int
     <a class="hcde-hit hcde-signin" href="https://launchpad.classlink.com/hcde?loggedout=1" target="_blank" rel="noopener noreferrer" aria-label="Sign in"></a>
     <a class="hcde-hit hcde-google" href="https://launchpad.classlink.com/hcde?loggedout=1" target="_blank" rel="noopener noreferrer" aria-label="Sign in with Google"></a>
     <a class="hcde-hit hcde-quick" href="https://launchpad.classlink.com/hcde?loggedout=1" target="_blank" rel="noopener noreferrer" aria-label="Sign in with QuickCard"></a>
-    <button id="portal-theme-toggle" type="button" aria-label="Switch home theme" title="Switch light/dark mode">☾ Dark mode</button>
+    <button id="portal-theme-toggle" type="button" aria-label="Switch home theme" title="Switch light/dark mode">Dark mode</button>
   </main>
 
   <div id="tab-htmls" class="tabpanel active">
@@ -738,7 +739,7 @@ const portal=$('school-home'), portalThemeBtn=$('portal-theme-toggle');
 function setPortalTheme(mode){
   portal.dataset.theme=mode;
   localStorage.setItem('yoyolov-portal-theme',mode);
-  portalThemeBtn.textContent=mode==='dark'?'☀ Light mode':'☾ Dark mode';
+  portalThemeBtn.textContent=mode==='dark'?'Light mode':'Dark mode';
   portalThemeBtn.title=mode==='dark'?'Switch to light mode':'Switch to dark mode';
 }
 setPortalTheme(localStorage.getItem('yoyolov-portal-theme')==='dark'?'dark':'light');
