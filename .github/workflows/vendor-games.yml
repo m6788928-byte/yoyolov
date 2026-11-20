@@ -139,5 +139,6 @@ jobs:
             echo "Game bundles are already up to date."
             exit 0
           fi
-          git commit -m "Host six browser games in Yoyolov"
-          git push
+          git commit -m "Host browser games in Yoyolov"
+          git pull --rebase origin main
+          git push origin main
