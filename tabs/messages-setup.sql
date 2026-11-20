@@ -189,7 +189,7 @@ grant insert (channel,user_id,body,reply_to,attachment_path,attachment_name,atta
 revoke all on public.message_reactions from authenticated;
 grant select,delete on public.message_reactions to authenticated;
 grant insert (message_id,user_id,emoji) on public.message_reactions to authenticated;
-grant usage,select on all sequences in schema public to authenticated;
+grant usage,select on sequence public.messages_id_seq,public.message_reactions_id_seq,public.dm_messages_id_seq,public.friend_requests_id_seq,public.group_messages_id_seq to authenticated;
 
 do $$
 begin
