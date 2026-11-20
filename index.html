@@ -291,6 +291,7 @@
 </style>
 <!--
 YOYOLOV CHANGELOG — searchable in this file; intentionally hidden from the interface.
+2026.11.20.44 — Remove the obsolete launcher origin warning from the sign-in page.
 2026.11.20.43 — Keep the hosted site origin in the downloaded SVG launcher so account requests can reach the Worker.
 2026.11.20.42 — Correct the launcher guidance release note.
 2026.11.20.41 — Explain that owner sign-in must be opened outside an opaque-origin SVG launcher.
@@ -386,8 +387,8 @@ YOYOLOV CHANGELOG — searchable in this file; intentionally hidden from the int
       </form>
       <p id="access-status" role="status" aria-live="polite"></p>
       <button id="owner-entry" type="button" onclick="window.yoyolovOwnerSignIn();return false;">Owner sign-in</button>
-      <small id="auth-build" style="display:block;margin-top:12px;text-align:center;color:#929daf;font-size:11px">BUILD 2026.11.20.43</small>
-      <small id="launcher-origin-help" hidden style="display:block;margin-top:8px;text-align:center;color:#e4bd72;font-size:11px">This downloaded launcher blocks account sign-in. Open this page directly in a new tab: https://m6788928-byte.github.io/yoyolov/</small>
+      <small id="auth-build" style="display:block;margin-top:12px;text-align:center;color:#929daf;font-size:11px">BUILD 2026.11.20.44</small>
+
     </main>
   </div>
 </div>
@@ -555,11 +556,6 @@ YOYOLOV CHANGELOG — searchable in this file; intentionally hidden from the int
 <script src="auth-config.js"></script>
 <script>
 window.yoyolovOwnerSignIn = function () {
-  if (window.location.origin === 'null') {
-    const help = document.getElementById('launcher-origin-help');
-    if (help) help.hidden = false;
-    return;
-  }
   if (document.getElementById('owner-password-dialog')) return;
   const modal = document.createElement('div');
   modal.id = 'owner-password-dialog';
