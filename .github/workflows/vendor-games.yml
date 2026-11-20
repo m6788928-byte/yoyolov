@@ -92,10 +92,6 @@ jobs:
                   html = html.replace("playcanvas-stable.min.js", "playcanvas-stable.max.js")
                   html = re.sub(r'<link\b[^>]*manifest\.json[^>]*>', "", html, flags=re.I)
 
-              # Keep the original Retro Bowl separate from the College edition.
-              if page.parts[1] == "retro-bowl":
-                  html = html.replace("<title>Retro Bowl College</title>", "<title>Retro Bowl College</title>")
-
               if page.parts[1] == "retro-bowl-classic":
                   html = re.sub(
                       r"window\.onload\s*=\s*GameMaker_Init\s*;",
@@ -114,12 +110,11 @@ jobs:
 
               page.write_text(html, encoding="utf-8")
 
-          # Point all six catalog entries to files in this repo, served through jsDelivr.
+          # Point the six current catalog entries to files in this repo, served through jsDelivr.
           catalog_path = Path("tas5.json")
           catalog = json.loads(catalog_path.read_text(encoding="utf-8"))
           cdn = "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@main/"
           targets = {
-              "Rocket Goal": "games/rocket-goal/index.html",
               "Get Yoked": "games/get-yoked/index.html",
               "Golf Battle": "games/golf-battle/index.html",
               "Wordle": "wordle.html",
