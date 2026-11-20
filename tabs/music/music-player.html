@@ -1361,7 +1361,7 @@ $("back").addEventListener("click", () => {
 window.addEventListener("hashchange", render);
 
 /* ---------- start ---------- */
-const JSON_FALLBACK_URL = "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@6aeecd9180a4ac0ddef38ffc95a5c3a67653ee02/tabs/music/music.json";
+const JSON_FALLBACK_URL = "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@23efe89e162be11d138f348a1c728aecd9e903ee/tabs/music/music.json";
 async function loadMusicJson(url) {
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), 10000);
