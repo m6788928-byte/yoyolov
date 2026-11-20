@@ -290,6 +290,7 @@
 </style>
 <!--
 YOYOLOV CHANGELOG — searchable in this file; intentionally hidden from the interface.
+2026.11.20.46 — Require the admin password to unlock AI and serve its protected page through the Worker.
 2026.11.20.44 — Remove the obsolete launcher origin warning from the sign-in page.
 2026.11.20.43 — Keep the hosted site origin in the downloaded SVG launcher so account requests can reach the Worker.
 2026.11.20.42 — Correct the launcher guidance release note.
@@ -386,7 +387,7 @@ YOYOLOV CHANGELOG — searchable in this file; intentionally hidden from the int
       </form>
       <p id="access-status" role="status" aria-live="polite"></p>
       <button id="owner-entry" type="button" onclick="window.yoyolovOwnerSignIn();return false;">Owner sign-in</button>
-      <small id="auth-build" style="display:block;margin-top:12px;text-align:center;color:#929daf;font-size:11px">BUILD 2026.11.20.45</small>
+      <small id="auth-build" style="display:block;margin-top:12px;text-align:center;color:#929daf;font-size:11px">BUILD 2026.11.20.46</small>
 
     </main>
   </div>
@@ -625,11 +626,12 @@ const ADMIN_TABS = [
   { name: "AI", url: "https://yoyolov-auth.yoyolov.workers.dev/admin-content", admin: true },
 ];
 let adminAccessToken = sessionStorage.getItem('yoyolov-admin-session') || '';
+let aiAccessToken = '';
 let accessToken = '';
 let currentUsername = '';
 let accessRole = '';
 const ADMIN_TABS_KEY = "yoyolov-admin-tabs";
-const adminTabsUnlocked = () => Boolean(adminAccessToken);
+const adminTabsUnlocked = () => Boolean(aiAccessToken);
 
 /* ===================================================================== */
 
@@ -985,16 +987,16 @@ async function loadCustomTab(state){
     if(!['http:', 'https:'].includes(url.protocol)) throw new Error('Use an HTTP or HTTPS HTML file link.');
     let used = url.href, html = '';
     if(state.admin){
-      const token=adminAccessToken;
+      const token=aiAccessToken;
       let res, lastError;
       for(let attempt=0;attempt<3;attempt++){
         try{
           res=await fetch(used,{headers:{Authorization:'Bearer '+token},cache:'no-store'});
           if(res.ok) break;
           if(res.status===401||res.status===403){
-            adminAccessToken='';
-            localStorage.removeItem(ADMIN_TABS_KEY);
-            throw new Error('AI login expired. Unlock AI again with Ctrl+Shift+Alt+A.');
+            aiAccessToken='';
+            hideAiTab();
+            throw new Error('Admin password expired. Press Ctrl+Shift+Alt+A and enter it again.');
           }
           lastError=new Error(res.status+' '+res.statusText);
         }catch(error){lastError=error;}
@@ -1027,6 +1029,7 @@ async function loadCustomTab(state){
 function createCustomTabs(){
   // Remove cloned runtime panels before rebuilding (also used by about:blank).
   document.querySelectorAll('[data-custom-tab]').forEach(el => el.remove());
+  customTabStates.clear();
   [...CUSTOM_TABS, ...(adminTabsUnlocked() ? ADMIN_TABS : [])].forEach((config, index) => {
     if(!config || typeof config.name !== 'string' || typeof config.url !== 'string') return;
     const name = config.name.trim(), url = config.url.trim();
@@ -1465,7 +1468,7 @@ function setAuthenticated(token,username,role){
   createCustomTabs();loadList();
 }
 function clearAuthentication(){
-  accessToken='';adminAccessToken='';sessionStorage.removeItem('yoyolov-admin-session');accessRole='';currentUsername='';
+  accessToken='';adminAccessToken='';aiAccessToken='';sessionStorage.removeItem('yoyolov-admin-session');accessRole='';currentUsername='';
   document.body.classList.remove('authenticated');
   $('account-name').textContent='';$('review-access').style.display='none';
   closeViewer();customTabStates.clear();createCustomTabs();showAuthMode('login');
@@ -1540,15 +1543,55 @@ async function showAccessRequests(){
     }
   }catch(error){status.textContent=error.message;status.classList.add('error');}
 }
+function aiTabIndex(){
+  return [...CUSTOM_TABS,...ADMIN_TABS].findIndex(item=>item.name==='AI');
+}
+function hideAiTab(){
+  const index=aiTabIndex();
+  if(index<0)return;
+  const id='custom-'+index;
+  if(document.querySelector('.tabpanel.active')?.id==='tab-'+id)setTab('htmls');
+  const state=customTabStates.get(id);
+  if(state){
+    state.frame.removeAttribute('srcdoc');
+    state.frame.src='about:blank';
+    state.loaded=false;state.loading=false;state.html='';
+  }
+  document.querySelector('#tabs [data-tab="'+id+'"]')?.remove();
+  document.getElementById('tab-'+id)?.remove();
+  customTabStates.delete(id);
+  aiAccessToken='';
+}
 function openAiTab(){
-  if(!adminAccessToken){openAdminLogin('ai');return;}
-  const configs=[...CUSTOM_TABS,...ADMIN_TABS];
-  const index=configs.findIndex(item=>item.name==='AI');
+  if(!aiAccessToken){openAiUnlock();return;}
+  const index=aiTabIndex();
   if(index<0){alert('The AI tab is not configured.');return;}
   setTab('custom-'+index);
 }
-function openAdminLogin(destination='requests'){
-  if(adminAccessToken){if(destination==='ai'){openAiTab();return;}showAccessRequests();return;}
+let aiDialog;
+function openAiUnlock(){
+  hideAiTab();
+  if(!aiDialog){
+    aiDialog=document.createElement('div');
+    aiDialog.setAttribute('role','dialog');aiDialog.setAttribute('aria-modal','true');aiDialog.setAttribute('aria-label','Unlock AI');
+    Object.assign(aiDialog.style,{position:'fixed',inset:'0',zIndex:'100001',display:'grid',placeItems:'center',background:'rgba(0,0,0,.76)',padding:'20px'});
+    aiDialog.innerHTML='<form style="width:min(360px,100%);box-sizing:border-box;background:#171c25;color:#f4f6fa;border:1px solid #394252;border-radius:14px;padding:22px;display:grid;gap:12px;font:14px system-ui"><strong style="font-size:18px">Unlock AI</strong><label style="display:grid;gap:7px">Admin password<input name="password" type="password" class="field" placeholder="Admin password" autocomplete="current-password" required></label><p class="sub" role="status" aria-live="polite" style="min-height:20px;margin:0"></p><div class="row"><button class="btn" type="button" data-close>Cancel</button><button class="btn" type="submit">Continue</button></div></form>';
+    document.body.append(aiDialog);
+    const form=aiDialog.querySelector('form'),status=form.querySelector('[role="status"]');
+    aiDialog.querySelector('[data-close]').onclick=()=>{aiDialog.remove();aiDialog=null;};
+    form.onsubmit=async event=>{
+      event.preventDefault();const button=form.querySelector('[type="submit"]');button.disabled=true;status.textContent='Checking…';
+      try{
+        const result=await accessRequest('/access/admin/login',{password:form.elements.password.value});
+        aiAccessToken=result.token;form.elements.password.value='';
+        aiDialog.remove();aiDialog=null;createCustomTabs();openAiTab();
+      }catch(error){status.textContent=error.message;form.elements.password.value='';button.disabled=false;form.elements.password.focus();}
+    };
+  }
+  aiDialog.style.display='grid';aiDialog.querySelector('input[name="password"]').focus();
+}
+function openAdminLogin(){
+  if(adminAccessToken){showAccessRequests();return;}
   if(!adminDialog){
     adminDialog=document.createElement('div');
     adminDialog.setAttribute('role','dialog');adminDialog.setAttribute('aria-modal','true');adminDialog.setAttribute('aria-label','Owner sign-in');
@@ -1562,14 +1605,14 @@ function openAdminLogin(destination='requests'){
       try{
         const result=await accessRequest('/access/admin/login',{password:form.elements.password.value});
         adminAccessToken=result.token;form.elements.password.value='';
-        setAuthenticated(adminAccessToken,'Owner','owner');adminDialog.remove();adminDialog=null;if(destination==='ai')openAiTab();else showAccessRequests();
+        setAuthenticated(adminAccessToken,'Owner','owner');adminDialog.remove();adminDialog=null;showAccessRequests();
       }catch(error){status.textContent=error.message;form.elements.password.value='';button.disabled=false;}
     };
   }
   adminDialog.style.display='grid';
 }
 document.addEventListener('keydown',e=>{
-  if(e.ctrlKey&&e.shiftKey&&e.altKey&&e.code==='KeyA'&&!e.repeat){e.preventDefault();openAdminLogin('ai');}
+  if(e.ctrlKey&&e.shiftKey&&e.altKey&&e.code==='KeyA'&&!e.repeat){e.preventDefault();openAiUnlock();}
 });
 
 /* ---------- remote access controls ---------- */
