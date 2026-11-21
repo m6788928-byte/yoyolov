@@ -33,25 +33,13 @@
     "url": "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@main/huss.html",
     "image": "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@main/thumbs/huss.png"
   },
-  "Half Life 1": {
-    "url": "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@main/happlelife.html",
-    "image": "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@main/thumbs/happlelife.png"
-  },
   "Minecraft Story Mode": {
     "url": "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@main/mcsm.html",
     "image": "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@main/thumbs/mcsm.png"
   },
-  "Buckshot Roulette": {
-    "url": "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@main/buckshot.html",
-    "image": "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@main/thumbs/buckshot.png"
-  },
   "gn-math": {
     "url": "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@main/gn.html",
     "image": "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@main/thumbs/gn.png"
-  },
-  "Team Fortress 2": {
-    "url": "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@main/tf2.html",
-    "image": "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@main/thumbs/tf2.png"
   },
   "Godzilla Daikaiju Battle Royale": {
     "url": "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@main/godzilla.html",
@@ -60,10 +48,6 @@
   "Slope": {
     "url": "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@main/newslope.html",
     "image": "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@main/thumbs/Slope.png"
-  },
-  "Counter Strike: Source": {
-    "url": "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@main/cs.html",
-    "image": "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@main/thumbs/cs.png"
   },
   "Lethal Company": {
     "url": "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@main/lethalcompany.html",
@@ -109,10 +93,6 @@
   "PEAK": {
     "url": "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@main/peak.html",
     "image": "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@main/thumbs/peak.png"
-  },
-  "GTA III": {
-    "url": "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@main/gta3.html",
-    "image": "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@main/thumbs/gta3.png"
   },
   "Aviassembly": {
     "url": "https://cdn.jsdelivr.net/gh/m6788928-byte/yoyolov@main/avi2.html",
