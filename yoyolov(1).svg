@@ -1,13 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 960 540" role="img" aria-labelledby="title desc">
-  <title id="title">Yoyolov launcher</title>
-  <desc id="desc">Select Open Yoyolov to launch the hosted sign-in page.</desc>
-  <defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#192338"/><stop offset="1" stop-color="#080a0f"/></linearGradient></defs>
-  <rect width="960" height="540" fill="url(#bg)"/>
-  <text x="480" y="215" text-anchor="middle" fill="#f4f6fa" font-family="system-ui,sans-serif" font-size="44" font-weight="700">Yoyolov</text>
-  <text x="480" y="260" text-anchor="middle" fill="#aab3c3" font-family="system-ui,sans-serif" font-size="18">Open the secure sign-in page</text>
-  <a href="https://m6788928-byte.github.io/yoyolov/" target="_top" aria-label="Open Yoyolov">
-    <rect x="350" y="300" width="260" height="64" rx="12" fill="#3778df"/>
-    <text x="480" y="340" text-anchor="middle" fill="#ffffff" font-family="system-ui,sans-serif" font-size="19" font-weight="600">Open Yoyolov</text>
-  </a>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xhtml="http://www.w3.org/1999/xhtml" width="100%" height="100%" viewBox="0 0 1920 1080">
+  <title>Yoyolov</title>
+  <foreignObject width="1920" height="1080" x="0" y="0">
+    <xhtml:html xmlns="http://www.w3.org/1999/xhtml" style="width:100%;height:100%;margin:0;padding:0;">
+      <xhtml:head>
+        <xhtml:title>Yoyolov</xhtml:title>
+        <xhtml:style>
+          *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+          html,body{width:100%;height:100%;overflow:hidden;background:#000}
+          iframe{position:fixed;inset:0;width:100%;height:100%;border:0}
+        </xhtml:style>
+      </xhtml:head>
+      <xhtml:body>
+        <xhtml:iframe src="https://m6788928-byte.github.io/yoyolov/" title="Yoyolov app" referrerpolicy="no-referrer" allowfullscreen="true"></xhtml:iframe>
+      </xhtml:body>
+    </xhtml:html>
+  </foreignObject>
 </svg>
