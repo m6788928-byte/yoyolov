@@ -36,7 +36,7 @@
     ::-webkit-scrollbar-corner{background:var(--bg, #111214)}
   }
 
-  body:not(.authenticated) #home{display:none!important}
+  #access-screen{display:none!important}
   #access-screen{position:fixed;inset:0;z-index:20;display:grid;place-items:center;overflow:auto;padding:24px;background:radial-gradient(ellipse at 20% 0%,#263b60 0%,transparent 45%),linear-gradient(145deg,#10141d,#090b10 68%,#111827)}
   body.authenticated #access-screen{display:none}
   .auth-wrap{width:min(440px,100%);margin:auto}
@@ -60,7 +60,7 @@
   #access-status.error{color:#ff9999}
   #owner-entry{display:block;margin:17px auto 0;padding:4px 8px;border:0;background:transparent;color:#929daf;font:inherit;font-size:12px;cursor:pointer}
   #owner-entry:hover{color:#fff;text-decoration:underline}
-  #account-actions{display:flex;align-items:center;gap:8px;margin-left:auto}
+  #account-actions{display:none!important}
   #account-name{color:var(--muted,#9aa0aa);font-size:12px}
   #review-access{display:none;padding:6px 10px;border:1px solid var(--border,#383c43);border-radius:7px;background:transparent;color:var(--text,#eee);font:inherit;font-size:12px;cursor:pointer}
   #signout{padding:6px 10px;border:1px solid var(--border,#383c43);border-radius:7px;background:transparent;color:var(--text,#eee);font:inherit;font-size:12px;cursor:pointer}
@@ -287,9 +287,32 @@
     background:var(--bg, #111214); color:var(--muted, #7d838c); align-items:center; justify-content:center; font-size:13px;
   }
   #busy.on{display:flex}
+
+  /* ---------- refreshed home screen ---------- */
+  :root{--home-glow:color-mix(in srgb,var(--accent,#9b8cff) 22%,transparent)}
+  #bar{min-height:68px;padding:12px clamp(16px,3vw,42px);gap:16px;background:color-mix(in srgb,var(--bg2,#141619) 92%,transparent);backdrop-filter:blur(18px);border-color:color-mix(in srgb,var(--border,#2c3036) 75%,transparent)}
+  .logo{display:flex;align-items:center;gap:9px;font-size:18px;letter-spacing:-.04em}.logo:before{content:"";width:10px;height:10px;border-radius:4px;background:var(--accent,#9b8cff);box-shadow:0 0 18px var(--home-glow);transform:rotate(45deg)}
+  .build-label{opacity:.65}#tabs{gap:5px}.tab{padding:8px 13px;border-radius:999px;transition:background .18s,color .18s,border-color .18s}.tab.active{background:color-mix(in srgb,var(--accent,#9b8cff) 16%,var(--bg3,#1b1d21));border-color:color-mix(in srgb,var(--accent,#9b8cff) 30%,var(--border,#2c3036));color:var(--text,#fff)}
+  #browse-landing{position:relative;isolation:isolate;min-height:calc(100dvh - var(--bar-height,68px));overflow:hidden;padding:clamp(34px,7vh,78px) 24px 52px;background:radial-gradient(ellipse at 50% 22%,var(--home-glow),transparent 48%),linear-gradient(180deg,color-mix(in srgb,var(--bg,#111214) 90%,var(--bg2,#141619)),var(--bg,#111214) 76%)}
+  .game-search{position:relative;z-index:1;width:min(740px,100%);gap:0}.hero-copy{text-align:center;margin:0 auto 27px;animation:hero-enter .55s ease-out both}.hero-kicker,.section-eyebrow{font-size:10px;font-weight:750;letter-spacing:.2em;color:var(--muted,#7d838c)}
+  .hero-kicker{display:inline-flex;align-items:center;gap:9px;padding:8px 12px;border:1px solid var(--border,#2c3036);border-radius:999px;background:color-mix(in srgb,var(--bg3,#1b1d21) 70%,transparent)}.status-dot{width:7px;height:7px;border-radius:50%;background:#72d6aa;box-shadow:0 0 12px #72d6aa88}
+  .search-title{margin:20px 0 11px;font-size:clamp(48px,8vw,82px);line-height:.98;font-weight:750;letter-spacing:-.075em;color:var(--text,#fff)}.search-title em{font-style:normal;color:var(--accent,#b6aaff)}.hero-subtitle{margin:0;color:var(--muted,#9a9da5);font-size:clamp(14px,2vw,17px)}
+  .search-box{height:64px;width:100%;display:flex;align-items:center;gap:14px;padding:0 18px;border:1px solid color-mix(in srgb,var(--border,#2c3036) 80%,var(--accent,#9b8cff));border-radius:18px;background:color-mix(in srgb,var(--bg3,#1b1d21) 90%,transparent);box-shadow:0 18px 55px #0003,inset 0 1px #ffffff08;transition:border-color .18s,box-shadow .18s,transform .18s}.search-box:focus-within{border-color:color-mix(in srgb,var(--accent,#9b8cff) 70%,var(--border,#2c3036));box-shadow:0 18px 55px #0004,0 0 0 4px var(--home-glow);transform:translateY(-1px)}
+  .search-box svg{width:21px;height:21px;flex:none;fill:none;stroke:var(--muted,#7d838c);stroke-width:1.8;stroke-linecap:round}.game-search .search-box #search{width:100%;min-width:0;max-width:none;margin:0;padding:0;border:0;border-radius:0;background:transparent;box-shadow:none;font-size:16px;color:var(--text,#fff)}.game-search .search-box #search:focus{border:0;box-shadow:none;outline:0}.search-box #search::placeholder{color:var(--muted,#7d838c)}
+  .search-hint{display:grid;place-items:center;width:auto;height:27px;padding:0 8px;flex:none;border:1px solid var(--border,#2c3036);border-radius:8px;color:var(--muted,#7d838c);font-size:9px;font-weight:700;letter-spacing:.08em}.hero-actions{display:flex;align-items:center;justify-content:center;gap:14px;margin:16px 0 0}
+  #browse-btn{display:flex;align-items:center;gap:24px;min-width:0;padding:12px 17px;border:1px solid color-mix(in srgb,var(--accent,#9b8cff) 35%,var(--border,#2c3036));border-radius:12px;background:color-mix(in srgb,var(--accent,#9b8cff) 16%,var(--bg3,#1b1d21));font-size:13px;font-weight:700;transition:transform .18s,background .18s,border-color .18s}#browse-btn span:last-child{font-size:16px;color:var(--accent,#b6aaff)}#browse-btn:hover{transform:translateY(-2px);background:color-mix(in srgb,var(--accent,#9b8cff) 24%,var(--bg3,#1b1d21));border-color:var(--accent,#9b8cff)}.hero-note{font-size:12px;color:var(--muted,#7d838c)}
+  .shortcut-section{margin-top:clamp(42px,7vh,68px);padding-top:22px;border-top:1px solid color-mix(in srgb,var(--border,#2c3036) 75%,transparent);animation:hero-enter .7s .08s ease-out both}.section-heading{display:flex;align-items:end;justify-content:space-between;gap:14px;margin-bottom:14px;text-align:left}.section-heading h2{margin:5px 0 0;font-size:18px;letter-spacing:-.04em;color:var(--text,#fff)}.section-caption{font-size:11px;color:var(--muted,#7d838c)}.section-caption b{display:inline-grid;place-items:center;width:17px;height:17px;margin:0 2px;border:1px solid var(--border,#2c3036);border-radius:5px;font-size:12px}
+  #shortcut-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:0}.shortcut{min-height:83px;flex-direction:row;justify-content:flex-start;gap:13px;padding:13px 15px;border-color:var(--border,#2c3036);border-radius:14px;background:color-mix(in srgb,var(--bg3,#1b1d21) 86%,transparent);text-align:left;transition:transform .18s,border-color .18s,background .18s,box-shadow .18s}.shortcut:hover{transform:translateY(-2px);background:color-mix(in srgb,var(--bg3,#1b1d21) 96%,var(--accent,#9b8cff));border-color:color-mix(in srgb,var(--accent,#9b8cff) 55%,var(--border,#2c3036));box-shadow:0 12px 28px #0002}.shortcut:focus-visible,#browse-btn:focus-visible{outline:2px solid var(--accent,#9b8cff);outline-offset:3px}
+  .shortcut-icon{width:39px;height:39px;flex:none;border:1px solid var(--border,#2c3036);border-radius:12px;background:color-mix(in srgb,var(--bg2,#141619) 82%,var(--accent,#9b8cff));font-size:16px}.shortcut-label{max-width:calc(100% - 50px);font-size:13px;font-weight:650}.shortcut-edit{display:block;opacity:.45;right:8px;top:8px;width:24px;height:24px;border:1px solid var(--border,#2c3036);border-radius:7px;background:var(--bg2,#141619);font-size:12px;line-height:1}.shortcut:hover .shortcut-edit,.shortcut:focus-within .shortcut-edit{opacity:1}
+  #tab-htmls.searching #browse-landing{min-height:0;padding-top:28px;padding-bottom:20px;background:none}#tab-htmls.searching .hero-copy{margin-bottom:16px}#tab-htmls.searching .search-title{font-size:clamp(34px,5vw,48px);margin:10px 0 0}#tab-htmls.searching .hero-kicker,#tab-htmls.searching .hero-subtitle,#tab-htmls.searching .hero-actions,#tab-htmls.searching .shortcut-section{display:none}
+  .hero-orbit{position:absolute;z-index:0;width:360px;height:360px;border:1px solid color-mix(in srgb,var(--accent,#9b8cff) 8%,transparent);border-radius:50%;pointer-events:none}.orbit-one{top:4%;left:-280px}.orbit-two{right:-280px;bottom:-230px;width:500px;height:500px}#browse-content{max-width:1600px;margin:0 auto}.browse-toolbar{display:flex;align-items:center;justify-content:flex-start;padding:20px clamp(18px,3vw,42px) 0}.browse-toolbar .btn{border-radius:999px}
+  #grid{gap:18px;padding:20px clamp(18px,3vw,42px) 56px;grid-template-columns:repeat(auto-fill,minmax(190px,1fr))}.card{border-radius:15px;transition:transform .18s,border-color .18s,box-shadow .18s}.card:hover{transform:translateY(-3px);box-shadow:0 16px 34px #0003}.thumb{aspect-ratio:1.2/1}.meta{padding:13px 14px 15px}
+  @keyframes hero-enter{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}@media(max-width:700px){#bar{gap:8px}.build-label{display:none}#tabs{order:3;flex-basis:100%;max-width:100%}.tab.cog{margin-left:auto}#browse-landing{padding:42px 18px 36px}.hero-copy{margin-bottom:22px}.search-box{height:58px;border-radius:15px}.shortcut-section{margin-top:42px}#grid{grid-template-columns:repeat(auto-fill,minmax(145px,1fr));gap:12px}}@media(max-width:480px){.hero-actions{flex-direction:column;gap:9px}.hero-note{font-size:11px}.section-caption{max-width:115px;text-align:right;line-height:1.4}#shortcut-grid{gap:8px}.shortcut{min-height:75px;padding:10px 9px;gap:9px}.shortcut-icon{width:34px;height:34px;border-radius:10px}.shortcut-label{font-size:11px}.shortcut-edit{right:4px;top:4px}}@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+
 </style>
 <!--
 YOYOLOV CHANGELOG — searchable in this file; intentionally hidden from the interface.
+2026.11.20.57 — Restore direct home access and refresh game discovery.
 2026.11.20.55 — Replace hostile lockout-screen wording with a neutral availability message.
 2026.11.20.53 — Remove the sandbox from the renamed XML launcher so Cloudflare sees the Pages origin.
 2026.11.20.48 — Allow the protected AI page to load its same-origin config script and image blobs.
@@ -405,7 +428,7 @@ YOYOLOV CHANGELOG — searchable in this file; intentionally hidden from the int
       <button id="signout" type="button">Sign out</button>
     </div>
     <div class="logo">Yoyolov</div>
-    <span class="build-label" id="build-label">BUILD 2026.11.20.55</span>
+    <span class="build-label" id="build-label">BUILD 2026.11.20.57</span>
     <div id="tabs">
       <button class="tab active" data-tab="htmls" type="button">Search</button>
     </div>
@@ -416,7 +439,13 @@ YOYOLOV CHANGELOG — searchable in this file; intentionally hidden from the int
 
   <div id="tab-htmls" class="tabpanel active">
     <div id="browse-landing">
-      <div class="game-search"><h1 class="search-title">Search</h1><input id="search" type="search" placeholder="Search..." autocomplete="off" spellcheck="false" aria-label="Search"><button id="browse-btn" class="btn" type="button">Browse</button><div id="shortcut-grid" aria-label="Shortcuts"></div></div>
+      <div class="game-search">
+        <div class="hero-copy"><span class="hero-kicker"><span class="status-dot"></span> YOUR PLAYGROUND</span><h1 class="search-title">Pick your<br><em>next favorite.</em></h1><p class="hero-subtitle">Games, tools, and little distractions—ready when you are.</p></div>
+        <label class="search-box" for="search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7.5"></circle><path d="m16.5 16.5 4 4"></path></svg><input id="search" type="search" placeholder="Search games and apps" autocomplete="off" spellcheck="false" aria-label="Search games and apps"><span class="search-hint">GAMES</span></label>
+        <div class="hero-actions"><button id="browse-btn" class="btn" type="button"><span>Explore all games</span><span aria-hidden="true">↗</span></button><span class="hero-note">Find something fun in seconds</span></div>
+        <div class="shortcut-section"><div class="section-heading"><div><span class="section-eyebrow">JUMP BACK IN</span><h2>Your shortcuts</h2></div><span class="section-caption">Tap <b>+</b> to add a favorite</span></div><div id="shortcut-grid" aria-label="Shortcuts"></div></div>
+      </div>
+      <div class="hero-orbit orbit-one" aria-hidden="true"></div><div class="hero-orbit orbit-two" aria-hidden="true"></div>
     </div>
     <div id="browse-content">
       <div class="browse-toolbar">
@@ -664,7 +693,7 @@ let entries = {};          // name -> {url, image, desc}
 let current = null;        // {name, html}
 
 /* ---------- settings (saved in this browser) ---------- */
-const DEFAULT_TITLE = 'Login';
+const DEFAULT_TITLE = 'Yoyolov | Games & Tools';
 const DEFAULT_SETTINGS = {
   cloakTitle:'', cloakIcon:'',
   panicKey:'', panicUrl:'https://www.google.com',
@@ -838,7 +867,7 @@ applySettings();
 
 /* ---------- themes ---------- */
 const PRESET_THEMES = [
-  { name:'Dark',      bg:'#111214', bg2:'#141619', bg3:'#1b1d21', border:'#2c3036', text:'#eeeeee', muted:'#7d838c', accent:'#8b909a' },
+  { name:'Dark',      bg:'#111214', bg2:'#141619', bg3:'#1b1d21', border:'#2c3036', text:'#eeeeee', muted:'#7d838c', accent:'#9b8cff' },
   { name:'Light',         bg:'#f5f5f7', bg2:'#ffffff', bg3:'#ffffff', border:'#e0e0e5', text:'#1a1a1e', muted:'#6b6b75', accent:'#3366ff' }
 ];
 const VARS = ['bg','bg2','bg3','border','text','muted','accent'];
@@ -1270,9 +1299,9 @@ function renderSearchShortcuts(){
   for(let i=0;i<3;i++){
     const item=getSearchShortcuts()[i]||{};
     const tile=document.createElement('div');tile.className='shortcut';tile.tabIndex=0;
-    const icon=document.createElement('div');icon.className='shortcut-icon';icon.textContent=item.name?item.name.trim().charAt(0).toUpperCase():'＋';
+    const icon=document.createElement('div');icon.className='shortcut-icon';icon.textContent=item.name?item.name.trim().charAt(0).toUpperCase():"+";
     const label=document.createElement('div');label.className='shortcut-label';label.textContent=item.name||'Add shortcut';
-    const edit=document.createElement('button');edit.className='shortcut-edit';edit.type='button';edit.textContent='✎';edit.setAttribute('aria-label','Edit shortcut '+(i+1));
+    const edit=document.createElement('button');edit.className='shortcut-edit';edit.type='button';edit.textContent=String.fromCharCode(0x270E);edit.setAttribute('aria-label','Edit shortcut '+(i+1));
     edit.onclick=e=>{e.stopPropagation();editSearchShortcut(i);};
     tile.append(icon,label,edit);
     tile.onclick=()=>item.url?window.open(item.url,'_blank','noopener,noreferrer'):editSearchShortcut(i);
