@@ -8,39 +8,116 @@
           "name": "Graduation",
           "cover": "https://m6788928-byte.github.io/yoyolov/tabs/music/artist/kanye/Graduation/graduation.png",
           "songs": [
-            { "name": "Good Morning", "url": "https://res.cloudinary.com/r8rf9fhv/video/upload/v1791511773/Good_Morning_spotdown.org_bfut3w.mp3" },
-            { "name": "Champion", "url": "https://res.cloudinary.com/r8rf9fhv/video/upload/v1791511773/Champion_spotdown.org_gc6g56.mp3" },
-            { "name": "Stronger", "url": "https://res.cloudinary.com/r8rf9fhv/video/upload/v1791511770/Stronger_spotdown.org_duwm7c.mp3" },
-            { "name": "I Wonder", "url": "https://res.cloudinary.com/r8rf9fhv/video/upload/v1791511772/I_Wonder_spotdown.org_uz2fgp.mp3" },
-            { "name": "Good Life", "url": "https://res.cloudinary.com/r8rf9fhv/video/upload/v1791511773/Good_Life_spotdown.org_sjaqor.mp3" },
-            { "name": "Can't Tell Me Nothing", "url": "https://res.cloudinary.com/r8rf9fhv/video/upload/v1791511770/Can_t_Tell_Me_Nothing_spotdown.org_ucyjru.mp3" },
-            { "name": "Barry Bonds", "url": "https://res.cloudinary.com/r8rf9fhv/video/upload/v1791511773/Barry_Bonds_spotdown.org_w3ap3x.mp3" },
-            { "name": "***** and Hot Girls", "url": "https://res.cloudinary.com/r8rf9fhv/video/upload/v1791511771/Drunk_and_Hot_Girls_spotdown.org_wkkdpr.mp3" },
-            { "name": "Flashing Lights", "url": "https://res.cloudinary.com/r8rf9fhv/video/upload/v1791511770/Flashing_Lights_spotdown.org_qsrsvh.mp3" },
-            { "name": "Everything I Am", "url": "https://res.cloudinary.com/r8rf9fhv/video/upload/v1791511767/Everything_I_Am_spotdown.org_aviyau.mp3" },
-            { "name": "The Glory", "url": "https://res.cloudinary.com/r8rf9fhv/video/upload/v1791511766/The_Glory_spotdown.org_wswt2z.mp3" },
-            { "name": "Homecoming", "url": "https://res.cloudinary.com/r8rf9fhv/video/upload/v1791511770/Homecoming_spotdown.org_nqri1h.mp3" },
-            { "name": "Big Brother", "url": "https://res.cloudinary.com/r8rf9fhv/video/upload/v1791511770/Big_Brother_spotdown.org_y4nvhl.mp3" },
-            { "name": "Good Night", "url": "https://res.cloudinary.com/r8rf9fhv/video/upload/v1791511767/Good_Night_spotdown.org_spimwd.mp3" }
+            {
+              "name": "Good Morning",
+              "url": "https://res.cloudinary.com/r8rf9fhv/video/upload/v1791511773/Good_Morning_spotdown.org_bfut3w.mp3"
+            },
+            {
+              "name": "Champion",
+              "url": "https://res.cloudinary.com/r8rf9fhv/video/upload/v1791511773/Champion_spotdown.org_gc6g56.mp3"
+            },
+            {
+              "name": "Stronger",
+              "url": "https://res.cloudinary.com/r8rf9fhv/video/upload/v1791511770/Stronger_spotdown.org_duwm7c.mp3"
+            },
+            {
+              "name": "I Wonder",
+              "url": "https://res.cloudinary.com/r8rf9fhv/video/upload/v1791511772/I_Wonder_spotdown.org_uz2fgp.mp3"
+            },
+            {
+              "name": "Good Life",
+              "url": "https://res.cloudinary.com/r8rf9fhv/video/upload/v1791511773/Good_Life_spotdown.org_sjaqor.mp3"
+            },
+            {
+              "name": "Can't Tell Me Nothing",
+              "url": "https://res.cloudinary.com/r8rf9fhv/video/upload/v1791511770/Can_t_Tell_Me_Nothing_spotdown.org_ucyjru.mp3"
+            },
+            {
+              "name": "Barry Bonds",
+              "url": "https://res.cloudinary.com/r8rf9fhv/video/upload/v1791511773/Barry_Bonds_spotdown.org_w3ap3x.mp3"
+            },
+            {
+              "name": "Flashing Lights",
+              "url": "https://res.cloudinary.com/r8rf9fhv/video/upload/v1791511770/Flashing_Lights_spotdown.org_qsrsvh.mp3"
+            },
+            {
+              "name": "Everything I Am",
+              "url": "https://res.cloudinary.com/r8rf9fhv/video/upload/v1791511767/Everything_I_Am_spotdown.org_aviyau.mp3"
+            },
+            {
+              "name": "The Glory",
+              "url": "https://res.cloudinary.com/r8rf9fhv/video/upload/v1791511766/The_Glory_spotdown.org_wswt2z.mp3"
+            },
+            {
+              "name": "Homecoming",
+              "url": "https://res.cloudinary.com/r8rf9fhv/video/upload/v1791511770/Homecoming_spotdown.org_nqri1h.mp3"
+            },
+            {
+              "name": "Big Brother",
+              "url": "https://res.cloudinary.com/r8rf9fhv/video/upload/v1791511770/Big_Brother_spotdown.org_y4nvhl.mp3"
+            },
+            {
+              "name": "Good Night",
+              "url": "https://res.cloudinary.com/r8rf9fhv/video/upload/v1791511767/Good_Night_spotdown.org_spimwd.mp3"
+            }
           ]
         },
         {
           "name": "My Beautiful Dark Twisted Fantasy",
           "cover": "https://m6788928-byte.github.io/yoyolov/tabs/music/artist/kanye/MBDTF/mbdtf.png",
           "songs": [
-            { "name": "Dark Fantasy", "url": "https://res.cloudinary.com/r8rf9fhv/video/upload/v1791513412/Dark_Fantasy_spotdown.org_mjbdyn.mp3" },
-            { "name": "Gorgeous", "url": "https://res.cloudinary.com/r8rf9fhv/video/upload/v1791513414/Gorgeous_spotdown.org_eq55je.mp3" },
-            { "name": "POWER", "url": "https://res.cloudinary.com/r8rf9fhv/video/upload/v1791513489/POWER_spotdown.org_ejxcdr.mp3" },
-            { "name": "All Of The Lights (interclude)", "url": "https://res.cloudinary.com/r8rf9fhv/video/upload/v1791513414/All_Of_The_Lights_Interlude__spotdown.org_wdxtla.mp3" },
-            { "name": "All Of The Lights", "url": "https://res.cloudinary.com/r8rf9fhv/video/upload/v1791513412/All_Of_The_Lights_spotdown.org_zaum1p.mp3" },
-            { "name": "Monster", "url": "https://example.com/music/fold.mp3" },
-            { "name": "So Appalled", "url": "https://res.cloudinary.com/r8rf9fhv/video/upload/v1791513411/So_Appalled_spotdown.org_mlgjuq.mp3" },
-            { "name": "Devil In A New Dress", "url": "https://res.cloudinary.com/r8rf9fhv/video/upload/v1791513414/Devil_In_A_New_Dress_spotdown.org_du7uz2.mp3" },
-            { "name": "Runaway", "url": "https://res.cloudinary.com/r8rf9fhv/video/upload/v1791513414/Runaway_spotdown.org_dbdrvl.mp3" },
-            { "name": "Hell Of A Life", "url": "https://res.cloudinary.com/r8rf9fhv/video/upload/v1791513409/Hell_Of_A_Life_spotdown.org_ahsk2e.mp3" },
-            { "name": "Blame Game", "url": "https://res.cloudinary.com/r8rf9fhv/video/upload/v1791513407/Blame_Game_spotdown.org_fg88fe.mp3" },
-            { "name": "Lost In The World", "url": "https://res.cloudinary.com/r8rf9fhv/video/upload/v1791513408/Lost_In_The_World_spotdown.org_m3wyxb.mp3" },
-            { "name": "Who Will Survive In America", "url": "https://res.cloudinary.com/r8rf9fhv/video/upload/v1791513408/Who_Will_Survive_In_America_spotdown.org_tt9puo.mp3" }
+            {
+              "name": "Dark Fantasy",
+              "url": "https://res.cloudinary.com/r8rf9fhv/video/upload/v1791513412/Dark_Fantasy_spotdown.org_mjbdyn.mp3"
+            },
+            {
+              "name": "Gorgeous",
+              "url": "https://res.cloudinary.com/r8rf9fhv/video/upload/v1791513414/Gorgeous_spotdown.org_eq55je.mp3"
+            },
+            {
+              "name": "POWER",
+              "url": "https://res.cloudinary.com/r8rf9fhv/video/upload/v1791513489/POWER_spotdown.org_ejxcdr.mp3"
+            },
+            {
+              "name": "All Of The Lights (interclude)",
+              "url": "https://res.cloudinary.com/r8rf9fhv/video/upload/v1791513414/All_Of_The_Lights_Interlude__spotdown.org_wdxtla.mp3"
+            },
+            {
+              "name": "All Of The Lights",
+              "url": "https://res.cloudinary.com/r8rf9fhv/video/upload/v1791513412/All_Of_The_Lights_spotdown.org_zaum1p.mp3"
+            },
+            {
+              "name": "Monster",
+              "url": "https://example.com/music/fold.mp3"
+            },
+            {
+              "name": "So Appalled",
+              "url": "https://res.cloudinary.com/r8rf9fhv/video/upload/v1791513411/So_Appalled_spotdown.org_mlgjuq.mp3"
+            },
+            {
+              "name": "Devil In A New Dress",
+              "url": "https://res.cloudinary.com/r8rf9fhv/video/upload/v1791513414/Devil_In_A_New_Dress_spotdown.org_du7uz2.mp3"
+            },
+            {
+              "name": "Runaway",
+              "url": "https://res.cloudinary.com/r8rf9fhv/video/upload/v1791513414/Runaway_spotdown.org_dbdrvl.mp3"
+            },
+            {
+              "name": "Hell Of A Life",
+              "url": "https://res.cloudinary.com/r8rf9fhv/video/upload/v1791513409/Hell_Of_A_Life_spotdown.org_ahsk2e.mp3"
+            },
+            {
+              "name": "Blame Game",
+              "url": "https://res.cloudinary.com/r8rf9fhv/video/upload/v1791513407/Blame_Game_spotdown.org_fg88fe.mp3"
+            },
+            {
+              "name": "Lost In The World",
+              "url": "https://res.cloudinary.com/r8rf9fhv/video/upload/v1791513408/Lost_In_The_World_spotdown.org_m3wyxb.mp3"
+            },
+            {
+              "name": "Who Will Survive In America",
+              "url": "https://res.cloudinary.com/r8rf9fhv/video/upload/v1791513408/Who_Will_Survive_In_America_spotdown.org_tt9puo.mp3"
+            }
           ]
         }
       ]
@@ -53,8 +130,14 @@
           "name": "test album",
           "cover": "https://example.com/images/rust-and-feathers.png",
           "songs": [
-            { "name": "test", "url": "https://example.com/music/night-shift.mp3" },
-            { "name": "test", "url": "https://example.com/music/barn-light.mp3" }
+            {
+              "name": "test",
+              "url": "https://example.com/music/night-shift.mp3"
+            },
+            {
+              "name": "test",
+              "url": "https://example.com/music/barn-light.mp3"
+            }
           ]
         }
       ]
