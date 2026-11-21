@@ -290,6 +290,7 @@
 </style>
 <!--
 YOYOLOV CHANGELOG — searchable in this file; intentionally hidden from the interface.
+2026.11.20.55 — Replace hostile lockout-screen wording with a neutral availability message.
 2026.11.20.53 — Remove the sandbox from the renamed XML launcher so Cloudflare sees the Pages origin.
 2026.11.20.48 — Allow the protected AI page to load its same-origin config script and image blobs.
 2026.11.20.47 — Align the signed-in header build label with the sign-in build number.
@@ -390,7 +391,7 @@ YOYOLOV CHANGELOG — searchable in this file; intentionally hidden from the int
       </form>
       <p id="access-status" role="status" aria-live="polite"></p>
       <button id="owner-entry" type="button" onclick="window.yoyolovOwnerSignIn();return false;">Owner sign-in</button>
-      <small id="auth-build" style="display:block;margin-top:12px;text-align:center;color:#929daf;font-size:11px">BUILD 2026.11.20.54</small>
+      <small id="auth-build" style="display:block;margin-top:12px;text-align:center;color:#929daf;font-size:11px">BUILD 2026.11.20.55</small>
 
     </main>
   </div>
@@ -404,7 +405,7 @@ YOYOLOV CHANGELOG — searchable in this file; intentionally hidden from the int
       <button id="signout" type="button">Sign out</button>
     </div>
     <div class="logo">Yoyolov</div>
-    <span class="build-label" id="build-label">BUILD 2026.11.20.54</span>
+    <span class="build-label" id="build-label">BUILD 2026.11.20.55</span>
     <div id="tabs">
       <button class="tab active" data-tab="htmls" type="button">Search</button>
     </div>
@@ -1644,7 +1645,7 @@ function lockout(){
     'align-items:center;justify-content:center;gap:8px;' +
     'background:var(--bg,#111214);color:var(--text,#eee);' +
     'font:14px system-ui,-apple-system,sans-serif;text-align:center;padding:20px">' +
-      '<div style="font-size:42px;font-weight:800">frick you guys i shut the universe down AGAIN so frick you dont expect me to give you guys the updated / new version. - yoyolov</div>' +
+      '<div style="font-size:42px;font-weight:800">This site is temporarily unavailable. Please try again later.</div>' +
       '<div style="color:var(--muted,#7d838c);font-size:13px">the list is currently unavailable</div>' +
     '</div>';
 }
