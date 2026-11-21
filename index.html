@@ -433,7 +433,7 @@ YOYOLOV CHANGELOG — searchable in this file; intentionally hidden from the int
       <button id="review-access" type="button">Access requests</button>
       <button id="signout" type="button">Sign out</button>
     </div>
-    <div class="logo">Yoyolov</div>
+    <div class="logo">credit to tasidam</div>
     <span class="build-label" id="build-label">BUILD 2026.11.20.59</span>
     <div id="tabs">
       <button class="tab active" data-tab="htmls" type="button">Search</button>
@@ -1540,7 +1540,7 @@ $('login-form').addEventListener('submit',async e=>{
     sessionStorage.setItem('yoyolov-home-unlocked','1');
     adminAccessToken=result.token;
     document.body.classList.add('authenticated');
-    $('account-name').textContent='credit to tasidam';
+    $('account-name').textContent='Owner';
     $('review-access').style.display='none';
     form.reset();$('access-status').textContent='';
     createCustomTabs();loadList();
@@ -1698,7 +1698,7 @@ function lockout(){
   if(status.isValid === false){ lockout(); return; }
   if(sessionStorage.getItem('yoyolov-home-unlocked')==='1'){
     document.body.classList.add('authenticated');
-    $('account-name').textContent='credit to tasidam';
+    $('account-name').textContent='Owner';
     createCustomTabs();loadList();
     return;
   }
