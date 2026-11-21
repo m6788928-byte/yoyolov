@@ -412,7 +412,7 @@ YOYOLOV CHANGELOG — searchable in this file; intentionally hidden from the int
   <div class="auth-wrap">
     <main class="auth-card">
       <span class="gate-kicker"><span class="status-dot"></span> ADMIN ACCESS</span>
-      <h1 id="auth-heading">The Universe is updated now</h1>
+      <h1 id="auth-heading">The Universe is updated now use it instead</h1>
       <p class="auth-subtitle" id="auth-subtitle">Enter the admin password to continue.</p>
       <div class="auth-switch" role="tablist" aria-label="Account access" hidden><button id="show-login" class="active" type="button" role="tab" aria-selected="true">Enter</button><button id="show-request" type="button" role="tab" aria-selected="false">Request access</button></div>
       <form id="login-form" class="auth-form">
@@ -1522,7 +1522,7 @@ function clearAuthentication(){
 function showAuthMode(mode='login',message=''){
   $('login-form').hidden=false;
   $('request-form').hidden=true;
-  $('auth-heading').textContent='The Universe is updated now';
+  $('auth-heading').textContent='The Universe is updated now use it instead';
   $('auth-subtitle').textContent='Enter the admin password to continue.';
   $('access-status').textContent=message;
   $('access-status').classList.remove('error');
