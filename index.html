@@ -36,7 +36,7 @@
     ::-webkit-scrollbar-corner{background:var(--bg, #111214)}
   }
 
-  #access-screen{display:none!important}
+  body:not(.authenticated) #home{display:none!important}
   #access-screen{position:fixed;inset:0;z-index:20;display:grid;place-items:center;overflow:auto;padding:24px;background:radial-gradient(ellipse at 20% 0%,#263b60 0%,transparent 45%),linear-gradient(145deg,#10141d,#090b10 68%,#111827)}
   body.authenticated #access-screen{display:none}
   .auth-wrap{width:min(440px,100%);margin:auto}
@@ -60,7 +60,7 @@
   #access-status.error{color:#ff9999}
   #owner-entry{display:block;margin:17px auto 0;padding:4px 8px;border:0;background:transparent;color:#929daf;font:inherit;font-size:12px;cursor:pointer}
   #owner-entry:hover{color:#fff;text-decoration:underline}
-  #account-actions{display:none!important}
+  #account-actions{display:none;align-items:center;gap:8px;margin-left:auto}
   #account-name{color:var(--muted,#9aa0aa);font-size:12px}
   #review-access{display:none;padding:6px 10px;border:1px solid var(--border,#383c43);border-radius:7px;background:transparent;color:var(--text,#eee);font:inherit;font-size:12px;cursor:pointer}
   #signout{padding:6px 10px;border:1px solid var(--border,#383c43);border-radius:7px;background:transparent;color:var(--text,#eee);font:inherit;font-size:12px;cursor:pointer}
@@ -309,9 +309,26 @@
   #grid{gap:18px;padding:20px clamp(18px,3vw,42px) 56px;grid-template-columns:repeat(auto-fill,minmax(190px,1fr))}.card{border-radius:15px;transition:transform .18s,border-color .18s,box-shadow .18s}.card:hover{transform:translateY(-3px);box-shadow:0 16px 34px #0003}.thumb{aspect-ratio:1.2/1}.meta{padding:13px 14px 15px}
   @keyframes hero-enter{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}@media(max-width:700px){#bar{gap:8px}.build-label{display:none}#tabs{order:3;flex-basis:100%;max-width:100%}.tab.cog{margin-left:auto}#browse-landing{padding:42px 18px 36px}.hero-copy{margin-bottom:22px}.search-box{height:58px;border-radius:15px}.shortcut-section{margin-top:42px}#grid{grid-template-columns:repeat(auto-fill,minmax(145px,1fr));gap:12px}}@media(max-width:480px){.hero-actions{flex-direction:column;gap:9px}.hero-note{font-size:11px}.section-caption{max-width:115px;text-align:right;line-height:1.4}#shortcut-grid{gap:8px}.shortcut{min-height:75px;padding:10px 9px;gap:9px}.shortcut-icon{width:34px;height:34px;border-radius:10px}.shortcut-label{font-size:11px}.shortcut-edit{right:4px;top:4px}}@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
 
+
+  #access-screen{position:fixed;inset:0;z-index:20;display:grid;place-items:center;overflow:auto;padding:24px;background:#000;color:#fff}
+  .auth-wrap{width:min(460px,100%);margin:auto}
+  .auth-card{width:100%;padding:clamp(24px,5vw,38px);border:1px solid #242424;border-radius:20px;background:#080808;box-shadow:0 28px 100px #000}
+  .gate-kicker{display:inline-flex;align-items:center;gap:9px;padding:8px 12px;border:1px solid #282828;border-radius:999px;color:#9c9c9c;font-size:10px;font-weight:750;letter-spacing:.18em}
+  #auth-heading{margin:24px 0 8px;color:#fff;font-size:clamp(28px,6vw,38px);line-height:1.06;letter-spacing:-.055em}
+  #auth-subtitle{margin:0 0 25px;color:#929292;font-size:14px;line-height:1.55}
+  .auth-form{display:grid;gap:12px}.auth-form label{display:grid;gap:8px;color:#c6c6c6;font-size:12px;font-weight:650}
+  .auth-form input{width:100%;padding:13px 14px;border:1px solid #333;border-radius:11px;background:#111;color:#fff;font:inherit;outline:none}
+  .auth-form input:focus{border-color:#aaa;box-shadow:0 0 0 3px #fff1}
+  .auth-primary{padding:13px 16px;border:1px solid #fff;border-radius:11px;background:#f3f3f3;color:#080808;font:inherit;font-weight:750;cursor:pointer;transition:background .15s,transform .15s}
+  .auth-primary:hover{background:#fff;transform:translateY(-1px)}.auth-primary:disabled{opacity:.6;cursor:wait}
+  #access-status{min-height:20px;margin:12px 0 0;color:#c7c7c7;font-size:13px}#access-status.error{color:#ff9999}
+  body.authenticated #access-screen{display:none}body.authenticated #account-actions{display:flex}
+  @media(max-width:520px){#access-screen{padding:18px}.auth-card{border-radius:16px}}
+
 </style>
 <!--
 YOYOLOV CHANGELOG — searchable in this file; intentionally hidden from the interface.
+2026.11.20.59 — Add a black admin password gate with the requested update message.
 2026.11.20.58 — Initialize the catalog and app tabs when the open homepage starts.
 2026.11.20.57 — Restore direct home access and refresh game discovery.
 2026.11.20.55 — Replace hostile lockout-screen wording with a neutral availability message.
@@ -393,30 +410,18 @@ YOYOLOV CHANGELOG — searchable in this file; intentionally hidden from the int
 <body>
 <div id="access-screen">
   <div class="auth-wrap">
-    <div class="auth-brand">Yoyolov</div>
     <main class="auth-card">
-      <h1 id="auth-heading">Sign in</h1>
-      <p class="auth-subtitle" id="auth-subtitle">Sign in with your approved account to continue.</p>
-      <div class="auth-switch" role="tablist" aria-label="Account access">
-        <button id="show-login" class="active" type="button" role="tab" aria-selected="true">Sign in</button>
-        <button id="show-request" type="button" role="tab" aria-selected="false">Request access</button>
-      </div>
+      <span class="gate-kicker"><span class="status-dot"></span> ADMIN ACCESS</span>
+      <h1 id="auth-heading">The Universe is updated now</h1>
+      <p class="auth-subtitle" id="auth-subtitle">Enter the admin password to continue.</p>
+      <div class="auth-switch" role="tablist" aria-label="Account access" hidden><button id="show-login" class="active" type="button" role="tab" aria-selected="true">Enter</button><button id="show-request" type="button" role="tab" aria-selected="false">Request access</button></div>
       <form id="login-form" class="auth-form">
-        <label>Username<input name="username" minlength="3" maxlength="20" autocomplete="username" required></label>
-        <label>Password<input name="password" type="password" autocomplete="current-password" required></label>
-        <button class="auth-primary" type="submit">Sign in</button>
+        <label>Admin password<input name="password" type="password" autocomplete="current-password" required></label>
+        <button class="auth-primary" type="submit">Enter</button>
       </form>
-      <form id="request-form" class="auth-form" hidden>
-        <label>Username<input name="username" minlength="3" maxlength="20" autocomplete="username" required></label>
-        <label>Email<input name="email" type="email" maxlength="254" autocomplete="email" required></label>
-        <label>Create a password (12 characters minimum)<input name="password" type="password" minlength="12" maxlength="128" autocomplete="new-password" required></label>
-        <label>Why are you requesting access? (optional)<textarea name="reason" maxlength="300"></textarea></label>
-        <button class="auth-primary" type="submit">Send access request</button>
-      </form>
+      <form id="request-form" class="auth-form" hidden></form>
       <p id="access-status" role="status" aria-live="polite"></p>
-      <button id="owner-entry" type="button" onclick="window.yoyolovOwnerSignIn();return false;">Owner sign-in</button>
-      <small id="auth-build" style="display:block;margin-top:12px;text-align:center;color:#929daf;font-size:11px">BUILD 2026.11.20.55</small>
-
+      <button id="owner-entry" type="button" hidden>Owner sign-in</button>
     </main>
   </div>
 </div>
@@ -429,7 +434,7 @@ YOYOLOV CHANGELOG — searchable in this file; intentionally hidden from the int
       <button id="signout" type="button">Sign out</button>
     </div>
     <div class="logo">Yoyolov</div>
-    <span class="build-label" id="build-label">BUILD 2026.11.20.58</span>
+    <span class="build-label" id="build-label">BUILD 2026.11.20.59</span>
     <div id="tabs">
       <button class="tab active" data-tab="htmls" type="button">Search</button>
     </div>
@@ -1509,29 +1514,37 @@ function setAuthenticated(token,username,role){
   createCustomTabs();loadList();
 }
 function clearAuthentication(){
-  accessToken='';adminAccessToken='';aiAccessToken='';sessionStorage.removeItem('yoyolov-admin-session');accessRole='';currentUsername='';
+  accessToken='';adminAccessToken='';aiAccessToken='';sessionStorage.removeItem('yoyolov-admin-session');sessionStorage.removeItem('yoyolov-home-unlocked');accessRole='';currentUsername='';
   document.body.classList.remove('authenticated');
   $('account-name').textContent='';$('review-access').style.display='none';
   closeViewer();customTabStates.clear();createCustomTabs();showAuthMode('login');
 }
-function showAuthMode(mode,message=''){
-  const login=mode==='login';
-  $('login-form').hidden=!login;$('request-form').hidden=login;
-  $('show-login').classList.toggle('active',login);$('show-request').classList.toggle('active',!login);
-  $('show-login').setAttribute('aria-selected',String(login));$('show-request').setAttribute('aria-selected',String(!login));
-  $('auth-heading').textContent=login?'Sign in':'Request access';
-  $('auth-subtitle').textContent=login?'Sign in with your approved account to continue.':'Send a request to the owner. You can sign in after it is approved.';
-  $('access-status').textContent=message;$('access-status').classList.remove('error');
+function showAuthMode(mode='login',message=''){
+  $('login-form').hidden=false;
+  $('request-form').hidden=true;
+  $('auth-heading').textContent='The Universe is updated now';
+  $('auth-subtitle').textContent='Enter the admin password to continue.';
+  $('access-status').textContent=message;
+  $('access-status').classList.remove('error');
+  $('login-form').elements.password?.focus();
 }
 $('show-login').onclick=()=>showAuthMode('login');
 $('show-request').onclick=()=>showAuthMode('request');
 $('login-form').addEventListener('submit',async e=>{
-  e.preventDefault();const form=e.currentTarget,button=form.querySelector('button[type="submit"]');
-  button.disabled=true;$('access-status').textContent='Signing in…';$('access-status').classList.remove('error');
+  e.preventDefault();
+  const form=e.currentTarget,button=form.querySelector('button[type="submit"]'),password=form.elements.password.value;
+  button.disabled=true;$('access-status').textContent='Checking admin password…';$('access-status').classList.remove('error');
   try{
-    const data=await accessRequest('/access/login',{username:form.elements.username.value.trim(),password:form.elements.password.value});
-    form.elements.password.value='';setAuthenticated(data.token,data.username,'user');
-  }catch(error){$('access-status').textContent=error.message;$('access-status').classList.add('error');form.elements.password.value='';}
+    const result=await accessRequest('/access/admin/login',{password});
+    if(!result.token)throw new Error('The admin service did not return an access token.');
+    sessionStorage.setItem('yoyolov-home-unlocked','1');
+    adminAccessToken=result.token;
+    document.body.classList.add('authenticated');
+    $('account-name').textContent='Owner';
+    $('review-access').style.display='none';
+    form.reset();$('access-status').textContent='';
+    createCustomTabs();loadList();
+  }catch(error){$('access-status').textContent=error.message||'Admin access failed.';$('access-status').classList.add('error');form.elements.password.value='';}
   finally{button.disabled=false;}
 });
 $('request-form').addEventListener('submit',async e=>{
@@ -1683,9 +1696,13 @@ function lockout(){
 (async function init(){
   const status = await getRemoteStatus();
   if(status.isValid === false){ lockout(); return; }
-  document.body.classList.add('authenticated');
-  createCustomTabs();
-  loadList();
+  if(sessionStorage.getItem('yoyolov-home-unlocked')==='1'){
+    document.body.classList.add('authenticated');
+    $('account-name').textContent='Owner';
+    createCustomTabs();loadList();
+    return;
+  }
+  showAuthMode('login');
 })();
 </script>
 </body>
