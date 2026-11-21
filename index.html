@@ -312,6 +312,7 @@
 </style>
 <!--
 YOYOLOV CHANGELOG — searchable in this file; intentionally hidden from the interface.
+2026.11.20.58 — Initialize the catalog and app tabs when the open homepage starts.
 2026.11.20.57 — Restore direct home access and refresh game discovery.
 2026.11.20.55 — Replace hostile lockout-screen wording with a neutral availability message.
 2026.11.20.53 — Remove the sandbox from the renamed XML launcher so Cloudflare sees the Pages origin.
@@ -1682,8 +1683,9 @@ function lockout(){
 (async function init(){
   const status = await getRemoteStatus();
   if(status.isValid === false){ lockout(); return; }
-  if(adminAccessToken){setAuthenticated(adminAccessToken,'Owner','owner');showAccessRequests();return;}
-  showAuthMode('login');
+  document.body.classList.add('authenticated');
+  createCustomTabs();
+  loadList();
 })();
 </script>
 </body>
